@@ -1,0 +1,11 @@
+{
+  "name": "rental-x",
+  "description": "🔥 API para a aplicação de aluguéis de automóveis Rental-X, construída na trilha de NodeJS — Ignite",
+  "version": "0.0.0",
+  "author": {
+    "name": "Matheus Felipe Zanin",
+    "email": "matt_z6@hotmail.com",
+    "url": "https://github.com/mattz6"
+  },
+  "repository": "https://github.com/mattz6/rental-x"
+}
