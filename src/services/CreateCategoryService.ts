@@ -1,4 +1,4 @@
-import { CategoriesRepository } from '../repositories/CategoriesRepository';
+import { ICategoriesRepository } from '../repositories/ICategoriesRepository';
 
 type Request = {
   name: string;
@@ -6,7 +6,7 @@ type Request = {
 };
 
 export class CreateCategoryService {
-  constructor(private categoriesRepository: CategoriesRepository) {}
+  constructor(private categoriesRepository: ICategoriesRepository) {}
 
   execute({ name, description }: Request): void {
     const category = this.categoriesRepository.findByName(name);
