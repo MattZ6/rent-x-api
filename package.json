@@ -10,7 +10,7 @@
   },
   "repository": "https://github.com/mattz6/rental-x",
   "scripts": {
-    "dev": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts"
+    "dev": "tsnd --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts"
   },
   "devDependencies": {
     "@types/express": "4.17.13",
