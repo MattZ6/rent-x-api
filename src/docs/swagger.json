@@ -44,6 +44,44 @@
             "description": "Internal server error"
           }
         }
+      },
+      "get": {
+        "tags": ["Category"],
+        "summary": "List all categories",
+        "description": "Yeah, just list all categories",
+        "responses": {
+          "200": {
+            "description": "Categories successfully listed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "suv-id",
+                      "name": "SUV",
+                      "description": "Sport utility vehicle"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
