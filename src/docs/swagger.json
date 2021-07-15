@@ -8,5 +8,43 @@
       "name": "Matheus Felipe Zanin",
       "url": "https://gihub.com/mattz6"
     }
+  },
+  "paths": {
+    "/v1/categories": {
+      "post": {
+        "tags": ["Category"],
+        "summary": "Create a new car category",
+        "description": "Create a new car category, like SUV",
+        "requestBody":{
+          "content": {
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "SUV",
+                  "description": "Sport utility vehicle"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Category created successfully"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
   }
 }
