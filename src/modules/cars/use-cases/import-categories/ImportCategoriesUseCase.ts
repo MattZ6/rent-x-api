@@ -1,5 +1,5 @@
 import csvParse from 'csv-parse';
-import { createReadStream } from 'fs';
+import { createReadStream, promises } from 'fs';
 
 import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
 
@@ -41,7 +41,11 @@ export class ImportCategoriesUseCase {
           });
         })
         .on('error', error => reject(error))
-        .once('end', () => resolve(categories));
+        .once('end', () => {
+          promises.unlink(path);
+
+          resolve(categories);
+        });
     });
   }
 
