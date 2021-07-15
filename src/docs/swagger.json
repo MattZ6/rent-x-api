@@ -1,0 +1,12 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Rental-X Docs",
+    "description": "API docs for cars rent application",
+    "version": "0.0.0",
+    "contact": {
+      "name": "Matheus Felipe Zanin",
+      "url": "https://gihub.com/mattz6"
+    }
+  }
+}
