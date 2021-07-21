@@ -3,7 +3,7 @@
     🏎 RentX — Ignite 🔥
   </h1>
 
-  > Back-end API da aplicação de aluguél de veículos Rent-X, construída na trilha de Node JS do bootcamp Ignite da Rocketseat.
+  > Back-end API da aplicação de alugueis de veículos Rent-X, construída na trilha de Node JS do bootcamp Ignite da Rocketseat.
 </div>
 
 ## 💡 Você vai precisar
