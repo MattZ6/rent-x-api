@@ -11,7 +11,8 @@
   "repository": "https://github.com/mattz6/rent-x-api",
   "bugs": "https://github.com/mattz6/rent-x-api/issues",
   "scripts": {
-    "dev": "tsnd --inspect --poll --transpile-only --ignore-watch node_modules --respawn src/server.ts"
+    "dev": "tsnd --inspect --poll --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "typeorm": "tsnd ./node_modules/typeorm/cli"
   },
   "devDependencies": {
     "@types/express": "4.17.13",
