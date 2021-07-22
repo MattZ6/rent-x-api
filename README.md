@@ -1,6 +1,6 @@
 <div align="center">
   <h1>
-    🏎 RentX — Ignite 🔥
+    🏎 Rent-X — Ignite 🔥
   </h1>
 
   > Back-end API da aplicação de alugueis de veículos Rent-X, construída na trilha de Node JS do bootcamp Ignite da Rocketseat.
