@@ -8,13 +8,13 @@ type Request = {
 export class CreateCategoryUseCase {
   constructor(private categoriesRepository: ICategoriesRepository) {}
 
-  execute({ name, description }: Request): void {
-    const category = this.categoriesRepository.findByName(name);
+  async execute({ name, description }: Request): Promise<void> {
+    const category = await this.categoriesRepository.findByName(name);
 
     if (category) {
       throw new Error('Category already exists');
     }
 
-    this.categoriesRepository.create({ name, description });
+    await this.categoriesRepository.create({ name, description });
   }
 }

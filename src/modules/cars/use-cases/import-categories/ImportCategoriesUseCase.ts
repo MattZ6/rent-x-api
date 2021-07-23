@@ -52,13 +52,13 @@ export class ImportCategoriesUseCase {
   async execute(file: Request): Promise<void> {
     const categoriesToCreate = await this.loadCategories(file);
 
-    categoriesToCreate.forEach(category => {
+    categoriesToCreate.forEach(async category => {
       const { name, description } = category;
 
-      const exists = this.categoriesRepository.findByName(name);
+      const exists = await this.categoriesRepository.findByName(name);
 
       if (!exists) {
-        this.categoriesRepository.create({ name, description });
+        await this.categoriesRepository.create({ name, description });
       }
     });
   }
