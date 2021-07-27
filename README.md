@@ -9,8 +9,8 @@
 ## 💡 Você vai precisar
 
 - Primeiramente de uma xícara de ☕ bem quentinho;
-- [🐳 Docker](https://www.docker.com) instalado em sua máquina;
-- e também o [Docker compose](https://docs.docker.com/compose/install);
+- [Node JS](https://nodejs.org/) instalado em sua máquina;
+- [🐳 Docker](https://www.docker.com) instalado em sua máquina — junto do  [Docker compose](https://docs.docker.com/compose/install);
 
 ## 🎉 Começando
 
@@ -38,6 +38,12 @@ Para rodar a aplicação em ambiente de desenvolvimento, execute o comando:
 
 ```bash
 docker-compose up -d
+```
+
+Rode as migrations:
+
+```bash
+yarn typeorm migration:run
 ```
 
 No caso de você já ter executado o comando anterior e precisar subir os serviços novamente, execute o comando:
