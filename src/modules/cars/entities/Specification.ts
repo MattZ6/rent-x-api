@@ -1,28 +1,32 @@
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as generateUuid } from 'uuid';
 
-type CreateSpecification = {
-  name: string;
-  description: string;
-};
-
+@Entity('specifications')
 export class Specification {
+  @PrimaryColumn()
   id: string;
+
+  @Column()
   name: string;
+
+  @Column()
   description: string;
+
+  @CreateDateColumn()
   created_at: Date;
 
-  constructor({ name, description }: CreateSpecification) {
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  constructor() {
     if (!this.id) {
       this.id = generateUuid();
-      this.created_at = new Date();
     }
-
-    Object.assign<Specification, Omit<Specification, 'id' | 'created_at'>>(
-      this,
-      {
-        name,
-        description,
-      }
-    );
   }
 }
