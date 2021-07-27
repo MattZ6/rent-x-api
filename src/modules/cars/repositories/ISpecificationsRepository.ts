@@ -6,7 +6,7 @@ export type CreateSpecificationDTO = {
 };
 
 export interface ISpecificationsRepository {
-  findByName(name: string): Specification | undefined;
-  list(): Specification[];
-  create(data: CreateSpecificationDTO): void;
+  findByName(name: string): Promise<Specification | undefined>;
+  list(): Promise<Specification[]>;
+  create(data: CreateSpecificationDTO): Promise<void>;
 }
