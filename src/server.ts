@@ -3,7 +3,7 @@ import express from 'express';
 import swaggerUI from 'swagger-ui-express';
 
 import swaggerFile from './docs/swagger.json';
-import { routes } from './routes';
+import routes from './routes';
 
 import './database';
 

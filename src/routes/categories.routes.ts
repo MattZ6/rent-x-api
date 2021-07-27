@@ -11,16 +11,16 @@ const createCategoryController = new CreateCategoryController();
 const listCategoriesController = new ListCategoriesController();
 const importCategoriesController = new ImportCategoriesController();
 
-const categoriesRoutes = Router();
+const routes = Router();
 
-categoriesRoutes.post('/', createCategoryController.handle);
+routes.post('/', createCategoryController.handle);
 
-categoriesRoutes.get('/', listCategoriesController.handle);
+routes.get('/', listCategoriesController.handle);
 
-categoriesRoutes.post(
+routes.post(
   '/import',
   upload.single('file'),
   importCategoriesController.handle
 );
 
-export { categoriesRoutes };
+export default routes;
