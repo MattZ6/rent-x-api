@@ -1,5 +1,6 @@
 import csvParse from 'csv-parse';
 import { createReadStream, promises } from 'fs';
+import { inject, injectable } from 'tsyringe';
 
 import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
 
@@ -19,8 +20,12 @@ type CategoryToCreate = {
   description: string;
 };
 
+@injectable()
 export class ImportCategoriesUseCase {
-  constructor(private categoriesRepository: ICategoriesRepository) {}
+  constructor(
+    @inject('CategoriesRepository')
+    private categoriesRepository: ICategoriesRepository
+  ) {}
 
   private loadCategories({ path }: Request): Promise<CategoryToCreate[]> {
     return new Promise<CategoryToCreate[]>((resolve, reject) => {
