@@ -1,3 +1,5 @@
+import { inject, injectable } from 'tsyringe';
+
 import { ISpecificationsRepository } from '../../repositories/ISpecificationsRepository';
 
 type Request = {
@@ -5,10 +7,14 @@ type Request = {
   description: string;
 };
 
+@injectable()
 export class CreateSpecificationUseCase {
-  constructor(private specificationsRepository: ISpecificationsRepository) {}
+  constructor(
+    @inject('SpecificationsRepository')
+    private specificationsRepository: ISpecificationsRepository
+  ) {}
 
-  execute({ name, description }: Request): void {
+  async execute({ name, description }: Request): Promise<void> {
     const specification = this.specificationsRepository.findByName(name);
 
     if (specification) {
