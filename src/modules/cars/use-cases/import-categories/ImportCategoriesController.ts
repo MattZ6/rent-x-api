@@ -11,6 +11,6 @@ export class ImportCategoriesController {
 
     await importCategoriesUseCase.execute(file);
 
-    return response.json();
+    return response.status(201).json();
   }
 }
