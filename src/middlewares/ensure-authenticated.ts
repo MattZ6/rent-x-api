@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
 
+import { AppError } from '../errors/AppError';
 import { UsersRepository } from '../modules/users/repositories/implementations/UsersRepository';
 
 export async function ensureAuthenticated(
@@ -11,7 +12,7 @@ export async function ensureAuthenticated(
   const { authorization } = request.headers;
 
   if (!authorization) {
-    throw new Error('Access token must be provided');
+    throw new AppError('Access token must be provided', 401);
   }
 
   const [, token] = authorization.split(' ');
@@ -26,7 +27,7 @@ export async function ensureAuthenticated(
 
     userId = sub;
   } catch (error) {
-    throw new Error('Access token expired');
+    throw new AppError('Access token expired', 401);
   }
 
   const usersRepository = new UsersRepository();
@@ -34,7 +35,7 @@ export async function ensureAuthenticated(
   const user = await usersRepository.findById(userId);
 
   if (!user) {
-    throw new Error('User not found');
+    throw new AppError('User not found', 404);
   }
 
   next();
