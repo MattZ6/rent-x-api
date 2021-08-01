@@ -1,7 +1,8 @@
 import csvParse from 'csv-parse';
-import { createReadStream, promises } from 'fs';
+import { createReadStream } from 'fs';
 import { inject, injectable } from 'tsyringe';
 
+import { deleteFile } from '../../../../utils/file.utils';
 import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
 
 type Request = {
@@ -46,8 +47,8 @@ export class ImportCategoriesUseCase {
           });
         })
         .on('error', error => reject(error))
-        .once('end', () => {
-          promises.unlink(path);
+        .once('end', async () => {
+          await deleteFile(path);
 
           resolve(categories);
         });
