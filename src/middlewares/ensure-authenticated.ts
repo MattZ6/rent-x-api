@@ -35,8 +35,10 @@ export async function ensureAuthenticated(
   const user = await usersRepository.findById(userId);
 
   if (!user) {
-    throw new AppError('User not found', 404);
+    throw new AppError('Not authorized', 401);
   }
+
+  request.user_id = userId;
 
   next();
 }
