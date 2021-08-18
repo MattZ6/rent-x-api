@@ -57,6 +57,7 @@
           "/^@utils/",
           "/^@config/",
           "/^@errors/",
+          "/^@middlewares/",
           "/^@modules/",
           "/^@shared/",
           ["parent", "sibling", "index"]
