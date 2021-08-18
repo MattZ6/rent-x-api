@@ -1,8 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AppError } from '../../../../errors/AppError';
-import { deleteFile } from '../../../../utils/file.utils';
-import { IUsersRepository } from '../../repositories/IUserRepository';
+import { deleteFile } from '@utils/file.utils';
+
+import { AppError } from '@errors/AppError';
+
+import { IUsersRepository } from '@modules/users/repositories/IUserRepository';
 
 type Request = {
   user_id: string;
