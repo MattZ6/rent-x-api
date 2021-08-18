@@ -52,7 +52,15 @@
       "warn",
       {
         "newlinesBetween": "always",
-        "groups": ["module", "/^@shared/", ["parent", "sibling", "index"]],
+        "groups": [
+          "module",
+          "/^@utils/",
+          "/^@config/",
+          "/^@errors/",
+          "/^@modules/",
+          "/^@shared/",
+          ["parent", "sibling", "index"]
+        ],
         "alphabetize": { "order": "asc", "ignoreCase": true }
       }
     ],
