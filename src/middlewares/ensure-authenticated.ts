@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
 
-import { AppError } from '../errors/AppError';
-import { UsersRepository } from '../modules/users/repositories/implementations/UsersRepository';
+import { AppError } from '@errors/AppError';
+
+import { UsersRepository } from '@modules/users/repositories/implementations/UsersRepository';
 
 export async function ensureAuthenticated(
   request: Request,
