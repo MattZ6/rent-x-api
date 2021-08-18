@@ -2,8 +2,9 @@ import csvParse from 'csv-parse';
 import { createReadStream } from 'fs';
 import { inject, injectable } from 'tsyringe';
 
-import { deleteFile } from '../../../../utils/file.utils';
-import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
+import { deleteFile } from '@utils/file.utils';
+
+import { ICategoriesRepository } from '@modules/cars/repositories/ICategoriesRepository';
 
 type Request = {
   fieldname: string;
