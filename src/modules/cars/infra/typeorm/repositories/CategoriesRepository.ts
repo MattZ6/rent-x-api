@@ -5,7 +5,7 @@ import { Category } from '@modules/cars/infra/typeorm/entities/Category';
 import {
   CreateCategoryDTO,
   ICategoriesRepository,
-} from '../ICategoriesRepository';
+} from '../../../repositories/ICategoriesRepository';
 
 export class CategoriesRepository implements ICategoriesRepository {
   private repository: Repository<Category>;
