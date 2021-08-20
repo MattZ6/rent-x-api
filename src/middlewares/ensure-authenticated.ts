@@ -3,7 +3,7 @@ import { JwtPayload, verify } from 'jsonwebtoken';
 
 import { AppError } from '@errors/AppError';
 
-import { UsersRepository } from '@modules/users/repositories/implementations/UsersRepository';
+import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
 export async function ensureAuthenticated(
   request: Request,
