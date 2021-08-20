@@ -8,7 +8,7 @@ import routes from '@shared/infra/http/routes';
 
 import swaggerFile from '../../../docs/swagger.json';
 
-import '../../../database';
+import '@shared/infra/typeorm';
 
 import '@shared/container';
 
