@@ -1,6 +1,6 @@
 <div align="center">
   <h1>
-    🏎 Rent-X — Ignite 🔥
+    🏎 Rent-X API — Ignite 🔥
   </h1>
 
   > Back-end API da aplicação de alugueis de veículos Rent-X, construída na trilha de Node JS do bootcamp Ignite da Rocketseat.
@@ -34,10 +34,14 @@ yarn
 
 ## 🔥 Executando
 
+### Iniciar
+
 Para rodar a aplicação em ambiente de desenvolvimento, execute o comando:
 
 ```bash
-docker-compose up -d
+docker-compose up
+
+# ou passando a flag -d ao final para executar em modo detached;
 ```
 
 Rode as migrations:
@@ -45,12 +49,7 @@ Rode as migrations:
 ```bash
 yarn typeorm migration:run
 ```
-
-No caso de você já ter executado o comando anterior e precisar subir os serviços novamente, execute o comando:
-
-```bash
-docker-compose start
-```
+### Parar
 
 Por fim, para parar a execução dos seviços, execute:
 
