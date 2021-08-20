@@ -17,12 +17,9 @@ const updateUserAvatarController = new UpdateUserAvatarController();
 
 routes.post('/', createUserController.handle);
 
-/** Auth routes */
-
-routes.use(ensureAuthenticated);
-
 routes.patch(
   '/avatar',
+  ensureAuthenticated,
   uploadAvatar.single('avatar'),
   updateUserAvatarController.handle
 );
