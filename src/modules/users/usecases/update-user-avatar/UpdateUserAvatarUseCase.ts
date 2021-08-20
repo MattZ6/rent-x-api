@@ -2,9 +2,9 @@ import { inject, injectable } from 'tsyringe';
 
 import { deleteFile } from '@utils/file.utils';
 
-import { AppError } from '@errors/AppError';
-
 import { IUsersRepository } from '@modules/users/repositories/IUserRepository';
+
+import { AppError } from '@shared/errors/AppError';
 
 type Request = {
   user_id: string;

@@ -2,9 +2,9 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 
-import { AppError } from '@errors/AppError';
-
 import { IUsersRepository } from '@modules/users/repositories/IUserRepository';
+
+import { AppError } from '@shared/errors/AppError';
 
 type Request = {
   email: string;
