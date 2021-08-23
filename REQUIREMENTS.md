@@ -10,15 +10,13 @@
 
 #### RF
 
-- [ ] Deve ser possível cadastrar um novo carro;
-- [ ] Deve ser possível listar todas as categorias;
+- [x] Deve ser possível cadastrar um novo carro;
 
 #### RN
 
-- [ ] Não deve ser possível cadastrar um carro com uma placa já existente;
-- [ ] Não deve ser possível alterar a placa de um carro já cadastrado;
-- [ ] Por padrão, o carro deve ser cadastrado estando disponível para aluguel;
-- [ ] Somente usuários administradores devem poder realizar cadastro de carros;
+- [x] Não deve ser possível cadastrar um carro com uma placa de um carro já cadastrado;
+- [x] Por padrão, o carro deve ser cadastrado estando disponível para aluguel;
+- [ ] * Somente usuários administradores devem poder realizar cadastro de carros;
 
 ### Listagem de carros
 
