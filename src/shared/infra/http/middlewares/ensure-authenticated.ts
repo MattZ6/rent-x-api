@@ -18,6 +18,10 @@ export async function ensureAuthenticated(
 
   const [, token] = authorization.split(' ');
 
+  if (!token) {
+    throw new AppError('Access token must be provided', 401);
+  }
+
   let userId: string;
 
   try {
