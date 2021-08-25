@@ -16,20 +16,20 @@
 
 - [x] Não deve ser possível cadastrar um carro com uma placa de um carro já cadastrado;
 - [x] Por padrão, o carro deve ser cadastrado estando disponível para aluguel;
-- [ ] * Somente usuários administradores devem poder realizar cadastro de carros;
+- [x] Somente usuários administradores devem poder realizar cadastro de carros;
 
 ### Listagem de carros
 
 #### RF
 
-- [ ] Deve ser possível listar todos os carros disponíveis para alguel;
-- [ ] Deve ser possível listar todos os carros pela categoria;
-- [ ] Deve ser possível listar todos os carros pela marca;
-- [ ] Deve ser possível listar todos os carros pelo nome do carro;
+- [x] Deve ser possível listar todos os carros disponíveis para alguel;
+- [x] Deve ser possível listar todos os carros pelo nome do carro;
+- [x] Deve ser possível listar todos os carros pela marca;
+- [x] Deve ser possível listar todos os carros pela categoria;
 
 #### RN
 
-- [ ] O usuário não precisa estar logado no sistema;
+- [x] O usuário não precisa estar logado no sistema;
 
 ### Adição da Especificação ao Carro
 
