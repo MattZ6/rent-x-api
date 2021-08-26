@@ -57,6 +57,15 @@ Por fim, para parar a execução dos seviços, execute:
 docker-compose stop
 ```
 
+## 🧪 Testes
+
+Para executar os testes:
+
+```bash
+yarn test
+```
+
+
 ## 🤝 Contribuição
 
 Contribuições, issues e novas features são sempre bem-vindas! <br/>
