@@ -8,5 +8,6 @@ export type CreateSpecificationDTO = {
 export interface ISpecificationsRepository {
   findByName(name: string): Promise<Specification | undefined>;
   list(): Promise<Specification[]>;
-  create(data: CreateSpecificationDTO): Promise<void>;
+  create(data: CreateSpecificationDTO): Promise<Specification>;
+  findByIds(ids: string[]): Promise<Specification[]>;
 }

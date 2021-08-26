@@ -35,14 +35,12 @@
 
 #### RF
 
-- [ ] Deve ser possível adicionar uma ou mais especificações ao carro;
-- [ ] Deve ser possível listar todas as especificações;
-- [ ] Deve ser possível listar todos os carros;
+- [x] Deve ser possível adicionar uma ou mais especificações ao carro;
 
 #### RN
 
-- [ ] Não deve ser possível adicionar uma mesma especificação a um carro;
-- [ ] Somente usuários administradores devem poder realizar a adição da especificação ao carro;
+- [x] Não deve ser possível adicionar uma mesma especificação a um carro;
+- [x] Somente usuários administradores devem poder realizar a adição da especificação ao carro;
 
 ### Cadastro de imagens ao Carro
 

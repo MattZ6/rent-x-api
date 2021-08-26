@@ -21,6 +21,14 @@ export class InMemoryCarsRepository implements ICarsRepository {
     return car;
   }
 
+  async update(data: Car): Promise<Car> {
+    Object.assign(data, { updated_at: new Date() } as Car);
+
+    this.cars = this.cars.map(car => (car.id === data.id ? data : car));
+
+    return data;
+  }
+
   async findByLicensePlate(licensePlate: string): Promise<Car | undefined> {
     return this.cars.find(
       car => car.license_plate.toUpperCase() === licensePlate.toUpperCase()
@@ -49,5 +57,9 @@ export class InMemoryCarsRepository implements ICarsRepository {
     }
 
     return cars;
+  }
+
+  async findById(id: string): Promise<Car | undefined> {
+    return this.cars.find(car => car.id === id);
   }
 }
