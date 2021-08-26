@@ -17,16 +17,25 @@ export class SpecificationsRepository implements ISpecificationsRepository {
     return this.repository.findOne({ name });
   }
 
-  async create({ name, description }: CreateSpecificationDTO): Promise<void> {
+  async create({
+    name,
+    description,
+  }: CreateSpecificationDTO): Promise<Specification> {
     const specification = this.repository.create({
       name,
       description,
     });
 
     await this.repository.save(specification);
+
+    return specification;
   }
 
   async list(): Promise<Specification[]> {
     return this.repository.find();
+  }
+
+  async findByIds(ids: string[]): Promise<Specification[]> {
+    return this.repository.findByIds(ids);
   }
 }
