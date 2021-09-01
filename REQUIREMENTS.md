@@ -46,16 +46,15 @@
 
 #### RF
 
-- [ ] Deve ser possível cadastrar uma ou mais imagens ao carro;
-- [ ] Deve ser possível listar todos os carros;
+- [x] Deve ser possível cadastrar uma ou mais imagens ao carro;
 
 #### RNF
 
-- [ ] Utilizar o Multer para realizar o upload dos arquivos;
+- [x] Utilizar o Multer para realizar o upload dos arquivos;
 
 #### RN
 
-- [ ] Somente usuários administradores devem poder realizar o cadastro de imagens ao carro;
+- [x] Somente usuários administradores devem poder realizar o cadastro de imagens ao carro;
 
 ### Aluguel de Carros
 
