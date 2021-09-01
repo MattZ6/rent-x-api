@@ -28,11 +28,13 @@ app.use((error: Error, _: Request, response: Response, __: NextFunction) => {
     });
   }
 
+  console.log(error);
+
   return response
     .status(500)
     .json({ status: 'internal_error', message: error.message });
 });
 
 app.listen(3333, () =>
-  console.log('Server is running at http://localhost:3333')
+  console.log('Server is running at http://localhost:3333\n')
 );
