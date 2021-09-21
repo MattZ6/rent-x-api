@@ -60,10 +60,10 @@
 
 #### RF
 
-- [ ] Deve ser possível agendar o aluguel de um Carro;
+- [x] Deve ser possível agendar o aluguel de um Carro;
 
 #### RN
 
-- [ ] O aluguél deve ter duração mínima de 24hrs (vinte e quatro horas);
-- [ ] Não deve ser possível cadastrar um novo aluguel caso já exista um em aberto para o mesmo usuário;
-- [ ] Não deve ser possível cadastrar um novo aluguel caso já exista um em aberto para o mesmo carro;
+- [x] O aluguél deve ter duração mínima de 24hrs (vinte e quatro horas);
+- [x] Não deve ser possível cadastrar um novo aluguel caso já exista um em aberto para o mesmo usuário;
+- [x] Não deve ser possível cadastrar um novo aluguel caso já exista um em aberto para o mesmo carro;
