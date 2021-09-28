@@ -65,7 +65,12 @@
     ],
     "import/no-extraneous-dependencies": [
       "error",
-      { "devDependencies": ["**/*.spec.js","jest.config.ts"] }
+      {
+        "devDependencies": [
+          "**/*.spec.ts",
+          "jest.config.ts"
+        ]
+      }
     ],
     "prettier/prettier": "error"
   },
