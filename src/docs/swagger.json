@@ -15,10 +15,10 @@
         "tags": ["Category"],
         "summary": "Create a new car category",
         "description": "Create a new car category, like SUV",
-        "requestBody":{
+        "requestBody": {
           "content": {
             "application/json": {
-              "schema":{
+              "schema": {
                 "type": "object",
                 "properties": {
                   "name": {
@@ -92,7 +92,7 @@
         "requestBody": {
           "content": {
             "multipart/form-data": {
-              "schema":{
+              "schema": {
                 "type": "object",
                 "properties": {
                   "file": {
@@ -119,10 +119,10 @@
         "tags": ["Specification"],
         "summary": "Create a new car specification",
         "description": "Create a new car specification",
-        "requestBody":{
+        "requestBody": {
           "content": {
             "application/json": {
-              "schema":{
+              "schema": {
                 "$ref": "#/definitions/Specification"
               }
             }
