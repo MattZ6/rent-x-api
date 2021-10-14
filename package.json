@@ -11,7 +11,7 @@
   "repository": "https://github.com/mattz6/rent-x-api",
   "bugs": "https://github.com/mattz6/rent-x-api/issues",
   "scripts": {
-    "dev": "tsnd -r tsconfig-paths/register --inspect --poll --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
+    "dev": "tsnd -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli",
     "test": "cross-env NODE_ENV=test jest",
     "seed:admin": "tsnd src/shared/infra/typeorm/seeders/admin-user.ts"
