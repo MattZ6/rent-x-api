@@ -1,5 +1,6 @@
 import { ICreateCarDTO } from '@modules/cars/dtos/ICreateCarDTO';
 import { IGetAllAvailableDTO } from '@modules/cars/dtos/IGetAllAvailableDTO';
+import { IUpdateAvailabilityDTO } from '@modules/cars/dtos/IUpdateAvailabilityDTO';
 import { Car } from '@modules/cars/infra/typeorm/entities/Car';
 
 import { ICarsRepository } from '../ICarsRepository';
@@ -61,5 +62,14 @@ export class InMemoryCarsRepository implements ICarsRepository {
 
   async findById(id: string): Promise<Car | undefined> {
     return this.cars.find(car => car.id === id);
+  }
+
+  async updateAvailability({
+    id,
+    is_available,
+  }: IUpdateAvailabilityDTO): Promise<void> {
+    const index = this.cars.findIndex(x => x.id === id);
+
+    this.cars[index].is_available = is_available;
   }
 }
