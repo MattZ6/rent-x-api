@@ -2,6 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import { ICreateCarDTO } from '@modules/cars/dtos/ICreateCarDTO';
 import { IGetAllAvailableDTO } from '@modules/cars/dtos/IGetAllAvailableDTO';
+import { IUpdateAvailabilityDTO } from '@modules/cars/dtos/IUpdateAvailabilityDTO';
 import { ICarsRepository } from '@modules/cars/repositories/ICarsRepository';
 
 import { Car } from '../entities/Car';
@@ -81,5 +82,18 @@ export class CarsRepository implements ICarsRepository {
     }
 
     return query.getMany();
+  }
+
+  async updateAvailability({
+    id,
+    is_available,
+  }: IUpdateAvailabilityDTO): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update()
+      .set({ is_available })
+      .where('id = :id')
+      .setParameters({ id })
+      .execute();
   }
 }
