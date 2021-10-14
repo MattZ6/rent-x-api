@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
+import { ICarsRepository } from '@modules/cars/repositories/ICarsRepository';
 import { Rent } from '@modules/rents/infra/typeorm/entities/Rent';
 import { IRentsRepository } from '@modules/rents/repositories/IRentsRepository';
 
@@ -18,7 +19,9 @@ export class CreateRentUseCase {
     @inject('RentsRepository')
     private readonly rentsRepository: IRentsRepository,
     @inject('DateProvider')
-    private readonly dateProvider: IDateProvider
+    private readonly dateProvider: IDateProvider,
+    @inject('CarsRepository')
+    private readonly carsRepository: ICarsRepository
   ) {}
 
   async execute(data: IRequest): Promise<Rent> {
@@ -48,7 +51,7 @@ export class CreateRentUseCase {
     );
 
     if (rentHours < MIN_RENT_HOURS) {
-      throw new AppError('Invalid return date', 422);
+      throw new AppError('Invalid return date.', 422);
     }
 
     const rent = await this.rentsRepository.create({
@@ -56,6 +59,11 @@ export class CreateRentUseCase {
       car_id,
       start_date: new Date(),
       expected_return_date,
+    });
+
+    await this.carsRepository.updateAvailability({
+      id: car_id,
+      is_available: false,
     });
 
     return rent;
