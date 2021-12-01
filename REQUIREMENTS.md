@@ -67,19 +67,19 @@
 - [x] O aluguél deve ter duração mínima de 24hrs (vinte e quatro horas);
 - [x] Não deve ser possível cadastrar um novo aluguel caso já exista um em aberto para o mesmo usuário;
 - [x] Não deve ser possível cadastrar um novo aluguel caso já exista um em aberto para o mesmo carro;
-- [ ] Ao realizar um aluguel, o status do carro deverá ser alterado para indisponível.
+- [x] Ao realizar um aluguel, o status do carro deverá ser alterado para indisponível.
 
 ### Devolução do carro alugado
 
 #### RF
 
-- [ ] Deve ser possível realizar a devolução de um carro alugado.
+- [x] Deve ser possível realizar a devolução de um carro alugado.
 
 #### RN
 
-- [ ] Se o carro for devolvido com menos de 24 horas, deverá ser cobrada a diária completa;
-- [ ] Ao realizar a devolução, o carro deverá ser liberado para outro aluguel;
-- [ ] Ao realizar a devolução, o usuário deverá ser liberado para outro aluguel;
-- [ ] Ao realizar a devolução, deverá ser calculado o valor total do aluguel;
-- [ ] Caso o  horário de devolução seja superior ao horário previsto da entrega, deverá ser cobrado multa proporcional aos dias de atraso;
-- [ ] Caso haja multa, deverá ser somado ao valor total do aluguel.
+- [x] Se o carro for devolvido com menos de 24 horas, deverá ser cobrada a diária completa;
+- [x] Ao realizar a devolução, o carro deverá ser liberado para outro aluguel;
+- [x] Ao realizar a devolução, o usuário deverá ser liberado para outro aluguel;
+- [x] Ao realizar a devolução, deverá ser calculado o valor total do aluguel;
+- [x] Caso o  horário de devolução seja superior ao horário previsto da entrega, deverá ser cobrado multa proporcional aos dias de atraso;
+- [x] Caso haja multa, deverá ser somado ao valor total do aluguel.

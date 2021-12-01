@@ -15,6 +15,9 @@ import { IRentsRepository } from '@modules/rents/repositories/IRentsRepository';
 import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUserRepository';
 
+import { IDatabaseTransactionsProvider } from '@shared/infra/typeorm/repositories/IDatabaseTransactionsProvider';
+import { DatabaseTransactionsProvider } from '@shared/infra/typeorm/repositories/implementations/DbTransactionsRepository';
+
 container.registerSingleton<ICategoriesRepository>(
   'CategoriesRepository',
   CategoriesRepository
@@ -40,4 +43,9 @@ container.registerSingleton<ICarImagesRepository>(
 container.registerSingleton<IRentsRepository>(
   'RentsRepository',
   RentsRepository
+);
+
+container.registerSingleton<IDatabaseTransactionsProvider>(
+  'DatabaseTransactionsProvider',
+  DatabaseTransactionsProvider
 );

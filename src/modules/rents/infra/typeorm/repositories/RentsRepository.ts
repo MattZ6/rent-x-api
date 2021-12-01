@@ -42,4 +42,12 @@ export class RentsRepository implements IRentsRepository {
 
     return this.repository.save(rent);
   }
+
+  update(data: Rent): Promise<Rent> {
+    return this.repository.save(data);
+  }
+
+  findById(id: string): Promise<Rent | undefined> {
+    return this.repository.findOne(id);
+  }
 }

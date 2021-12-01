@@ -6,6 +6,10 @@ import { IRentsRepository } from '../IRentsRepository';
 export class InMemoryRentsRepository implements IRentsRepository {
   private rents: Rent[] = [];
 
+  async findById(id: string): Promise<Rent | undefined> {
+    return this.rents.find(rent => rent.id === id);
+  }
+
   async findOpenRentByUserId(user_id: string): Promise<Rent | undefined> {
     return this.rents.find(rent => rent.user_id === user_id && !rent.end_date);
   }
@@ -29,6 +33,17 @@ export class InMemoryRentsRepository implements IRentsRepository {
     } as Rent);
 
     this.rents.push(rent);
+
+    return rent;
+  }
+
+  async update(data: Rent): Promise<Rent> {
+    const rent = this.rents.find(r => r.id === data.id);
+
+    Object.assign(rent, {
+      ...data,
+      updated_at: new Date(),
+    } as Rent);
 
     return rent;
   }
