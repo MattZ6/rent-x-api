@@ -88,4 +88,4 @@
 
 #### RF
 
-- [ ] Deve ser possível realizaer a listagem de todos os alugueis do usuário atual.
+- [x] Deve ser possível realizaer a listagem de todos os alugueis do usuário atual.
