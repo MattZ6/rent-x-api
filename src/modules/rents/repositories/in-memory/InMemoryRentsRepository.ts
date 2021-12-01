@@ -10,6 +10,10 @@ export class InMemoryRentsRepository implements IRentsRepository {
     return this.rents.find(rent => rent.id === id);
   }
 
+  async findByUserId(user_id: string): Promise<Rent[]> {
+    return this.rents.filter(rent => rent.user_id === user_id);
+  }
+
   async findOpenRentByUserId(user_id: string): Promise<Rent | undefined> {
     return this.rents.find(rent => rent.user_id === user_id && !rent.end_date);
   }
