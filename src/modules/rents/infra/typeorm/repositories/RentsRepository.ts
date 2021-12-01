@@ -50,4 +50,11 @@ export class RentsRepository implements IRentsRepository {
   findById(id: string): Promise<Rent | undefined> {
     return this.repository.findOne(id);
   }
+
+  findByUserId(user_id: string): Promise<Rent[]> {
+    return this.repository.find({
+      where: { user_id },
+      relations: ['car'],
+    });
+  }
 }

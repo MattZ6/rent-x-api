@@ -83,3 +83,9 @@
 - [x] Ao realizar a devolução, deverá ser calculado o valor total do aluguel;
 - [x] Caso o  horário de devolução seja superior ao horário previsto da entrega, deverá ser cobrado multa proporcional aos dias de atraso;
 - [x] Caso haja multa, deverá ser somado ao valor total do aluguel.
+
+### Lista de aluguéis do usuário
+
+#### RF
+
+- [x] Deve ser possível realizaer a listagem de todos os alugueis do usuário atual.
