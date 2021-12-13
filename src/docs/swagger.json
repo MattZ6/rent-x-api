@@ -178,6 +178,75 @@
           }
         }
       }
+    },
+    "/v1/cars": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Create a new car",
+        "description": "Create a new car register",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/definitions/Car"
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Car created successfully"
+          },
+          "422": {
+            "description": "Theres a Car registered with this license plate"
+          }
+        }
+      }
+    },
+    "/v1/cars/{id}/images": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Upload car images",
+        "description": "Upload many images for a car",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Car id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Car images uploaded successfully"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -188,6 +257,32 @@
           "type": "string"
         },
         "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Car": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "license_plate": {
+          "type": "string"
+        },
+        "daily_rate": {
+          "type": "number"
+        },
+        "fine_amount": {
+          "type": "number"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "category_id": {
           "type": "string"
         }
       }
