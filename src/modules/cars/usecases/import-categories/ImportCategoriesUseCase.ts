@@ -1,4 +1,4 @@
-import csvParse from 'csv-parse';
+import * as CSVParse from 'csv-parse';
 import { createReadStream } from 'fs';
 import { inject, injectable } from 'tsyringe';
 
@@ -32,7 +32,7 @@ export class ImportCategoriesUseCase {
   private loadCategories({ path }: Request): Promise<CategoryToCreate[]> {
     return new Promise<CategoryToCreate[]>((resolve, reject) => {
       const stream = createReadStream(path);
-      const parseFile = csvParse();
+      const parseFile = CSVParse.parse();
 
       stream.pipe(parseFile);
 
