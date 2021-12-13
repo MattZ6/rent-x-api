@@ -10,7 +10,7 @@
 
 - Primeiramente de uma xícara de ☕ bem quentinho;
 - [Node JS](https://nodejs.org/) instalado em sua máquina;
-- [🐳 Docker](https://www.docker.com) instalado em sua máquina — junto do  [Docker compose](https://docs.docker.com/compose/install);
+- [🐳 Docker](https://www.docker.com) instalado em sua máquina — junto do [Docker compose](https://docs.docker.com/compose/install);
 
 ## 🎉 Começando
 
