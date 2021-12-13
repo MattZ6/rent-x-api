@@ -32,15 +32,26 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should not be able to create a rent for a car with a rent in progress for the same date', async () => {
+    const car = await inMemoryCarsRepository.create({
+      name: 'any-name',
+      description: 'any-description',
+      brand: 'any-brand',
+      category_id: 'any-category-id',
+      daily_rate: 1,
+      fine_amount: 10,
+      is_available: true,
+      license_plate: 'any-plate',
+    });
+
     await createRentUseCase.execute({
       user_id: 'user_id',
-      car_id: 'car_id',
+      car_id: car.id,
       expected_return_date: dayPlus24Hours,
     });
 
     const promise = createRentUseCase.execute({
       user_id: 'another_user_id',
-      car_id: 'car_id',
+      car_id: car.id,
       expected_return_date: dayPlus24Hours,
     });
 
@@ -48,15 +59,26 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should not be able to create a rent for a user with a rent in progress', async () => {
+    const car = await inMemoryCarsRepository.create({
+      name: 'any-name',
+      description: 'any-description',
+      brand: 'any-brand',
+      category_id: 'any-category-id',
+      daily_rate: 1,
+      fine_amount: 10,
+      is_available: true,
+      license_plate: 'any-plate',
+    });
+
     await createRentUseCase.execute({
       user_id: 'user_id',
-      car_id: 'car_id',
+      car_id: car.id,
       expected_return_date: dayPlus24Hours,
     });
 
     const promise = createRentUseCase.execute({
       user_id: 'user_id',
-      car_id: 'another_car_id',
+      car_id: car.id,
       expected_return_date: dayPlus24Hours,
     });
 
@@ -76,8 +98,19 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should be able to create a new rent for a car', async () => {
+    const car = await inMemoryCarsRepository.create({
+      name: 'any-name',
+      description: 'any-description',
+      brand: 'any-brand',
+      category_id: 'any-category-id',
+      daily_rate: 1,
+      fine_amount: 10,
+      is_available: true,
+      license_plate: 'any-plate',
+    });
+
     const rent = await createRentUseCase.execute({
-      car_id: 'car_id',
+      car_id: car.id,
       user_id: 'user_id',
       expected_return_date: dayPlus24Hours,
     });
