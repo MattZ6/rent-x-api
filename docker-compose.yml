@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  # Banco de dados
+  # Database
   database_rentx:
     image: postgres
     container_name: database_rentx
@@ -15,14 +15,14 @@ services:
     volumes:
       - pgdata:/data/postgres
 
-  # Aplicação
+  # Application
   app:
     build: .
     container_name: rentx
     restart: always
     ports:
       - 3333:3333
-      - 9229:9229
+      - 9229:9229 # For debug
     volumes:
       - .:/usr/app
     links:
