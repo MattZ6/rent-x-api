@@ -15,6 +15,9 @@
         "tags": ["Category"],
         "summary": "Create a new car category",
         "description": "Create a new car category, like SUV",
+        "security": [
+          { "bearerAuth": [] }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -89,6 +92,9 @@
         "tags": ["Category"],
         "summary": "Import some categories by upload",
         "description": "Import some categories by upload",
+        "security": [
+          { "bearerAuth": [] }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -119,6 +125,9 @@
         "tags": ["Specification"],
         "summary": "Create a new car specification",
         "description": "Create a new car specification",
+        "security": [
+          { "bearerAuth": [] }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -137,6 +146,107 @@
           }
         }
       }
+    },
+    "/v1/authentication/session": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Authenticate user",
+        "description": "Generate a access token for a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authentication success"
+          },
+          "422": {
+            "description": "Email or password invalid"
+          }
+        }
+      }
+    },
+    "/v1/cars": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Create a new car",
+        "description": "Create a new car register",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/definitions/Car"
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Car created successfully"
+          },
+          "422": {
+            "description": "Theres a Car registered with this license plate"
+          }
+        }
+      }
+    },
+    "/v1/cars/{id}/images": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Upload car images",
+        "description": "Upload many images for a car",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Car id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Car images uploaded successfully"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -149,6 +259,41 @@
         "description": {
           "type": "string"
         }
+      }
+    },
+    "Car": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "license_plate": {
+          "type": "string"
+        },
+        "daily_rate": {
+          "type": "number"
+        },
+        "fine_amount": {
+          "type": "number"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "category_id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
