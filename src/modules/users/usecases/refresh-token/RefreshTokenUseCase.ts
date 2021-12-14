@@ -1,18 +1,19 @@
-import { compare } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 
 import auth from '@config/auth';
 
 import { IUserRefreshTokensRepository } from '@modules/users/repositories/IUserRefreshTokensRepository';
-import { IUsersRepository } from '@modules/users/repositories/IUserRepository';
 
 import { IDateProvider } from '@shared/container/providers/DateProvider/IDateProvider';
 import { AppError } from '@shared/errors/AppError';
 
 type Request = {
+  refresh_token: string;
+};
+
+type JwtCustomPayload = JwtPayload & {
   email: string;
-  password: string;
 };
 
 type Response = {
@@ -21,10 +22,8 @@ type Response = {
 };
 
 @injectable()
-export class AuthenticateUserUseCase {
+export class RefreshTokenUseCase {
   constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
     @inject('UserRefreshTokensRepository')
     private userRefreshTokensRepository: IUserRefreshTokensRepository,
     @inject('DateProvider')
@@ -32,22 +31,29 @@ export class AuthenticateUserUseCase {
   ) {}
 
   async execute(data: Request): Promise<Response> {
-    const { email, password } = data;
+    const { refresh_token } = data;
 
-    const user = await this.usersRepository.findByEmail(email);
+    const { email, sub } = verify(
+      refresh_token,
+      auth.JWT_SECRET
+    ) as JwtCustomPayload;
 
-    if (!user) {
-      throw new AppError('Email or password invalid', 422);
+    const userId = sub;
+
+    const refreshToken =
+      await this.userRefreshTokensRepository.findByTokenFromUser({
+        token: refresh_token,
+        user_id: userId,
+      });
+
+    if (!refreshToken) {
+      throw new AppError('Refresh token does noe exists', 404);
     }
 
-    const passwordsMatch = await compare(password, user.password);
-
-    if (!passwordsMatch) {
-      throw new AppError('Email or password invalid', 422);
-    }
+    await this.userRefreshTokensRepository.deleteById(refreshToken.id);
 
     const access_token = sign({}, auth.JWT_SECRET, {
-      subject: user.id,
+      subject: userId,
       expiresIn: auth.JWT_EXPIRES_IN,
     });
 
@@ -55,20 +61,20 @@ export class AuthenticateUserUseCase {
 
     const expiresIn = this.dateProvider.addDays(new Date(), expiresInDays);
 
-    const refresh_token = sign({ email }, auth.JWT_SECRET, {
-      subject: user.id,
+    const newRefreshToken = sign({ email }, auth.JWT_SECRET, {
+      subject: userId,
       expiresIn: `${expiresInDays}d`,
     });
 
     await this.userRefreshTokensRepository.create({
-      user_id: user.id,
+      user_id: userId,
       expires_in: expiresIn,
       token: refresh_token,
     });
 
     return {
       access_token,
-      refresh_token,
+      refresh_token: newRefreshToken,
     };
   }
 }

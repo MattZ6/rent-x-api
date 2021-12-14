@@ -1,0 +1,5 @@
+export default {
+  JWT_SECRET: '2b246fb4a2e07344cebe1e7d3150e4e0',
+  JWT_EXPIRES_IN: '15m',
+  JWT_REFRESH_TOKEN_EXPIRES_IN_DAYS: 5,
+};

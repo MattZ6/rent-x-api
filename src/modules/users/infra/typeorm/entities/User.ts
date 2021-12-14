@@ -4,8 +4,11 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { v4 as generateUuid } from 'uuid';
+
+import { UserRefreshToken } from './UserRefreshToken';
 
 @Entity('users')
 export class User {
@@ -29,6 +32,9 @@ export class User {
 
   @Column()
   is_admin: boolean;
+
+  @OneToMany(() => UserRefreshToken, userRefToken => userRefToken.user)
+  refresh_tokens: UserRefreshToken[];
 
   @CreateDateColumn()
   created_at: Date;

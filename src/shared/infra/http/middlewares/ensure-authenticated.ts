@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
 
+import auth from '@config/auth';
+
 import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
 import { AppError } from '@shared/errors/AppError';
@@ -25,10 +27,7 @@ export async function ensureAuthenticated(
   let userId: string;
 
   try {
-    const { sub } = verify(
-      token,
-      '2b246fb4a2e07344cebe1e7d3150e4e0'
-    ) as JwtPayload;
+    const { sub } = verify(token, auth.JWT_SECRET) as JwtPayload;
 
     userId = sub;
   } catch (error) {
