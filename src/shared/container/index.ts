@@ -12,7 +12,9 @@ import { ICategoriesRepository } from '@modules/cars/repositories/ICategoriesRep
 import { ISpecificationsRepository } from '@modules/cars/repositories/ISpecificationsRepository';
 import { RentsRepository } from '@modules/rents/infra/typeorm/repositories/RentsRepository';
 import { IRentsRepository } from '@modules/rents/repositories/IRentsRepository';
+import { UserRefreshTokensRepository } from '@modules/users/infra/typeorm/repositories/UserRefreshTokensRepository';
 import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import { IUserRefreshTokensRepository } from '@modules/users/repositories/IUserRefreshTokensRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUserRepository';
 
 import { IDatabaseTransactionsProvider } from '@shared/infra/typeorm/repositories/IDatabaseTransactionsProvider';
@@ -31,6 +33,11 @@ container.registerSingleton<ISpecificationsRepository>(
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository
+);
+
+container.registerSingleton<IUserRefreshTokensRepository>(
+  'UserRefreshTokensRepository',
+  UserRefreshTokensRepository
 );
 
 container.registerSingleton<ICarsRepository>('CarsRepository', CarsRepository);

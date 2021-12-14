@@ -2,8 +2,12 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 
+import auth from '@config/auth';
+
+import { IUserRefreshTokensRepository } from '@modules/users/repositories/IUserRefreshTokensRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUserRepository';
 
+import { IDateProvider } from '@shared/container/providers/DateProvider/IDateProvider';
 import { AppError } from '@shared/errors/AppError';
 
 type Request = {
@@ -13,13 +17,18 @@ type Request = {
 
 type Response = {
   access_token: string;
+  refresh_token: string;
 };
 
 @injectable()
 export class AuthenticateUserUseCase {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: IUsersRepository
+    private usersRepository: IUsersRepository,
+    @inject('UserRefreshTokensRepository')
+    private userRefreshTokensRepository: IUserRefreshTokensRepository,
+    @inject('DateProvider')
+    private dateProvider: IDateProvider
   ) {}
 
   async execute(data: Request): Promise<Response> {
@@ -37,13 +46,29 @@ export class AuthenticateUserUseCase {
       throw new AppError('Email or password invalid', 422);
     }
 
-    const token = sign({}, '2b246fb4a2e07344cebe1e7d3150e4e0', {
+    const access_token = sign({}, auth.JWT_SECRET, {
       subject: user.id,
-      expiresIn: '1d',
+      expiresIn: auth.JWT_EXPIRES_IN,
+    });
+
+    const expiresInDays = auth.JWT_REFRESH_TOKEN_EXPIRES_IN_DAYS;
+
+    const expiresIn = this.dateProvider.addDays(new Date(), expiresInDays);
+
+    const refresh_token = sign({ email }, auth.JWT_SECRET, {
+      subject: user.id,
+      expiresIn: `${expiresInDays}d`,
+    });
+
+    await this.userRefreshTokensRepository.create({
+      user_id: user.id,
+      expires_in: expiresIn,
+      token: refresh_token,
     });
 
     return {
-      access_token: token,
+      access_token,
+      refresh_token,
     };
   }
 }
