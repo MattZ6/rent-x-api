@@ -3,5 +3,6 @@
   "semanticCommits": true,
   "stabilityDays": 3,
   "prCreation": "not-pending",
-  "labels": ["dependencies"]
+  "labels": ["📦 dependencies"],
+  "assignees": ["mattz6"]
 }
