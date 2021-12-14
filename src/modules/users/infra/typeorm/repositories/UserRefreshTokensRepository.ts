@@ -2,6 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import {
   CreateUserRefreshTokenDTO,
+  FindByTokenFromUser,
   IUserRefreshTokensRepository,
 } from '@modules/users/repositories/IUserRefreshTokensRepository';
 
@@ -16,6 +17,19 @@ export class UserRefreshTokensRepository
     this.repository = getRepository(UserRefreshToken);
   }
 
+  async findByTokenFromUser(
+    data: FindByTokenFromUser
+  ): Promise<UserRefreshToken> {
+    const { user_id, token } = data;
+
+    return this.repository.findOne({
+      where: {
+        token,
+        user_id,
+      },
+    });
+  }
+
   async create(data: CreateUserRefreshTokenDTO): Promise<UserRefreshToken> {
     const { user_id, token, expires_in } = data;
 
@@ -26,5 +40,9 @@ export class UserRefreshTokensRepository
     });
 
     return this.repository.save(userRefreshToken);
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.repository.delete(id);
   }
 }
