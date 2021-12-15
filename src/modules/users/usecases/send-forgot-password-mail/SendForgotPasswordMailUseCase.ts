@@ -5,6 +5,7 @@ import { IUserRefreshTokensRepository } from '@modules/users/repositories/IUserR
 import { IUsersRepository } from '@modules/users/repositories/IUserRepository';
 
 import { IDateProvider } from '@shared/container/providers/DateProvider/IDateProvider';
+import { IMailProvider } from '@shared/container/providers/MailProvider/IMailProvider';
 import { AppError } from '@shared/errors/AppError';
 
 type Request = {
@@ -19,7 +20,9 @@ export class SendForgotPasswordMailUseCase {
     @inject('UserRefreshTokensRepository')
     private userRefreshTokensRepository: IUserRefreshTokensRepository,
     @inject('DateProvider')
-    private dateProvider: IDateProvider
+    private dateProvider: IDateProvider,
+    @inject('MailProvider')
+    private mailProvider: IMailProvider
   ) {}
 
   async execute(data: Request) {
@@ -39,6 +42,15 @@ export class SendForgotPasswordMailUseCase {
       user_id: user.id,
       token,
       expires_in: expiresIn,
+    });
+
+    this.mailProvider.sendMail({
+      to: {
+        name: user.name,
+        address: user.email,
+      },
+      subject: 'Recuperação de senha',
+      body: `O link para o reset de senha é ${token}`,
     });
   }
 }
