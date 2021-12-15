@@ -45,4 +45,8 @@ export class UserRefreshTokensRepository
   async deleteById(id: string): Promise<void> {
     await this.repository.delete(id);
   }
+
+  async findByToken(token: string): Promise<UserRefreshToken> {
+    return this.repository.findOne({ where: { token } });
+  }
 }
