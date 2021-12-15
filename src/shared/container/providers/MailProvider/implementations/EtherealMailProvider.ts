@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+import handlebars from 'handlebars';
 import {
   createTestAccount,
   getTestMessageUrl,
@@ -33,17 +35,29 @@ export class EtherealMailProvider implements IMailProvider {
   }
 
   async sendMail(data: SendMailDTO): Promise<void> {
-    const { to, subject, body } = data;
+    const { from, to, subject, body } = data;
+
+    let htmlContent: string;
+
+    if (body.html) {
+      const { template_path, template_variables } = body.html;
+
+      const templateFileContent = readFileSync(template_path).toString('utf-8');
+
+      const parsedTemplate = handlebars.compile(templateFileContent);
+
+      htmlContent = parsedTemplate(template_variables);
+    }
 
     const message = await this.client.sendMail({
       to,
-      from: {
+      from: from ?? {
         name: 'Rent-X Team',
         address: 'noreply@rentx.com.br',
       },
       subject,
-      text: body,
-      html: body,
+      text: body.text,
+      html: htmlContent,
     });
 
     console.log(`Mail preview link: ${getTestMessageUrl(message)}`);
