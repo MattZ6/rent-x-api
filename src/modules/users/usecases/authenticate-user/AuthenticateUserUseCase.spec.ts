@@ -1,4 +1,4 @@
-import { InMemoryUserRefreshTokens } from '@modules/users/repositories/in-memory/InMemoryUserRefreshTokensRepository';
+import { InMemoryUserRefreshTokensRepository } from '@modules/users/repositories/in-memory/InMemoryUserRefreshTokensRepository';
 import { InMemoryUsersRepository } from '@modules/users/repositories/in-memory/InMemoryUsersRepository';
 
 import { DayjsDateProvider } from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
@@ -8,7 +8,7 @@ import { CreateUserUseCase } from '../create-user/CreateUserUseCase';
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase';
 
 let usersRepository: InMemoryUsersRepository;
-let userRefreshTokens: InMemoryUserRefreshTokens;
+let userRefreshTokens: InMemoryUserRefreshTokensRepository;
 let dateProvider: DayjsDateProvider;
 let authenticateUserUseCase: AuthenticateUserUseCase;
 
@@ -17,7 +17,7 @@ let createUserUseCase: CreateUserUseCase;
 describe('AuthenticateUserUseCase', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository();
-    userRefreshTokens = new InMemoryUserRefreshTokens();
+    userRefreshTokens = new InMemoryUserRefreshTokensRepository();
     dateProvider = new DayjsDateProvider();
 
     authenticateUserUseCase = new AuthenticateUserUseCase(

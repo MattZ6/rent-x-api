@@ -6,7 +6,9 @@ import {
   IUserRefreshTokensRepository,
 } from '../IUserRefreshTokensRepository';
 
-export class InMemoryUserRefreshTokens implements IUserRefreshTokensRepository {
+export class InMemoryUserRefreshTokensRepository
+  implements IUserRefreshTokensRepository
+{
   private userRefreshTokens: UserRefreshToken[] = [];
 
   async create(data: CreateUserRefreshTokenDTO): Promise<UserRefreshToken> {
