@@ -16,5 +16,6 @@ export interface IUserRefreshTokensRepository {
   findByTokenFromUser(
     data: FindByTokenFromUser
   ): Promise<UserRefreshToken | undefined>;
+  findByToken(token: string): Promise<UserRefreshToken | undefined>;
   deleteById(id: string): Promise<void>;
 }
