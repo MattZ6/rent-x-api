@@ -94,10 +94,10 @@
 
 #### RF
 
-- [ ] Deve ser possível recuperar a senha do usuário informando um e-mail;
-- [ ] O usuário deve receber um e-mail com instruções sobre a redefinição de sua senha;
-- [ ] O usuário deve poder inserir uma nova senha.
+- [x] Deve ser possível recuperar a senha do usuário informando um e-mail;
+- [x] O usuário deve receber um e-mail com instruções sobre a redefinição de sua senha;
+- [x] O usuário deve poder inserir uma nova senha.
 
 #### RN
 
-- [ ] O link de redefinição de senha deve expirar em 3 horas.
+- [x] O link de redefinição de senha deve expirar em 3 horas.
