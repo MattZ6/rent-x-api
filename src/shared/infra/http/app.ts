@@ -3,7 +3,10 @@ import 'dotenv/config';
 
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
+import { resolve } from 'path';
 import swaggerUI from 'swagger-ui-express';
+
+import upload from '@config/upload';
 
 import { AppError } from '@shared/errors/AppError';
 import routes from '@shared/infra/http/routes';
@@ -20,6 +23,9 @@ const app = express();
 app.use(express.json());
 
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerFile));
+
+app.use('/avatar', express.static(resolve(upload.tmpFolder, 'avatar')));
+app.use('/cars', express.static(resolve(upload.tmpFolder, 'cars')));
 
 app.use(routes);
 
