@@ -13,7 +13,7 @@ import { ensureIsAdminUser } from '@shared/infra/http/middlewares/ensure-is-admi
 
 const routes = Router();
 
-const upload = multer(uploadConfig.upload('./temp/car_images'));
+const upload = multer(uploadConfig);
 
 const createCarController = new CreateCarController();
 const listAvailableCarsController = new ListAvailableCarsController();
