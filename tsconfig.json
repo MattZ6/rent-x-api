@@ -6,6 +6,8 @@
     "strict": false,
     "baseUrl": "./src",
     "paths": {
+      "@domain/*": ["domain/*"],
+      "@data/*": ["data/*"],
       "@config/*": ["config/*"],
       "@modules/*": ["modules/*"],
       "@shared/*": ["shared/*"],

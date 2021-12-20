@@ -41,6 +41,7 @@
     "no-useless-constructor": "off",
     "no-empty-function": "off",
     "lines-between-class-members": "off",
+    "max-classes-per-file": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -54,6 +55,8 @@
         "newlinesBetween": "always",
         "groups": [
           "module",
+          "/^@domain/",
+          "/^@data/",
           "/^@utils/",
           "/^@config/",
           "/^@modules/",
