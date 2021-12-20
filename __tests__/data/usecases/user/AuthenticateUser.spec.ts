@@ -10,11 +10,11 @@ import { AuthenticateUserUseCase } from '@data/usecases/user/AuthenticateUser';
 import { userMock } from '../../../domain/models/user.mock';
 import {
   CompareHashProviderSpy,
+  CreateUserTokenRepositorySpy,
   EncryptProviderSpy,
   FindUserByEmailRepositorySpy,
   GenerateUuidProviderSpy,
 } from '../../mocks';
-import { CreateUserTokenRepositorySpy } from '../../mocks/user-tokens-repository.mock';
 
 let findUserByEmailRepositorySpy: FindUserByEmailRepositorySpy;
 let compareHashProviderSpy: CompareHashProviderSpy;
