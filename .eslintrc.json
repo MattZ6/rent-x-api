@@ -39,6 +39,7 @@
         "argsIgnorePattern": "_"
       }
     ],
+    "@typescript-eslint/no-namespace": "off",
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
     "no-shadow": "off",
