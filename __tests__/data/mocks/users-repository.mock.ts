@@ -1,5 +1,3 @@
-import faker from 'faker';
-
 import { IUser } from '@domain/models/User';
 
 import {
@@ -8,6 +6,7 @@ import {
   IFindUserByEmailRepository,
 } from '@data/protocols/repositories/user';
 import { ICheckIfUserExistsByEmailRepository } from '@data/protocols/repositories/user/CheckIfUserExistsByEmailRepository';
+import { IFindUserByIdRepository } from '@data/protocols/repositories/user/FindUserByIdRepository';
 
 import { userMock } from '../../domain/models/user.mock';
 
@@ -38,6 +37,16 @@ export class FindUserByEmailRepositorySpy
     const user = { ...userMock };
 
     Object.assign(user, { email });
+
+    return user;
+  }
+}
+
+export class FindUserByIdRepositorySpy implements IFindUserByIdRepository {
+  async findById(id: string): Promise<IUser | undefined> {
+    const user = { ...userMock };
+
+    Object.assign(user, { id });
 
     return user;
   }
