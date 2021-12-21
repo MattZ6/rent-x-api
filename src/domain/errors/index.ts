@@ -1,4 +1,5 @@
 export * from './AppError';
+export * from './CarSpecificationAlreadyExistsWithThisNameError';
 export * from './IncorrectPassword';
 export * from './TokenExpiredError';
 export * from './TokenNotFoundWithThisTokenFromUserError';
