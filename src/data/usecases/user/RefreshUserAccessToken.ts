@@ -25,8 +25,8 @@ export class RefreshUserAccessTokenUseCase
   ) {}
 
   async execute(
-    data: IRefreshUserAccessTokenUseCase.Data
-  ): Promise<IRefreshUserAccessTokenUseCase.Response> {
+    data: IRefreshUserAccessTokenUseCase.Input
+  ): Promise<IRefreshUserAccessTokenUseCase.Output> {
     const { refresh_token, user_id } = data;
 
     const userToken =
@@ -36,13 +36,13 @@ export class RefreshUserAccessTokenUseCase
       });
 
     if (!userToken) {
-      return new TokenNotFoundWithThisTokenFromUserError();
+      throw new TokenNotFoundWithThisTokenFromUserError();
     }
 
     const hasExpired = userToken.expires_in.getTime() < Date.now();
 
     if (hasExpired) {
-      return new TokenExpiredError();
+      throw new TokenExpiredError();
     }
 
     const accessToken = await this.encryptProvider.encrypt({

@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-import { UserAlreadyExistsWithThisEmailError } from '@domain/errors/UserAlreadyExistsWithThisEmailError';
+import { UserAlreadyExistsWithThisEmailError } from '@domain/errors';
 
 import { CreateUserUseCase } from '@data/usecases/user/CreateUser';
 
@@ -64,19 +64,21 @@ describe('CreateUserUseCase', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should return UserAlreadyExistsWithThisEmailError if already exists a user with provided email', async () => {
+  it('should throw UserAlreadyExistsWithThisEmailError if provided email is already in use', async () => {
     jest
       .spyOn(checkIfUserExistsByEmailRepositorySpy, 'checkIfExistsByEmail')
       .mockResolvedValueOnce(true);
 
-    const response = await createUserUseCase.execute({
+    const promise = createUserUseCase.execute({
       name: faker.name.findName(),
       email: faker.internet.email(),
       driver_license: faker.datatype.string(),
       password: faker.internet.password(),
     });
 
-    expect(response).toEqual(new UserAlreadyExistsWithThisEmailError());
+    await expect(promise).rejects.toBeInstanceOf(
+      UserAlreadyExistsWithThisEmailError
+    );
   });
 
   it('should call GenerateHashProvider once with correct values', async () => {

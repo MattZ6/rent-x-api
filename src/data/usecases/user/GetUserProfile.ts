@@ -9,14 +9,14 @@ export class GetUserProfileUseCase implements IGetUserProfileUseCase {
   ) {}
 
   async execute(
-    data: IGetUserProfileUseCase.Data
-  ): Promise<IGetUserProfileUseCase.Response> {
+    data: IGetUserProfileUseCase.Input
+  ): Promise<IGetUserProfileUseCase.Output> {
     const { user_id } = data;
 
     const user = await this.findUserByIdRepository.findById(user_id);
 
     if (!user) {
-      return new UserNotFoundWithThisIdError();
+      throw new UserNotFoundWithThisIdError();
     }
 
     return user;

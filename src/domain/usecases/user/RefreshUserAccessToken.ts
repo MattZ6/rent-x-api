@@ -1,21 +1,17 @@
-import { AppError } from '@domain/errors';
-
 export interface IRefreshUserAccessTokenUseCase {
   execute(
-    data: IRefreshUserAccessTokenUseCase.Data
-  ): Promise<IRefreshUserAccessTokenUseCase.Response>;
+    data: IRefreshUserAccessTokenUseCase.Input
+  ): Promise<IRefreshUserAccessTokenUseCase.Output>;
 }
 
 export namespace IRefreshUserAccessTokenUseCase {
-  export type Data = {
+  export type Input = {
     user_id: string;
     refresh_token: string;
   };
 
-  type Authentication = {
+  export type Output = {
     access_token: string;
     refresh_token: string;
   };
-
-  export type Response = Authentication | AppError;
 }

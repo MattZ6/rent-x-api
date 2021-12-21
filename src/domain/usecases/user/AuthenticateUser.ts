@@ -1,21 +1,17 @@
-import { AppError } from '@domain/errors';
-
 export interface IAuthenticateUserUseCase {
   execute(
-    data: IAuthenticateUserUseCase.Data
-  ): Promise<IAuthenticateUserUseCase.Response>;
+    data: IAuthenticateUserUseCase.Input
+  ): Promise<IAuthenticateUserUseCase.Output>;
 }
 
 export namespace IAuthenticateUserUseCase {
-  export type Data = {
+  export type Input = {
     email: string;
     password: string;
   };
 
-  type AuthenticationDTO = {
+  export type Output = {
     access_token: string;
     refresh_token: string;
   };
-
-  export type Response = AuthenticationDTO | AppError;
 }

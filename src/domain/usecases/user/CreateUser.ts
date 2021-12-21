@@ -1,17 +1,16 @@
-import { AppError } from '@domain/errors';
 import { IUser } from '@domain/models/User';
 
 export interface ICreateUserUseCase {
-  execute(data: ICreateUserUseCase.Data): Promise<ICreateUserUseCase.Response>;
+  execute(data: ICreateUserUseCase.Input): Promise<ICreateUserUseCase.Output>;
 }
 
 export namespace ICreateUserUseCase {
-  export type Data = {
+  export type Input = {
     name: string;
     email: string;
     password: string;
     driver_license: string;
   };
 
-  export type Response = IUser | AppError;
+  export type Output = IUser;
 }

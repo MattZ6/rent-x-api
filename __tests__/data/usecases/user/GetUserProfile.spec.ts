@@ -45,16 +45,16 @@ describe('GetUserProfileUseCase', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should return UserNotFoundWithThisIdError if user does not exists', async () => {
+  it('should throw UserNotFoundWithThisIdError if user does not exists', async () => {
     jest
       .spyOn(findUserByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(undefined);
 
-    const response = await getUserProfileUseCase.execute({
+    const promise = getUserProfileUseCase.execute({
       user_id: faker.datatype.uuid(),
     });
 
-    expect(response).toEqual(new UserNotFoundWithThisIdError());
+    await expect(promise).rejects.toBeInstanceOf(UserNotFoundWithThisIdError);
   });
 
   it('should return user on success', async () => {

@@ -21,14 +21,14 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
   ) {}
 
   async execute(
-    data: IAuthenticateUserUseCase.Data
-  ): Promise<IAuthenticateUserUseCase.Response> {
+    data: IAuthenticateUserUseCase.Input
+  ): Promise<IAuthenticateUserUseCase.Output> {
     const { email, password } = data;
 
     const user = await this.findUserByEmailRepository.findByEmail(email);
 
     if (!user) {
-      return new UserNotFoundWithThisEmailError();
+      throw new UserNotFoundWithThisEmailError();
     }
 
     const passwordsMatch = await this.compareHashProvider.compare({
@@ -37,7 +37,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
     });
 
     if (!passwordsMatch) {
-      return new IncorrectPassword();
+      throw new IncorrectPassword();
     }
 
     const accessToken = await this.encryptProvider.encrypt({

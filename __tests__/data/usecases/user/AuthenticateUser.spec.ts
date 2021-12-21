@@ -73,17 +73,19 @@ describe('AuthenticateUserUseCase', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should return UserNotFoundWithThisEmailError if user does not exists', async () => {
+  it('should throw UserNotFoundWithThisEmailError if user does not exists', async () => {
     jest
       .spyOn(findUserByEmailRepositorySpy, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
-    const response = await authenticateUserUseCase.execute({
+    const promise = authenticateUserUseCase.execute({
       email: faker.internet.email(),
       password: faker.internet.password(),
     });
 
-    expect(response).toEqual(new UserNotFoundWithThisEmailError());
+    await expect(promise).rejects.toBeInstanceOf(
+      UserNotFoundWithThisEmailError
+    );
   });
 
   it('should call CompareHashProvider once with correct values', async () => {
@@ -122,15 +124,15 @@ describe('AuthenticateUserUseCase', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should return IncorrectPassword if passwords does not match', async () => {
+  it('should throw IncorrectPassword if passwords does not match', async () => {
     jest.spyOn(compareHashProviderSpy, 'compare').mockResolvedValueOnce(false);
 
-    const response = await authenticateUserUseCase.execute({
+    const promise = authenticateUserUseCase.execute({
       email: faker.internet.email(),
       password: faker.internet.password(),
     });
 
-    expect(response).toEqual(new IncorrectPassword());
+    expect(promise).rejects.toBeInstanceOf(IncorrectPassword);
   });
 
   it('should call EncryptProvider once with correct values', async () => {

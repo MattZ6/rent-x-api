@@ -78,20 +78,22 @@ describe('RefreshUserAccessTokenUseCase', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should return TokenNotFoundWithThisTokenFromUserError if token does not exist', async () => {
+  it('should throw TokenNotFoundWithThisTokenFromUserError if token does not exist', async () => {
     jest
       .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
       .mockResolvedValueOnce(undefined);
 
-    const response = await refreshUserAccessTokenUseCase.execute({
+    const response = refreshUserAccessTokenUseCase.execute({
       refresh_token: faker.datatype.uuid(),
       user_id: faker.datatype.uuid(),
     });
 
-    expect(response).toEqual(new TokenNotFoundWithThisTokenFromUserError());
+    await expect(response).rejects.toBeInstanceOf(
+      TokenNotFoundWithThisTokenFromUserError
+    );
   });
 
-  it('should return TokenExpiredError if token has expired', async () => {
+  it('should throw TokenExpiredError if token has expired', async () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
@@ -100,12 +102,12 @@ describe('RefreshUserAccessTokenUseCase', () => {
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(expiresInDate.getTime() + 1);
 
-    const response = await refreshUserAccessTokenUseCase.execute({
+    const promise = refreshUserAccessTokenUseCase.execute({
       refresh_token: faker.datatype.uuid(),
       user_id: faker.datatype.uuid(),
     });
 
-    expect(response).toEqual(new TokenExpiredError());
+    await expect(promise).rejects.toBeInstanceOf(TokenExpiredError);
   });
 
   it('should call EncryptProvider once with correct values', async () => {

@@ -15,15 +15,15 @@ export class CreateUserUseCase implements ICreateUserUseCase {
   ) {}
 
   async execute(
-    data: ICreateUserUseCase.Data
-  ): Promise<ICreateUserUseCase.Response> {
+    data: ICreateUserUseCase.Input
+  ): Promise<ICreateUserUseCase.Output> {
     const { name, email, driver_license, password } = data;
 
     const alreadyExists =
       await this.checkIfUserExistsByEmailRepository.checkIfExistsByEmail(email);
 
     if (alreadyExists) {
-      return new UserAlreadyExistsWithThisEmailError();
+      throw new UserAlreadyExistsWithThisEmailError();
     }
 
     const hashedPassword = await this.generateHashProvider.hash(password);

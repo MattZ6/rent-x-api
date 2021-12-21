@@ -1,16 +1,15 @@
-import { AppError } from '@domain/errors';
 import { IUser } from '@domain/models/User';
 
 export interface IGetUserProfileUseCase {
   execute(
-    data: IGetUserProfileUseCase.Data
-  ): Promise<IGetUserProfileUseCase.Response>;
+    data: IGetUserProfileUseCase.Input
+  ): Promise<IGetUserProfileUseCase.Output>;
 }
 
 export namespace IGetUserProfileUseCase {
-  export type Data = {
+  export type Input = {
     user_id: string;
   };
 
-  export type Response = IUser | AppError;
+  export type Output = IUser;
 }
