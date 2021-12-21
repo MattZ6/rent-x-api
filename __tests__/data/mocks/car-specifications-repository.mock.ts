@@ -2,8 +2,10 @@ import { ICarSpecification } from '@domain/models/CarSpecification';
 
 import {
   CreateCarSpecificationDTO,
+  FindAllCarSpecificationsDTO,
   ICheckIfCarSpecificationExistsByNameRepository,
   ICreateCarSpecificationRepository,
+  IFindAllCarSpecificationsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
 } from '@data/protocols/repositories/specification';
@@ -49,5 +51,13 @@ export class UpdateCarSpecificationRepositorySpy
 {
   async update(data: ICarSpecification): Promise<ICarSpecification> {
     return data;
+  }
+}
+
+export class FindAllCarSpecificationsRepositorySpy
+  implements IFindAllCarSpecificationsRepository
+{
+  async findAll(_: FindAllCarSpecificationsDTO): Promise<ICarSpecification[]> {
+    return [carSpecificationMock, carSpecificationMock, carSpecificationMock];
   }
 }
