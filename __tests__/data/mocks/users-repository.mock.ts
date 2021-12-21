@@ -4,6 +4,7 @@ import {
   CreateUserRepositoryData,
   ICreateUserRepository,
   IFindUserByEmailRepository,
+  IUpdateUserRepository,
 } from '@data/protocols/repositories/user';
 import { ICheckIfUserExistsByEmailRepository } from '@data/protocols/repositories/user/CheckIfUserExistsByEmailRepository';
 import { IFindUserByIdRepository } from '@data/protocols/repositories/user/FindUserByIdRepository';
@@ -49,5 +50,11 @@ export class FindUserByIdRepositorySpy implements IFindUserByIdRepository {
     Object.assign(user, { id });
 
     return user;
+  }
+}
+
+export class UpdateUserRepositorySpy implements IUpdateUserRepository {
+  async update(data: IUser): Promise<IUser> {
+    return data;
   }
 }

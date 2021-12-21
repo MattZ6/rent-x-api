@@ -7,6 +7,7 @@ import {
   IDeleteUserTokenByIdRepository,
   IFindUserTokenByTokenFromUserRepository,
 } from '@data/protocols/repositories/user-token';
+import { IFindUserTokenByTokenRepository } from '@data/protocols/repositories/user-token/FindUserTokenByTokenRepository';
 
 import { userTokenMock } from '../../domain/models/user-token.mock';
 
@@ -45,5 +46,17 @@ export class DeleteUserTokenByIdRepositorySpy
 {
   async deleteById(_: string): Promise<void> {
     // That's all folks 🐰
+  }
+}
+
+export class FindUserTokenByTokenRepositorySpy
+  implements IFindUserTokenByTokenRepository
+{
+  async findByToken(token: string): Promise<IUserToken | undefined> {
+    const userToken = { ...userTokenMock };
+
+    Object.assign(userToken, { token });
+
+    return userToken;
   }
 }
