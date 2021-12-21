@@ -6,3 +6,5 @@ export class IncorrectPassword extends AppError {
     this.name = 'IncorrectPassword';
   }
 }
+
+IncorrectPassword.prototype = Error.prototype;

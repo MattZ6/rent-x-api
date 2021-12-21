@@ -5,3 +5,4 @@ export * from './TokenNotFoundWithThisTokenFromUserError';
 export * from './UserAlreadyExistsWithThisEmailError';
 export * from './UserNotFoundWithThisEmailError';
 export * from './UserNotFoundWithThisIdError';
+export * from './UserTokenNotFoundWithThisTokenError';
