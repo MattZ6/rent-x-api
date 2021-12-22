@@ -1,1 +1,2 @@
-export * from './CheckIfCarBrandByNameRepository';
+export * from './CheckIfCarBrandExistsByNameRepository';
+export * from './CreateCarBrandRepository';
