@@ -1,7 +1,7 @@
 import { AppError } from '.';
 
 export class CarSpecificationNotFoundWithThisIdError extends AppError {
-  constructor(message?: 'No car specifications found with the id provided.') {
+  constructor(message = 'No car specifications found with the id provided.') {
     super(message);
   }
 }
