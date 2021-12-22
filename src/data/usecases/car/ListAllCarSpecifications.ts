@@ -1,6 +1,6 @@
 import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/ListAllCarSpecifications';
 
-import { IFindAllCarSpecificationsRepository } from '@data/protocols/repositories/specification';
+import { IFindAllCarSpecificationsRepository } from '@data/protocols/repositories/car-specification';
 
 export class ListAllCarSpecificationsUseCase
   implements IListAllCarSpecificationsUseCase

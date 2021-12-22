@@ -10,7 +10,7 @@ import {
   IFindAllCarSpecificationsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
-} from '@data/protocols/repositories/specification';
+} from '@data/protocols/repositories/car-specification';
 
 import { carSpecificationMock } from '../../domain/models/car-specification.mock';
 
