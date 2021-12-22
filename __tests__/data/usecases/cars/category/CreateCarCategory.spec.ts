@@ -102,19 +102,19 @@ describe('CreateCarCategoryUseCase', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should create a car Category', async () => {
+  it('should create a car category', async () => {
     const name = faker.datatype.string();
     const description = faker.datatype.string();
 
-    const Category = await createCarCategoryUseCase.execute({
+    const category = await createCarCategoryUseCase.execute({
       name,
       description,
     });
 
-    expect(Category).toHaveProperty('id');
-    expect(Category).toHaveProperty('name', name);
-    expect(Category).toHaveProperty('description', description);
-    expect(Category).toHaveProperty('created_at');
-    expect(Category).toHaveProperty('updated_at');
+    expect(category).toHaveProperty('id');
+    expect(category).toHaveProperty('name', name);
+    expect(category).toHaveProperty('description', description);
+    expect(category).toHaveProperty('created_at');
+    expect(category).toHaveProperty('updated_at');
   });
 });

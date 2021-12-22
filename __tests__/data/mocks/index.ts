@@ -1,3 +1,4 @@
+export * from './car-brand-repository.mock';
 export * from './car-category-repository.mock';
 export * from './car-specifications-repository.mock';
 export * from './cryptography-provider.mock';
