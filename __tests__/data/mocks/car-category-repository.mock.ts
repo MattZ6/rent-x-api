@@ -2,8 +2,10 @@ import { ICarCategory } from '@domain/models/CarCategory';
 
 import {
   CreateCarCategoryDTO,
+  FindAllCarCategoriesDTO,
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
+  IFindAllCarCategoriesRepository,
   IFindCarCategoryByIdRepository,
   IUpdateCarCategoryRepository,
 } from '@data/protocols/repositories/car-category';
@@ -49,5 +51,13 @@ export class UpdateCarCategoryRepositorySpy
 {
   async update(data: ICarCategory): Promise<ICarCategory> {
     return data;
+  }
+}
+
+export class FindAllCarCategoriesRepositorySpy
+  implements IFindAllCarCategoriesRepository
+{
+  async findAll(_: FindAllCarCategoriesDTO): Promise<ICarCategory[]> {
+    return [carCategoryMock, carCategoryMock, carCategoryMock];
   }
 }
