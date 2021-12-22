@@ -3,8 +3,10 @@ import { ICarSpecification } from '@domain/models/CarSpecification';
 import {
   CreateCarSpecificationDTO,
   FindAllCarSpecificationsDTO,
+  ICheckIfCarSpecificationExistsByIdRepository,
   ICheckIfCarSpecificationExistsByNameRepository,
   ICreateCarSpecificationRepository,
+  IDeleteCarSpecificationByIdRepository,
   IFindAllCarSpecificationsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
@@ -59,5 +61,21 @@ export class FindAllCarSpecificationsRepositorySpy
 {
   async findAll(_: FindAllCarSpecificationsDTO): Promise<ICarSpecification[]> {
     return [carSpecificationMock, carSpecificationMock, carSpecificationMock];
+  }
+}
+
+export class DeleteCarSpecificationByIdRepositorySpy
+  implements IDeleteCarSpecificationByIdRepository
+{
+  async deleteById(_: string): Promise<void> {
+    // That's all folks 🥕
+  }
+}
+
+export class CheckIfCarSpecificationExistsByIdRepositorySpy
+  implements ICheckIfCarSpecificationExistsByIdRepository
+{
+  async checkIfExistsById(_: string): Promise<boolean> {
+    return true;
   }
 }
