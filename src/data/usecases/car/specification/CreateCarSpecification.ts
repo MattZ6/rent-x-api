@@ -1,5 +1,5 @@
 import { CarSpecificationAlreadyExistsWithThisNameError } from '@domain/errors';
-import { ICreateCarSpecificationUseCase } from '@domain/usecases/car/CreateCarSpecification';
+import { ICreateCarSpecificationUseCase } from '@domain/usecases/car/specification/CreateCarSpecification';
 
 import {
   ICheckIfCarSpecificationExistsByNameRepository,

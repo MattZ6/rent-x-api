@@ -2,12 +2,12 @@ import faker from 'faker';
 
 import { CarSpecificationAlreadyExistsWithThisNameError } from '@domain/errors';
 
-import { CreateCarSpecificationUseCase } from '@data/usecases/car/CreateCarSpecification';
+import { CreateCarSpecificationUseCase } from '@data/usecases/car/specification/CreateCarSpecification';
 
 import {
   CheckIfCarSpecificationExistsByNameRepositorySpy,
   CreateCarSpecificationRepositorySpy,
-} from '../../mocks';
+} from '../../../mocks';
 
 let checkIfCarSpecificationExistsByNameRepositorySpy: CheckIfCarSpecificationExistsByNameRepositorySpy;
 let createCarSpecificationRepositorySpy: CreateCarSpecificationRepositorySpy;

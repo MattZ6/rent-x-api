@@ -2,12 +2,12 @@ import faker from 'faker';
 
 import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors';
 
-import { DeleteCarSpecificationUseCase } from '@data/usecases/car/DeleteCarSpecification';
+import { DeleteCarSpecificationUseCase } from '@data/usecases/car/specification/DeleteCarSpecification';
 
 import {
   CheckIfCarSpecificationExistsByIdRepositorySpy,
   DeleteCarSpecificationByIdRepositorySpy,
-} from '../../mocks';
+} from '../../../mocks';
 
 let checkIfCarSpecificationExistsByIdRepositorySpy: CheckIfCarSpecificationExistsByIdRepositorySpy;
 let deleteCarSpecificationByIdRepositorySpy: DeleteCarSpecificationByIdRepositorySpy;

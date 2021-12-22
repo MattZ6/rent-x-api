@@ -1,6 +1,6 @@
-import { AppError } from '@domain/errors';
+import { DomainError } from '@domain/errors';
 
-export class CarCategoryAlreadyExistsWithThisNameError extends AppError {
+export class CarCategoryAlreadyExistsWithThisNameError extends DomainError {
   constructor(
     message = 'There is already a registered car category with this name.'
   ) {

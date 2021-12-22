@@ -1,5 +1,5 @@
 import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors';
-import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/DeleteCarSpecification';
+import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/specification/DeleteCarSpecification';
 
 import {
   ICheckIfCarSpecificationExistsByIdRepository,

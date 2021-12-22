@@ -1,16 +1,18 @@
 import faker from 'faker';
 
-import { CarSpecificationAlreadyExistsWithThisNameError } from '@domain/errors';
-import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors/CarSpecificationNotFoundWithThisIdError';
+import {
+  CarSpecificationAlreadyExistsWithThisNameError,
+  CarSpecificationNotFoundWithThisIdError,
+} from '@domain/errors';
 
-import { UpdateCarSpecificationUseCase } from '@data/usecases/car/UpdateCarSpecification';
+import { UpdateCarSpecificationUseCase } from '@data/usecases/car/specification/UpdateCarSpecification';
 
-import { carSpecificationMock } from '../../../domain/models/car-specification.mock';
+import { carSpecificationMock } from '../../../../domain/models/car-specification.mock';
 import {
   CheckIfCarSpecificationExistsByNameRepositorySpy,
   FindCarSpecificationByIdRepositorySpy,
   UpdateCarSpecificationRepositorySpy,
-} from '../../mocks';
+} from '../../../mocks';
 
 let findCarSpecificationByIdRepositorySpy: FindCarSpecificationByIdRepositorySpy;
 let checkIfCarSpecificationExistsByNameRepositorySpy: CheckIfCarSpecificationExistsByNameRepositorySpy;

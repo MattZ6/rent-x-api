@@ -1,9 +1,9 @@
 import faker from 'faker';
 
-import { ListAllCarSpecificationsUseCase } from '@data/usecases/car/ListAllCarSpecifications';
+import { ListAllCarSpecificationsUseCase } from '@data/usecases/car/specification/ListAllCarSpecifications';
 
-import { carSpecificationMock } from '../../../domain/models/car-specification.mock';
-import { FindAllCarSpecificationsRepositorySpy } from '../../mocks';
+import { carSpecificationMock } from '../../../../domain/models/car-specification.mock';
+import { FindAllCarSpecificationsRepositorySpy } from '../../../mocks';
 
 const defaultLimit = faker.datatype.number({ min: 1, max: 100 });
 const defaultPage = faker.datatype.number({ min: 1, max: 50 });
