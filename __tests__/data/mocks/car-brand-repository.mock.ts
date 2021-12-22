@@ -4,6 +4,8 @@ import {
   CreateCarBrandDTO,
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
+  IFindCarBrandByIdRepository,
+  IUpdateCarBrandRepository,
 } from '@data/protocols/repositories/car-brand';
 
 import { carBrandMock } from '../../domain/models/car-brand.mock';
@@ -25,5 +27,23 @@ export class CreateCarBrandRepositorySpy implements ICreateCarBrandRepository {
     Object.assign(brand, { name });
 
     return brand;
+  }
+}
+
+export class FindCarBrandByIdRepositorySpy
+  implements IFindCarBrandByIdRepository
+{
+  async findById(id: string): Promise<ICarBrand | undefined> {
+    const brand = { ...carBrandMock };
+
+    Object.assign(brand, { id });
+
+    return brand;
+  }
+}
+
+export class UpdateCarBrandRepositorySpy implements IUpdateCarBrandRepository {
+  async update(data: ICarBrand): Promise<ICarBrand> {
+    return data;
   }
 }
