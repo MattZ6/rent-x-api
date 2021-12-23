@@ -8,6 +8,7 @@ import {
   ICreateCarSpecificationRepository,
   IDeleteCarSpecificationByIdRepository,
   IFindAllCarSpecificationsRepository,
+  IFindAllSpecificationsByIdsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
 } from '@data/protocols/repositories/car-specification';
@@ -77,5 +78,13 @@ export class CheckIfCarSpecificationExistsByIdRepositorySpy
 {
   async checkIfExistsById(_: string): Promise<boolean> {
     return true;
+  }
+}
+
+export class FindAllSpecificationsByIdsRepositorySpy
+  implements IFindAllSpecificationsByIdsRepository
+{
+  async findAllByIds(_: string[]): Promise<ICarSpecification[]> {
+    return [carSpecificationMock, carSpecificationMock];
   }
 }

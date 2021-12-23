@@ -3,6 +3,7 @@ import { ICarCategory } from '@domain/models/CarCategory';
 import {
   CreateCarCategoryDTO,
   FindAllCarCategoriesDTO,
+  ICheckIfCarCategoryExistsByIdRepository,
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
   IFindAllCarCategoriesRepository,
@@ -59,5 +60,13 @@ export class FindAllCarCategoriesRepositorySpy
 {
   async findAll(_: FindAllCarCategoriesDTO): Promise<ICarCategory[]> {
     return [carCategoryMock, carCategoryMock, carCategoryMock];
+  }
+}
+
+export class CheckIfCarCategoryExistsByIdRepositorySpy
+  implements ICheckIfCarCategoryExistsByIdRepository
+{
+  async checkIfExistsById(name_: string): Promise<boolean> {
+    return true;
   }
 }

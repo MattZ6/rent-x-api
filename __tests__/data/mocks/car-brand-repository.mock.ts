@@ -2,6 +2,7 @@ import { ICarBrand } from '@domain/models/CarBrand';
 
 import {
   CreateCarBrandDTO,
+  ICheckIfCarBrandExistsByIdRepository,
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
   IFindCarBrandByIdRepository,
@@ -45,5 +46,13 @@ export class FindCarBrandByIdRepositorySpy
 export class UpdateCarBrandRepositorySpy implements IUpdateCarBrandRepository {
   async update(data: ICarBrand): Promise<ICarBrand> {
     return data;
+  }
+}
+
+export class CheckIfCarBrandExistsByIdRepositorySpy
+  implements ICheckIfCarBrandExistsByIdRepository
+{
+  async checkIfExistsById(_: string): Promise<boolean> {
+    return true;
   }
 }
