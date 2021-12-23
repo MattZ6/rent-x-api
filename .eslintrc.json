@@ -63,6 +63,7 @@
           "module",
           "/^@domain/",
           "/^@data/",
+          "/^@presentation/",
           "/^@utils/",
           "/^@config/",
           "/^@modules/",

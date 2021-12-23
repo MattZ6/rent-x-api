@@ -8,6 +8,7 @@
     "paths": {
       "@domain/*": ["domain/*"],
       "@data/*": ["data/*"],
+      "@presentation/*": ["presentation/*"],
       "@config/*": ["config/*"],
       "@modules/*": ["modules/*"],
       "@shared/*": ["shared/*"],
