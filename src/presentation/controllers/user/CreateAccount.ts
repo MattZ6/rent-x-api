@@ -17,14 +17,14 @@ class CreateAccountController implements IController {
     try {
       const { name, driver_license, email, password } = request.body;
 
-      const user = await this.createUserUseCase.execute({
+      await this.createUserUseCase.execute({
         name,
         driver_license,
         email,
         password,
       });
 
-      return created(user);
+      return created<void>();
     } catch (error) {
       if (error instanceof UserAlreadyExistsWithThisEmailError) {
         return conflict(error);

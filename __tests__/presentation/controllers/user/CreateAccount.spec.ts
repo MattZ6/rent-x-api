@@ -73,6 +73,6 @@ describe('CreateAccountController', () => {
       createAccountControllerRequest
     );
 
-    expect(response).toEqual(created(userMock));
+    expect(response).toEqual(created<void>());
   });
 });
