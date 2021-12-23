@@ -54,7 +54,7 @@ describe('CreateAccountController', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should return conflict (409) if CreateUseUseCase throws UserAlreadyExistsWithThisEmailError', async () => {
+  it('should return conflict (409) if CreateUserUseCase throws UserAlreadyExistsWithThisEmailError', async () => {
     const error = new UserAlreadyExistsWithThisEmailError();
 
     jest.spyOn(createUserUseCaseSpy, 'execute').mockRejectedValueOnce(error);
