@@ -6,7 +6,6 @@ export interface IRefreshUserAccessTokenUseCase {
 
 export namespace IRefreshUserAccessTokenUseCase {
   export type Input = {
-    user_id: string;
     refresh_token: string;
   };
 

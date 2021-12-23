@@ -2,7 +2,7 @@ import faker from 'faker';
 
 import {
   TokenExpiredError,
-  TokenNotFoundWithThisTokenFromUserError,
+  UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
 
 import { RefreshUserAccessTokenUseCase } from '@data/usecases/user/RefreshUserAccessToken';
@@ -12,11 +12,11 @@ import {
   CreateUserTokenRepositorySpy,
   DeleteUserTokenByIdRepositorySpy,
   EncryptProviderSpy,
-  FindUserTokenByTokenFromUserRepositorySpy,
+  FindUserTokenByTokenRepositorySpy,
   GenerateUuidProviderSpy,
 } from '../../mocks';
 
-let findUserTokenByTokenFromUserRepositorySpy: FindUserTokenByTokenFromUserRepositorySpy;
+let findUserTokenByTokenRepositorySpy: FindUserTokenByTokenRepositorySpy;
 let encryptProviderSpy: EncryptProviderSpy;
 let generateUuidProviderSpy: GenerateUuidProviderSpy;
 const refreshTokenExpiresTimeInMillisseconds = 1 * 24 * 60 * 60 * 1000;
@@ -27,15 +27,14 @@ let refreshUserAccessTokenUseCase: RefreshUserAccessTokenUseCase;
 
 describe('RefreshUserAccessTokenUseCase', () => {
   beforeEach(() => {
-    findUserTokenByTokenFromUserRepositorySpy =
-      new FindUserTokenByTokenFromUserRepositorySpy();
+    findUserTokenByTokenRepositorySpy = new FindUserTokenByTokenRepositorySpy();
     encryptProviderSpy = new EncryptProviderSpy();
     generateUuidProviderSpy = new GenerateUuidProviderSpy();
     createUserTokenRepositorySpy = new CreateUserTokenRepositorySpy();
     deleteUserTokenByIdRepositorySpy = new DeleteUserTokenByIdRepositorySpy();
 
     refreshUserAccessTokenUseCase = new RefreshUserAccessTokenUseCase(
-      findUserTokenByTokenFromUserRepositorySpy,
+      findUserTokenByTokenRepositorySpy,
       encryptProviderSpy,
       generateUuidProviderSpy,
       refreshTokenExpiresTimeInMillisseconds,
@@ -44,52 +43,45 @@ describe('RefreshUserAccessTokenUseCase', () => {
     );
   });
 
-  it('should call FindUserTokenByTokenFromUserRepository once with correct values', async () => {
-    const findByTokenFromUserSpy = jest.spyOn(
-      findUserTokenByTokenFromUserRepositorySpy,
-      'findByTokenFromUser'
+  it('should call FindUserTokenByTokenRepository once with correct values', async () => {
+    const findByTokenSpy = jest.spyOn(
+      findUserTokenByTokenRepositorySpy,
+      'findByToken'
     );
 
     const refreshToken = faker.datatype.uuid();
-    const userId = faker.datatype.uuid();
 
     await refreshUserAccessTokenUseCase.execute({
       refresh_token: refreshToken,
-      user_id: userId,
     });
 
-    expect(findByTokenFromUserSpy).toHaveBeenCalledTimes(1);
-    expect(findByTokenFromUserSpy).toHaveBeenCalledWith({
-      user_id: userId,
-      token: refreshToken,
-    });
+    expect(findByTokenSpy).toHaveBeenCalledTimes(1);
+    expect(findByTokenSpy).toHaveBeenCalledWith(refreshToken);
   });
 
-  it('should throw if FindUserTokenByTokenFromUserRepository throws', async () => {
+  it('should throw if FindUserTokenByTokenRepository throws', async () => {
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockRejectedValueOnce(new Error());
 
     const promise = refreshUserAccessTokenUseCase.execute({
       refresh_token: faker.datatype.uuid(),
-      user_id: faker.datatype.uuid(),
     });
 
     await expect(promise).rejects.toThrow();
   });
 
-  it('should throw TokenNotFoundWithThisTokenFromUserError if token does not exist', async () => {
+  it('should throw UserTokenNotFoundWithThisTokenError if token does not exist', async () => {
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce(undefined);
 
     const response = refreshUserAccessTokenUseCase.execute({
       refresh_token: faker.datatype.uuid(),
-      user_id: faker.datatype.uuid(),
     });
 
     await expect(response).rejects.toBeInstanceOf(
-      TokenNotFoundWithThisTokenFromUserError
+      UserTokenNotFoundWithThisTokenError
     );
   });
 
@@ -97,14 +89,13 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({ ...userTokenMock, expires_in: expiresInDate });
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(expiresInDate.getTime() + 1);
 
     const promise = refreshUserAccessTokenUseCase.execute({
       refresh_token: faker.datatype.uuid(),
-      user_id: faker.datatype.uuid(),
     });
 
     await expect(promise).rejects.toBeInstanceOf(TokenExpiredError);
@@ -114,23 +105,20 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({ ...userTokenMock, expires_in: expiresInDate });
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(expiresInDate.getTime());
 
     const encryptSpy = jest.spyOn(encryptProviderSpy, 'encrypt');
 
-    const userId = faker.datatype.uuid();
-
     await refreshUserAccessTokenUseCase.execute({
-      user_id: userId,
       refresh_token: faker.datatype.uuid(),
     });
 
     expect(encryptSpy).toHaveBeenCalledTimes(1);
     expect(encryptSpy).toHaveBeenCalledWith({
-      value: userId,
+      value: userTokenMock.user_id,
     });
   });
 
@@ -138,7 +126,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({ ...userTokenMock, expires_in: expiresInDate });
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(expiresInDate.getTime());
@@ -148,7 +136,6 @@ describe('RefreshUserAccessTokenUseCase', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = refreshUserAccessTokenUseCase.execute({
-      user_id: faker.datatype.uuid(),
       refresh_token: faker.datatype.uuid(),
     });
 
@@ -159,7 +146,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({ ...userTokenMock, expires_in: expiresInDate });
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(expiresInDate.getTime());
@@ -167,7 +154,6 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const generateSpy = jest.spyOn(generateUuidProviderSpy, 'generate');
 
     await refreshUserAccessTokenUseCase.execute({
-      user_id: faker.datatype.uuid(),
       refresh_token: faker.datatype.uuid(),
     });
 
@@ -178,7 +164,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({ ...userTokenMock, expires_in: expiresInDate });
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(expiresInDate.getTime());
@@ -188,7 +174,6 @@ describe('RefreshUserAccessTokenUseCase', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = refreshUserAccessTokenUseCase.execute({
-      user_id: faker.datatype.uuid(),
       refresh_token: faker.datatype.uuid(),
     });
 
@@ -199,7 +184,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const tokenExpiresInDate = faker.datatype.datetime();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({
         ...userTokenMock,
         expires_in: tokenExpiresInDate,
@@ -220,10 +205,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
 
     const createSpy = jest.spyOn(createUserTokenRepositorySpy, 'create');
 
-    const userId = faker.datatype.uuid();
-
     await refreshUserAccessTokenUseCase.execute({
-      user_id: userId,
       refresh_token: faker.datatype.uuid(),
     });
 
@@ -234,7 +216,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({
       token,
-      user_id: userId,
+      user_id: userTokenMock.user_id,
       expires_in: expiresIn,
     });
   });
@@ -243,7 +225,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({ ...userTokenMock, expires_in: expiresInDate });
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(expiresInDate.getTime());
@@ -253,7 +235,6 @@ describe('RefreshUserAccessTokenUseCase', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = refreshUserAccessTokenUseCase.execute({
-      user_id: faker.datatype.uuid(),
       refresh_token: faker.datatype.uuid(),
     });
 
@@ -265,7 +246,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const userTokenId = faker.datatype.uuid();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({
         ...userTokenMock,
         expires_in: expiresInDate,
@@ -280,7 +261,6 @@ describe('RefreshUserAccessTokenUseCase', () => {
     );
 
     await refreshUserAccessTokenUseCase.execute({
-      user_id: faker.datatype.uuid(),
       refresh_token: faker.datatype.uuid(),
     });
 
@@ -292,7 +272,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({ ...userTokenMock, expires_in: expiresInDate });
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(expiresInDate.getTime());
@@ -302,7 +282,6 @@ describe('RefreshUserAccessTokenUseCase', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = refreshUserAccessTokenUseCase.execute({
-      user_id: faker.datatype.uuid(),
       refresh_token: faker.datatype.uuid(),
     });
 
@@ -313,7 +292,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
-      .spyOn(findUserTokenByTokenFromUserRepositorySpy, 'findByTokenFromUser')
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce({ ...userTokenMock, expires_in: expiresInDate });
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(expiresInDate.getTime());
@@ -329,7 +308,6 @@ describe('RefreshUserAccessTokenUseCase', () => {
       .mockResolvedValueOnce(refreshToken);
 
     const response = await refreshUserAccessTokenUseCase.execute({
-      user_id: faker.datatype.uuid(),
       refresh_token: faker.datatype.uuid(),
     });
 

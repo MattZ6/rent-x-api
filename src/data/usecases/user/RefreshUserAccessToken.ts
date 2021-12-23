@@ -1,6 +1,6 @@
 import {
   TokenExpiredError,
-  TokenNotFoundWithThisTokenFromUserError,
+  UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
 import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshUserAccessToken';
 
@@ -9,14 +9,14 @@ import { IGenerateUuidProvider } from '@data/protocols/providers/uuid';
 import {
   ICreateUserTokenRepository,
   IDeleteUserTokenByIdRepository,
-  IFindUserTokenByTokenFromUserRepository,
+  IFindUserTokenByTokenRepository,
 } from '@data/protocols/repositories/user-token';
 
 export class RefreshUserAccessTokenUseCase
   implements IRefreshUserAccessTokenUseCase
 {
   constructor(
-    private readonly findUserTokenByTokenFromUser: IFindUserTokenByTokenFromUserRepository,
+    private readonly findUserTokenByTokenRepository: IFindUserTokenByTokenRepository,
     private readonly encryptProvider: IEncryptProvider,
     private readonly generateUuidProvider: IGenerateUuidProvider,
     private readonly refreshTokenExpiresTimeInMillisseconds: number,
@@ -27,16 +27,14 @@ export class RefreshUserAccessTokenUseCase
   async execute(
     data: IRefreshUserAccessTokenUseCase.Input
   ): Promise<IRefreshUserAccessTokenUseCase.Output> {
-    const { refresh_token, user_id } = data;
+    const { refresh_token } = data;
 
-    const userToken =
-      await this.findUserTokenByTokenFromUser.findByTokenFromUser({
-        token: refresh_token,
-        user_id,
-      });
+    const userToken = await this.findUserTokenByTokenRepository.findByToken(
+      refresh_token
+    );
 
     if (!userToken) {
-      throw new TokenNotFoundWithThisTokenFromUserError();
+      throw new UserTokenNotFoundWithThisTokenError();
     }
 
     const hasExpired = userToken.expires_in.getTime() < Date.now();
@@ -46,7 +44,7 @@ export class RefreshUserAccessTokenUseCase
     }
 
     const accessToken = await this.encryptProvider.encrypt({
-      value: user_id,
+      value: userToken.user_id,
     });
 
     const refreshToken = await this.generateUuidProvider.generate();
@@ -57,7 +55,7 @@ export class RefreshUserAccessTokenUseCase
 
     await this.createUserTokenRepository.create({
       token: refreshToken,
-      user_id,
+      user_id: userToken.user_id,
       expires_in: expiresIn,
     });
 
