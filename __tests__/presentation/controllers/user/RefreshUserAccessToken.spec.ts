@@ -4,9 +4,14 @@ import {
   TokenExpiredError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
+import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshUserAccessToken';
 
 import { RefreshUserAccessTokenController } from '@presentation/controllers/user/RefreshUserAccessToken';
-import { notFound, unprocessableEntity } from '@presentation/helpers/http/http';
+import {
+  notFound,
+  ok,
+  unprocessableEntity,
+} from '@presentation/helpers/http/http';
 
 import { RefreshUserAccessTokenUseCaseSpy } from '../../mocks';
 
@@ -79,5 +84,22 @@ describe('RefreshUserAccessTokenController', () => {
     );
 
     expect(response).toEqual(unprocessableEntity(error));
+  });
+
+  it('should return ok (200) on success', async () => {
+    const authentication: IRefreshUserAccessTokenUseCase.Output = {
+      access_token: faker.datatype.string(),
+      refresh_token: faker.datatype.string(),
+    };
+
+    jest
+      .spyOn(refreshUserAccessTokenUseCaseSpy, 'execute')
+      .mockResolvedValueOnce(authentication);
+
+    const response = await refreshUserAccessTokenController.handle(
+      refreshUserAccessTokenControllerRequest
+    );
+
+    expect(response).toEqual(ok(authentication));
   });
 });
