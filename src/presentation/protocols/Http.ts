@@ -3,7 +3,8 @@ export interface IHttpRespose<B = any> {
   body?: B;
 }
 
-export interface IHttpRequest<B = any> {
+export interface IHttpRequest<B = any, P = any> {
   user_id?: string;
   body?: B;
+  params?: P;
 }
