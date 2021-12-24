@@ -285,7 +285,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
       refresh_token: faker.datatype.uuid(),
     });
 
-    expect(promise).rejects.toThrow();
+    await expect(promise).rejects.toThrow();
   });
 
   it('should return access token and refresh token on success', async () => {

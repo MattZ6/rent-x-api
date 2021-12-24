@@ -176,7 +176,7 @@ describe('ResetUserPasswordUseCase', () => {
       new_password: faker.internet.password(),
     });
 
-    expect(promise).rejects.toThrow();
+    await expect(promise).rejects.toThrow();
   });
 
   it('should call UpdateUserRepository once with correct values', async () => {
@@ -214,7 +214,7 @@ describe('ResetUserPasswordUseCase', () => {
       new_password: faker.internet.password(),
     });
 
-    expect(promise).rejects.toThrow();
+    await expect(promise).rejects.toThrow();
   });
 
   it('should call DeleteUserTokenByIdRepository once with correct values', async () => {
@@ -248,7 +248,7 @@ describe('ResetUserPasswordUseCase', () => {
       new_password: faker.internet.password(),
     });
 
-    expect(promise).rejects.toThrow();
+    await expect(promise).rejects.toThrow();
   });
 
   it('should update user password', async () => {

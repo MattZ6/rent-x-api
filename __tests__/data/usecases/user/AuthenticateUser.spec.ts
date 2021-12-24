@@ -132,7 +132,7 @@ describe('AuthenticateUserUseCase', () => {
       password: faker.internet.password(),
     });
 
-    expect(promise).rejects.toBeInstanceOf(IncorrectPassword);
+    await expect(promise).rejects.toBeInstanceOf(IncorrectPassword);
   });
 
   it('should call EncryptProvider once with correct values', async () => {
