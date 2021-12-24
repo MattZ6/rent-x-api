@@ -5,10 +5,5 @@ export class CarBrandAlreadyExistsWithThisNameError extends DomainError {
     message = 'There is already a registered car brand with this name.'
   ) {
     super(message);
-
-    Object.setPrototypeOf(
-      this,
-      CarBrandAlreadyExistsWithThisNameError.prototype
-    );
   }
 }
