@@ -6,17 +6,17 @@ export class ListAllCarSpecificationsUseCase
   implements IListAllCarSpecificationsUseCase
 {
   constructor(
-    private readonly defaultLimit: number,
-    private readonly defaultPage: number,
     private readonly findAllCarSpecificationsRepository: IFindAllCarSpecificationsRepository
   ) {}
 
   async execute(
-    data?: IListAllCarSpecificationsUseCase.Input
+    data: IListAllCarSpecificationsUseCase.Input
   ): Promise<IListAllCarSpecificationsUseCase.Output> {
-    const { limit = this.defaultLimit, page = this.defaultPage } = data ?? {};
+    const { order_by, order, limit, page } = data;
 
     return this.findAllCarSpecificationsRepository.findAll({
+      order_by,
+      order,
       take: limit,
       skip: page * limit,
     });

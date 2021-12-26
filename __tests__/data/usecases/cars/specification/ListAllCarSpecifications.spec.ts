@@ -1,15 +1,23 @@
 import faker from 'faker';
 
+import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAllCarSpecifications';
+
 import { ListAllCarSpecificationsUseCase } from '@data/usecases/car/specification/ListAllCarSpecifications';
 
 import { carSpecificationMock } from '../../../../domain/models/car-specification.mock';
 import { FindAllCarSpecificationsRepositorySpy } from '../../../mocks';
 
-const defaultLimit = faker.datatype.number({ min: 1, max: 100 });
-const defaultPage = faker.datatype.number({ min: 1, max: 50 });
 let findAllCarSpecificationsRepositorySpy: FindAllCarSpecificationsRepositorySpy;
 
 let listAllCarSpecificationsUseCase: ListAllCarSpecificationsUseCase;
+
+const listAllCarSpecificationsUseCaseInput: IListAllCarSpecificationsUseCase.Input =
+  {
+    order_by: 'created_at',
+    order: 'DESC',
+    limit: faker.datatype.number({ min: 1, max: 100 }),
+    page: faker.datatype.number({ min: 1, max: 30 }),
+  };
 
 describe('ListAllCarSpecificationsUseCase', () => {
   beforeEach(() => {
@@ -17,8 +25,6 @@ describe('ListAllCarSpecificationsUseCase', () => {
       new FindAllCarSpecificationsRepositorySpy();
 
     listAllCarSpecificationsUseCase = new ListAllCarSpecificationsUseCase(
-      defaultLimit,
-      defaultPage,
       findAllCarSpecificationsRepositorySpy
     );
   });
@@ -29,18 +35,18 @@ describe('ListAllCarSpecificationsUseCase', () => {
       'findAll'
     );
 
-    const limit = faker.datatype.number({ min: 1, max: 100 });
-    const page = faker.datatype.number({ min: 1, max: 30 });
-
-    await listAllCarSpecificationsUseCase.execute({
-      limit,
-      page,
-    });
+    await listAllCarSpecificationsUseCase.execute(
+      listAllCarSpecificationsUseCaseInput
+    );
 
     expect(findAllSpy).toHaveBeenCalledTimes(1);
     expect(findAllSpy).toHaveBeenCalledWith({
-      take: limit,
-      skip: page * limit,
+      order_by: listAllCarSpecificationsUseCaseInput.order_by,
+      order: listAllCarSpecificationsUseCaseInput.order,
+      take: listAllCarSpecificationsUseCaseInput.limit,
+      skip:
+        listAllCarSpecificationsUseCaseInput.page *
+        listAllCarSpecificationsUseCaseInput.limit,
     });
   });
 
@@ -49,27 +55,11 @@ describe('ListAllCarSpecificationsUseCase', () => {
       .spyOn(findAllCarSpecificationsRepositorySpy, 'findAll')
       .mockRejectedValueOnce(new Error());
 
-    const promise = listAllCarSpecificationsUseCase.execute({
-      limit: faker.datatype.number({ min: 1, max: 100 }),
-      page: faker.datatype.number({ min: 1, max: 30 }),
-    });
-
-    await expect(promise).rejects.toThrow();
-  });
-
-  it('should call FindAllCarSpecificationsRepository with default limit and page values if not provided', async () => {
-    const findAllSpy = jest.spyOn(
-      findAllCarSpecificationsRepositorySpy,
-      'findAll'
+    const promise = listAllCarSpecificationsUseCase.execute(
+      listAllCarSpecificationsUseCaseInput
     );
 
-    await listAllCarSpecificationsUseCase.execute();
-
-    expect(findAllSpy).toHaveBeenCalledTimes(1);
-    expect(findAllSpy).toHaveBeenCalledWith({
-      take: defaultLimit,
-      skip: defaultPage * defaultLimit,
-    });
+    await expect(promise).rejects.toThrow();
   });
 
   it('should return car specifications', async () => {
@@ -79,10 +69,9 @@ describe('ListAllCarSpecificationsUseCase', () => {
       .spyOn(findAllCarSpecificationsRepositorySpy, 'findAll')
       .mockResolvedValueOnce(specificationsMock);
 
-    const specifications = await listAllCarSpecificationsUseCase.execute({
-      limit: faker.datatype.number({ min: 1, max: 100 }),
-      page: faker.datatype.number({ min: 1, max: 30 }),
-    });
+    const specifications = await listAllCarSpecificationsUseCase.execute(
+      listAllCarSpecificationsUseCaseInput
+    );
 
     expect(specifications).toEqual(specificationsMock);
   });
