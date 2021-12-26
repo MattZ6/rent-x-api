@@ -1,4 +1,5 @@
 export * from './authenticate-user-usecase.mock';
+export * from './create-car-category-usecase.mock';
 export * from './create-car-specification-usecase.mock';
 export * from './create-user-usecase.mock';
 export * from './delete-car-specification-usecase.mock';
