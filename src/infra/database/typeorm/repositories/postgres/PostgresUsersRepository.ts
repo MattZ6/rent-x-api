@@ -6,12 +6,16 @@ import {
   CreateUserRepositoryData,
   ICheckIfUserExistsByEmailRepository,
   ICreateUserRepository,
+  IFindUserByIdRepository,
 } from '@data/protocols/repositories/user';
 
 import { User } from '../../entities/User';
 
 export class PostgresUsersRepository
-  implements ICheckIfUserExistsByEmailRepository, ICreateUserRepository
+  implements
+    ICheckIfUserExistsByEmailRepository,
+    ICreateUserRepository,
+    IFindUserByIdRepository
 {
   private repository: Repository<User>;
 
@@ -42,5 +46,9 @@ export class PostgresUsersRepository
     });
 
     return this.repository.save(user);
+  }
+
+  async findById(id: string): Promise<IUser | undefined> {
+    return this.repository.findOne(id);
   }
 }
