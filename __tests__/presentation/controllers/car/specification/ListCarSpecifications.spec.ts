@@ -91,16 +91,16 @@ describe('ListCarSpecificationsController', () => {
   });
 
   it('should return ok (200) on success', async () => {
-    const carSpecificatios = [carSpecificationMock, carSpecificationMock];
+    const carSpecifications = [carSpecificationMock, carSpecificationMock];
 
     jest
       .spyOn(listAllCarSpecificationsUseCaseSpy, 'execute')
-      .mockResolvedValueOnce(carSpecificatios);
+      .mockResolvedValueOnce(carSpecifications);
 
     const response = await listCarSpecificationsController.handle(
       listCarSpecificationsControllerRequest
     );
 
-    expect(response).toEqual(ok(carSpecificatios));
+    expect(response).toEqual(ok(carSpecifications));
   });
 });
