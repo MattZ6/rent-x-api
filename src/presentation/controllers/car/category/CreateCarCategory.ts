@@ -5,7 +5,7 @@ import { conflict, created } from '@presentation/helpers/http/http';
 import {
   IController,
   IHttpRequest,
-  IHttpRespose,
+  IHttpResponse,
 } from '@presentation/protocols';
 
 class CreateCarCategoryController implements IController {
@@ -43,7 +43,7 @@ namespace CreateCarCategoryController {
 
   export type Request = IHttpRequest<CreateCarCategoryBodyRequest>;
 
-  export type Response = IHttpRespose;
+  export type Response = IHttpResponse;
 }
 
 export { CreateCarCategoryController };

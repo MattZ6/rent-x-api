@@ -5,7 +5,7 @@ import { conflict, created } from '@presentation/helpers/http/http';
 import {
   IController,
   IHttpRequest,
-  IHttpRespose,
+  IHttpResponse,
 } from '@presentation/protocols';
 
 class CreateAccountController implements IController {
@@ -45,7 +45,7 @@ type CreateAccountBodyRequest = {
 namespace CreateAccountController {
   export type Request = IHttpRequest<CreateAccountBodyRequest>;
 
-  export type Response = IHttpRespose;
+  export type Response = IHttpResponse;
 }
 
 export { CreateAccountController };

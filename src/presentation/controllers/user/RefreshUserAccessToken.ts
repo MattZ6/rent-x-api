@@ -12,7 +12,7 @@ import {
 import {
   IController,
   IHttpRequest,
-  IHttpRespose,
+  IHttpResponse,
 } from '@presentation/protocols';
 
 class RefreshUserAccessTokenController implements IController {
@@ -52,7 +52,7 @@ namespace RefreshUserAccessTokenController {
 
   export type Request = IHttpRequest<RefreshUserAccessTokenBodyRequest>;
 
-  export type Response = IHttpRespose;
+  export type Response = IHttpResponse;
 }
 
 export { RefreshUserAccessTokenController };

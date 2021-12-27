@@ -8,7 +8,7 @@ import { conflict, noContent, notFound } from '@presentation/helpers/http/http';
 import {
   IController,
   IHttpRequest,
-  IHttpRespose,
+  IHttpResponse,
 } from '@presentation/protocols';
 
 class UpdateCarCategoryController implements IController {
@@ -59,7 +59,7 @@ namespace UpdateCarCategoryController {
     UpdateCarCategoryParamsRequest
   >;
 
-  export type Response = IHttpRespose;
+  export type Response = IHttpResponse;
 }
 
 export { UpdateCarCategoryController };

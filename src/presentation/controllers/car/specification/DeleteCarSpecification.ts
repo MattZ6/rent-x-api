@@ -5,7 +5,7 @@ import { noContent, notFound } from '@presentation/helpers/http/http';
 import {
   IController,
   IHttpRequest,
-  IHttpRespose,
+  IHttpResponse,
 } from '@presentation/protocols';
 
 class DeleteCarSpecificationController implements IController {
@@ -39,7 +39,7 @@ namespace DeleteCarSpecificationController {
 
   export type Request = IHttpRequest<void, DeleteCarSpecificationParamRequest>;
 
-  export type Response = IHttpRespose;
+  export type Response = IHttpResponse;
 }
 
 export { DeleteCarSpecificationController };

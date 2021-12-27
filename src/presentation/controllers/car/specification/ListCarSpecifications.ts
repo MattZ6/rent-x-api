@@ -4,7 +4,7 @@ import { ok } from '@presentation/helpers/http/http';
 import {
   IController,
   IHttpRequest,
-  IHttpRespose,
+  IHttpResponse,
 } from '@presentation/protocols';
 
 class ListCarSpecificationsController implements IController {
@@ -51,7 +51,7 @@ namespace ListCarSpecificationsController {
     ListCarSpecificationsQueryParamsRequest
   >;
 
-  export type Response = IHttpRespose;
+  export type Response = IHttpResponse;
 }
 
 export { ListCarSpecificationsController };

@@ -12,7 +12,7 @@ import {
 import {
   IController,
   IHttpRequest,
-  IHttpRespose,
+  IHttpResponse,
 } from '@presentation/protocols';
 
 class AuthenticateUserController implements IController {
@@ -54,7 +54,7 @@ type AuthenticateUserBodyRequest = {
 namespace AuthenticateUserController {
   export type Request = IHttpRequest<AuthenticateUserBodyRequest>;
 
-  export type Response = IHttpRespose;
+  export type Response = IHttpResponse;
 }
 
 export { AuthenticateUserController };
