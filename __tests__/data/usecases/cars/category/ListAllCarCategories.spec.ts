@@ -1,23 +1,28 @@
 import faker from 'faker';
 
+import { IListAllCarCategoriesUseCase } from '@domain/usecases/car/category/ListAllCarCategories';
+
 import { ListAllCarCategoriesUseCase } from '@data/usecases/car/category/ListAllCarCategories';
 
 import { carCategoryMock } from '../../../../domain/models/car-category.mock';
 import { FindAllCarCategoriesRepositorySpy } from '../../../mocks';
 
-const defaultLimit = faker.datatype.number({ min: 1, max: 100 });
-const defaultPage = faker.datatype.number({ min: 1, max: 50 });
 let findAllCarCategoriesRepositorySpy: FindAllCarCategoriesRepositorySpy;
 
 let listAllCarCategoriesUseCase: ListAllCarCategoriesUseCase;
+
+const listAllCarCategoriesUseCaseInput: IListAllCarCategoriesUseCase.Input = {
+  order_by: faker.random.arrayElement(['name', 'created_at']),
+  order: faker.random.arrayElement(['ASC', 'DESC']),
+  limit: faker.datatype.number({ min: 1, max: 100 }),
+  page: faker.datatype.number({ min: 1, max: 30 }),
+};
 
 describe('ListAllCarCategoriesUseCase', () => {
   beforeEach(() => {
     findAllCarCategoriesRepositorySpy = new FindAllCarCategoriesRepositorySpy();
 
     listAllCarCategoriesUseCase = new ListAllCarCategoriesUseCase(
-      defaultLimit,
-      defaultPage,
       findAllCarCategoriesRepositorySpy
     );
   });
@@ -25,18 +30,16 @@ describe('ListAllCarCategoriesUseCase', () => {
   it('should call FindAllCarCategoriesRepository once with correct values', async () => {
     const findAllSpy = jest.spyOn(findAllCarCategoriesRepositorySpy, 'findAll');
 
-    const limit = faker.datatype.number({ min: 1, max: 100 });
-    const page = faker.datatype.number({ min: 1, max: 30 });
-
-    await listAllCarCategoriesUseCase.execute({
-      limit,
-      page,
-    });
+    await listAllCarCategoriesUseCase.execute(listAllCarCategoriesUseCaseInput);
 
     expect(findAllSpy).toHaveBeenCalledTimes(1);
     expect(findAllSpy).toHaveBeenCalledWith({
-      take: limit,
-      skip: page * limit,
+      order_by: listAllCarCategoriesUseCaseInput.order_by,
+      order: listAllCarCategoriesUseCaseInput.order,
+      take: listAllCarCategoriesUseCaseInput.limit,
+      skip:
+        listAllCarCategoriesUseCaseInput.page *
+        listAllCarCategoriesUseCaseInput.limit,
     });
   });
 
@@ -45,24 +48,11 @@ describe('ListAllCarCategoriesUseCase', () => {
       .spyOn(findAllCarCategoriesRepositorySpy, 'findAll')
       .mockRejectedValueOnce(new Error());
 
-    const promise = listAllCarCategoriesUseCase.execute({
-      limit: faker.datatype.number({ min: 1, max: 100 }),
-      page: faker.datatype.number({ min: 1, max: 30 }),
-    });
+    const promise = listAllCarCategoriesUseCase.execute(
+      listAllCarCategoriesUseCaseInput
+    );
 
     await expect(promise).rejects.toThrow();
-  });
-
-  it('should call FindAllCarCategoriesRepository with default limit and page values if not provided', async () => {
-    const findAllSpy = jest.spyOn(findAllCarCategoriesRepositorySpy, 'findAll');
-
-    await listAllCarCategoriesUseCase.execute();
-
-    expect(findAllSpy).toHaveBeenCalledTimes(1);
-    expect(findAllSpy).toHaveBeenCalledWith({
-      take: defaultLimit,
-      skip: defaultPage * defaultLimit,
-    });
   });
 
   it('should return car categories', async () => {
@@ -72,10 +62,9 @@ describe('ListAllCarCategoriesUseCase', () => {
       .spyOn(findAllCarCategoriesRepositorySpy, 'findAll')
       .mockResolvedValueOnce(categoriesMock);
 
-    const categories = await listAllCarCategoriesUseCase.execute({
-      limit: faker.datatype.number({ min: 1, max: 100 }),
-      page: faker.datatype.number({ min: 1, max: 30 }),
-    });
+    const categories = await listAllCarCategoriesUseCase.execute(
+      listAllCarCategoriesUseCaseInput
+    );
 
     expect(categories).toEqual(categoriesMock);
   });

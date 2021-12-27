@@ -7,9 +7,15 @@ export interface IListAllCarCategoriesUseCase {
 }
 
 export namespace IListAllCarCategoriesUseCase {
+  export type OrderBy = keyof Pick<ICarCategory, 'name' | 'created_at'>;
+
+  export type Order = 'ASC' | 'DESC';
+
   export type Input = {
-    limit?: number;
-    page?: number;
+    order_by: OrderBy;
+    order: Order;
+    limit: number;
+    page: number;
   };
 
   export type Output = ICarCategory[];
