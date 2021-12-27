@@ -64,6 +64,8 @@
           "/^@domain/",
           "/^@data/",
           "/^@presentation/",
+          "/^@infra/",
+          "/^@main/",
           "/^@utils/",
           "/^@config/",
           "/^@modules/",

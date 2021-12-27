@@ -9,6 +9,8 @@
       "@domain/*": ["domain/*"],
       "@data/*": ["data/*"],
       "@presentation/*": ["presentation/*"],
+      "@infra/*": ["infra/*"],
+      "@main/*": ["main/*"],
       "@config/*": ["config/*"],
       "@modules/*": ["modules/*"],
       "@shared/*": ["shared/*"],
