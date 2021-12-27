@@ -38,7 +38,7 @@ class ListCarSpecificationsController implements IController {
 }
 
 namespace ListCarSpecificationsController {
-  type ListCarSpecificationQueryParamsRequest = {
+  type ListCarSpecificationsQueryParamsRequest = {
     order_by?: IListAllCarSpecificationsUseCase.OrderBy;
     order?: IListAllCarSpecificationsUseCase.Order;
     limit?: number;
@@ -48,7 +48,7 @@ namespace ListCarSpecificationsController {
   export type Request = IHttpRequest<
     void,
     void,
-    ListCarSpecificationQueryParamsRequest
+    ListCarSpecificationsQueryParamsRequest
   >;
 
   export type Response = IHttpRespose;
