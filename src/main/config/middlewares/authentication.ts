@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
 
+import { authConfig } from '../environment/auth';
+
 export function authenticationMiddleware(
   request: Request,
   _: Response,
@@ -21,7 +23,7 @@ export function authenticationMiddleware(
   let userId: string;
 
   try {
-    const { sub } = verify(token, process.env.JWT_AUTH_SECRET) as JwtPayload;
+    const { sub } = verify(token, authConfig.AUTH_SECRET) as JwtPayload;
 
     userId = sub;
   } catch (error) {
