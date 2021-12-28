@@ -5,13 +5,17 @@ import { IUserToken } from '@domain/models/UserToken';
 import {
   CreateUserTokenDTO,
   ICreateUserTokenRepository,
+  IDeleteUserTokenByIdRepository,
   IFindUserTokenByTokenRepository,
 } from '@data/protocols/repositories/user-token';
 
 import { UserToken } from '@infra/database/typeorm/entities/UserToken';
 
 export class PostgresUserTokensRepository
-  implements ICreateUserTokenRepository, IFindUserTokenByTokenRepository
+  implements
+    ICreateUserTokenRepository,
+    IFindUserTokenByTokenRepository,
+    IDeleteUserTokenByIdRepository
 {
   private repository: Repository<UserToken>;
 
@@ -29,5 +33,9 @@ export class PostgresUserTokensRepository
 
   async findByToken(token: string): Promise<IUserToken | undefined> {
     return this.repository.findOne({ token });
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.repository.delete(id);
   }
 }
