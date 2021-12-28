@@ -6,6 +6,7 @@ import {
   CreateUserRepositoryData,
   ICheckIfUserExistsByEmailRepository,
   ICreateUserRepository,
+  IFindUserByEmailRepository,
   IFindUserByIdRepository,
 } from '@data/protocols/repositories/user';
 
@@ -15,7 +16,8 @@ export class PostgresUsersRepository
   implements
     ICheckIfUserExistsByEmailRepository,
     ICreateUserRepository,
-    IFindUserByIdRepository
+    IFindUserByIdRepository,
+    IFindUserByEmailRepository
 {
   private repository: Repository<User>;
 
@@ -50,5 +52,15 @@ export class PostgresUsersRepository
 
   async findById(id: string): Promise<IUser | undefined> {
     return this.repository.findOne(id);
+  }
+
+  async findByEmail(email: string): Promise<IUser | undefined> {
+    return this.repository.findOne({
+      where: {
+        email: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
+          value: email,
+        }),
+      },
+    });
   }
 }
