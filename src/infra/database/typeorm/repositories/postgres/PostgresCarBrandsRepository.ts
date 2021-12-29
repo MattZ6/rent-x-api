@@ -6,12 +6,16 @@ import {
   CreateCarBrandDTO,
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
+  IFindCarBrandByIdRepository,
 } from '@data/protocols/repositories/car-brand';
 
 import { CarBrand } from '../../entities/CarBrand';
 
 export class PostgresCarBrandsRepository
-  implements ICheckIfCarBrandExistsByNameRepository, ICreateCarBrandRepository
+  implements
+    ICheckIfCarBrandExistsByNameRepository,
+    ICreateCarBrandRepository,
+    IFindCarBrandByIdRepository
 {
   private readonly repository: Repository<CarBrand>;
 
@@ -37,5 +41,9 @@ export class PostgresCarBrandsRepository
     const carBrand = this.repository.create({ name });
 
     return this.repository.save(carBrand);
+  }
+
+  async findById(id: string): Promise<ICarBrand | undefined> {
+    return this.repository.findOne(id);
   }
 }
