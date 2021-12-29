@@ -7,6 +7,7 @@ import {
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
   IFindCarBrandByIdRepository,
+  IUpdateCarBrandRepository,
 } from '@data/protocols/repositories/car-brand';
 
 import { CarBrand } from '../../entities/CarBrand';
@@ -15,7 +16,8 @@ export class PostgresCarBrandsRepository
   implements
     ICheckIfCarBrandExistsByNameRepository,
     ICreateCarBrandRepository,
-    IFindCarBrandByIdRepository
+    IFindCarBrandByIdRepository,
+    IUpdateCarBrandRepository
 {
   private readonly repository: Repository<CarBrand>;
 
@@ -45,5 +47,9 @@ export class PostgresCarBrandsRepository
 
   async findById(id: string): Promise<ICarBrand | undefined> {
     return this.repository.findOne(id);
+  }
+
+  async update(data: ICarBrand): Promise<ICarBrand> {
+    return this.repository.save(data);
   }
 }
