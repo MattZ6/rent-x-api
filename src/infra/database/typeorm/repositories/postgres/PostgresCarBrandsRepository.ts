@@ -1,11 +1,13 @@
-import { getRepository, Raw, Repository } from 'typeorm';
+import { FindManyOptions, getRepository, Raw, Repository } from 'typeorm';
 
 import { ICarBrand } from '@domain/models/CarBrand';
 
 import {
   CreateCarBrandDTO,
+  FindAllCarBrandsDTO,
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
+  IFindAllCarBrandsRepository,
   IFindCarBrandByIdRepository,
   IUpdateCarBrandRepository,
 } from '@data/protocols/repositories/car-brand';
@@ -17,7 +19,8 @@ export class PostgresCarBrandsRepository
     ICheckIfCarBrandExistsByNameRepository,
     ICreateCarBrandRepository,
     IFindCarBrandByIdRepository,
-    IUpdateCarBrandRepository
+    IUpdateCarBrandRepository,
+    IFindAllCarBrandsRepository
 {
   private readonly repository: Repository<CarBrand>;
 
@@ -51,5 +54,28 @@ export class PostgresCarBrandsRepository
 
   async update(data: ICarBrand): Promise<ICarBrand> {
     return this.repository.save(data);
+  }
+
+  async findAll(data: FindAllCarBrandsDTO): Promise<ICarBrand[]> {
+    const { order_by, order, take, skip } = data;
+
+    const search: FindManyOptions<CarBrand> = {
+      take,
+      skip,
+    };
+    search.order = {
+      [order_by]: order,
+    };
+
+    // search.order[String(order_by)] = order;
+
+    console.log(data);
+    console.log(search);
+
+    return this.repository.find({
+      order: { [order_by]: order },
+      take,
+      skip,
+    });
   }
 }

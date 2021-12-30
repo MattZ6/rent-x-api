@@ -2,9 +2,11 @@ import { ICarBrand } from '@domain/models/CarBrand';
 
 import {
   CreateCarBrandDTO,
+  FindAllCarBrandsDTO,
   ICheckIfCarBrandExistsByIdRepository,
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
+  IFindAllCarBrandsRepository,
   IFindCarBrandByIdRepository,
   IUpdateCarBrandRepository,
 } from '@data/protocols/repositories/car-brand';
@@ -54,5 +56,13 @@ export class CheckIfCarBrandExistsByIdRepositorySpy
 {
   async checkIfExistsById(_: string): Promise<boolean> {
     return true;
+  }
+}
+
+export class FindAllCarBrandsRepositorySpy
+  implements IFindAllCarBrandsRepository
+{
+  async findAll(_: FindAllCarBrandsDTO): Promise<ICarBrand[]> {
+    return [carBrandMock, carBrandMock, carBrandMock];
   }
 }
