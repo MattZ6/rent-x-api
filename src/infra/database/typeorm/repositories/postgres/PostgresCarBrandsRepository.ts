@@ -1,4 +1,4 @@
-import { FindManyOptions, getRepository, Raw, Repository } from 'typeorm';
+import { getRepository, Raw, Repository } from 'typeorm';
 
 import { ICarBrand } from '@domain/models/CarBrand';
 
@@ -58,19 +58,6 @@ export class PostgresCarBrandsRepository
 
   async findAll(data: FindAllCarBrandsDTO): Promise<ICarBrand[]> {
     const { order_by, order, take, skip } = data;
-
-    const search: FindManyOptions<CarBrand> = {
-      take,
-      skip,
-    };
-    search.order = {
-      [order_by]: order,
-    };
-
-    // search.order[String(order_by)] = order;
-
-    console.log(data);
-    console.log(search);
 
     return this.repository.find({
       order: { [order_by]: order },
