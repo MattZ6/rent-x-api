@@ -4,4 +4,5 @@ export const tableNames = {
 
   CAR_BRANDS: 'car_brands',
   CAR_SPECIFICATIONS: 'car_specifications',
+  CAR_CATEGORIES: 'car_categories',
 };
