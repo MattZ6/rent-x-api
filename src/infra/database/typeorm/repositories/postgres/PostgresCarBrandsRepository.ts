@@ -5,6 +5,7 @@ import { ICarBrand } from '@domain/models/CarBrand';
 import {
   CreateCarBrandDTO,
   FindAllCarBrandsDTO,
+  ICheckIfCarBrandExistsByIdRepository,
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
   IFindAllCarBrandsRepository,
@@ -20,7 +21,8 @@ export class PostgresCarBrandsRepository
     ICreateCarBrandRepository,
     IFindCarBrandByIdRepository,
     IUpdateCarBrandRepository,
-    IFindAllCarBrandsRepository
+    IFindAllCarBrandsRepository,
+    ICheckIfCarBrandExistsByIdRepository
 {
   private readonly repository: Repository<CarBrand>;
 
@@ -64,5 +66,13 @@ export class PostgresCarBrandsRepository
       take,
       skip,
     });
+  }
+
+  async checkIfExistsById(id: string): Promise<boolean> {
+    const count = await this.repository.count({
+      where: { id },
+    });
+
+    return count >= 1;
   }
 }
