@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { adaptRoute } from '@main/adapters/express/express-route-adapter';
 import { authenticationMiddleware } from '@main/config/middlewares/authentication';
 import { makeCreateCarSpecificationController } from '@main/factories/controllers/car/specification/CreateCarSpecificationControllerFactory';
+import { makeDeleteCarSpecificationController } from '@main/factories/controllers/car/specification/DeleteCarSpecificationControllerFactory';
 import { makeListCarSpecificationsController } from '@main/factories/controllers/car/specification/ListCarSpecificationsControllerFactory';
 import { makeUpdateCarSpecificationController } from '@main/factories/controllers/car/specification/UpdateCarSpecificationControllerFactory';
 
@@ -22,6 +23,11 @@ carSpecificationsRoutes.get(
   '/',
   authenticationMiddleware,
   adaptRoute(makeListCarSpecificationsController())
+);
+carSpecificationsRoutes.delete(
+  '/:id',
+  authenticationMiddleware,
+  adaptRoute(makeDeleteCarSpecificationController())
 );
 
 export default carSpecificationsRoutes;
