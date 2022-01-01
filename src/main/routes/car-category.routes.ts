@@ -14,7 +14,7 @@ carCategoriesRoutes.post(
 );
 
 carCategoriesRoutes.put(
-  '/',
+  '/:id',
   authenticationMiddleware,
   adaptRoute(makeUpdateCarCategoryController())
 );
