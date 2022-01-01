@@ -8,6 +8,7 @@ import {
   ICheckIfCarSpecificationExistsByIdRepository,
   ICheckIfCarSpecificationExistsByNameRepository,
   ICreateCarSpecificationRepository,
+  IDeleteCarSpecificationByIdRepository,
   IFindAllCarSpecificationsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
@@ -22,7 +23,8 @@ export class PostgresCarSpecificationsRepository
     IFindCarSpecificationByIdRepository,
     IUpdateCarSpecificationRepository,
     IFindAllCarSpecificationsRepository,
-    ICheckIfCarSpecificationExistsByIdRepository
+    ICheckIfCarSpecificationExistsByIdRepository,
+    IDeleteCarSpecificationByIdRepository
 {
   private repository: Repository<CarSpecification>;
 
@@ -76,5 +78,9 @@ export class PostgresCarSpecificationsRepository
     });
 
     return count >= 1;
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.repository.delete(id);
   }
 }
