@@ -5,6 +5,7 @@ import { ICarCategory } from '@domain/models/CarCategory';
 import {
   CreateCarCategoryDTO,
   FindAllCarCategoriesDTO,
+  ICheckIfCarCategoryExistsByIdRepository,
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
   IFindAllCarCategoriesRepository,
@@ -20,7 +21,8 @@ export class PostgresCarCategoriesRepository
     ICreateCarCategoryRepository,
     IFindCarCategoryByIdRepository,
     IUpdateCarCategoryRepository,
-    IFindAllCarCategoriesRepository
+    IFindAllCarCategoriesRepository,
+    ICheckIfCarCategoryExistsByIdRepository
 {
   private readonly repository: Repository<CarCategory>;
 
@@ -64,5 +66,13 @@ export class PostgresCarCategoriesRepository
       take,
       skip,
     });
+  }
+
+  async checkIfExistsById(id: string): Promise<boolean> {
+    const count = await this.repository.count({
+      where: { id },
+    });
+
+    return count >= 1;
   }
 }
