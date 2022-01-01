@@ -18,7 +18,7 @@ export class ListAllCarSpecificationsUseCase
       order_by,
       order,
       take: limit,
-      skip: page * limit,
+      skip: (page - 1) * limit,
     });
   }
 }

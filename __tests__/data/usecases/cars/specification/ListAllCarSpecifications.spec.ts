@@ -45,7 +45,7 @@ describe('ListAllCarSpecificationsUseCase', () => {
       order: listAllCarSpecificationsUseCaseInput.order,
       take: listAllCarSpecificationsUseCaseInput.limit,
       skip:
-        listAllCarSpecificationsUseCaseInput.page *
+        (listAllCarSpecificationsUseCaseInput.page - 1) *
         listAllCarSpecificationsUseCaseInput.limit,
     });
   });
