@@ -7,6 +7,7 @@ import {
   ICheckIfCarSpecificationExistsByNameRepository,
   ICreateCarSpecificationRepository,
   IFindCarSpecificationByIdRepository,
+  IUpdateCarSpecificationRepository,
 } from '@data/protocols/repositories/car-specification';
 
 import { CarSpecification } from '../../entities/CarSpecification';
@@ -15,7 +16,8 @@ export class PostgresCarSpecificationsRepository
   implements
     ICheckIfCarSpecificationExistsByNameRepository,
     ICreateCarSpecificationRepository,
-    IFindCarSpecificationByIdRepository
+    IFindCarSpecificationByIdRepository,
+    IUpdateCarSpecificationRepository
 {
   private repository: Repository<CarSpecification>;
 
@@ -45,5 +47,9 @@ export class PostgresCarSpecificationsRepository
 
   async findById(id: string): Promise<ICarSpecification | undefined> {
     return this.repository.findOne(id);
+  }
+
+  async update(data: ICarSpecification): Promise<ICarSpecification> {
+    return this.repository.save(data);
   }
 }
