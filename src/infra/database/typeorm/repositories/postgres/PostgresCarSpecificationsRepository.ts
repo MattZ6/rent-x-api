@@ -5,6 +5,7 @@ import { ICarSpecification } from '@domain/models/CarSpecification';
 import {
   CreateCarSpecificationDTO,
   FindAllCarSpecificationsDTO,
+  ICheckIfCarSpecificationExistsByIdRepository,
   ICheckIfCarSpecificationExistsByNameRepository,
   ICreateCarSpecificationRepository,
   IFindAllCarSpecificationsRepository,
@@ -20,7 +21,8 @@ export class PostgresCarSpecificationsRepository
     ICreateCarSpecificationRepository,
     IFindCarSpecificationByIdRepository,
     IUpdateCarSpecificationRepository,
-    IFindAllCarSpecificationsRepository
+    IFindAllCarSpecificationsRepository,
+    ICheckIfCarSpecificationExistsByIdRepository
 {
   private repository: Repository<CarSpecification>;
 
@@ -66,5 +68,13 @@ export class PostgresCarSpecificationsRepository
       take,
       skip,
     });
+  }
+
+  async checkIfExistsById(id: string): Promise<boolean> {
+    const count = await this.repository.count({
+      where: { id },
+    });
+
+    return count >= 1;
   }
 }
