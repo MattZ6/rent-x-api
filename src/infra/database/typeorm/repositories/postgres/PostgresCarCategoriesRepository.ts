@@ -6,6 +6,7 @@ import {
   CreateCarCategoryDTO,
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
+  IFindCarCategoryByIdRepository,
 } from '@data/protocols/repositories/car-category';
 
 import { CarCategory } from '../../entities/CarCategory';
@@ -13,7 +14,8 @@ import { CarCategory } from '../../entities/CarCategory';
 export class PostgresCarCategoriesRepository
   implements
     ICheckIfCarCategoryExistsByNameRepository,
-    ICreateCarCategoryRepository
+    ICreateCarCategoryRepository,
+    IFindCarCategoryByIdRepository
 {
   private readonly repository: Repository<CarCategory>;
 
@@ -39,5 +41,9 @@ export class PostgresCarCategoriesRepository
     const carCategory = this.repository.create({ name, description });
 
     return this.repository.save(carCategory);
+  }
+
+  async findById(id: string): Promise<ICarCategory | undefined> {
+    return this.repository.findOne(id);
   }
 }
