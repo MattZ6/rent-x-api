@@ -4,8 +4,10 @@ import { ICarSpecification } from '@domain/models/CarSpecification';
 
 import {
   CreateCarSpecificationDTO,
+  FindAllCarSpecificationsDTO,
   ICheckIfCarSpecificationExistsByNameRepository,
   ICreateCarSpecificationRepository,
+  IFindAllCarSpecificationsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
 } from '@data/protocols/repositories/car-specification';
@@ -17,7 +19,8 @@ export class PostgresCarSpecificationsRepository
     ICheckIfCarSpecificationExistsByNameRepository,
     ICreateCarSpecificationRepository,
     IFindCarSpecificationByIdRepository,
-    IUpdateCarSpecificationRepository
+    IUpdateCarSpecificationRepository,
+    IFindAllCarSpecificationsRepository
 {
   private repository: Repository<CarSpecification>;
 
@@ -51,5 +54,17 @@ export class PostgresCarSpecificationsRepository
 
   async update(data: ICarSpecification): Promise<ICarSpecification> {
     return this.repository.save(data);
+  }
+
+  async findAll(
+    data: FindAllCarSpecificationsDTO
+  ): Promise<ICarSpecification[]> {
+    const { order_by, order, take, skip } = data;
+
+    return this.repository.find({
+      order: { [order_by]: order },
+      take,
+      skip,
+    });
   }
 }
