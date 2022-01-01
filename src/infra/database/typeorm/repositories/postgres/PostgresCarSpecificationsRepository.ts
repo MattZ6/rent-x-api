@@ -10,6 +10,7 @@ import {
   ICreateCarSpecificationRepository,
   IDeleteCarSpecificationByIdRepository,
   IFindAllCarSpecificationsRepository,
+  IFindAllSpecificationsByIdsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
 } from '@data/protocols/repositories/car-specification';
@@ -24,7 +25,8 @@ export class PostgresCarSpecificationsRepository
     IUpdateCarSpecificationRepository,
     IFindAllCarSpecificationsRepository,
     ICheckIfCarSpecificationExistsByIdRepository,
-    IDeleteCarSpecificationByIdRepository
+    IDeleteCarSpecificationByIdRepository,
+    IFindAllSpecificationsByIdsRepository
 {
   private repository: Repository<CarSpecification>;
 
@@ -82,5 +84,9 @@ export class PostgresCarSpecificationsRepository
 
   async deleteById(id: string): Promise<void> {
     await this.repository.delete(id);
+  }
+
+  async findAllByIds(ids: string[]): Promise<ICarSpecification[]> {
+    return this.repository.findByIds(ids);
   }
 }
