@@ -4,8 +4,10 @@ import { ICarCategory } from '@domain/models/CarCategory';
 
 import {
   CreateCarCategoryDTO,
+  FindAllCarCategoriesDTO,
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
+  IFindAllCarCategoriesRepository,
   IFindCarCategoryByIdRepository,
   IUpdateCarCategoryRepository,
 } from '@data/protocols/repositories/car-category';
@@ -17,7 +19,8 @@ export class PostgresCarCategoriesRepository
     ICheckIfCarCategoryExistsByNameRepository,
     ICreateCarCategoryRepository,
     IFindCarCategoryByIdRepository,
-    IUpdateCarCategoryRepository
+    IUpdateCarCategoryRepository,
+    IFindAllCarCategoriesRepository
 {
   private readonly repository: Repository<CarCategory>;
 
@@ -51,5 +54,15 @@ export class PostgresCarCategoriesRepository
 
   async update(data: ICarCategory): Promise<ICarCategory> {
     return this.repository.save(data);
+  }
+
+  async findAll(data: FindAllCarCategoriesDTO): Promise<ICarCategory[]> {
+    const { order_by, order, take, skip } = data;
+
+    return this.repository.find({
+      order: { [order_by]: order },
+      take,
+      skip,
+    });
   }
 }
