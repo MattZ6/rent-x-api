@@ -7,6 +7,7 @@ import {
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
   IFindCarCategoryByIdRepository,
+  IUpdateCarCategoryRepository,
 } from '@data/protocols/repositories/car-category';
 
 import { CarCategory } from '../../entities/CarCategory';
@@ -15,7 +16,8 @@ export class PostgresCarCategoriesRepository
   implements
     ICheckIfCarCategoryExistsByNameRepository,
     ICreateCarCategoryRepository,
-    IFindCarCategoryByIdRepository
+    IFindCarCategoryByIdRepository,
+    IUpdateCarCategoryRepository
 {
   private readonly repository: Repository<CarCategory>;
 
@@ -45,5 +47,9 @@ export class PostgresCarCategoriesRepository
 
   async findById(id: string): Promise<ICarCategory | undefined> {
     return this.repository.findOne(id);
+  }
+
+  async update(data: ICarCategory): Promise<ICarCategory> {
+    return this.repository.save(data);
   }
 }
