@@ -26,6 +26,12 @@ export class CreateCarRepositorySpy implements ICreateCarRepository {
       fine_amount,
       license_plate,
       name,
+      horse_power,
+      max_speed,
+      number_of_seats,
+      transmission_type,
+      type_of_fuel,
+      zero_to_one_hundred_in_millisseconds,
       specifications: specifictions,
     } = data;
 
@@ -40,6 +46,12 @@ export class CreateCarRepositorySpy implements ICreateCarRepository {
       license_plate,
       name,
       specifictions,
+      horse_power,
+      max_speed,
+      number_of_seats,
+      transmission_type,
+      type_of_fuel,
+      zero_to_one_hundred_in_millisseconds,
     });
 
     return car;

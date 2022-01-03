@@ -5,14 +5,22 @@ export interface ICreateCarUseCase {
 }
 
 export namespace ICreateCarUseCase {
-  export type Input = {
-    name: string;
-    description: string;
-    license_plate: string;
-    daily_rate: number;
-    fine_amount: number;
-    brand_id: string;
-    category_id: string;
+  export type Input = Pick<
+    ICar,
+    | 'name'
+    | 'description'
+    | 'license_plate'
+    | 'daily_rate'
+    | 'fine_amount'
+    | 'brand_id'
+    | 'category_id'
+    | 'number_of_seats'
+    | 'max_speed'
+    | 'horse_power'
+    | 'zero_to_one_hundred_in_millisseconds'
+    | 'type_of_fuel'
+    | 'transmission_type'
+  > & {
     specifications_ids?: string[];
   };
 

@@ -6,6 +6,7 @@ import {
   CarCategoryNotFoundWithThisIdError,
   OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
 } from '@domain/errors';
+import { TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
 
 import { CreateCarController } from '@presentation/controllers/car/CreateCar';
 import { conflict, created, notFound } from '@presentation/helpers/http/http';
@@ -25,6 +26,22 @@ const createCarControllerRequest: CreateCarController.Request = {
     daily_rate: faker.datatype.number(),
     fine_amount: faker.datatype.number(),
     license_plate: faker.datatype.string(),
+    horse_power: faker.datatype.number({ max: 10_000, min: 100 }),
+    max_speed: faker.datatype.number({ min: 100, max: 360 }),
+    number_of_seats: faker.datatype.number({ min: 1, max: 7 }),
+    zero_to_one_hundred_in_millisseconds: faker.datatype.float({
+      min: 2,
+      max: 15,
+    }),
+    transmission_type: faker.random.arrayElement([
+      TransmissionTypeEnum.MANUAL,
+      TransmissionTypeEnum.AUTO,
+    ]),
+    type_of_fuel: faker.random.arrayElement([
+      TypeOfFuelEnum.ALCOHOL,
+      TypeOfFuelEnum.ELETRICITY,
+      TypeOfFuelEnum.GAS,
+    ]),
     specifications_ids: [faker.datatype.uuid(), faker.datatype.uuid()],
   },
 };
@@ -50,6 +67,13 @@ describe('CreateCarController', () => {
       fine_amount: createCarControllerRequest.body.fine_amount,
       brand_id: createCarControllerRequest.body.brand_id,
       category_id: createCarControllerRequest.body.category_id,
+      horse_power: createCarControllerRequest.body.horse_power,
+      max_speed: createCarControllerRequest.body.max_speed,
+      number_of_seats: createCarControllerRequest.body.number_of_seats,
+      zero_to_one_hundred_in_millisseconds:
+        createCarControllerRequest.body.zero_to_one_hundred_in_millisseconds,
+      transmission_type: createCarControllerRequest.body.transmission_type,
+      type_of_fuel: createCarControllerRequest.body.type_of_fuel,
       specifications_ids: createCarControllerRequest.body.specifications_ids,
     });
   });

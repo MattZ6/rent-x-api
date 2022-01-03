@@ -28,6 +28,12 @@ class CreateCarController implements IController {
         daily_rate,
         license_plate,
         fine_amount,
+        horse_power,
+        max_speed,
+        number_of_seats,
+        transmission_type,
+        type_of_fuel,
+        zero_to_one_hundred_in_millisseconds,
         specifications_ids,
       } = request.body;
 
@@ -39,6 +45,12 @@ class CreateCarController implements IController {
         license_plate,
         fine_amount,
         daily_rate,
+        horse_power,
+        max_speed,
+        number_of_seats,
+        transmission_type,
+        type_of_fuel,
+        zero_to_one_hundred_in_millisseconds,
         specifications_ids,
       });
 
@@ -66,16 +78,7 @@ class CreateCarController implements IController {
 }
 
 namespace CreateCarController {
-  type CreateCarBodyRequest = {
-    name: string;
-    description: string;
-    license_plate: string;
-    daily_rate: number;
-    fine_amount: number;
-    brand_id: string;
-    category_id: string;
-    specifications_ids?: string[];
-  };
+  type CreateCarBodyRequest = ICreateCarUseCase.Input;
 
   export type Request = IHttpRequest<CreateCarBodyRequest>;
 

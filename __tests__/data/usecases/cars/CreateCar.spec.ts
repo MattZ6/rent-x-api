@@ -6,6 +6,7 @@ import {
   CarCategoryNotFoundWithThisIdError,
   OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
 } from '@domain/errors';
+import { TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
 import { ICreateCarUseCase } from '@domain/usecases/car/CreateCar';
 
 import { CreateCarUseCase } from '@data/usecases/car/CreateCar';
@@ -36,6 +37,22 @@ const createCarUseCaseInputMock: ICreateCarUseCase.Input = {
   brand_id: faker.datatype.uuid(),
   category_id: faker.datatype.uuid(),
   specifications_ids: [faker.datatype.uuid(), faker.datatype.uuid()],
+  horse_power: faker.datatype.number({ max: 10_000, min: 100 }),
+  max_speed: faker.datatype.number({ min: 100, max: 360 }),
+  number_of_seats: faker.datatype.number({ min: 1, max: 7 }),
+  zero_to_one_hundred_in_millisseconds: faker.datatype.float({
+    min: 2,
+    max: 15,
+  }),
+  transmission_type: faker.random.arrayElement([
+    TransmissionTypeEnum.MANUAL,
+    TransmissionTypeEnum.AUTO,
+  ]),
+  type_of_fuel: faker.random.arrayElement([
+    TypeOfFuelEnum.ALCOHOL,
+    TypeOfFuelEnum.ELETRICITY,
+    TypeOfFuelEnum.GAS,
+  ]),
 };
 
 describe('CreateCarUseCase', () => {
@@ -297,6 +314,13 @@ describe('CreateCarUseCase', () => {
       fine_amount: createCarUseCaseInputMock.fine_amount,
       brand_id: createCarUseCaseInputMock.brand_id,
       category_id: createCarUseCaseInputMock.category_id,
+      horse_power: createCarUseCaseInputMock.horse_power,
+      max_speed: createCarUseCaseInputMock.max_speed,
+      number_of_seats: createCarUseCaseInputMock.number_of_seats,
+      zero_to_one_hundred_in_millisseconds:
+        createCarUseCaseInputMock.zero_to_one_hundred_in_millisseconds,
+      transmission_type: createCarUseCaseInputMock.transmission_type,
+      type_of_fuel: createCarUseCaseInputMock.type_of_fuel,
       specifications,
     });
   });
@@ -318,6 +342,13 @@ describe('CreateCarUseCase', () => {
       fine_amount: createCarUseCaseInputMock.fine_amount,
       brand_id: createCarUseCaseInputMock.brand_id,
       category_id: createCarUseCaseInputMock.category_id,
+      horse_power: createCarUseCaseInputMock.horse_power,
+      max_speed: createCarUseCaseInputMock.max_speed,
+      number_of_seats: createCarUseCaseInputMock.number_of_seats,
+      zero_to_one_hundred_in_millisseconds:
+        createCarUseCaseInputMock.zero_to_one_hundred_in_millisseconds,
+      transmission_type: createCarUseCaseInputMock.transmission_type,
+      type_of_fuel: createCarUseCaseInputMock.type_of_fuel,
       specifications: [],
     });
   });
@@ -360,6 +391,30 @@ describe('CreateCarUseCase', () => {
     expect(response).toHaveProperty(
       'category_id',
       createCarUseCaseInputMock.category_id
+    );
+    expect(response).toHaveProperty(
+      'horse_power',
+      createCarUseCaseInputMock.horse_power
+    );
+    expect(response).toHaveProperty(
+      'max_speed',
+      createCarUseCaseInputMock.max_speed
+    );
+    expect(response).toHaveProperty(
+      'number_of_seats',
+      createCarUseCaseInputMock.number_of_seats
+    );
+    expect(response).toHaveProperty(
+      'zero_to_one_hundred_in_millisseconds',
+      createCarUseCaseInputMock.zero_to_one_hundred_in_millisseconds
+    );
+    expect(response).toHaveProperty(
+      'transmission_type',
+      createCarUseCaseInputMock.transmission_type
+    );
+    expect(response).toHaveProperty(
+      'type_of_fuel',
+      createCarUseCaseInputMock.type_of_fuel
     );
     expect(response).toHaveProperty('specifications');
     expect(response).toHaveProperty('created_at');

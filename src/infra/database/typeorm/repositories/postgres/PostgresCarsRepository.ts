@@ -41,6 +41,12 @@ export class PostgresCarsRepository
       brand_id,
       category_id,
       specifications,
+      horse_power,
+      max_speed,
+      zero_to_one_hundred_in_millisseconds,
+      number_of_seats,
+      transmission_type,
+      type_of_fuel,
     } = data;
 
     const car = this.repository.create({
@@ -52,6 +58,12 @@ export class PostgresCarsRepository
       brand_id,
       category_id,
       specifications,
+      horse_power,
+      max_speed,
+      zero_to_one_hundred_in_millisseconds,
+      number_of_seats,
+      transmission_type,
+      type_of_fuel,
     });
 
     return this.repository.save(car);

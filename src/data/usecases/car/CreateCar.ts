@@ -32,6 +32,12 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       license_plate,
       daily_rate,
       fine_amount,
+      horse_power,
+      max_speed,
+      number_of_seats,
+      zero_to_one_hundred_in_millisseconds,
+      transmission_type,
+      type_of_fuel,
       brand_id,
       category_id,
       specifications_ids,
@@ -88,6 +94,12 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       daily_rate,
       fine_amount,
       specifications,
+      horse_power,
+      max_speed,
+      number_of_seats,
+      zero_to_one_hundred_in_millisseconds,
+      transmission_type,
+      type_of_fuel,
     });
   }
 }
