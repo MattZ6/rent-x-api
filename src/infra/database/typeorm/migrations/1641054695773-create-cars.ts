@@ -1,5 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
+import { TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
+
 import { tableNames } from '../constants';
 
 export class createCars1641054695773 implements MigrationInterface {
@@ -29,6 +31,7 @@ export class createCars1641054695773 implements MigrationInterface {
           {
             name: 'license_plate',
             type: 'varchar',
+            isUnique: true,
           },
           {
             name: 'daily_rate',
@@ -36,6 +39,36 @@ export class createCars1641054695773 implements MigrationInterface {
           },
           {
             name: 'fine_amount',
+            type: 'numeric',
+          },
+          {
+            name: 'type_of_fuel',
+            type: 'enum',
+            enum: [
+              TypeOfFuelEnum.ALCOHOL,
+              TypeOfFuelEnum.GAS,
+              TypeOfFuelEnum.ELETRICITY,
+            ],
+          },
+          {
+            name: 'transmission_type',
+            type: 'enum',
+            enum: [TransmissionTypeEnum.AUTO, TransmissionTypeEnum.MANUAL],
+          },
+          {
+            name: 'number_of_seats',
+            type: 'numeric',
+          },
+          {
+            name: 'horse_power',
+            type: 'numeric',
+          },
+          {
+            name: 'max_speed',
+            type: 'numeric',
+          },
+          {
+            name: 'zero_to_one_hundred_in_millisseconds',
             type: 'numeric',
           },
           {

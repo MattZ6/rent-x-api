@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { v4 } from 'uuid';
 
-import { ICar } from '@domain/models/Car';
+import { ICar, TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
 import { ICarBrand } from '@domain/models/CarBrand';
 import { ICarCategory } from '@domain/models/CarCategory';
 import { ICarSpecification } from '@domain/models/CarSpecification';
@@ -61,6 +61,24 @@ export class Car implements ICar {
     inverseJoinColumn: { name: 'specification_id' },
   })
   specifications: ICarSpecification[];
+
+  @Column({ type: 'enum', enum: TypeOfFuelEnum })
+  type_of_fuel: TypeOfFuelEnum;
+
+  @Column({ type: 'enum', enum: TransmissionTypeEnum })
+  transmission_type: TransmissionTypeEnum;
+
+  @Column()
+  number_of_seats: number;
+
+  @Column()
+  horse_power: number;
+
+  @Column()
+  max_speed: number;
+
+  @Column()
+  zero_to_one_hundred_in_millisseconds: number;
 
   @CreateDateColumn()
   created_at: Date;
