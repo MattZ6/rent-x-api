@@ -9,6 +9,7 @@ export * from './get-user-profile-usecase.mock';
 export * from './list-all-car-brands-usecase.mock';
 export * from './list-all-car-categories-usecase.mock';
 export * from './list-all-car-specifications-usecase.mock';
+export * from './list-all-cars-usecase.mock';
 export * from './refresh-user-access-token-usecase.mock';
 export * from './reset-user-password-usecase.mock';
 export * from './update-car-brand-usecase.mock';
