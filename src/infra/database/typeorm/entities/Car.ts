@@ -18,6 +18,7 @@ import { ICarSpecification } from '@domain/models/CarSpecification';
 
 import { tableNames } from '../constants';
 import { CarBrand } from './CarBrand';
+import { CarCategory } from './CarCategory';
 import { CarSpecification } from './CarSpecification';
 
 @Entity(tableNames.CARS)
@@ -51,7 +52,7 @@ export class Car implements ICar {
   category_id: string;
 
   @JoinColumn({ name: 'category_id' })
-  @ManyToOne(() => CarBrand)
+  @ManyToOne(() => CarCategory)
   category: ICarCategory;
 
   @ManyToMany(() => CarSpecification)
