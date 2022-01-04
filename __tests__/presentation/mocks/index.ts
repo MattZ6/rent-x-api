@@ -6,6 +6,7 @@ export * from './create-car-usecase.mock';
 export * from './create-user-usecase.mock';
 export * from './delete-car-specification-usecase.mock';
 export * from './get-user-profile-usecase.mock';
+export * from './get-car-details-usecase.mock';
 export * from './list-all-car-brands-usecase.mock';
 export * from './list-all-car-categories-usecase.mock';
 export * from './list-all-car-specifications-usecase.mock';
