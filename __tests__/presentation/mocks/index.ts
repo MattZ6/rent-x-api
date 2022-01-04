@@ -13,6 +13,7 @@ export * from './list-all-car-specifications-usecase.mock';
 export * from './list-all-cars-usecase.mock';
 export * from './refresh-user-access-token-usecase.mock';
 export * from './reset-user-password-usecase.mock';
+export * from './send-forgot-user-password-mail-usecase.mock';
 export * from './update-car-brand-usecase.mock';
 export * from './update-car-category-usecase.mock';
 export * from './update-car-specification-usecase.mock';
