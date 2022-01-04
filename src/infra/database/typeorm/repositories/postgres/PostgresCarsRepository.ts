@@ -4,14 +4,19 @@ import { ICar } from '@domain/models/Car';
 
 import {
   CreateCarDTO,
+  FindAllCarsDTO,
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
+  IFindAllCarsRepository,
 } from '@data/protocols/repositories/car';
 
 import { Car } from '../../entities/Car';
 
 export class PostgresCarsRepository
-  implements ICheckIfCarExistsByLicensePlateRepository, ICreateCarRepository
+  implements
+    ICheckIfCarExistsByLicensePlateRepository,
+    ICreateCarRepository,
+    IFindAllCarsRepository
 {
   private readonly repository: Repository<Car>;
 
@@ -67,5 +72,16 @@ export class PostgresCarsRepository
     });
 
     return this.repository.save(car);
+  }
+
+  async findAll(data: FindAllCarsDTO): Promise<ICar[]> {
+    const { order_by, order, skip, take, relations } = data;
+
+    return this.repository.find({
+      order: { [order_by]: order },
+      take,
+      skip,
+      relations,
+    });
   }
 }
