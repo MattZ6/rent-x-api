@@ -6,6 +6,7 @@ import {
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
   IFindAllCarsRepository,
+  IFindCarByIdRepository,
 } from '@data/protocols/repositories/car';
 
 import { carMock } from '../../domain/models/car.mock';
@@ -63,5 +64,13 @@ export class CreateCarRepositorySpy implements ICreateCarRepository {
 export class FindAllCarsRepositorySpy implements IFindAllCarsRepository {
   async findAll(_: FindAllCarsDTO): Promise<ICar[]> {
     return [carMock, carMock, carMock];
+  }
+}
+
+export class FindCarByIdRepositorySpy implements IFindCarByIdRepository {
+  async findById(
+    data: IFindCarByIdRepository.Input
+  ): Promise<IFindCarByIdRepository.Output> {
+    return { ...carMock, id: data.id };
   }
 }
