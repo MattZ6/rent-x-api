@@ -8,6 +8,7 @@ import {
   ICreateUserRepository,
   IFindUserByEmailRepository,
   IFindUserByIdRepository,
+  IUpdateUserRepository,
 } from '@data/protocols/repositories/user';
 
 import { User } from '../../entities/User';
@@ -17,7 +18,8 @@ export class PostgresUsersRepository
     ICheckIfUserExistsByEmailRepository,
     ICreateUserRepository,
     IFindUserByIdRepository,
-    IFindUserByEmailRepository
+    IFindUserByEmailRepository,
+    IUpdateUserRepository
 {
   private repository: Repository<User>;
 
@@ -62,5 +64,9 @@ export class PostgresUsersRepository
         }),
       },
     });
+  }
+
+  async update(data: IUser): Promise<IUser> {
+    return this.repository.save(data);
   }
 }
