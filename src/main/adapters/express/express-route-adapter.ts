@@ -7,9 +7,9 @@ export const adaptRoute =
   async (req: Request, res: Response): Promise<Response> => {
     try {
       const response = await controller.handle({
-        params: req.params,
-        query: req.query,
-        body: req.body,
+        params: req.params || {},
+        query: req.query || {},
+        body: req.body || {},
         user_id: req.user_id,
       });
 
