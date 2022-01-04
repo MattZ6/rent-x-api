@@ -8,6 +8,7 @@ import {
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
   IFindAllCarsRepository,
+  IFindCarByIdRepository,
 } from '@data/protocols/repositories/car';
 
 import { Car } from '../../entities/Car';
@@ -16,7 +17,8 @@ export class PostgresCarsRepository
   implements
     ICheckIfCarExistsByLicensePlateRepository,
     ICreateCarRepository,
-    IFindAllCarsRepository
+    IFindAllCarsRepository,
+    IFindCarByIdRepository
 {
   private readonly repository: Repository<Car>;
 
@@ -83,5 +85,13 @@ export class PostgresCarsRepository
       skip,
       relations,
     });
+  }
+
+  async findById(
+    data: IFindCarByIdRepository.Input
+  ): Promise<IFindCarByIdRepository.Output> {
+    const { id, relations } = data;
+
+    return this.repository.findOne(id, { relations });
   }
 }
