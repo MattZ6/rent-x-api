@@ -1,5 +1,6 @@
 import { RefreshUserAccessTokenUseCase } from '@data/usecases/user/RefreshUserAccessToken';
 
+import { authConfig } from '@main/config/environment/auth';
 import { makeJWTCryptographyProvider } from '@main/factories/providers/JWTCryptographyProviderFactory';
 import { makeUuidProvider } from '@main/factories/providers/UuidProviderFactory';
 import { makePostgresUserTokensRepository } from '@main/factories/repositories/PostgresUserTokensRepositoryFactory';
@@ -9,13 +10,14 @@ export function makeRefreshUserAccessTokenUseCase() {
   const jwtCryptographyProvider = makeJWTCryptographyProvider();
   const uuidProvider = makeUuidProvider();
 
-  const fiveDaysInMillisseconds = 5 * 24 * 60 * 60 * 1000;
+  const refreshTokenExpiresInMillisseconds =
+    authConfig.REFRESH_TOKEN_EXPIRES_IN_MILLISSECONDS;
 
   return new RefreshUserAccessTokenUseCase(
     postgresUserTokensRepository,
     jwtCryptographyProvider,
     uuidProvider,
-    fiveDaysInMillisseconds,
+    refreshTokenExpiresInMillisseconds,
     postgresUserTokensRepository,
     postgresUserTokensRepository
   );

@@ -4,7 +4,7 @@ import { authConfig } from '@main/config/environment/auth';
 
 export function makeJWTCryptographyProvider() {
   return new JWTCryptographyProvider(
-    authConfig.AUTH_SECRET,
-    authConfig.AUTH_EXPIRES_IN_IN_SECONDS
+    authConfig.ACCESS_TOKEN_SECRET,
+    authConfig.ACCESS_TOKEN_EXPIRES_IN_SECONDS
   );
 }

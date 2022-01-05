@@ -1,5 +1,6 @@
 import { AuthenticateUserUseCase } from '@data/usecases/user/AuthenticateUser';
 
+import { authConfig } from '@main/config/environment/auth';
 import { makeBcryptjsHashProvider } from '@main/factories/providers/BcryptjsHashProviderFactory';
 import { makeJWTCryptographyProvider } from '@main/factories/providers/JWTCryptographyProviderFactory';
 import { makeUuidProvider } from '@main/factories/providers/UuidProviderFactory';
@@ -13,14 +14,15 @@ export function makeAuthenticateUserUseCase() {
   const uuidProvider = makeUuidProvider();
   const postgresUserTokensRepository = makePostgresUserTokensRepository();
 
-  const fiveDaysInMillisseconds = 5 * 24 * 60 * 60 * 1000;
+  const refreshTokenExpiresInMillisseconds =
+    authConfig.REFRESH_TOKEN_EXPIRES_IN_MILLISSECONDS;
 
   return new AuthenticateUserUseCase(
     usersRepository,
     bcryptjsHashProvider,
     jwtCryptographyProvider,
     uuidProvider,
-    fiveDaysInMillisseconds,
+    refreshTokenExpiresInMillisseconds,
     postgresUserTokensRepository
   );
 }
