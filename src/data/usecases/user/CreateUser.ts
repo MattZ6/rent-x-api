@@ -1,8 +1,12 @@
-import { UserAlreadyExistsWithThisEmailError } from '@domain/errors';
+import {
+  UserAlreadyExistsWithThisDriverLicenseError,
+  UserAlreadyExistsWithThisEmailError,
+} from '@domain/errors';
 import { ICreateUserUseCase } from '@domain/usecases/user/CreateUser';
 
 import { IGenerateHashProvider } from '@data/protocols/providers/cryptography/hash';
 import {
+  ICheckIfUserExistsByDriverLicenseRepository,
   ICheckIfUserExistsByEmailRepository,
   ICreateUserRepository,
 } from '@data/protocols/repositories/user';
@@ -10,6 +14,7 @@ import {
 export class CreateUserUseCase implements ICreateUserUseCase {
   constructor(
     private readonly checkIfUserExistsByEmailRepository: ICheckIfUserExistsByEmailRepository,
+    private readonly checkIfUserExistsByDriverLicenseRepository: ICheckIfUserExistsByDriverLicenseRepository,
     private readonly generateHashProvider: IGenerateHashProvider,
     private readonly createUserRepository: ICreateUserRepository
   ) {}
@@ -19,11 +24,20 @@ export class CreateUserUseCase implements ICreateUserUseCase {
   ): Promise<ICreateUserUseCase.Output> {
     const { name, email, driver_license, password } = data;
 
-    const alreadyExists =
+    const alreadyExistsWithProvidedEmail =
       await this.checkIfUserExistsByEmailRepository.checkIfExistsByEmail(email);
 
-    if (alreadyExists) {
+    if (alreadyExistsWithProvidedEmail) {
       throw new UserAlreadyExistsWithThisEmailError();
+    }
+
+    const alreadyExistsWithProvidedDriverLicense =
+      await this.checkIfUserExistsByDriverLicenseRepository.checkIfExistsByDriverLicense(
+        { driver_license }
+      );
+
+    if (alreadyExistsWithProvidedDriverLicense) {
+      throw new UserAlreadyExistsWithThisDriverLicenseError();
     }
 
     const hashedPassword = await this.generateHashProvider.hash(password);
