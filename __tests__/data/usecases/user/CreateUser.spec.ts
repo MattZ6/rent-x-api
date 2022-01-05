@@ -1,16 +1,21 @@
 import faker from 'faker';
 
-import { UserAlreadyExistsWithThisEmailError } from '@domain/errors';
+import {
+  UserAlreadyExistsWithThisDriverLicenseError,
+  UserAlreadyExistsWithThisEmailError,
+} from '@domain/errors';
 
 import { CreateUserUseCase } from '@data/usecases/user/CreateUser';
 
 import {
+  CheckIfUserExistsByDriverLicenseRepositorySpy,
   CheckIfUserExistsByEmailRepositorySpy,
   CreateUserRepositorySpy,
   GenerateHashProviderSpy,
 } from '../../mocks';
 
 let checkIfUserExistsByEmailRepositorySpy: CheckIfUserExistsByEmailRepositorySpy;
+let checkIfUserExistsByDriverLicenseRepositorySpy: CheckIfUserExistsByDriverLicenseRepositorySpy;
 let generateHashProviderSpy: GenerateHashProviderSpy;
 let createUserRepositorySpy: CreateUserRepositorySpy;
 
@@ -20,11 +25,14 @@ describe('CreateUserUseCase', () => {
   beforeEach(() => {
     checkIfUserExistsByEmailRepositorySpy =
       new CheckIfUserExistsByEmailRepositorySpy();
+    checkIfUserExistsByDriverLicenseRepositorySpy =
+      new CheckIfUserExistsByDriverLicenseRepositorySpy();
     generateHashProviderSpy = new GenerateHashProviderSpy();
     createUserRepositorySpy = new CreateUserRepositorySpy();
 
     createUserUseCase = new CreateUserUseCase(
       checkIfUserExistsByEmailRepositorySpy,
+      checkIfUserExistsByDriverLicenseRepositorySpy,
       generateHashProviderSpy,
       createUserRepositorySpy
     );
@@ -78,6 +86,65 @@ describe('CreateUserUseCase', () => {
 
     await expect(promise).rejects.toBeInstanceOf(
       UserAlreadyExistsWithThisEmailError
+    );
+  });
+
+  it('should call CheckIfUserExistsByDriverLicenseRepository once with correct values', async () => {
+    const checkIfExistsByDriverLicenseSpy = jest.spyOn(
+      checkIfUserExistsByDriverLicenseRepositorySpy,
+      'checkIfExistsByDriverLicense'
+    );
+
+    const driverLicense = faker.datatype.string();
+
+    await createUserUseCase.execute({
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      driver_license: driverLicense,
+      password: faker.internet.password(),
+    });
+
+    expect(checkIfExistsByDriverLicenseSpy).toHaveBeenCalledTimes(1);
+    expect(checkIfExistsByDriverLicenseSpy).toHaveBeenCalledWith({
+      driver_license: driverLicense,
+    });
+  });
+
+  it('should throw if CheckIfUserExistsByDriverLicenseRepository throws', async () => {
+    jest
+      .spyOn(
+        checkIfUserExistsByDriverLicenseRepositorySpy,
+        'checkIfExistsByDriverLicense'
+      )
+      .mockRejectedValueOnce(new Error());
+
+    const promise = createUserUseCase.execute({
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      driver_license: faker.datatype.string(),
+      password: faker.internet.password(),
+    });
+
+    await expect(promise).rejects.toThrow();
+  });
+
+  it('should throw UserAlreadyExistsWithThisDriverLicenseError if provided driver license is already in use', async () => {
+    jest
+      .spyOn(
+        checkIfUserExistsByDriverLicenseRepositorySpy,
+        'checkIfExistsByDriverLicense'
+      )
+      .mockResolvedValueOnce(true);
+
+    const promise = createUserUseCase.execute({
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      driver_license: faker.datatype.string(),
+      password: faker.internet.password(),
+    });
+
+    await expect(promise).rejects.toBeInstanceOf(
+      UserAlreadyExistsWithThisDriverLicenseError
     );
   });
 

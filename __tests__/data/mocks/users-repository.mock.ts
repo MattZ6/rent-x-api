@@ -2,12 +2,13 @@ import { IUser } from '@domain/models/User';
 
 import {
   CreateUserRepositoryData,
+  ICheckIfUserExistsByDriverLicenseRepository,
+  ICheckIfUserExistsByEmailRepository,
   ICreateUserRepository,
   IFindUserByEmailRepository,
+  IFindUserByIdRepository,
   IUpdateUserRepository,
 } from '@data/protocols/repositories/user';
-import { ICheckIfUserExistsByEmailRepository } from '@data/protocols/repositories/user/CheckIfUserExistsByEmailRepository';
-import { IFindUserByIdRepository } from '@data/protocols/repositories/user/FindUserByIdRepository';
 
 import { userMock } from '../../domain/models/user.mock';
 
@@ -56,5 +57,15 @@ export class FindUserByIdRepositorySpy implements IFindUserByIdRepository {
 export class UpdateUserRepositorySpy implements IUpdateUserRepository {
   async update(data: IUser): Promise<IUser> {
     return data;
+  }
+}
+
+export class CheckIfUserExistsByDriverLicenseRepositorySpy
+  implements ICheckIfUserExistsByDriverLicenseRepository
+{
+  async checkIfExistsByDriverLicense(
+    _: ICheckIfUserExistsByDriverLicenseRepository.Input
+  ): Promise<ICheckIfUserExistsByDriverLicenseRepository.Output> {
+    return false;
   }
 }
