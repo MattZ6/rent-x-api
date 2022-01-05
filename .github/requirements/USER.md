@@ -1,9 +1,9 @@
 ## User features requirements
 
-- 📅 **Create account**
+- ✔ **Create account**
   - [x] It should be possible to create a user account with **name**, **email**, **password** and **driver license**
   - [x] It must not be possible to create a user account with the **email** of another;
-  - [ ] It must not be possible to create a user account with the **driver license** of another.
+  - [x] It must not be possible to create a user account with the **driver license** of another.
 
 - ✔ **Authentication**
   - [x] It must be possible to authenticate the user with **email** and **password**;
