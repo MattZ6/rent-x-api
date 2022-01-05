@@ -1,4 +1,7 @@
-import { UserAlreadyExistsWithThisEmailError } from '@domain/errors';
+import {
+  UserAlreadyExistsWithThisDriverLicenseError,
+  UserAlreadyExistsWithThisEmailError,
+} from '@domain/errors';
 import { ICreateUserUseCase } from '@domain/usecases/user/CreateUser';
 
 import { conflict, created } from '@presentation/helpers/http/http';
@@ -27,6 +30,10 @@ class CreateAccountController implements IController {
       return created<void>();
     } catch (error) {
       if (error instanceof UserAlreadyExistsWithThisEmailError) {
+        return conflict(error);
+      }
+
+      if (error instanceof UserAlreadyExistsWithThisDriverLicenseError) {
         return conflict(error);
       }
 
