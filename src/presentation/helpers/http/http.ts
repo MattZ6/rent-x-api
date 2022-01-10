@@ -20,6 +20,13 @@ export function noContent(): IHttpResponse<void> {
   };
 }
 
+export function paymentRequired(error: Error): IHttpResponse<Error> {
+  return {
+    statusCode: 402,
+    body: error,
+  };
+}
+
 export function notFound(error: Error): IHttpResponse<Error> {
   return {
     statusCode: 404,
