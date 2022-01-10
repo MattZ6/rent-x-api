@@ -9,7 +9,9 @@ interface IFindCarByIdRepository {
 namespace IFindCarByIdRepository {
   export type Input = {
     id: string;
-    relations: Array<keyof Pick<ICar, 'brand' | 'category' | 'specifications'>>;
+    relations?: Array<
+      keyof Pick<ICar, 'brand' | 'category' | 'specifications'>
+    >;
   };
 
   export type Output = undefined | ICar;
