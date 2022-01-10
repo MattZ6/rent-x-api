@@ -1,4 +1,5 @@
 import { ICar } from './Car';
+import { IRentPayment } from './RentPayment';
 import { IUser } from './User';
 
 export interface IRent {
@@ -12,6 +13,7 @@ export interface IRent {
   start_date: Date;
   expected_return_date: Date;
   return_date?: Date;
+  payment?: IRentPayment;
   created_at: Date;
   updated_at: Date;
 }
