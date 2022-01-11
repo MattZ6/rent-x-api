@@ -38,7 +38,7 @@ describe('DeleteCarSpecificationUseCase', () => {
     await deleteCarSpecificationUseCase.execute({ id });
 
     expect(checkIfExistsByIdSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith(id);
+    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({ id });
   });
 
   it('should throw if CheckIfCarSpecificationExistsByIdRepository throws', async () => {
@@ -84,7 +84,7 @@ describe('DeleteCarSpecificationUseCase', () => {
     await deleteCarSpecificationUseCase.execute({ id });
 
     expect(deleteByIdSpy).toHaveBeenCalledTimes(1);
-    expect(deleteByIdSpy).toHaveBeenCalledWith(id);
+    expect(deleteByIdSpy).toHaveBeenCalledWith({ id });
   });
 
   it('should throw if DeleteCarSpecificationByIdRepository throws', async () => {

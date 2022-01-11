@@ -1,10 +1,6 @@
 import { getRepository, Raw, Repository } from 'typeorm';
 
-import { ICarBrand } from '@domain/models/CarBrand';
-
 import {
-  CreateCarBrandDTO,
-  FindAllCarBrandsDTO,
   ICheckIfCarBrandExistsByIdRepository,
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
@@ -30,7 +26,11 @@ export class PostgresCarBrandsRepository
     this.repository = getRepository(CarBrand);
   }
 
-  async checkIfExistsByName(name: string): Promise<boolean> {
+  async checkIfExistsByName(
+    data: ICheckIfCarBrandExistsByNameRepository.Input
+  ): Promise<ICheckIfCarBrandExistsByNameRepository.Output> {
+    const { name } = data;
+
     const count = await this.repository.count({
       where: {
         name: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
@@ -42,7 +42,9 @@ export class PostgresCarBrandsRepository
     return count >= 1;
   }
 
-  async create(data: CreateCarBrandDTO): Promise<ICarBrand> {
+  async create(
+    data: ICreateCarBrandRepository.Input
+  ): Promise<ICreateCarBrandRepository.Output> {
     const { name } = data;
 
     const carBrand = this.repository.create({ name });
@@ -50,15 +52,23 @@ export class PostgresCarBrandsRepository
     return this.repository.save(carBrand);
   }
 
-  async findById(id: string): Promise<ICarBrand | undefined> {
+  async findById(
+    data: IFindCarBrandByIdRepository.Input
+  ): Promise<IFindCarBrandByIdRepository.Output> {
+    const { id } = data;
+
     return this.repository.findOne(id);
   }
 
-  async update(data: ICarBrand): Promise<ICarBrand> {
+  async update(
+    data: IUpdateCarBrandRepository.Input
+  ): Promise<IUpdateCarBrandRepository.Output> {
     return this.repository.save(data);
   }
 
-  async findAll(data: FindAllCarBrandsDTO): Promise<ICarBrand[]> {
+  async findAll(
+    data: IFindAllCarBrandsRepository.Input
+  ): Promise<IFindAllCarBrandsRepository.Output> {
     const { order_by, order, take, skip } = data;
 
     return this.repository.find({
@@ -68,7 +78,11 @@ export class PostgresCarBrandsRepository
     });
   }
 
-  async checkIfExistsById(id: string): Promise<boolean> {
+  async checkIfExistsById(
+    data: ICheckIfCarBrandExistsByIdRepository.Input
+  ): Promise<ICheckIfCarBrandExistsByIdRepository.Output> {
+    const { id } = data;
+
     const count = await this.repository.count({
       where: { id },
     });

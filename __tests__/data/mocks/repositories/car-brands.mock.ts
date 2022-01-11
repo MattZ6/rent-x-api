@@ -1,8 +1,4 @@
-import { ICarBrand } from '@domain/models/CarBrand';
-
 import {
-  CreateCarBrandDTO,
-  FindAllCarBrandsDTO,
   ICheckIfCarBrandExistsByIdRepository,
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
@@ -16,13 +12,17 @@ import { carBrandMock } from '../../../domain/models/car-brand.mock';
 export class CheckIfCarBrandExistsByNameRepositorySpy
   implements ICheckIfCarBrandExistsByNameRepository
 {
-  async checkIfExistsByName(_: string): Promise<boolean> {
+  async checkIfExistsByName(
+    _: ICheckIfCarBrandExistsByNameRepository.Input
+  ): Promise<ICheckIfCarBrandExistsByNameRepository.Output> {
     return false;
   }
 }
 
 export class CreateCarBrandRepositorySpy implements ICreateCarBrandRepository {
-  async create(data: CreateCarBrandDTO): Promise<ICarBrand> {
+  async create(
+    data: ICreateCarBrandRepository.Input
+  ): Promise<ICreateCarBrandRepository.Output> {
     const { name } = data;
 
     const brand = { ...carBrandMock };
@@ -36,7 +36,11 @@ export class CreateCarBrandRepositorySpy implements ICreateCarBrandRepository {
 export class FindCarBrandByIdRepositorySpy
   implements IFindCarBrandByIdRepository
 {
-  async findById(id: string): Promise<ICarBrand | undefined> {
+  async findById(
+    data: IFindCarBrandByIdRepository.Input
+  ): Promise<IFindCarBrandByIdRepository.Output> {
+    const { id } = data;
+
     const brand = { ...carBrandMock };
 
     Object.assign(brand, { id });
@@ -46,7 +50,9 @@ export class FindCarBrandByIdRepositorySpy
 }
 
 export class UpdateCarBrandRepositorySpy implements IUpdateCarBrandRepository {
-  async update(data: ICarBrand): Promise<ICarBrand> {
+  async update(
+    data: IUpdateCarBrandRepository.Input
+  ): Promise<IUpdateCarBrandRepository.Output> {
     return data;
   }
 }
@@ -54,7 +60,9 @@ export class UpdateCarBrandRepositorySpy implements IUpdateCarBrandRepository {
 export class CheckIfCarBrandExistsByIdRepositorySpy
   implements ICheckIfCarBrandExistsByIdRepository
 {
-  async checkIfExistsById(_: string): Promise<boolean> {
+  async checkIfExistsById(
+    _: ICheckIfCarBrandExistsByIdRepository.Input
+  ): Promise<ICheckIfCarBrandExistsByIdRepository.Output> {
     return true;
   }
 }
@@ -62,7 +70,9 @@ export class CheckIfCarBrandExistsByIdRepositorySpy
 export class FindAllCarBrandsRepositorySpy
   implements IFindAllCarBrandsRepository
 {
-  async findAll(_: FindAllCarBrandsDTO): Promise<ICarBrand[]> {
+  async findAll(
+    _: IFindAllCarBrandsRepository.Input
+  ): Promise<IFindAllCarBrandsRepository.Output> {
     return [carBrandMock, carBrandMock, carBrandMock];
   }
 }

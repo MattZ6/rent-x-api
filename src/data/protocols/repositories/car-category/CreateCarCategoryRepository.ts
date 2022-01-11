@@ -1,10 +1,18 @@
 import { ICarCategory } from '@domain/models/CarCategory';
 
-export type CreateCarCategoryDTO = {
-  name: string;
-  description: string;
-};
-
-export interface ICreateCarCategoryRepository {
-  create(data: CreateCarCategoryDTO): Promise<ICarCategory>;
+interface ICreateCarCategoryRepository {
+  create(
+    data: ICreateCarCategoryRepository.Input
+  ): Promise<ICreateCarCategoryRepository.Output>;
 }
+
+namespace ICreateCarCategoryRepository {
+  export type Input = {
+    name: string;
+    description: string;
+  };
+
+  export type Output = ICarCategory;
+}
+
+export { ICreateCarCategoryRepository };

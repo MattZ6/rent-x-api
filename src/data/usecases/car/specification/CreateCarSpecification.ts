@@ -21,7 +21,7 @@ export class CreateCarSpecificationUseCase
 
     const alreadyExists =
       await this.checkIfCarSpecificationExistsByNameRepository.checkIfExistsByName(
-        name
+        { name }
       );
 
     if (alreadyExists) {

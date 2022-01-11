@@ -90,7 +90,9 @@ describe('CreateCarUseCase', () => {
     });
 
     expect(checkIfExistsByLicensePlateSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByLicensePlateSpy).toHaveBeenCalledWith(licensePlate);
+    expect(checkIfExistsByLicensePlateSpy).toHaveBeenCalledWith({
+      license_plate: licensePlate,
+    });
   });
 
   it('should throw if CheckIfCarExistsByLicensePlateRepository throws', async () => {
@@ -135,7 +137,7 @@ describe('CreateCarUseCase', () => {
     });
 
     expect(checkIfExistsByIdSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith(brandId);
+    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({ id: brandId });
   });
 
   it('should throw if CheckIfCarBrandExistsByIdRepository throws', async () => {
@@ -174,7 +176,7 @@ describe('CreateCarUseCase', () => {
     });
 
     expect(checkIfExistsByIdSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith(categoryId);
+    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({ id: categoryId });
   });
 
   it('should throw if CheckIfCarCategoryExistsByIdRepository throws', async () => {
@@ -213,7 +215,7 @@ describe('CreateCarUseCase', () => {
     });
 
     expect(findAllByIdsSpy).toHaveBeenCalledTimes(1);
-    expect(findAllByIdsSpy).toHaveBeenCalledWith(specificationsIds);
+    expect(findAllByIdsSpy).toHaveBeenCalledWith({ ids: specificationsIds });
   });
 
   it('should throw if FindAllSpecificationsByIdsRepository throws', async () => {
@@ -271,7 +273,7 @@ describe('CreateCarUseCase', () => {
       ],
     });
 
-    expect(findAllByIdsSpy).toHaveBeenCalledWith(specificationIds);
+    expect(findAllByIdsSpy).toHaveBeenCalledWith({ ids: specificationIds });
   });
 
   it('should throw OneOrMoreCarSpecificationsNotFoundWithThisIdsError if specifications found count are different from provided specifications ids count', async () => {

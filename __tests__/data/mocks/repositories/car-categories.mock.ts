@@ -1,8 +1,4 @@
-import { ICarCategory } from '@domain/models/CarCategory';
-
 import {
-  CreateCarCategoryDTO,
-  FindAllCarCategoriesDTO,
   ICheckIfCarCategoryExistsByIdRepository,
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
@@ -16,7 +12,9 @@ import { carCategoryMock } from '../../../domain/models/car-category.mock';
 export class CheckIfCarCategoryExistsByNameRepositorySpy
   implements ICheckIfCarCategoryExistsByNameRepository
 {
-  async checkIfExistsByName(_: string): Promise<boolean> {
+  async checkIfExistsByName(
+    _: ICheckIfCarCategoryExistsByNameRepository.Input
+  ): Promise<ICheckIfCarCategoryExistsByNameRepository.Output> {
     return false;
   }
 }
@@ -24,7 +22,9 @@ export class CheckIfCarCategoryExistsByNameRepositorySpy
 export class CreateCarCategoryRepositorySpy
   implements ICreateCarCategoryRepository
 {
-  async create(data: CreateCarCategoryDTO): Promise<ICarCategory> {
+  async create(
+    data: ICreateCarCategoryRepository.Input
+  ): Promise<ICreateCarCategoryRepository.Output> {
     const { name, description } = data;
 
     const category = { ...carCategoryMock };
@@ -38,7 +38,11 @@ export class CreateCarCategoryRepositorySpy
 export class FindCarCategoryByIdRepositorySpy
   implements IFindCarCategoryByIdRepository
 {
-  async findById(id: string): Promise<ICarCategory | undefined> {
+  async findById(
+    data: IFindCarCategoryByIdRepository.Input
+  ): Promise<IFindCarCategoryByIdRepository.Output> {
+    const { id } = data;
+
     const category = { ...carCategoryMock };
 
     Object.assign(category, { id });
@@ -50,7 +54,9 @@ export class FindCarCategoryByIdRepositorySpy
 export class UpdateCarCategoryRepositorySpy
   implements IUpdateCarCategoryRepository
 {
-  async update(data: ICarCategory): Promise<ICarCategory> {
+  async update(
+    data: IUpdateCarCategoryRepository.Input
+  ): Promise<IUpdateCarCategoryRepository.Output> {
     return data;
   }
 }
@@ -58,7 +64,9 @@ export class UpdateCarCategoryRepositorySpy
 export class FindAllCarCategoriesRepositorySpy
   implements IFindAllCarCategoriesRepository
 {
-  async findAll(_: FindAllCarCategoriesDTO): Promise<ICarCategory[]> {
+  async findAll(
+    _: IFindAllCarCategoriesRepository.Input
+  ): Promise<IFindAllCarCategoriesRepository.Output> {
     return [carCategoryMock, carCategoryMock, carCategoryMock];
   }
 }
@@ -66,7 +74,9 @@ export class FindAllCarCategoriesRepositorySpy
 export class CheckIfCarCategoryExistsByIdRepositorySpy
   implements ICheckIfCarCategoryExistsByIdRepository
 {
-  async checkIfExistsById(name_: string): Promise<boolean> {
+  async checkIfExistsById(
+    _: ICheckIfCarCategoryExistsByIdRepository.Input
+  ): Promise<ICheckIfCarCategoryExistsByIdRepository.Output> {
     return true;
   }
 }

@@ -1,10 +1,6 @@
 import { getRepository, Raw, Repository } from 'typeorm';
 
-import { ICarCategory } from '@domain/models/CarCategory';
-
 import {
-  CreateCarCategoryDTO,
-  FindAllCarCategoriesDTO,
   ICheckIfCarCategoryExistsByIdRepository,
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
@@ -30,7 +26,11 @@ export class PostgresCarCategoriesRepository
     this.repository = getRepository(CarCategory);
   }
 
-  async checkIfExistsByName(name: string): Promise<boolean> {
+  async checkIfExistsByName(
+    data: ICheckIfCarCategoryExistsByNameRepository.Input
+  ): Promise<ICheckIfCarCategoryExistsByNameRepository.Output> {
+    const { name } = data;
+
     const count = await this.repository.count({
       where: {
         name: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
@@ -42,7 +42,9 @@ export class PostgresCarCategoriesRepository
     return count >= 1;
   }
 
-  async create(data: CreateCarCategoryDTO): Promise<ICarCategory> {
+  async create(
+    data: ICreateCarCategoryRepository.Input
+  ): Promise<ICreateCarCategoryRepository.Output> {
     const { name, description } = data;
 
     const carCategory = this.repository.create({ name, description });
@@ -50,15 +52,23 @@ export class PostgresCarCategoriesRepository
     return this.repository.save(carCategory);
   }
 
-  async findById(id: string): Promise<ICarCategory | undefined> {
+  async findById(
+    data: IFindCarCategoryByIdRepository.Input
+  ): Promise<IFindCarCategoryByIdRepository.Output> {
+    const { id } = data;
+
     return this.repository.findOne(id);
   }
 
-  async update(data: ICarCategory): Promise<ICarCategory> {
+  async update(
+    data: IUpdateCarCategoryRepository.Input
+  ): Promise<IUpdateCarCategoryRepository.Output> {
     return this.repository.save(data);
   }
 
-  async findAll(data: FindAllCarCategoriesDTO): Promise<ICarCategory[]> {
+  async findAll(
+    data: IFindAllCarCategoriesRepository.Input
+  ): Promise<IFindAllCarCategoriesRepository.Output> {
     const { order_by, order, take, skip } = data;
 
     return this.repository.find({
@@ -68,7 +78,11 @@ export class PostgresCarCategoriesRepository
     });
   }
 
-  async checkIfExistsById(id: string): Promise<boolean> {
+  async checkIfExistsById(
+    data: ICheckIfCarCategoryExistsByIdRepository.Input
+  ): Promise<ICheckIfCarCategoryExistsByIdRepository.Output> {
+    const { id } = data;
+
     const count = await this.repository.count({
       where: { id },
     });

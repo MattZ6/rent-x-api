@@ -22,7 +22,7 @@ export class UpdateCarCategoryUseCase implements IUpdateCarCategoryUseCase {
   ): Promise<IUpdateCarCategoryUseCase.Output> {
     const { id, name, description } = data;
 
-    const category = await this.findCarCategoryByIdRepository.findById(id);
+    const category = await this.findCarCategoryByIdRepository.findById({ id });
 
     if (!category) {
       throw new CarCategoryNotFoundWithThisIdError();
@@ -34,7 +34,7 @@ export class UpdateCarCategoryUseCase implements IUpdateCarCategoryUseCase {
     if (!areSameName) {
       const alreadyInUse =
         await this.checkIfCarCategoryExistsByNameRepository.checkIfExistsByName(
-          name
+          { name }
         );
 
       if (alreadyInUse) {

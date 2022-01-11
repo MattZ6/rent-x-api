@@ -1,9 +1,17 @@
 import { ICarBrand } from '@domain/models/CarBrand';
 
-export type CreateCarBrandDTO = {
-  name: string;
-};
-
-export interface ICreateCarBrandRepository {
-  create(data: CreateCarBrandDTO): Promise<ICarBrand>;
+interface ICreateCarBrandRepository {
+  create(
+    data: ICreateCarBrandRepository.Input
+  ): Promise<ICreateCarBrandRepository.Output>;
 }
+
+namespace ICreateCarBrandRepository {
+  export type Input = {
+    name: string;
+  };
+
+  export type Output = ICarBrand;
+}
+
+export { ICreateCarBrandRepository };

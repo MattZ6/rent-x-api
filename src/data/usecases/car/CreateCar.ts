@@ -45,7 +45,9 @@ export class CreateCarUseCase implements ICreateCarUseCase {
 
     const alreadyExistsWithLicensePlate =
       await this.checkIfCarExistsByLicensePlateRepository.checkIfExistsByLicensePlate(
-        license_plate
+        {
+          license_plate,
+        }
       );
 
     if (alreadyExistsWithLicensePlate) {
@@ -53,18 +55,18 @@ export class CreateCarUseCase implements ICreateCarUseCase {
     }
 
     const brandExists =
-      await this.checkIfCarBrandExistsByIdRepository.checkIfExistsById(
-        brand_id
-      );
+      await this.checkIfCarBrandExistsByIdRepository.checkIfExistsById({
+        id: brand_id,
+      });
 
     if (!brandExists) {
       throw new CarBrandNotFoundWithThisIdError();
     }
 
     const categoryExists =
-      await this.checkIfCarCategoryExistsByIdRepository.checkIfExistsById(
-        category_id
-      );
+      await this.checkIfCarCategoryExistsByIdRepository.checkIfExistsById({
+        id: category_id,
+      });
 
     if (!categoryExists) {
       throw new CarCategoryNotFoundWithThisIdError();
@@ -76,9 +78,9 @@ export class CreateCarUseCase implements ICreateCarUseCase {
 
     if (specificationsIds.length > 0) {
       specifications =
-        await this.findAllSpecificationsByIdsRepository.findAllByIds(
-          specificationsIds
-        );
+        await this.findAllSpecificationsByIdsRepository.findAllByIds({
+          ids: specificationsIds,
+        });
 
       if (specifications.length !== specificationsIds.length) {
         throw new OneOrMoreCarSpecificationsNotFoundWithThisIdsError();

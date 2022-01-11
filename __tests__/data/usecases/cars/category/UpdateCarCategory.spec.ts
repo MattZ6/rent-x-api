@@ -49,7 +49,7 @@ describe('UpdateCarCategoryUseCase', () => {
     });
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
-    expect(findByIdSpy).toHaveBeenCalledWith(id);
+    expect(findByIdSpy).toHaveBeenCalledWith({ id });
   });
 
   it('should throw if FindCarCategoryByIdRepository throws', async () => {
@@ -132,7 +132,7 @@ describe('UpdateCarCategoryUseCase', () => {
       description: faker.datatype.string(),
     });
 
-    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith(name);
+    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name });
   });
 
   it('should throw if CheckIfCarCategoryExistsByNameRepository throws', async () => {

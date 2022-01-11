@@ -1,5 +1,17 @@
 import { ICarBrand } from '@domain/models/CarBrand';
 
-export interface IFindCarBrandByIdRepository {
-  findById(id: string): Promise<ICarBrand | undefined>;
+interface IFindCarBrandByIdRepository {
+  findById(
+    data: IFindCarBrandByIdRepository.Input
+  ): Promise<IFindCarBrandByIdRepository.Output>;
 }
+
+namespace IFindCarBrandByIdRepository {
+  export type Input = {
+    id: string;
+  };
+
+  export type Output = ICarBrand | undefined;
+}
+
+export { IFindCarBrandByIdRepository };

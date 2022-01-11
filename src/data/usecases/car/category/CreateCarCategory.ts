@@ -18,9 +18,9 @@ export class CreateCarCategoryUseCase implements ICreateCarCategoryUseCase {
     const { name, description } = data;
 
     const alreadyExists =
-      await this.checkIfCarCategoryExistsByNameRepository.checkIfExistsByName(
-        name
-      );
+      await this.checkIfCarCategoryExistsByNameRepository.checkIfExistsByName({
+        name,
+      });
 
     if (alreadyExists) {
       throw new CarCategoryAlreadyExistsWithThisNameError();

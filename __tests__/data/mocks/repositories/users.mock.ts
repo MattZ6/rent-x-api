@@ -87,7 +87,7 @@ export class CheckIfUserExistsByIdRepositorySpy
 {
   async checkIfExistsById(
     _: ICheckIfUserExistsByIdRepository.Input
-  ): Promise<boolean> {
+  ): Promise<ICheckIfUserExistsByIdRepository.Output> {
     return true;
   }
 }

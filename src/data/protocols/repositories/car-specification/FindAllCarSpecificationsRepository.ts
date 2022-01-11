@@ -1,12 +1,20 @@
 import { ICarSpecification } from '@domain/models/CarSpecification';
 
-export type FindAllCarSpecificationsDTO = {
-  take: number;
-  skip: number;
-  order_by: keyof Pick<ICarSpecification, 'name' | 'created_at'>;
-  order: 'ASC' | 'DESC';
-};
-
-export interface IFindAllCarSpecificationsRepository {
-  findAll(data: FindAllCarSpecificationsDTO): Promise<ICarSpecification[]>;
+interface IFindAllCarSpecificationsRepository {
+  findAll(
+    data: IFindAllCarSpecificationsRepository.Input
+  ): Promise<IFindAllCarSpecificationsRepository.Output>;
 }
+
+namespace IFindAllCarSpecificationsRepository {
+  export type Input = {
+    take: number;
+    skip: number;
+    order_by: keyof Pick<ICarSpecification, 'name' | 'created_at'>;
+    order: 'ASC' | 'DESC';
+  };
+
+  export type Output = ICarSpecification[];
+}
+
+export { IFindAllCarSpecificationsRepository };

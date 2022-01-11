@@ -22,7 +22,7 @@ export class UpdateCarBrandUseCase implements IUpdateCarBrandUseCase {
   ): Promise<IUpdateCarBrandUseCase.Output> {
     const { id, name } = data;
 
-    const brand = await this.findCarBrandByIdRepository.findById(id);
+    const brand = await this.findCarBrandByIdRepository.findById({ id });
 
     if (!brand) {
       throw new CarBrandNotFoundWithThisIdError();
@@ -33,9 +33,9 @@ export class UpdateCarBrandUseCase implements IUpdateCarBrandUseCase {
 
     if (!areSameName) {
       const alreadyInUse =
-        await this.checkIfCarBrandExistsByNameRepository.checkIfExistsByName(
-          name
-        );
+        await this.checkIfCarBrandExistsByNameRepository.checkIfExistsByName({
+          name,
+        });
 
       if (alreadyInUse) {
         throw new CarBrandAlreadyExistsWithThisNameError();

@@ -41,7 +41,7 @@ describe('CreateCarSpecificationUseCase', () => {
     });
 
     expect(checkIfExistsByNameSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith(name);
+    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name });
   });
 
   it('should throw if CheckIfCarSpecificationExistsByNameRepository throws', async () => {

@@ -1,10 +1,18 @@
 import { ICar } from '@domain/models/Car';
 
-export type CreateCarDTO = Omit<
-  ICar,
-  'id' | 'created_at' | 'updated_at' | 'category' | 'brand'
->;
-
-export interface ICreateCarRepository {
-  create(data: CreateCarDTO): Promise<ICar>;
+interface ICreateCarRepository {
+  create(
+    data: ICreateCarRepository.Input
+  ): Promise<ICreateCarRepository.Output>;
 }
+
+namespace ICreateCarRepository {
+  export type Input = Omit<
+    ICar,
+    'id' | 'created_at' | 'updated_at' | 'category' | 'brand'
+  >;
+
+  export type Output = ICar;
+}
+
+export { ICreateCarRepository };

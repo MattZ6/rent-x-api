@@ -51,7 +51,7 @@ describe('UpdateCarSpecificationUseCase', () => {
     });
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
-    expect(findByIdSpy).toHaveBeenCalledWith(id);
+    expect(findByIdSpy).toHaveBeenCalledWith({ id });
   });
 
   it('should throw if FindCarSpecificationByIdRepository throws', async () => {
@@ -134,7 +134,7 @@ describe('UpdateCarSpecificationUseCase', () => {
       description: faker.datatype.string(),
     });
 
-    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith(name);
+    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name });
   });
 
   it('should throw if CheckIfCarSpecificationExistsByNameRepository throws', async () => {

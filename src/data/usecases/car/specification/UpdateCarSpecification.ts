@@ -25,7 +25,7 @@ export class UpdateCarSpecificationUseCase
     const { id, name, description } = data;
 
     const specification =
-      await this.findCarSpecificationByIdRepository.findById(id);
+      await this.findCarSpecificationByIdRepository.findById({ id });
 
     if (!specification) {
       throw new CarSpecificationNotFoundWithThisIdError();
@@ -37,7 +37,9 @@ export class UpdateCarSpecificationUseCase
     if (!areSameName) {
       const alreadyInUse =
         await this.checkIfCarSpecificationExistsByNameRepository.checkIfExistsByName(
-          name
+          {
+            name,
+          }
         );
 
       if (alreadyInUse) {

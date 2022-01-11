@@ -1,12 +1,20 @@
 import { ICarBrand } from '@domain/models/CarBrand';
 
-export type FindAllCarBrandsDTO = {
-  order_by: keyof Pick<ICarBrand, 'name' | 'created_at'>;
-  order: 'ASC' | 'DESC';
-  take: number;
-  skip: number;
-};
-
-export interface IFindAllCarBrandsRepository {
-  findAll(data: FindAllCarBrandsDTO): Promise<ICarBrand[]>;
+interface IFindAllCarBrandsRepository {
+  findAll(
+    data: IFindAllCarBrandsRepository.Input
+  ): Promise<IFindAllCarBrandsRepository.Output>;
 }
+
+namespace IFindAllCarBrandsRepository {
+  export type Input = {
+    order_by: keyof Pick<ICarBrand, 'name' | 'created_at'>;
+    order: 'ASC' | 'DESC';
+    take: number;
+    skip: number;
+  };
+
+  export type Output = ICarBrand[];
+}
+
+export { IFindAllCarBrandsRepository };

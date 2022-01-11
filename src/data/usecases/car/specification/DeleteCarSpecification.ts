@@ -20,14 +20,14 @@ export class DeleteCarSpecificationUseCase
     const { id } = data;
 
     const exists =
-      await this.checkIfCarSpecificationExistsByIdRepository.checkIfExistsById(
-        id
-      );
+      await this.checkIfCarSpecificationExistsByIdRepository.checkIfExistsById({
+        id,
+      });
 
     if (!exists) {
       throw new CarSpecificationNotFoundWithThisIdError();
     }
 
-    await this.deleteCarSpecificationByIdRepository.deleteById(id);
+    await this.deleteCarSpecificationByIdRepository.deleteById({ id });
   }
 }

@@ -1,10 +1,18 @@
 import { ICarSpecification } from '@domain/models/CarSpecification';
 
-export type CreateCarSpecificationDTO = {
-  name: string;
-  description: string;
-};
-
-export interface ICreateCarSpecificationRepository {
-  create(data: CreateCarSpecificationDTO): Promise<ICarSpecification>;
+interface ICreateCarSpecificationRepository {
+  create(
+    data: ICreateCarSpecificationRepository.Input
+  ): Promise<ICreateCarSpecificationRepository.Output>;
 }
+
+namespace ICreateCarSpecificationRepository {
+  export type Input = {
+    name: string;
+    description: string;
+  };
+
+  export type Output = ICarSpecification;
+}
+
+export { ICreateCarSpecificationRepository };

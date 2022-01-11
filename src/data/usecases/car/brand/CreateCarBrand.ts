@@ -18,9 +18,9 @@ export class CreateCarBrandUseCase implements ICreateCarBrandUseCase {
     const { name } = data;
 
     const exists =
-      await this.checkIfCarBrandExistsByNameRepository.checkIfExistsByName(
-        name
-      );
+      await this.checkIfCarBrandExistsByNameRepository.checkIfExistsByName({
+        name,
+      });
 
     if (exists) {
       throw new CarBrandAlreadyExistsWithThisNameError();

@@ -1,10 +1,6 @@
 import { getRepository, Raw, Repository } from 'typeorm';
 
-import { ICar } from '@domain/models/Car';
-
 import {
-  CreateCarDTO,
-  FindAllCarsDTO,
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
   IFindAllCarsRepository,
@@ -26,7 +22,11 @@ export class PostgresCarsRepository
     this.repository = getRepository(Car);
   }
 
-  async checkIfExistsByLicensePlate(license_plate: string): Promise<boolean> {
+  async checkIfExistsByLicensePlate(
+    data: ICheckIfCarExistsByLicensePlateRepository.Input
+  ): Promise<ICheckIfCarExistsByLicensePlateRepository.Output> {
+    const { license_plate } = data;
+
     const count = await this.repository.count({
       where: {
         license_plate: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
@@ -38,7 +38,9 @@ export class PostgresCarsRepository
     return count >= 1;
   }
 
-  async create(data: CreateCarDTO): Promise<ICar> {
+  async create(
+    data: ICreateCarRepository.Input
+  ): Promise<ICreateCarRepository.Output> {
     const {
       name,
       description,
@@ -76,7 +78,9 @@ export class PostgresCarsRepository
     return this.repository.save(car);
   }
 
-  async findAll(data: FindAllCarsDTO): Promise<ICar[]> {
+  async findAll(
+    data: IFindAllCarsRepository.Input
+  ): Promise<IFindAllCarsRepository.Output> {
     const { order_by, order, skip, take, relations } = data;
 
     return this.repository.find({

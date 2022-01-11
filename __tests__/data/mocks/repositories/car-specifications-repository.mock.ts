@@ -1,8 +1,4 @@
-import { ICarSpecification } from '@domain/models/CarSpecification';
-
 import {
-  CreateCarSpecificationDTO,
-  FindAllCarSpecificationsDTO,
   ICheckIfCarSpecificationExistsByIdRepository,
   ICheckIfCarSpecificationExistsByNameRepository,
   ICreateCarSpecificationRepository,
@@ -18,7 +14,9 @@ import { carSpecificationMock } from '../../../domain/models/car-specification.m
 export class CheckIfCarSpecificationExistsByNameRepositorySpy
   implements ICheckIfCarSpecificationExistsByNameRepository
 {
-  async checkIfExistsByName(_: string): Promise<boolean> {
+  async checkIfExistsByName(
+    _: ICheckIfCarSpecificationExistsByNameRepository.Input
+  ): Promise<ICheckIfCarSpecificationExistsByNameRepository.Output> {
     return false;
   }
 }
@@ -26,7 +24,9 @@ export class CheckIfCarSpecificationExistsByNameRepositorySpy
 export class CreateCarSpecificationRepositorySpy
   implements ICreateCarSpecificationRepository
 {
-  async create(data: CreateCarSpecificationDTO): Promise<ICarSpecification> {
+  async create(
+    data: ICreateCarSpecificationRepository.Input
+  ): Promise<ICreateCarSpecificationRepository.Output> {
     const { name, description } = data;
 
     const specification = { ...carSpecificationMock };
@@ -40,7 +40,11 @@ export class CreateCarSpecificationRepositorySpy
 export class FindCarSpecificationByIdRepositorySpy
   implements IFindCarSpecificationByIdRepository
 {
-  async findById(id: string): Promise<ICarSpecification> {
+  async findById(
+    data: IFindCarSpecificationByIdRepository.Input
+  ): Promise<IFindCarSpecificationByIdRepository.Output> {
+    const { id } = data;
+
     const specification = { ...carSpecificationMock };
 
     Object.assign(specification, { id });
@@ -52,7 +56,9 @@ export class FindCarSpecificationByIdRepositorySpy
 export class UpdateCarSpecificationRepositorySpy
   implements IUpdateCarSpecificationRepository
 {
-  async update(data: ICarSpecification): Promise<ICarSpecification> {
+  async update(
+    data: IUpdateCarSpecificationRepository.Input
+  ): Promise<IUpdateCarSpecificationRepository.Output> {
     return data;
   }
 }
@@ -60,7 +66,9 @@ export class UpdateCarSpecificationRepositorySpy
 export class FindAllCarSpecificationsRepositorySpy
   implements IFindAllCarSpecificationsRepository
 {
-  async findAll(_: FindAllCarSpecificationsDTO): Promise<ICarSpecification[]> {
+  async findAll(
+    _: IFindAllCarSpecificationsRepository.Input
+  ): Promise<IFindAllCarSpecificationsRepository.Output> {
     return [carSpecificationMock, carSpecificationMock, carSpecificationMock];
   }
 }
@@ -68,7 +76,9 @@ export class FindAllCarSpecificationsRepositorySpy
 export class DeleteCarSpecificationByIdRepositorySpy
   implements IDeleteCarSpecificationByIdRepository
 {
-  async deleteById(_: string): Promise<void> {
+  async deleteById(
+    _: IDeleteCarSpecificationByIdRepository.Input
+  ): Promise<IDeleteCarSpecificationByIdRepository.Output> {
     // That's all folks 🥕
   }
 }
@@ -76,7 +86,9 @@ export class DeleteCarSpecificationByIdRepositorySpy
 export class CheckIfCarSpecificationExistsByIdRepositorySpy
   implements ICheckIfCarSpecificationExistsByIdRepository
 {
-  async checkIfExistsById(_: string): Promise<boolean> {
+  async checkIfExistsById(
+    _: ICheckIfCarSpecificationExistsByIdRepository.Input
+  ): Promise<ICheckIfCarSpecificationExistsByIdRepository.Output> {
     return true;
   }
 }
@@ -84,7 +96,9 @@ export class CheckIfCarSpecificationExistsByIdRepositorySpy
 export class FindAllSpecificationsByIdsRepositorySpy
   implements IFindAllSpecificationsByIdsRepository
 {
-  async findAllByIds(_: string[]): Promise<ICarSpecification[]> {
+  async findAllByIds(
+    _: IFindAllSpecificationsByIdsRepository.Input
+  ): Promise<IFindAllSpecificationsByIdsRepository.Output> {
     return [carSpecificationMock, carSpecificationMock];
   }
 }

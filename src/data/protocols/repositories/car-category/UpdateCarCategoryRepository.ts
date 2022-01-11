@@ -1,5 +1,15 @@
 import { ICarCategory } from '@domain/models/CarCategory';
 
-export interface IUpdateCarCategoryRepository {
-  update(data: ICarCategory): Promise<ICarCategory>;
+interface IUpdateCarCategoryRepository {
+  update(
+    data: IUpdateCarCategoryRepository.Input
+  ): Promise<IUpdateCarCategoryRepository.Output>;
 }
+
+namespace IUpdateCarCategoryRepository {
+  export type Input = ICarCategory;
+
+  export type Output = ICarCategory;
+}
+
+export { IUpdateCarCategoryRepository };

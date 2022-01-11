@@ -1,8 +1,4 @@
-import { ICar } from '@domain/models/Car';
-
 import {
-  CreateCarDTO,
-  FindAllCarsDTO,
   ICheckIfCarExistsByIdRepository,
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
@@ -15,13 +11,17 @@ import { carMock } from '../../../domain/models/car.mock';
 export class CheckIfCarExistsByLicensePlateRepositorySpy
   implements ICheckIfCarExistsByLicensePlateRepository
 {
-  async checkIfExistsByLicensePlate(_: string): Promise<boolean> {
+  async checkIfExistsByLicensePlate(
+    _: ICheckIfCarExistsByLicensePlateRepository.Input
+  ): Promise<ICheckIfCarExistsByLicensePlateRepository.Output> {
     return false;
   }
 }
 
 export class CreateCarRepositorySpy implements ICreateCarRepository {
-  async create(data: CreateCarDTO): Promise<ICar> {
+  async create(
+    data: ICreateCarRepository.Input
+  ): Promise<ICreateCarRepository.Output> {
     const {
       brand_id,
       category_id,
@@ -63,7 +63,9 @@ export class CreateCarRepositorySpy implements ICreateCarRepository {
 }
 
 export class FindAllCarsRepositorySpy implements IFindAllCarsRepository {
-  async findAll(_: FindAllCarsDTO): Promise<ICar[]> {
+  async findAll(
+    _: IFindAllCarsRepository.Input
+  ): Promise<IFindAllCarsRepository.Output> {
     return [carMock, carMock, carMock];
   }
 }
@@ -81,7 +83,7 @@ export class CheckIfCarExistsByIdRepositorySpy
 {
   async checkIfExistsById(
     _: ICheckIfCarExistsByIdRepository.Input
-  ): Promise<boolean> {
+  ): Promise<ICheckIfCarExistsByIdRepository.Output> {
     return true;
   }
 }

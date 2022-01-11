@@ -1,3 +1,15 @@
-export interface ICheckIfCarBrandExistsByNameRepository {
-  checkIfExistsByName(name: string): Promise<boolean>;
+interface ICheckIfCarBrandExistsByNameRepository {
+  checkIfExistsByName(
+    data: ICheckIfCarBrandExistsByNameRepository.Input
+  ): Promise<ICheckIfCarBrandExistsByNameRepository.Output>;
 }
+
+namespace ICheckIfCarBrandExistsByNameRepository {
+  export type Input = {
+    name: string;
+  };
+
+  export type Output = boolean;
+}
+
+export { ICheckIfCarBrandExistsByNameRepository };

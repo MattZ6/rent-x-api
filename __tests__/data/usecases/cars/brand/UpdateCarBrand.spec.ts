@@ -45,7 +45,7 @@ describe('UpdateCarBrandUseCase', () => {
     });
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
-    expect(findByIdSpy).toHaveBeenCalledWith(id);
+    expect(findByIdSpy).toHaveBeenCalledWith({ id });
   });
 
   it('should throw if FindCarBrandByIdRepository throws', async () => {
@@ -123,7 +123,7 @@ describe('UpdateCarBrandUseCase', () => {
       name,
     });
 
-    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith(name);
+    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name });
   });
 
   it('should throw if CheckIfCarBrandExistsByNameRepository throws', async () => {
