@@ -14,7 +14,7 @@ import { CreateRentUseCase } from '@data/usecases/rent/CreateRent';
 import { carMock } from '../../../domain/models/car.mock';
 import { rentMock } from '../../../domain/models/rent.mock';
 import {
-  CheckIfRentExistsByScheduleForCarRepositorySpy,
+  CheckIfRentExistsByOpenScheduleForCarRepositorySpy,
   CheckIfUserExistsByIdRepositorySpy,
   CheckIfRentExistsWithPendingPaymentByUserRepositorySpy,
   CreateRentRepositorySpy,
@@ -28,7 +28,7 @@ const minimumDurationTimeInMillisseconds = faker.datatype.number({
   min: 60_000,
   max: 60_000_000,
 });
-let checkIfRentExistsByScheduleForCarRepositorySpy: CheckIfRentExistsByScheduleForCarRepositorySpy;
+let checkIfRentExistsByOpenScheduleForCarRepositorySpy: CheckIfRentExistsByOpenScheduleForCarRepositorySpy;
 let createRentRepositorySpy: CreateRentRepositorySpy;
 
 let createRentUseCase: CreateRentUseCase;
@@ -51,8 +51,8 @@ describe('CreateRentUseCase', () => {
     checkIfRentExistsWithPendingPaymentByUserRepositorySpy =
       new CheckIfRentExistsWithPendingPaymentByUserRepositorySpy();
     findCarByIdRepositorySpy = new FindCarByIdRepositorySpy();
-    checkIfRentExistsByScheduleForCarRepositorySpy =
-      new CheckIfRentExistsByScheduleForCarRepositorySpy();
+    checkIfRentExistsByOpenScheduleForCarRepositorySpy =
+      new CheckIfRentExistsByOpenScheduleForCarRepositorySpy();
     createRentRepositorySpy = new CreateRentRepositorySpy();
 
     createRentUseCase = new CreateRentUseCase(
@@ -60,7 +60,7 @@ describe('CreateRentUseCase', () => {
       checkIfRentExistsWithPendingPaymentByUserRepositorySpy,
       findCarByIdRepositorySpy,
       minimumDurationTimeInMillisseconds,
-      checkIfRentExistsByScheduleForCarRepositorySpy,
+      checkIfRentExistsByOpenScheduleForCarRepositorySpy,
       createRentRepositorySpy
     );
   });
@@ -193,27 +193,27 @@ describe('CreateRentUseCase', () => {
     await expect(promise).rejects.toBeInstanceOf(InvalidRentDurationTimeError);
   });
 
-  it('should call CheckIfRentExistsByScheduleForCarRepository once with correct values', async () => {
-    const checkIfExistsByScheduleForCarSpy = jest.spyOn(
-      checkIfRentExistsByScheduleForCarRepositorySpy,
-      'checkIfExistsByScheduleForCar'
+  it('should call CheckIfRentExistsByOpenScheduleForCarRepository once with correct values', async () => {
+    const checkIfExistsByOpenScheduleForCarSpy = jest.spyOn(
+      checkIfRentExistsByOpenScheduleForCarRepositorySpy,
+      'checkIfExistsByOpenScheduleForCar'
     );
 
     await createRentUseCase.execute(createRentUseCaseInputMock);
 
-    expect(checkIfExistsByScheduleForCarSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByScheduleForCarSpy).toHaveBeenCalledWith({
+    expect(checkIfExistsByOpenScheduleForCarSpy).toHaveBeenCalledTimes(1);
+    expect(checkIfExistsByOpenScheduleForCarSpy).toHaveBeenCalledWith({
       car_id: createRentUseCaseInputMock.car_id,
       start: createRentUseCaseInputMock.start_date,
       end: createRentUseCaseInputMock.expected_return_date,
     });
   });
 
-  it('should throw if CheckIfRentExistsByScheduleForCarRepository throws', async () => {
+  it('should throw if CheckIfRentExistsByOpenScheduleForCarRepository throws', async () => {
     jest
       .spyOn(
-        checkIfRentExistsByScheduleForCarRepositorySpy,
-        'checkIfExistsByScheduleForCar'
+        checkIfRentExistsByOpenScheduleForCarRepositorySpy,
+        'checkIfExistsByOpenScheduleForCar'
       )
       .mockRejectedValueOnce(new Error());
 
@@ -225,8 +225,8 @@ describe('CreateRentUseCase', () => {
   it('should throw CarAlreadyBookedOnThisDateError if already exists a rent in this date for the car', async () => {
     jest
       .spyOn(
-        checkIfRentExistsByScheduleForCarRepositorySpy,
-        'checkIfExistsByScheduleForCar'
+        checkIfRentExistsByOpenScheduleForCarRepositorySpy,
+        'checkIfExistsByOpenScheduleForCar'
       )
       .mockResolvedValueOnce(true);
 

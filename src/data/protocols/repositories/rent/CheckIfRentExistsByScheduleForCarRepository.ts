@@ -1,10 +1,10 @@
-interface ICheckIfRentExistsByScheduleForCarRepository {
-  checkIfExistsByScheduleForCar(
-    data: ICheckIfRentExistsByScheduleForCarRepository.Input
-  ): Promise<ICheckIfRentExistsByScheduleForCarRepository.Output>;
+interface ICheckIfRentExistsByOpenScheduleForCarRepository {
+  checkIfExistsByOpenScheduleForCar(
+    data: ICheckIfRentExistsByOpenScheduleForCarRepository.Input
+  ): Promise<ICheckIfRentExistsByOpenScheduleForCarRepository.Output>;
 }
 
-namespace ICheckIfRentExistsByScheduleForCarRepository {
+namespace ICheckIfRentExistsByOpenScheduleForCarRepository {
   export type Input = {
     car_id: string;
     start: Date;
@@ -14,4 +14,4 @@ namespace ICheckIfRentExistsByScheduleForCarRepository {
   export type Output = boolean;
 }
 
-export { ICheckIfRentExistsByScheduleForCarRepository };
+export { ICheckIfRentExistsByOpenScheduleForCarRepository };

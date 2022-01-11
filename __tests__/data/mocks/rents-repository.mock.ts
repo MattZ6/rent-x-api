@@ -1,5 +1,5 @@
 import {
-  ICheckIfRentExistsByScheduleForCarRepository,
+  ICheckIfRentExistsByOpenScheduleForCarRepository,
   ICheckIfRentExistsWithPendingPaymentByUserRepository,
   ICreateRentRepository,
 } from '@data/protocols/repositories/rent';
@@ -20,12 +20,12 @@ export class CreateRentRepositorySpy implements ICreateRentRepository {
   }
 }
 
-export class CheckIfRentExistsByScheduleForCarRepositorySpy
-  implements ICheckIfRentExistsByScheduleForCarRepository
+export class CheckIfRentExistsByOpenScheduleForCarRepositorySpy
+  implements ICheckIfRentExistsByOpenScheduleForCarRepository
 {
-  async checkIfExistsByScheduleForCar(
-    _: ICheckIfRentExistsByScheduleForCarRepository.Input
-  ): Promise<ICheckIfRentExistsByScheduleForCarRepository.Output> {
+  async checkIfExistsByOpenScheduleForCar(
+    _: ICheckIfRentExistsByOpenScheduleForCarRepository.Input
+  ): Promise<ICheckIfRentExistsByOpenScheduleForCarRepository.Output> {
     return false;
   }
 }

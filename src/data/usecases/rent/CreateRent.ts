@@ -9,7 +9,7 @@ import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
 
 import { IFindCarByIdRepository } from '@data/protocols/repositories/car';
 import {
-  ICheckIfRentExistsByScheduleForCarRepository,
+  ICheckIfRentExistsByOpenScheduleForCarRepository,
   ICheckIfRentExistsWithPendingPaymentByUserRepository,
   ICreateRentRepository,
 } from '@data/protocols/repositories/rent';
@@ -21,7 +21,7 @@ export class CreateRentUseCase implements ICreateRentUseCase {
     private readonly checkIfRentExistsWithPendingPaymentByUserRepository: ICheckIfRentExistsWithPendingPaymentByUserRepository,
     private readonly findCarByIdRepository: IFindCarByIdRepository,
     private readonly minimumRentDurationTimeInMillisseconds: number,
-    private readonly checkIfRentExistsByScheduleForCarRepository: ICheckIfRentExistsByScheduleForCarRepository,
+    private readonly checkIfRentExistsByOpenScheduleForCarRepository: ICheckIfRentExistsByOpenScheduleForCarRepository,
     private readonly createRentRepository: ICreateRentRepository
   ) {}
 
@@ -56,8 +56,11 @@ export class CreateRentUseCase implements ICreateRentUseCase {
       throw new CarNotFoundWithThisIdError();
     }
 
+    const startDate = new Date(start_date);
+    const expectedReturnDate = new Date(expected_return_date);
+
     const rentalDurationInMillisseconds =
-      expected_return_date.getTime() - start_date.getTime();
+      expectedReturnDate.getTime() - startDate.getTime();
 
     if (
       rentalDurationInMillisseconds <
@@ -67,11 +70,11 @@ export class CreateRentUseCase implements ICreateRentUseCase {
     }
 
     const alreadyRentOnThisDate =
-      await this.checkIfRentExistsByScheduleForCarRepository.checkIfExistsByScheduleForCar(
+      await this.checkIfRentExistsByOpenScheduleForCarRepository.checkIfExistsByOpenScheduleForCar(
         {
           car_id,
-          start: start_date,
-          end: expected_return_date,
+          start: startDate,
+          end: expectedReturnDate,
         }
       );
 
@@ -82,8 +85,8 @@ export class CreateRentUseCase implements ICreateRentUseCase {
     return this.createRentRepository.create({
       car_id,
       user_id,
-      start_date,
-      expected_return_date,
+      start_date: startDate,
+      expected_return_date: expectedReturnDate,
       fine_amount: car.fine_amount,
       daily_rate: car.daily_rate,
     });
