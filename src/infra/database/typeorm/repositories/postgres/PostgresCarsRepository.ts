@@ -90,7 +90,7 @@ export class PostgresCarsRepository
   async findById(
     data: IFindCarByIdRepository.Input
   ): Promise<IFindCarByIdRepository.Output> {
-    const { id, relations } = data;
+    const { id, relations = [] } = data;
 
     return this.repository.findOne(id, { relations });
   }
