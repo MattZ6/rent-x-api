@@ -3,6 +3,7 @@ import { ICar } from '@domain/models/Car';
 import {
   CreateCarDTO,
   FindAllCarsDTO,
+  ICheckIfCarExistsByIdRepository,
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
   IFindAllCarsRepository,
@@ -72,5 +73,15 @@ export class FindCarByIdRepositorySpy implements IFindCarByIdRepository {
     data: IFindCarByIdRepository.Input
   ): Promise<IFindCarByIdRepository.Output> {
     return { ...carMock, id: data.id };
+  }
+}
+
+export class CheckIfCarExistsByIdRepositorySpy
+  implements ICheckIfCarExistsByIdRepository
+{
+  async checkIfExistsById(
+    _: ICheckIfCarExistsByIdRepository.Input
+  ): Promise<boolean> {
+    return true;
   }
 }

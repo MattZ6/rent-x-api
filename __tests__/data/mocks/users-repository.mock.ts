@@ -4,6 +4,7 @@ import {
   CreateUserRepositoryData,
   ICheckIfUserExistsByDriverLicenseRepository,
   ICheckIfUserExistsByEmailRepository,
+  ICheckIfUserExistsByIdRepository,
   ICreateUserRepository,
   IFindUserByEmailRepository,
   IFindUserByIdRepository,
@@ -67,5 +68,15 @@ export class CheckIfUserExistsByDriverLicenseRepositorySpy
     _: ICheckIfUserExistsByDriverLicenseRepository.Input
   ): Promise<ICheckIfUserExistsByDriverLicenseRepository.Output> {
     return false;
+  }
+}
+
+export class CheckIfUserExistsByIdRepositorySpy
+  implements ICheckIfUserExistsByIdRepository
+{
+  async checkIfExistsById(
+    _: ICheckIfUserExistsByIdRepository.Input
+  ): Promise<boolean> {
+    return true;
   }
 }

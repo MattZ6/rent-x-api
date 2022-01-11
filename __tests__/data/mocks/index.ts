@@ -4,6 +4,7 @@ export * from './car-specifications-repository.mock';
 export * from './car-repository.mock';
 export * from './cryptography-provider.mock';
 export * from './mail-provider.mock';
+export * from './rents-repository.mock';
 export * from './user-tokens-repository.mock';
 export * from './users-repository.mock';
 export * from './uuid.mock';
