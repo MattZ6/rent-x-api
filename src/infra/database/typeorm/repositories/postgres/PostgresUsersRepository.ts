@@ -5,6 +5,7 @@ import { IUser } from '@domain/models/User';
 import {
   CreateUserRepositoryData,
   ICheckIfUserExistsByEmailRepository,
+  ICheckIfUserExistsByIdRepository,
   ICreateUserRepository,
   IFindUserByEmailRepository,
   IFindUserByIdRepository,
@@ -19,7 +20,8 @@ export class PostgresUsersRepository
     ICreateUserRepository,
     IFindUserByIdRepository,
     IFindUserByEmailRepository,
-    IUpdateUserRepository
+    IUpdateUserRepository,
+    ICheckIfUserExistsByIdRepository
 {
   private repository: Repository<User>;
 
@@ -68,5 +70,17 @@ export class PostgresUsersRepository
 
   async update(data: IUser): Promise<IUser> {
     return this.repository.save(data);
+  }
+
+  async checkIfExistsById(
+    data: ICheckIfUserExistsByIdRepository.Input
+  ): Promise<ICheckIfUserExistsByIdRepository.Output> {
+    const { id } = data;
+
+    const count = await this.repository.count({
+      where: { id },
+    });
+
+    return count >= 1;
   }
 }
