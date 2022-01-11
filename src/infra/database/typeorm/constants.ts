@@ -7,4 +7,7 @@ export const tableNames = {
   CAR_CATEGORIES: 'car_categories',
   CARS: 'cars',
   CARS_SPECIFICATIONS: 'cars_specifications',
+
+  RENTS: 'rents',
+  RENT_PAYMENTS: 'rent_payments',
 };
