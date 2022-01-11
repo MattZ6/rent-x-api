@@ -24,7 +24,7 @@ export class SendForgotUserPasswordMailUseCase
   ): Promise<ISendForgotUserPasswordMailUseCase.Output> {
     const { email } = data;
 
-    const user = await this.findUserByEmailRepository.findByEmail(email);
+    const user = await this.findUserByEmailRepository.findByEmail({ email });
 
     if (!user) {
       throw new UserNotFoundWithThisEmailError();

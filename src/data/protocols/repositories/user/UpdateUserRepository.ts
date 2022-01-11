@@ -1,5 +1,13 @@
 import { IUser } from '@domain/models/User';
 
-export interface IUpdateUserRepository {
+interface IUpdateUserRepository {
   update(data: IUser): Promise<IUser>;
 }
+
+namespace IUpdateUserRepository {
+  export type Input = IUser;
+
+  export type Output = IUser;
+}
+
+export { IUpdateUserRepository };

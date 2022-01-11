@@ -54,7 +54,7 @@ describe('CreateUserUseCase', () => {
     });
 
     expect(checkIfExistsByEmailSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByEmailSpy).toHaveBeenCalledWith(email);
+    expect(checkIfExistsByEmailSpy).toHaveBeenCalledWith({ email });
   });
 
   it('should throw if CheckIfUserExistsByEmailRepository throws', async () => {

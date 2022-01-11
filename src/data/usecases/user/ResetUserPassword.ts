@@ -41,7 +41,9 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
       throw new TokenExpiredError();
     }
 
-    const user = await this.findUserByIdRepository.findById(userToken.user_id);
+    const user = await this.findUserByIdRepository.findById({
+      id: userToken.user_id,
+    });
 
     if (!user) {
       throw new UserNotFoundWithThisIdError();

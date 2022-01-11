@@ -25,7 +25,9 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     const { name, email, driver_license, password } = data;
 
     const alreadyExistsWithProvidedEmail =
-      await this.checkIfUserExistsByEmailRepository.checkIfExistsByEmail(email);
+      await this.checkIfUserExistsByEmailRepository.checkIfExistsByEmail({
+        email,
+      });
 
     if (alreadyExistsWithProvidedEmail) {
       throw new UserAlreadyExistsWithThisEmailError();

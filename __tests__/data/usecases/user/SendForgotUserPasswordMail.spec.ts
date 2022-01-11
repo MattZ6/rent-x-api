@@ -72,9 +72,9 @@ describe('SendForgotUserPasswordMailUseCase', () => {
     );
 
     expect(findByEmailSpy).toHaveBeenCalledTimes(1);
-    expect(findByEmailSpy).toHaveBeenCalledWith(
-      sendForgotUserPasswordMailUseCaseInputMock.email
-    );
+    expect(findByEmailSpy).toHaveBeenCalledWith({
+      email: sendForgotUserPasswordMailUseCaseInputMock.email,
+    });
   });
 
   it('should throw if FindUserByEmailRepository throws', async () => {

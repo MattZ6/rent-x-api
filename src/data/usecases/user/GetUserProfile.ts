@@ -13,7 +13,7 @@ export class GetUserProfileUseCase implements IGetUserProfileUseCase {
   ): Promise<IGetUserProfileUseCase.Output> {
     const { user_id } = data;
 
-    const user = await this.findUserByIdRepository.findById(user_id);
+    const user = await this.findUserByIdRepository.findById({ id: user_id });
 
     if (!user) {
       throw new UserNotFoundWithThisIdError();

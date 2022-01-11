@@ -1,7 +1,4 @@
-import { IUser } from '@domain/models/User';
-
 import {
-  CreateUserRepositoryData,
   ICheckIfUserExistsByDriverLicenseRepository,
   ICheckIfUserExistsByEmailRepository,
   ICheckIfUserExistsByIdRepository,
@@ -16,13 +13,17 @@ import { userMock } from '../../../domain/models/user.mock';
 export class CheckIfUserExistsByEmailRepositorySpy
   implements ICheckIfUserExistsByEmailRepository
 {
-  async checkIfExistsByEmail(_: string): Promise<boolean> {
+  async checkIfExistsByEmail(
+    _: ICheckIfUserExistsByEmailRepository.Input
+  ): Promise<ICheckIfUserExistsByEmailRepository.Output> {
     return false;
   }
 }
 
 export class CreateUserRepositorySpy implements ICreateUserRepository {
-  async create(data: CreateUserRepositoryData): Promise<IUser> {
+  async create(
+    data: ICreateUserRepository.Input
+  ): Promise<ICreateUserRepository.Output> {
     const { name, email, password_hash, driver_license } = data;
 
     const user = { ...userMock };
@@ -36,7 +37,11 @@ export class CreateUserRepositorySpy implements ICreateUserRepository {
 export class FindUserByEmailRepositorySpy
   implements IFindUserByEmailRepository
 {
-  async findByEmail(email: string): Promise<IUser | undefined> {
+  async findByEmail(
+    data: IFindUserByEmailRepository.Input
+  ): Promise<IFindUserByEmailRepository.Output> {
+    const { email } = data;
+
     const user = { ...userMock };
 
     Object.assign(user, { email });
@@ -46,7 +51,11 @@ export class FindUserByEmailRepositorySpy
 }
 
 export class FindUserByIdRepositorySpy implements IFindUserByIdRepository {
-  async findById(id: string): Promise<IUser | undefined> {
+  async findById(
+    data: IFindUserByIdRepository.Input
+  ): Promise<IFindUserByIdRepository.Output> {
+    const { id } = data;
+
     const user = { ...userMock };
 
     Object.assign(user, { id });
@@ -56,7 +65,9 @@ export class FindUserByIdRepositorySpy implements IFindUserByIdRepository {
 }
 
 export class UpdateUserRepositorySpy implements IUpdateUserRepository {
-  async update(data: IUser): Promise<IUser> {
+  async update(
+    data: IUpdateUserRepository.Input
+  ): Promise<IUpdateUserRepository.Output> {
     return data;
   }
 }

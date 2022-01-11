@@ -25,7 +25,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
   ): Promise<IAuthenticateUserUseCase.Output> {
     const { email, password } = data;
 
-    const user = await this.findUserByEmailRepository.findByEmail(email);
+    const user = await this.findUserByEmailRepository.findByEmail({ email });
 
     if (!user) {
       throw new UserNotFoundWithThisEmailError();

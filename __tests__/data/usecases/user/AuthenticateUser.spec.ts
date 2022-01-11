@@ -57,7 +57,7 @@ describe('AuthenticateUserUseCase', () => {
     });
 
     expect(findByEmailSpy).toHaveBeenCalledTimes(1);
-    expect(findByEmailSpy).toHaveBeenCalledWith(email);
+    expect(findByEmailSpy).toHaveBeenCalledWith({ email });
   });
 
   it('should throw if FindUserByEmailRepository throws', async () => {

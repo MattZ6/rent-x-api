@@ -30,7 +30,7 @@ describe('GetUserProfileUseCase', () => {
     });
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
-    expect(findByIdSpy).toHaveBeenCalledWith(userId);
+    expect(findByIdSpy).toHaveBeenCalledWith({ id: userId });
   });
 
   it('should throw if FindUserByIdRepository throws', async () => {

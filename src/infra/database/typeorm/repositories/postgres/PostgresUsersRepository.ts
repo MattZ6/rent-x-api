@@ -1,9 +1,6 @@
 import { getRepository, Raw, Repository } from 'typeorm';
 
-import { IUser } from '@domain/models/User';
-
 import {
-  CreateUserRepositoryData,
   ICheckIfUserExistsByEmailRepository,
   ICheckIfUserExistsByIdRepository,
   ICreateUserRepository,
@@ -29,7 +26,11 @@ export class PostgresUsersRepository
     this.repository = getRepository(User);
   }
 
-  async checkIfExistsByEmail(email: string): Promise<boolean> {
+  async checkIfExistsByEmail(
+    data: ICheckIfUserExistsByEmailRepository.Input
+  ): Promise<ICheckIfUserExistsByEmailRepository.Output> {
+    const { email } = data;
+
     const count = await this.repository.count({
       where: {
         email: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
@@ -41,7 +42,9 @@ export class PostgresUsersRepository
     return count >= 1;
   }
 
-  async create(data: CreateUserRepositoryData): Promise<IUser> {
+  async create(
+    data: ICreateUserRepository.Input
+  ): Promise<ICreateUserRepository.Output> {
     const { name, driver_license, email, password_hash } = data;
 
     const user = this.repository.create({
@@ -54,11 +57,19 @@ export class PostgresUsersRepository
     return this.repository.save(user);
   }
 
-  async findById(id: string): Promise<IUser | undefined> {
+  async findById(
+    data: IFindUserByIdRepository.Input
+  ): Promise<IFindUserByIdRepository.Output> {
+    const { id } = data;
+
     return this.repository.findOne(id);
   }
 
-  async findByEmail(email: string): Promise<IUser | undefined> {
+  async findByEmail(
+    data: IFindUserByEmailRepository.Input
+  ): Promise<IFindUserByEmailRepository.Output> {
+    const { email } = data;
+
     return this.repository.findOne({
       where: {
         email: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
@@ -68,7 +79,9 @@ export class PostgresUsersRepository
     });
   }
 
-  async update(data: IUser): Promise<IUser> {
+  async update(
+    data: IUpdateUserRepository.Input
+  ): Promise<IUpdateUserRepository.Output> {
     return this.repository.save(data);
   }
 
