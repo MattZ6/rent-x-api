@@ -50,7 +50,11 @@ namespace RefreshUserAccessTokenController {
     refresh_token: string;
   };
 
-  export type Request = IHttpRequest<RefreshUserAccessTokenBodyRequest>;
+  export type Request = IHttpRequest<
+    RefreshUserAccessTokenBodyRequest,
+    void,
+    void
+  >;
 
   export type Response = IHttpResponse;
 }

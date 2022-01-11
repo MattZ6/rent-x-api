@@ -41,7 +41,7 @@ namespace CreateCarCategoryController {
     description: string;
   };
 
-  export type Request = IHttpRequest<CreateCarCategoryBodyRequest>;
+  export type Request = IHttpRequest<CreateCarCategoryBodyRequest, void, void>;
 
   export type Response = IHttpResponse;
 }

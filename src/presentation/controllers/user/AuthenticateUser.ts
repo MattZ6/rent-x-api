@@ -52,7 +52,7 @@ type AuthenticateUserBodyRequest = {
 };
 
 namespace AuthenticateUserController {
-  export type Request = IHttpRequest<AuthenticateUserBodyRequest>;
+  export type Request = IHttpRequest<AuthenticateUserBodyRequest, void, void>;
 
   export type Response = IHttpResponse;
 }

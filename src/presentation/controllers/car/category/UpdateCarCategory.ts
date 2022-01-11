@@ -56,7 +56,8 @@ namespace UpdateCarCategoryController {
 
   export type Request = IHttpRequest<
     UpdateCarCategoryBodyRequest,
-    UpdateCarCategoryParamsRequest
+    UpdateCarCategoryParamsRequest,
+    void
   >;
 
   export type Response = IHttpResponse;

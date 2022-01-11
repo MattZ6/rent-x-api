@@ -31,7 +31,7 @@ class GetUserProfileController implements IController {
 }
 
 namespace GetUserProfileController {
-  export type Request = IHttpRequest;
+  export type Request = IHttpRequest<void, void, void>;
 
   export type Response = IHttpResponse;
 }

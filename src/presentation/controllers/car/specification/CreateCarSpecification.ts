@@ -38,7 +38,11 @@ namespace CreateCarSpecificationController {
     description: string;
   };
 
-  export type Request = IHttpRequest<CreateCarSpecificationBodyRequest>;
+  export type Request = IHttpRequest<
+    CreateCarSpecificationBodyRequest,
+    void,
+    void
+  >;
 
   export type Response = IHttpResponse;
 }

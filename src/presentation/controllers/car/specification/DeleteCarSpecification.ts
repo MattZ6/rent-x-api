@@ -37,7 +37,11 @@ namespace DeleteCarSpecificationController {
     id: string;
   };
 
-  export type Request = IHttpRequest<void, DeleteCarSpecificationParamRequest>;
+  export type Request = IHttpRequest<
+    void,
+    DeleteCarSpecificationParamRequest,
+    void
+  >;
 
   export type Response = IHttpResponse;
 }

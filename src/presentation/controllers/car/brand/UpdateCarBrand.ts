@@ -52,7 +52,8 @@ namespace UpdateCarBrandController {
 
   export type Request = IHttpRequest<
     UpdateCarBrandBodyRequest,
-    UpdateCarBrandParamsRequest
+    UpdateCarBrandParamsRequest,
+    void
   >;
 
   export type Response = IHttpResponse;

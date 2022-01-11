@@ -56,7 +56,8 @@ namespace UpdateCarSpecificationController {
 
   export type Request = IHttpRequest<
     UpdateCarSpecificationBodyRequest,
-    UpdateCarSpecificationParamsRequest
+    UpdateCarSpecificationParamsRequest,
+    void
   >;
 
   export type Response = IHttpResponse;

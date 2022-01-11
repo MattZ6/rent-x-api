@@ -57,7 +57,7 @@ namespace ResetUserPasswordController {
     new_password: string;
   };
 
-  export type Request = IHttpRequest<ResetUserPasswordBodyRequest>;
+  export type Request = IHttpRequest<ResetUserPasswordBodyRequest, void, void>;
 
   export type Response = IHttpResponse;
 }

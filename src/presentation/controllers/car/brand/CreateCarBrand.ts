@@ -37,7 +37,7 @@ namespace CreateCarBrandController {
     name: string;
   };
 
-  export type Request = IHttpRequest<CreateCarBrandBodyRequest>;
+  export type Request = IHttpRequest<CreateCarBrandBodyRequest, void, void>;
 
   export type Response = IHttpResponse;
 }

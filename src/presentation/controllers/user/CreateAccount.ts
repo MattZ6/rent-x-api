@@ -50,7 +50,7 @@ type CreateAccountBodyRequest = {
 };
 
 namespace CreateAccountController {
-  export type Request = IHttpRequest<CreateAccountBodyRequest>;
+  export type Request = IHttpRequest<CreateAccountBodyRequest, void, void>;
 
   export type Response = IHttpResponse;
 }
