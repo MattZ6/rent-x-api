@@ -27,7 +27,7 @@ export class CreateCarRepositorySpy implements ICreateCarRepository {
       category_id,
       daily_rate,
       description,
-      fine_amount,
+      daily_late_fee,
       license_plate,
       name,
       horse_power,
@@ -36,7 +36,7 @@ export class CreateCarRepositorySpy implements ICreateCarRepository {
       transmission_type,
       type_of_fuel,
       zero_to_one_hundred_in_millisseconds,
-      specifications: specifictions,
+      specifications,
     } = data;
 
     const car = { ...carMock };
@@ -46,10 +46,10 @@ export class CreateCarRepositorySpy implements ICreateCarRepository {
       category_id,
       daily_rate,
       description,
-      fine_amount,
+      daily_late_fee,
       license_plate,
       name,
-      specifictions,
+      specifications,
       horse_power,
       max_speed,
       number_of_seats,

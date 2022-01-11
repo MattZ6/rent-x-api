@@ -38,7 +38,7 @@ describe('AddSpecificationsToCarUseCase', () => {
       category_id: 'category_xxx',
       is_available: true,
       daily_rate: 100,
-      fine_amount: 100,
+      daily_late_fee: 100,
       license_plate: 'XXX-6661',
     });
 
@@ -64,7 +64,7 @@ describe('AddSpecificationsToCarUseCase', () => {
       category_id: 'category_xxx',
       is_available: true,
       daily_rate: 100,
-      fine_amount: 100,
+      daily_late_fee: 100,
       license_plate: 'XXX-6661',
     });
 
@@ -88,7 +88,7 @@ describe('AddSpecificationsToCarUseCase', () => {
       specifications_ids: specifications.map(spec => spec.id),
     });
 
-    expect(car.specifictions).toEqual(
+    expect(car.specifications).toEqual(
       expect.arrayContaining(
         specifications.map(spec => expect.objectContaining({ id: spec.id }))
       )

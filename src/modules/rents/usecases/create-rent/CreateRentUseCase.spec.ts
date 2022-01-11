@@ -38,7 +38,7 @@ describe('CreateRentUseCase', () => {
       brand: 'any-brand',
       category_id: 'any-category-id',
       daily_rate: 1,
-      fine_amount: 10,
+      daily_late_fee: 10,
       is_available: true,
       license_plate: 'any-plate',
     });
@@ -65,7 +65,7 @@ describe('CreateRentUseCase', () => {
       brand: 'any-brand',
       category_id: 'any-category-id',
       daily_rate: 1,
-      fine_amount: 10,
+      daily_late_fee: 10,
       is_available: true,
       license_plate: 'any-plate',
     });
@@ -104,7 +104,7 @@ describe('CreateRentUseCase', () => {
       brand: 'any-brand',
       category_id: 'any-category-id',
       daily_rate: 1,
-      fine_amount: 10,
+      daily_late_fee: 10,
       is_available: true,
       license_plate: 'any-plate',
     });

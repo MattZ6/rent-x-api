@@ -61,7 +61,7 @@ export class DevolutionRentUseCase {
     let rentTotal = 0;
 
     if (daysOfDelay > 0) {
-      const fine = daysOfDelay * car.fine_amount;
+      const fine = daysOfDelay * car.daily_late_fee;
       rentTotal = fine;
     }
 

@@ -37,7 +37,7 @@ export class AddSpecificationsToCarUseCase {
       throw new AppError('One or more Specifications not found', 404);
     }
 
-    car.specifictions = specifications;
+    car.specifications = specifications;
 
     return this.carsRepository.update(car);
   }

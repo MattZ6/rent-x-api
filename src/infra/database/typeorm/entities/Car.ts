@@ -39,7 +39,7 @@ export class Car implements ICar {
   daily_rate: number;
 
   @Column()
-  fine_amount: number;
+  daily_late_fee: number;
 
   @Column()
   brand_id: string;

@@ -35,7 +35,7 @@ export class Car {
   license_plate: string;
 
   @Column()
-  fine_amount: number;
+  daily_late_fee: number;
 
   @Column()
   brand: string;
@@ -53,7 +53,7 @@ export class Car {
     joinColumns: [{ name: 'car_id' }],
     inverseJoinColumns: [{ name: 'specification_id' }],
   })
-  specifictions: Specification[];
+  specifications: Specification[];
 
   @CreateDateColumn()
   created_at: Date;

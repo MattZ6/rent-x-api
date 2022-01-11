@@ -38,7 +38,7 @@ export class createCars1641054695773 implements MigrationInterface {
             type: 'numeric',
           },
           {
-            name: 'fine_amount',
+            name: 'daily_late_fee',
             type: 'numeric',
           },
           {

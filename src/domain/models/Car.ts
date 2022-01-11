@@ -19,7 +19,7 @@ export interface ICar {
   description: string;
   license_plate: string;
   daily_rate: number;
-  fine_amount: number;
+  daily_late_fee: number;
   brand_id: string;
   brand: ICarBrand;
   category_id: string;

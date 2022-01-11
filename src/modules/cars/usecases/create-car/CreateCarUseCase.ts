@@ -10,7 +10,7 @@ type Request = {
   description: string;
   daily_rate: number;
   license_plate: string;
-  fine_amount: number;
+  daily_late_fee: number;
   brand: string;
   category_id: string;
 };
@@ -28,7 +28,7 @@ export class CreateCarUseCase {
       description,
       license_plate,
       daily_rate,
-      fine_amount,
+      daily_late_fee,
       brand,
       category_id,
     } = data;
@@ -47,7 +47,7 @@ export class CreateCarUseCase {
       description,
       license_plate,
       daily_rate,
-      fine_amount,
+      daily_late_fee,
       brand,
       category_id,
       is_available: true,

@@ -12,7 +12,7 @@ export const carMock: ICar = {
   description: faker.datatype.string(),
   license_plate: faker.datatype.string(),
   daily_rate: faker.datatype.number(),
-  fine_amount: faker.datatype.number(),
+  daily_late_fee: faker.datatype.number(),
   brand_id: carBrandMock.id,
   brand: carBrandMock,
   category_id: carCategoryMock.id,

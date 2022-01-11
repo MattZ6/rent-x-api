@@ -32,7 +32,7 @@ const createCarUseCaseInputMock: ICreateCarUseCase.Input = {
   name: faker.datatype.string(),
   description: faker.datatype.string(),
   daily_rate: faker.datatype.number(),
-  fine_amount: faker.datatype.number(),
+  daily_late_fee: faker.datatype.number(),
   license_plate: faker.datatype.string(),
   brand_id: faker.datatype.uuid(),
   category_id: faker.datatype.uuid(),
@@ -311,7 +311,7 @@ describe('CreateCarUseCase', () => {
       description: createCarUseCaseInputMock.description,
       license_plate: createCarUseCaseInputMock.license_plate,
       daily_rate: createCarUseCaseInputMock.daily_rate,
-      fine_amount: createCarUseCaseInputMock.fine_amount,
+      daily_late_fee: createCarUseCaseInputMock.daily_late_fee,
       brand_id: createCarUseCaseInputMock.brand_id,
       category_id: createCarUseCaseInputMock.category_id,
       horse_power: createCarUseCaseInputMock.horse_power,
@@ -339,7 +339,7 @@ describe('CreateCarUseCase', () => {
       description: createCarUseCaseInputMock.description,
       license_plate: createCarUseCaseInputMock.license_plate,
       daily_rate: createCarUseCaseInputMock.daily_rate,
-      fine_amount: createCarUseCaseInputMock.fine_amount,
+      daily_late_fee: createCarUseCaseInputMock.daily_late_fee,
       brand_id: createCarUseCaseInputMock.brand_id,
       category_id: createCarUseCaseInputMock.category_id,
       horse_power: createCarUseCaseInputMock.horse_power,
@@ -373,8 +373,8 @@ describe('CreateCarUseCase', () => {
       createCarUseCaseInputMock.description
     );
     expect(response).toHaveProperty(
-      'fine_amount',
-      createCarUseCaseInputMock.fine_amount
+      'daily_late_fee',
+      createCarUseCaseInputMock.daily_late_fee
     );
     expect(response).toHaveProperty(
       'daily_rate',

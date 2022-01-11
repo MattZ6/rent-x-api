@@ -22,7 +22,7 @@ describe('CreateCarUseCase', () => {
       description: 'Car description',
       daily_rate: 100,
       license_plate: 'XXX0000',
-      fine_amount: 80,
+      daily_late_fee: 80,
       brand: 'Car brand',
       category_id: 'category_1',
     });
@@ -38,7 +38,7 @@ describe('CreateCarUseCase', () => {
       description: 'Car description',
       daily_rate: 100,
       license_plate: licensePlate,
-      fine_amount: 80,
+      daily_late_fee: 80,
       brand: 'Car brand',
       category_id: 'category_1',
       is_available: true,
@@ -49,7 +49,7 @@ describe('CreateCarUseCase', () => {
       description: 'Car description',
       daily_rate: 100,
       license_plate: licensePlate,
-      fine_amount: 80,
+      daily_late_fee: 80,
       brand: 'Car brand',
       category_id: 'category_1',
     });
@@ -63,7 +63,7 @@ describe('CreateCarUseCase', () => {
       description: 'Car description',
       daily_rate: 100,
       license_plate: 'XXX0000',
-      fine_amount: 80,
+      daily_late_fee: 80,
       brand: 'Car brand',
       category_id: 'category_1',
     });

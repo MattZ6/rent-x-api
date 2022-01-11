@@ -14,7 +14,7 @@ export const rentMock: IRent = {
   start_date: faker.datatype.datetime(),
   expected_return_date: faker.datatype.datetime(),
   return_date: faker.datatype.datetime(),
-  fine_amount: faker.datatype.float({ min: 500.0, max: 1_000.0 }),
+  daily_late_fee: faker.datatype.float({ min: 500.0, max: 1_000.0 }),
   daily_rate: faker.datatype.float({ min: 100.0, max: 500.0 }),
   created_at: faker.datatype.datetime(),
   updated_at: faker.datatype.datetime(),

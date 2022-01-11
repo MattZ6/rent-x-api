@@ -87,7 +87,7 @@ export class CreateRentUseCase implements ICreateRentUseCase {
       user_id,
       start_date: startDate,
       expected_return_date: expectedReturnDate,
-      fine_amount: car.fine_amount,
+      daily_late_fee: car.daily_late_fee,
       daily_rate: car.daily_rate,
     });
   }

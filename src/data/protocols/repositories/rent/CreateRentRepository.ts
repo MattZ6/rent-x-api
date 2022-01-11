@@ -11,7 +11,7 @@ namespace ICreateRentRepository {
     IRent,
     | 'user_id'
     | 'car_id'
-    | 'fine_amount'
+    | 'daily_late_fee'
     | 'daily_rate'
     | 'start_date'
     | 'expected_return_date'

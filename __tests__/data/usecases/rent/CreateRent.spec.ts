@@ -257,7 +257,7 @@ describe('CreateRentUseCase', () => {
       start_date: createRentUseCaseInputMock.start_date,
       expected_return_date: createRentUseCaseInputMock.expected_return_date,
       daily_rate: car.daily_rate,
-      fine_amount: car.fine_amount,
+      daily_late_fee: car.daily_late_fee,
     });
   });
 

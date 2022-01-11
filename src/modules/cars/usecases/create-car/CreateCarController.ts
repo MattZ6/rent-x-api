@@ -10,7 +10,7 @@ export class CreateCarController {
       description,
       license_plate,
       daily_rate,
-      fine_amount,
+      daily_late_fee,
       brand,
       category_id,
     } = request.body;
@@ -22,7 +22,7 @@ export class CreateCarController {
       description,
       license_plate,
       daily_rate,
-      fine_amount,
+      daily_late_fee,
       brand,
       category_id,
     });

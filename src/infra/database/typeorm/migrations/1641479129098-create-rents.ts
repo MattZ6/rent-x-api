@@ -41,7 +41,7 @@ export class createRents1641479129098 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'fine_amount',
+            name: 'daily_late_fee',
             type: 'decimal',
           },
           {

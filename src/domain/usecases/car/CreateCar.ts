@@ -11,7 +11,7 @@ export namespace ICreateCarUseCase {
     | 'description'
     | 'license_plate'
     | 'daily_rate'
-    | 'fine_amount'
+    | 'daily_late_fee'
     | 'brand_id'
     | 'category_id'
     | 'number_of_seats'

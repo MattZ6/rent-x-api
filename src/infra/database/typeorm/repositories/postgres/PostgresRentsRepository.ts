@@ -91,7 +91,7 @@ export class PostgresRentsRepository
       start_date,
       expected_return_date,
       daily_rate,
-      fine_amount,
+      daily_late_fee,
     } = data;
 
     const rent = this.repository.create({
@@ -100,7 +100,7 @@ export class PostgresRentsRepository
       start_date,
       expected_return_date,
       daily_rate,
-      fine_amount,
+      daily_late_fee,
     });
 
     return this.repository.save(rent);

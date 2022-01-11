@@ -37,7 +37,7 @@ export class Rent implements IRent {
   car: Car;
 
   @Column()
-  fine_amount: number;
+  daily_late_fee: number;
 
   @Column()
   daily_rate: number;
