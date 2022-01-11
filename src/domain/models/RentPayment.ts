@@ -1,8 +1,9 @@
-import { ICar } from './Car';
+import { IRent } from './Rent';
 
 export interface IRentPayment {
-  car_id: string;
-  car: ICar;
+  id: string;
+  rent_id: string;
+  rent: IRent;
   total: number;
   paid_at?: Date;
   created_at: Date;
