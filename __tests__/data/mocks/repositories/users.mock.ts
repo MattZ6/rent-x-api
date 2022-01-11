@@ -11,7 +11,7 @@ import {
   IUpdateUserRepository,
 } from '@data/protocols/repositories/user';
 
-import { userMock } from '../../domain/models/user.mock';
+import { userMock } from '../../../domain/models/user.mock';
 
 export class CheckIfUserExistsByEmailRepositorySpy
   implements ICheckIfUserExistsByEmailRepository

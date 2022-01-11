@@ -1,6 +1,6 @@
 import { ICreateCarSpecificationUseCase } from '@domain/usecases/car/specification/CreateCarSpecification';
 
-import { carSpecificationMock } from '../../domain/models/car-specification.mock';
+import { carSpecificationMock } from '../../../../../domain/models/car-specification.mock';
 
 export class CreateCarSpecificationUseCaseSpy
   implements ICreateCarSpecificationUseCase

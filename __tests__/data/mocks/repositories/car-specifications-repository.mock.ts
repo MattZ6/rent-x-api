@@ -13,7 +13,7 @@ import {
   IUpdateCarSpecificationRepository,
 } from '@data/protocols/repositories/car-specification';
 
-import { carSpecificationMock } from '../../domain/models/car-specification.mock';
+import { carSpecificationMock } from '../../../domain/models/car-specification.mock';
 
 export class CheckIfCarSpecificationExistsByNameRepositorySpy
   implements ICheckIfCarSpecificationExistsByNameRepository

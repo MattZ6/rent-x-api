@@ -1,6 +1,6 @@
 import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/CreateCarCategory';
 
-import { carCategoryMock } from '../../domain/models/car-category.mock';
+import { carCategoryMock } from '../../../../../domain/models/car-category.mock';
 
 export class CreateCarCategoryUseCaseSpy implements ICreateCarCategoryUseCase {
   async execute(

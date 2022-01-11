@@ -1,6 +1,6 @@
 import { IUpdateCarCategoryUseCase } from '@domain/usecases/car/category/UpdateCarCategory';
 
-import { carCategoryMock } from '../../domain/models/car-category.mock';
+import { carCategoryMock } from '../../../../../domain/models/car-category.mock';
 
 export class UpdateCarCategoryUseCaseSpy implements IUpdateCarCategoryUseCase {
   async execute(

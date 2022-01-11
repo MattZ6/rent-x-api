@@ -11,7 +11,7 @@ import {
   IUpdateCarBrandRepository,
 } from '@data/protocols/repositories/car-brand';
 
-import { carBrandMock } from '../../domain/models/car-brand.mock';
+import { carBrandMock } from '../../../domain/models/car-brand.mock';
 
 export class CheckIfCarBrandExistsByNameRepositorySpy
   implements ICheckIfCarBrandExistsByNameRepository
