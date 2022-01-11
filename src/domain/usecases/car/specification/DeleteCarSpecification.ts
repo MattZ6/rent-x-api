@@ -1,13 +1,15 @@
-export interface IDeleteCarSpecificationUseCase {
+interface IDeleteCarSpecificationUseCase {
   execute(
     data: IDeleteCarSpecificationUseCase.Input
   ): Promise<IDeleteCarSpecificationUseCase.Output>;
 }
 
-export namespace IDeleteCarSpecificationUseCase {
+namespace IDeleteCarSpecificationUseCase {
   export type Input = {
     id: string;
   };
 
   export type Output = void;
 }
+
+export { IDeleteCarSpecificationUseCase };

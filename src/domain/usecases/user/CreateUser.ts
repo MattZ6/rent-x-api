@@ -1,10 +1,10 @@
 import { IUser } from '@domain/models/User';
 
-export interface ICreateUserUseCase {
+interface ICreateUserUseCase {
   execute(data: ICreateUserUseCase.Input): Promise<ICreateUserUseCase.Output>;
 }
 
-export namespace ICreateUserUseCase {
+namespace ICreateUserUseCase {
   export type Input = {
     name: string;
     email: string;
@@ -14,3 +14,5 @@ export namespace ICreateUserUseCase {
 
   export type Output = IUser;
 }
+
+export { ICreateUserUseCase };

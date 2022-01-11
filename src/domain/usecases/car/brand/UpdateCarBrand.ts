@@ -1,12 +1,12 @@
 import { ICarBrand } from '@domain/models/CarBrand';
 
-export interface IUpdateCarBrandUseCase {
+interface IUpdateCarBrandUseCase {
   execute(
     data: IUpdateCarBrandUseCase.Input
   ): Promise<IUpdateCarBrandUseCase.Output>;
 }
 
-export namespace IUpdateCarBrandUseCase {
+namespace IUpdateCarBrandUseCase {
   export type Input = {
     id: string;
     name: string;
@@ -14,3 +14,5 @@ export namespace IUpdateCarBrandUseCase {
 
   export type Output = ICarBrand;
 }
+
+export { IUpdateCarBrandUseCase };

@@ -1,12 +1,12 @@
 import { ICarCategory } from '@domain/models/CarCategory';
 
-export interface IUpdateCarCategoryUseCase {
+interface IUpdateCarCategoryUseCase {
   execute(
     data: IUpdateCarCategoryUseCase.Input
   ): Promise<IUpdateCarCategoryUseCase.Output>;
 }
 
-export namespace IUpdateCarCategoryUseCase {
+namespace IUpdateCarCategoryUseCase {
   export type Input = {
     id: string;
     name: string;
@@ -15,3 +15,5 @@ export namespace IUpdateCarCategoryUseCase {
 
   export type Output = ICarCategory;
 }
+
+export { IUpdateCarCategoryUseCase };

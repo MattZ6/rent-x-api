@@ -1,10 +1,10 @@
-export interface IRefreshUserAccessTokenUseCase {
+interface IRefreshUserAccessTokenUseCase {
   execute(
     data: IRefreshUserAccessTokenUseCase.Input
   ): Promise<IRefreshUserAccessTokenUseCase.Output>;
 }
 
-export namespace IRefreshUserAccessTokenUseCase {
+namespace IRefreshUserAccessTokenUseCase {
   export type Input = {
     refresh_token: string;
   };
@@ -14,3 +14,5 @@ export namespace IRefreshUserAccessTokenUseCase {
     refresh_token: string;
   };
 }
+
+export { IRefreshUserAccessTokenUseCase };

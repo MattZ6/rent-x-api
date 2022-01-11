@@ -1,10 +1,10 @@
 import { ICar } from '@domain/models/Car';
 
-export interface IListAllCarsUseCase {
+interface IListAllCarsUseCase {
   execute(data: IListAllCarsUseCase.Input): Promise<IListAllCarsUseCase.Output>;
 }
 
-export namespace IListAllCarsUseCase {
+namespace IListAllCarsUseCase {
   export type OrderBy = keyof Pick<
     ICar,
     'name' | 'created_at' | 'horse_power' | 'number_of_seats' | 'max_speed'
@@ -21,3 +21,5 @@ export namespace IListAllCarsUseCase {
 
   export type Output = ICar[];
 }
+
+export { IListAllCarsUseCase };

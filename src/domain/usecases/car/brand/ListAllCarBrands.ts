@@ -1,12 +1,12 @@
 import { ICarBrand } from '@domain/models/CarBrand';
 
-export interface IListAllCarBrandsUseCase {
+interface IListAllCarBrandsUseCase {
   execute(
     data: IListAllCarBrandsUseCase.Input
   ): Promise<IListAllCarBrandsUseCase.Output>;
 }
 
-export namespace IListAllCarBrandsUseCase {
+namespace IListAllCarBrandsUseCase {
   export type OrderBy = keyof Pick<ICarBrand, 'name' | 'created_at'>;
 
   export type Order = 'ASC' | 'DESC';
@@ -20,3 +20,5 @@ export namespace IListAllCarBrandsUseCase {
 
   export type Output = ICarBrand[];
 }
+
+export { IListAllCarBrandsUseCase };

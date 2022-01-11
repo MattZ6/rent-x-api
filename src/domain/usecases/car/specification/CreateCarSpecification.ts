@@ -1,12 +1,12 @@
 import { ICarSpecification } from '@domain/models/CarSpecification';
 
-export interface ICreateCarSpecificationUseCase {
+interface ICreateCarSpecificationUseCase {
   execute(
     data: ICreateCarSpecificationUseCase.Input
   ): Promise<ICreateCarSpecificationUseCase.Output>;
 }
 
-export namespace ICreateCarSpecificationUseCase {
+namespace ICreateCarSpecificationUseCase {
   export type Input = {
     name: string;
     description: string;
@@ -14,3 +14,5 @@ export namespace ICreateCarSpecificationUseCase {
 
   export type Output = ICarSpecification;
 }
+
+export { ICreateCarSpecificationUseCase };

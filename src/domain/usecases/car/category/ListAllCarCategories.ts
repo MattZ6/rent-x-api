@@ -1,12 +1,12 @@
 import { ICarCategory } from '@domain/models/CarCategory';
 
-export interface IListAllCarCategoriesUseCase {
+interface IListAllCarCategoriesUseCase {
   execute(
     data: IListAllCarCategoriesUseCase.Input
   ): Promise<IListAllCarCategoriesUseCase.Output>;
 }
 
-export namespace IListAllCarCategoriesUseCase {
+namespace IListAllCarCategoriesUseCase {
   export type OrderBy = keyof Pick<ICarCategory, 'name' | 'created_at'>;
 
   export type Order = 'ASC' | 'DESC';
@@ -20,3 +20,5 @@ export namespace IListAllCarCategoriesUseCase {
 
   export type Output = ICarCategory[];
 }
+
+export { IListAllCarCategoriesUseCase };

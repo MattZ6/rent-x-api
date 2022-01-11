@@ -1,10 +1,10 @@
-export interface IResetUserPasswordUseCase {
+interface IResetUserPasswordUseCase {
   execute(
     data: IResetUserPasswordUseCase.Input
   ): Promise<IResetUserPasswordUseCase.Output>;
 }
 
-export namespace IResetUserPasswordUseCase {
+namespace IResetUserPasswordUseCase {
   export type Input = {
     token: string;
     new_password: string;
@@ -12,3 +12,5 @@ export namespace IResetUserPasswordUseCase {
 
   export type Output = void;
 }
+
+export { IResetUserPasswordUseCase };

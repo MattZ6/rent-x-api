@@ -1,10 +1,10 @@
-export interface IAuthenticateUserUseCase {
+interface IAuthenticateUserUseCase {
   execute(
     data: IAuthenticateUserUseCase.Input
   ): Promise<IAuthenticateUserUseCase.Output>;
 }
 
-export namespace IAuthenticateUserUseCase {
+namespace IAuthenticateUserUseCase {
   export type Input = {
     email: string;
     password: string;
@@ -15,3 +15,5 @@ export namespace IAuthenticateUserUseCase {
     refresh_token: string;
   };
 }
+
+export { IAuthenticateUserUseCase };
