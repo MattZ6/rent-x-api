@@ -1,5 +1,17 @@
 import { IUserToken } from '@domain/models/UserToken';
 
-export interface IFindUserTokenByTokenRepository {
-  findByToken(token: string): Promise<IUserToken | undefined>;
+interface IFindUserTokenByTokenRepository {
+  findByToken(
+    data: IFindUserTokenByTokenRepository.Input
+  ): Promise<IFindUserTokenByTokenRepository.Output>;
 }
+
+namespace IFindUserTokenByTokenRepository {
+  export type Input = {
+    token: string;
+  };
+
+  export type Output = IUserToken | undefined;
+}
+
+export { IFindUserTokenByTokenRepository };

@@ -56,7 +56,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     });
 
     expect(findByTokenSpy).toHaveBeenCalledTimes(1);
-    expect(findByTokenSpy).toHaveBeenCalledWith(refreshToken);
+    expect(findByTokenSpy).toHaveBeenCalledWith({ token: refreshToken });
   });
 
   it('should throw if FindUserTokenByTokenRepository throws', async () => {
@@ -265,7 +265,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     });
 
     expect(deleteByIdSpy).toHaveBeenCalledTimes(1);
-    expect(deleteByIdSpy).toHaveBeenCalledWith(userTokenId);
+    expect(deleteByIdSpy).toHaveBeenCalledWith({ id: userTokenId });
   });
 
   it('should throw if DeleteUserTokenByIdRepositorySpy throws', async () => {

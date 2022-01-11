@@ -29,9 +29,9 @@ export class RefreshUserAccessTokenUseCase
   ): Promise<IRefreshUserAccessTokenUseCase.Output> {
     const { refresh_token } = data;
 
-    const userToken = await this.findUserTokenByTokenRepository.findByToken(
-      refresh_token
-    );
+    const userToken = await this.findUserTokenByTokenRepository.findByToken({
+      token: refresh_token,
+    });
 
     if (!userToken) {
       throw new UserTokenNotFoundWithThisTokenError();
@@ -59,7 +59,7 @@ export class RefreshUserAccessTokenUseCase
       expires_in: expiresIn,
     });
 
-    await this.deleteUserTokenByIdRepository.deleteById(userToken.id);
+    await this.deleteUserTokenByIdRepository.deleteById({ id: userToken.id });
 
     return {
       access_token: accessToken,

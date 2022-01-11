@@ -1,9 +1,6 @@
 import { getRepository, Repository } from 'typeorm';
 
-import { IUserToken } from '@domain/models/UserToken';
-
 import {
-  CreateUserTokenDTO,
   ICreateUserTokenRepository,
   IDeleteUserTokenByIdRepository,
   IFindUserTokenByTokenRepository,
@@ -23,7 +20,9 @@ export class PostgresUserTokensRepository
     this.repository = getRepository(UserToken);
   }
 
-  async create(data: CreateUserTokenDTO): Promise<IUserToken> {
+  async create(
+    data: ICreateUserTokenRepository.Input
+  ): Promise<ICreateUserTokenRepository.Output> {
     const { token, expires_in, user_id } = data;
 
     const userToken = this.repository.create({ token, expires_in, user_id });
@@ -31,11 +30,19 @@ export class PostgresUserTokensRepository
     return this.repository.save(userToken);
   }
 
-  async findByToken(token: string): Promise<IUserToken | undefined> {
+  async findByToken(
+    data: IFindUserTokenByTokenRepository.Input
+  ): Promise<IFindUserTokenByTokenRepository.Output> {
+    const { token } = data;
+
     return this.repository.findOne({ token });
   }
 
-  async deleteById(id: string): Promise<void> {
+  async deleteById(
+    data: IDeleteUserTokenByIdRepository.Input
+  ): Promise<IDeleteUserTokenByIdRepository.Output> {
+    const { id } = data;
+
     await this.repository.delete(id);
   }
 }

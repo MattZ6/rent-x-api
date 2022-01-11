@@ -57,7 +57,7 @@ describe('ResetUserPasswordUseCase', () => {
     });
 
     expect(findByTokenSpy).toHaveBeenCalledTimes(1);
-    expect(findByTokenSpy).toHaveBeenCalledWith(token);
+    expect(findByTokenSpy).toHaveBeenCalledWith({ token });
   });
 
   it('should throw if FindUserTokenByTokenRepository throws', async () => {
@@ -235,7 +235,7 @@ describe('ResetUserPasswordUseCase', () => {
     });
 
     expect(deleteByIdSpy).toHaveBeenCalledTimes(1);
-    expect(deleteByIdSpy).toHaveBeenCalledWith(userTokenId);
+    expect(deleteByIdSpy).toHaveBeenCalledWith({ id: userTokenId });
   });
 
   it('should throw if DeleteUserTokenByIdRepository throws', async () => {

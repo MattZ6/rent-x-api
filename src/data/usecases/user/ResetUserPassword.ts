@@ -29,7 +29,7 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
   ): Promise<IResetUserPasswordUseCase.Output> {
     const { token, new_password } = data;
 
-    const userToken = await this.findUserTokenByToken.findByToken(token);
+    const userToken = await this.findUserTokenByToken.findByToken({ token });
 
     if (!userToken) {
       throw new UserTokenNotFoundWithThisTokenError();
@@ -51,6 +51,6 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
 
     await this.updateUserRepository.update(user);
 
-    await this.deleteUserTokenByIdRepository.deleteById(userToken.id);
+    await this.deleteUserTokenByIdRepository.deleteById({ id: userToken.id });
   }
 }
