@@ -5,7 +5,10 @@ import { CarNotFoundWithThisIdError } from '@domain/errors';
 import { GetCarDetailsUseCase } from '@data/usecases/car/GetCarDetails';
 
 import { carMock } from '../../../domain/models/car.mock';
-import { FindCarByIdRepositorySpy } from '../../mocks';
+import {
+  FindCarByIdRepositorySpy,
+  getCarDetailsUseCaseInputMock,
+} from '../../mocks';
 
 let findCarByIdRepositorySpy: FindCarByIdRepositorySpy;
 
@@ -37,9 +40,7 @@ describe('GetCarDetailsUseCase', () => {
       .spyOn(findCarByIdRepositorySpy, 'findById')
       .mockRejectedValueOnce(new Error());
 
-    const promise = getCarDetailsUseCase.execute({
-      car_id: faker.datatype.uuid(),
-    });
+    const promise = getCarDetailsUseCase.execute(getCarDetailsUseCaseInputMock);
 
     await expect(promise).rejects.toThrow();
   });
@@ -49,9 +50,7 @@ describe('GetCarDetailsUseCase', () => {
       .spyOn(findCarByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(undefined);
 
-    const promise = getCarDetailsUseCase.execute({
-      car_id: faker.datatype.uuid(),
-    });
+    const promise = getCarDetailsUseCase.execute(getCarDetailsUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(CarNotFoundWithThisIdError);
   });

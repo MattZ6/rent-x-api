@@ -11,6 +11,7 @@ import {
   CheckIfUserExistsByDriverLicenseRepositorySpy,
   CheckIfUserExistsByEmailRepositorySpy,
   CreateUserRepositorySpy,
+  createUserUseCaseInputMock,
   GenerateHashProviderSpy,
 } from '../../mocks';
 
@@ -47,10 +48,8 @@ describe('CreateUserUseCase', () => {
     const email = faker.internet.email();
 
     await createUserUseCase.execute({
-      name: faker.name.findName(),
+      ...createUserUseCaseInputMock,
       email,
-      driver_license: faker.datatype.string(),
-      password: faker.internet.password(),
     });
 
     expect(checkIfExistsByEmailSpy).toHaveBeenCalledTimes(1);
@@ -62,12 +61,7 @@ describe('CreateUserUseCase', () => {
       .spyOn(checkIfUserExistsByEmailRepositorySpy, 'checkIfExistsByEmail')
       .mockRejectedValueOnce(new Error());
 
-    const promise = createUserUseCase.execute({
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      driver_license: faker.datatype.string(),
-      password: faker.internet.password(),
-    });
+    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
 
     await expect(promise).rejects.toThrow();
   });
@@ -77,12 +71,7 @@ describe('CreateUserUseCase', () => {
       .spyOn(checkIfUserExistsByEmailRepositorySpy, 'checkIfExistsByEmail')
       .mockResolvedValueOnce(true);
 
-    const promise = createUserUseCase.execute({
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      driver_license: faker.datatype.string(),
-      password: faker.internet.password(),
-    });
+    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(
       UserAlreadyExistsWithThisEmailError
@@ -98,10 +87,8 @@ describe('CreateUserUseCase', () => {
     const driverLicense = faker.datatype.string();
 
     await createUserUseCase.execute({
-      name: faker.name.findName(),
-      email: faker.internet.email(),
+      ...createUserUseCaseInputMock,
       driver_license: driverLicense,
-      password: faker.internet.password(),
     });
 
     expect(checkIfExistsByDriverLicenseSpy).toHaveBeenCalledTimes(1);
@@ -118,12 +105,7 @@ describe('CreateUserUseCase', () => {
       )
       .mockRejectedValueOnce(new Error());
 
-    const promise = createUserUseCase.execute({
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      driver_license: faker.datatype.string(),
-      password: faker.internet.password(),
-    });
+    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
 
     await expect(promise).rejects.toThrow();
   });
@@ -136,12 +118,7 @@ describe('CreateUserUseCase', () => {
       )
       .mockResolvedValueOnce(true);
 
-    const promise = createUserUseCase.execute({
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      driver_license: faker.datatype.string(),
-      password: faker.internet.password(),
-    });
+    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(
       UserAlreadyExistsWithThisDriverLicenseError
@@ -154,9 +131,7 @@ describe('CreateUserUseCase', () => {
     const password = faker.internet.password();
 
     await createUserUseCase.execute({
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      driver_license: faker.datatype.string(),
+      ...createUserUseCaseInputMock,
       password,
     });
 
@@ -169,12 +144,7 @@ describe('CreateUserUseCase', () => {
       .spyOn(generateHashProviderSpy, 'hash')
       .mockRejectedValueOnce(new Error());
 
-    const promise = createUserUseCase.execute({
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      driver_license: faker.datatype.string(),
-      password: faker.internet.password(),
-    });
+    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
 
     await expect(promise).rejects.toThrow();
   });
@@ -188,24 +158,14 @@ describe('CreateUserUseCase', () => {
 
     const createSpy = jest.spyOn(createUserRepositorySpy, 'create');
 
-    const name = faker.name.findName();
-    const email = faker.internet.email();
-    const driver_license = faker.datatype.string();
-    const password = faker.internet.password();
-
-    await createUserUseCase.execute({
-      name,
-      email,
-      password,
-      driver_license,
-    });
+    await createUserUseCase.execute(createUserUseCaseInputMock);
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({
-      name,
-      email,
+      name: createUserUseCaseInputMock.name,
+      email: createUserUseCaseInputMock.email,
+      driver_license: createUserUseCaseInputMock.driver_license,
       password_hash: hashedPassword,
-      driver_license,
     });
   });
 
@@ -214,12 +174,7 @@ describe('CreateUserUseCase', () => {
       .spyOn(createUserRepositorySpy, 'create')
       .mockRejectedValueOnce(new Error());
 
-    const promise = createUserUseCase.execute({
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      driver_license: faker.datatype.string(),
-      password: faker.internet.password(),
-    });
+    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
 
     await expect(promise).rejects.toThrow();
   });
@@ -231,22 +186,18 @@ describe('CreateUserUseCase', () => {
       .spyOn(generateHashProviderSpy, 'hash')
       .mockResolvedValueOnce(passwordHash);
 
-    const name = faker.name.findName();
-    const email = faker.internet.email();
-    const driver_license = faker.datatype.string();
-
-    const response = await createUserUseCase.execute({
-      name,
-      email,
-      driver_license,
-      password: faker.internet.password(),
-    });
+    const response = await createUserUseCase.execute(
+      createUserUseCaseInputMock
+    );
 
     expect(response).toHaveProperty('id');
-    expect(response).toHaveProperty('name', name);
-    expect(response).toHaveProperty('email', email);
+    expect(response).toHaveProperty('name', createUserUseCaseInputMock.name);
+    expect(response).toHaveProperty('email', createUserUseCaseInputMock.email);
     expect(response).toHaveProperty('password_hash', passwordHash);
-    expect(response).toHaveProperty('driver_license', driver_license);
+    expect(response).toHaveProperty(
+      'driver_license',
+      createUserUseCaseInputMock.driver_license
+    );
     expect(response).toHaveProperty('created_at');
     expect(response).toHaveProperty('updated_at');
   });

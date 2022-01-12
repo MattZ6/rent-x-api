@@ -1,20 +1,17 @@
-import faker from 'faker';
-
 import { UserNotFoundWithThisIdError } from '@domain/errors';
 
 import { GetUserProfileController } from '@presentation/controllers/user/GetUserProfile';
 import { notFound, ok } from '@presentation/helpers/http/http';
 
 import { userMock } from '../../../domain/models/user.mock';
-import { GetUserProfileUseCaseSpy } from '../../mocks';
+import {
+  getUserProfileControllerRequestMock,
+  GetUserProfileUseCaseSpy,
+} from '../../mocks';
 
 let getUserProfileUseCaseSpy: GetUserProfileUseCaseSpy;
 
 let getUserProfileController: GetUserProfileController;
-
-const getUserProfileControllerRequest: GetUserProfileController.Request = {
-  user_id: faker.datatype.uuid(),
-};
 
 describe('GetUserProfileController', () => {
   beforeEach(() => {
@@ -28,11 +25,11 @@ describe('GetUserProfileController', () => {
   it('should call GetUserProfileUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(getUserProfileUseCaseSpy, 'execute');
 
-    await getUserProfileController.handle(getUserProfileControllerRequest);
+    await getUserProfileController.handle(getUserProfileControllerRequestMock);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      user_id: getUserProfileControllerRequest.user_id,
+      user_id: getUserProfileControllerRequestMock.user_id,
     });
   });
 
@@ -42,7 +39,7 @@ describe('GetUserProfileController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = getUserProfileController.handle(
-      getUserProfileControllerRequest
+      getUserProfileControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -56,7 +53,7 @@ describe('GetUserProfileController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await getUserProfileController.handle(
-      getUserProfileControllerRequest
+      getUserProfileControllerRequestMock
     );
 
     expect(response).toEqual(notFound(error));
@@ -68,7 +65,7 @@ describe('GetUserProfileController', () => {
       .mockResolvedValueOnce(userMock);
 
     const response = await getUserProfileController.handle(
-      getUserProfileControllerRequest
+      getUserProfileControllerRequestMock
     );
 
     expect(response).toEqual(ok(userMock));

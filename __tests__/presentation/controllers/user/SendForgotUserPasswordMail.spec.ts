@@ -1,22 +1,16 @@
-import faker from 'faker';
-
 import { UserNotFoundWithThisEmailError } from '@domain/errors';
 
 import { SendForgotUserPasswordMailController } from '@presentation/controllers/user/SendForgotUserPasswordMail';
 import { noContent } from '@presentation/helpers/http/http';
 
-import { SendForgotUserPasswordMailUseCaseSpy } from '../../mocks';
+import {
+  sendForgotUserPasswordMailControllerRequestMock,
+  SendForgotUserPasswordMailUseCaseSpy,
+} from '../../mocks';
 
 let sendForgotUserPasswordMailUseCaseSpy: SendForgotUserPasswordMailUseCaseSpy;
 
 let sendForgotUserPasswordMailController: SendForgotUserPasswordMailController;
-
-const sendForgotUserPasswordMailControllerRequestMock: SendForgotUserPasswordMailController.Request =
-  {
-    body: {
-      email: faker.internet.email(),
-    },
-  };
 
 describe('SendForgotUserPasswordMailController', () => {
   beforeEach(() => {

@@ -7,6 +7,7 @@ import { CreateCarSpecificationUseCase } from '@data/usecases/car/specification/
 import {
   CheckIfCarSpecificationExistsByNameRepositorySpy,
   CreateCarSpecificationRepositorySpy,
+  createCarSpecificationUseCaseInputMock,
 } from '../../../mocks';
 
 let checkIfCarSpecificationExistsByNameRepositorySpy: CheckIfCarSpecificationExistsByNameRepositorySpy;
@@ -36,8 +37,8 @@ describe('CreateCarSpecificationUseCase', () => {
     const name = faker.datatype.string();
 
     await createCarSpecificationUseCase.execute({
+      ...createCarSpecificationUseCaseInputMock,
       name,
-      description: faker.datatype.string(),
     });
 
     expect(checkIfExistsByNameSpy).toHaveBeenCalledTimes(1);
@@ -52,10 +53,9 @@ describe('CreateCarSpecificationUseCase', () => {
       )
       .mockRejectedValueOnce(new Error());
 
-    const promise = createCarSpecificationUseCase.execute({
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = createCarSpecificationUseCase.execute(
+      createCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -68,10 +68,9 @@ describe('CreateCarSpecificationUseCase', () => {
       )
       .mockResolvedValueOnce(true);
 
-    const promise = createCarSpecificationUseCase.execute({
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = createCarSpecificationUseCase.execute(
+      createCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       CarSpecificationAlreadyExistsWithThisNameError
@@ -101,26 +100,27 @@ describe('CreateCarSpecificationUseCase', () => {
       .spyOn(createCarSpecificationRepositorySpy, 'create')
       .mockRejectedValueOnce(new Error());
 
-    const promise = createCarSpecificationUseCase.execute({
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = createCarSpecificationUseCase.execute(
+      createCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
 
   it('should create a car specification', async () => {
-    const name = faker.datatype.string();
-    const description = faker.datatype.string();
-
-    const specification = await createCarSpecificationUseCase.execute({
-      name,
-      description,
-    });
+    const specification = await createCarSpecificationUseCase.execute(
+      createCarSpecificationUseCaseInputMock
+    );
 
     expect(specification).toHaveProperty('id');
-    expect(specification).toHaveProperty('name', name);
-    expect(specification).toHaveProperty('description', description);
+    expect(specification).toHaveProperty(
+      'name',
+      createCarSpecificationUseCaseInputMock.name
+    );
+    expect(specification).toHaveProperty(
+      'description',
+      createCarSpecificationUseCaseInputMock.description
+    );
     expect(specification).toHaveProperty('created_at');
     expect(specification).toHaveProperty('updated_at');
   });

@@ -1,28 +1,14 @@
 import faker from 'faker';
 
-import { IListAllCarsUseCase } from '@domain/usecases/car/ListAllCars';
-
 import { ListAllCarsUseCase } from '@data/usecases/car/ListAllCars';
 
 import { carMock } from '../../../domain/models/car.mock';
 import { FindAllCarsRepositorySpy } from '../../mocks';
+import { listAllCarsUseCaseInputMock } from '../../mocks/usecases/car/list-all-cars.mock';
 
 let findAllCarsRepositorySpy: FindAllCarsRepositorySpy;
 
 let listAllCarsUseCase: ListAllCarsUseCase;
-
-const listAllCarsUseCaseInputMock: IListAllCarsUseCase.Input = {
-  order_by: faker.random.arrayElement([
-    'name',
-    'created_at',
-    'horse_power',
-    'number_of_seats',
-    'max_speed',
-  ]),
-  order: faker.random.arrayElement(['ASC', 'DESC']),
-  page: faker.datatype.number({ min: 1, max: 50 }),
-  limit: faker.datatype.number({ min: 10, max: 1000 }),
-};
 
 describe('ListAllCarsUseCase', () => {
   beforeEach(() => {

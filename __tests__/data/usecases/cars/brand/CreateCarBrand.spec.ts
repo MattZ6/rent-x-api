@@ -7,6 +7,7 @@ import { CreateCarBrandUseCase } from '@data/usecases/car/brand/CreateCarBrand';
 import {
   CheckIfCarBrandExistsByNameRepositorySpy,
   CreateCarBrandRepositorySpy,
+  createCarBrandUseCaseInputMock,
 } from '../../../mocks';
 
 let checkIfCarBrandExistsByNameRepositorySpy: CheckIfCarBrandExistsByNameRepositorySpy;
@@ -47,9 +48,9 @@ describe('CreateCarBrandUseCase', () => {
       .spyOn(checkIfCarBrandExistsByNameRepositorySpy, 'checkIfExistsByName')
       .mockRejectedValueOnce(new Error());
 
-    const promise = createCarBrandUseCase.execute({
-      name: faker.datatype.string(),
-    });
+    const promise = createCarBrandUseCase.execute(
+      createCarBrandUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -59,9 +60,9 @@ describe('CreateCarBrandUseCase', () => {
       .spyOn(checkIfCarBrandExistsByNameRepositorySpy, 'checkIfExistsByName')
       .mockResolvedValueOnce(true);
 
-    const promise = createCarBrandUseCase.execute({
-      name: faker.datatype.string(),
-    });
+    const promise = createCarBrandUseCase.execute(
+      createCarBrandUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       CarBrandAlreadyExistsWithThisNameError
@@ -88,22 +89,20 @@ describe('CreateCarBrandUseCase', () => {
       .spyOn(createCarBrandRepositorySpy, 'create')
       .mockRejectedValueOnce(new Error());
 
-    const promise = createCarBrandUseCase.execute({
-      name: faker.datatype.string(),
-    });
+    const promise = createCarBrandUseCase.execute(
+      createCarBrandUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
 
   it('should create a car brand', async () => {
-    const name = faker.datatype.string();
-
-    const brand = await createCarBrandUseCase.execute({
-      name,
-    });
+    const brand = await createCarBrandUseCase.execute(
+      createCarBrandUseCaseInputMock
+    );
 
     expect(brand).toHaveProperty('id');
-    expect(brand).toHaveProperty('name', name);
+    expect(brand).toHaveProperty('name', createCarBrandUseCaseInputMock.name);
     expect(brand).toHaveProperty('created_at');
     expect(brand).toHaveProperty('updated_at');
   });

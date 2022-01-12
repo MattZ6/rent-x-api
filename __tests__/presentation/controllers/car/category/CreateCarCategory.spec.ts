@@ -1,23 +1,16 @@
-import faker from 'faker';
-
 import { CarCategoryAlreadyExistsWithThisNameError } from '@domain/errors';
 
 import { CreateCarCategoryController } from '@presentation/controllers/car/category/CreateCarCategory';
 import { conflict, created } from '@presentation/helpers/http/http';
 
-import { CreateCarCategoryUseCaseSpy } from '../../../mocks';
+import {
+  createCarCategoryControllerRequestMock,
+  CreateCarCategoryUseCaseSpy,
+} from '../../../mocks';
 
 let createCarCategoryUseCaseSpy: CreateCarCategoryUseCaseSpy;
 
 let createCarCategoryController: CreateCarCategoryController;
-
-const createCarCategoryControllerRequest: CreateCarCategoryController.Request =
-  {
-    body: {
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    },
-  };
 
 describe('CreateCarCategoryController', () => {
   beforeEach(() => {
@@ -32,13 +25,13 @@ describe('CreateCarCategoryController', () => {
     const executeSpy = jest.spyOn(createCarCategoryUseCaseSpy, 'execute');
 
     await createCarCategoryController.handle(
-      createCarCategoryControllerRequest
+      createCarCategoryControllerRequestMock
     );
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      name: createCarCategoryControllerRequest.body.name,
-      description: createCarCategoryControllerRequest.body.description,
+      name: createCarCategoryControllerRequestMock.body.name,
+      description: createCarCategoryControllerRequestMock.body.description,
     });
   });
 
@@ -48,7 +41,7 @@ describe('CreateCarCategoryController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = createCarCategoryController.handle(
-      createCarCategoryControllerRequest
+      createCarCategoryControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -62,7 +55,7 @@ describe('CreateCarCategoryController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await createCarCategoryController.handle(
-      createCarCategoryControllerRequest
+      createCarCategoryControllerRequestMock
     );
 
     expect(response).toEqual(conflict(error));
@@ -70,7 +63,7 @@ describe('CreateCarCategoryController', () => {
 
   it('should return created (201) on success', async () => {
     const response = await createCarCategoryController.handle(
-      createCarCategoryControllerRequest
+      createCarCategoryControllerRequestMock
     );
 
     expect(response).toEqual(created<void>());

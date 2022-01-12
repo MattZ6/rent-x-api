@@ -1,5 +1,3 @@
-import faker from 'faker';
-
 import {
   CarCategoryAlreadyExistsWithThisNameError,
   CarCategoryNotFoundWithThisIdError,
@@ -8,22 +6,14 @@ import {
 import { UpdateCarCategoryController } from '@presentation/controllers/car/category/UpdateCarCategory';
 import { conflict, noContent, notFound } from '@presentation/helpers/http/http';
 
-import { UpdateCarCategoryUseCaseSpy } from '../../../mocks';
+import {
+  updateCarCategoryControllerRequestMock,
+  UpdateCarCategoryUseCaseSpy,
+} from '../../../mocks';
 
 let updateCarCategoryUseCaseSpy: UpdateCarCategoryUseCaseSpy;
 
 let updateCarCategoryController: UpdateCarCategoryController;
-
-const updateCarCategoryControllerRequest: UpdateCarCategoryController.Request =
-  {
-    params: {
-      id: faker.datatype.uuid(),
-    },
-    body: {
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    },
-  };
 
 describe('UpdateCarCategoryController', () => {
   beforeEach(() => {
@@ -38,14 +28,14 @@ describe('UpdateCarCategoryController', () => {
     const executeSpy = jest.spyOn(updateCarCategoryUseCaseSpy, 'execute');
 
     await updateCarCategoryController.handle(
-      updateCarCategoryControllerRequest
+      updateCarCategoryControllerRequestMock
     );
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      id: updateCarCategoryControllerRequest.params.id,
-      name: updateCarCategoryControllerRequest.body.name,
-      description: updateCarCategoryControllerRequest.body.description,
+      id: updateCarCategoryControllerRequestMock.params.id,
+      name: updateCarCategoryControllerRequestMock.body.name,
+      description: updateCarCategoryControllerRequestMock.body.description,
     });
   });
 
@@ -55,7 +45,7 @@ describe('UpdateCarCategoryController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = updateCarCategoryController.handle(
-      updateCarCategoryControllerRequest
+      updateCarCategoryControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -69,7 +59,7 @@ describe('UpdateCarCategoryController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await updateCarCategoryController.handle(
-      updateCarCategoryControllerRequest
+      updateCarCategoryControllerRequestMock
     );
 
     expect(response).toEqual(notFound(error));
@@ -83,7 +73,7 @@ describe('UpdateCarCategoryController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await updateCarCategoryController.handle(
-      updateCarCategoryControllerRequest
+      updateCarCategoryControllerRequestMock
     );
 
     expect(response).toEqual(conflict(error));
@@ -91,7 +81,7 @@ describe('UpdateCarCategoryController', () => {
 
   it('should return no content (204) on success', async () => {
     const response = await updateCarCategoryController.handle(
-      updateCarCategoryControllerRequest
+      updateCarCategoryControllerRequestMock
     );
 
     expect(response).toEqual(noContent());

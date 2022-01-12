@@ -1,10 +1,7 @@
-import faker from 'faker';
-
 import {
   TokenExpiredError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
-import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshUserAccessToken';
 
 import { RefreshUserAccessTokenController } from '@presentation/controllers/user/RefreshUserAccessToken';
 import {
@@ -13,16 +10,15 @@ import {
   unprocessableEntity,
 } from '@presentation/helpers/http/http';
 
-import { RefreshUserAccessTokenUseCaseSpy } from '../../mocks';
+import {
+  refreshUserAccessTokenControllerRequestMock,
+  refreshUserAccessTokenUseCaseOutputMock,
+  RefreshUserAccessTokenUseCaseSpy,
+} from '../../mocks';
 
 let refreshUserAccessTokenUseCaseSpy: RefreshUserAccessTokenUseCaseSpy;
 
 let refreshUserAccessTokenController: RefreshUserAccessTokenController;
-
-const refreshUserAccessTokenControllerRequest: RefreshUserAccessTokenController.Request =
-  {
-    body: { refresh_token: faker.datatype.string() },
-  };
 
 describe('RefreshUserAccessTokenController', () => {
   beforeEach(() => {
@@ -37,12 +33,13 @@ describe('RefreshUserAccessTokenController', () => {
     const executeSpy = jest.spyOn(refreshUserAccessTokenUseCaseSpy, 'execute');
 
     await refreshUserAccessTokenController.handle(
-      refreshUserAccessTokenControllerRequest
+      refreshUserAccessTokenControllerRequestMock
     );
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      refresh_token: refreshUserAccessTokenControllerRequest.body.refresh_token,
+      refresh_token:
+        refreshUserAccessTokenControllerRequestMock.body.refresh_token,
     });
   });
 
@@ -52,7 +49,7 @@ describe('RefreshUserAccessTokenController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = refreshUserAccessTokenController.handle(
-      refreshUserAccessTokenControllerRequest
+      refreshUserAccessTokenControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -66,7 +63,7 @@ describe('RefreshUserAccessTokenController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await refreshUserAccessTokenController.handle(
-      refreshUserAccessTokenControllerRequest
+      refreshUserAccessTokenControllerRequestMock
     );
 
     expect(response).toEqual(notFound(error));
@@ -80,26 +77,21 @@ describe('RefreshUserAccessTokenController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await refreshUserAccessTokenController.handle(
-      refreshUserAccessTokenControllerRequest
+      refreshUserAccessTokenControllerRequestMock
     );
 
     expect(response).toEqual(unprocessableEntity(error));
   });
 
   it('should return ok (200) on success', async () => {
-    const authentication: IRefreshUserAccessTokenUseCase.Output = {
-      access_token: faker.datatype.string(),
-      refresh_token: faker.datatype.string(),
-    };
-
     jest
       .spyOn(refreshUserAccessTokenUseCaseSpy, 'execute')
-      .mockResolvedValueOnce(authentication);
+      .mockResolvedValueOnce(refreshUserAccessTokenUseCaseOutputMock);
 
     const response = await refreshUserAccessTokenController.handle(
-      refreshUserAccessTokenControllerRequest
+      refreshUserAccessTokenControllerRequestMock
     );
 
-    expect(response).toEqual(ok(authentication));
+    expect(response).toEqual(ok(refreshUserAccessTokenUseCaseOutputMock));
   });
 });

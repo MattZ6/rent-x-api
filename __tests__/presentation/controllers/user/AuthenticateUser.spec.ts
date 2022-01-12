@@ -13,18 +13,14 @@ import {
   unprocessableEntity,
 } from '@presentation/helpers/http/http';
 
-import { AuthenticateUserUseCaseSpy } from '../../mocks';
+import {
+  authenticateUserControllerRequestMock,
+  AuthenticateUserUseCaseSpy,
+} from '../../mocks';
 
 let authenticateUserUseCaseSpy: AuthenticateUserUseCaseSpy;
 
 let authenticateUserController: AuthenticateUserController;
-
-const authenticateUserControllerRequest: AuthenticateUserController.Request = {
-  body: {
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-  },
-};
 
 describe('AuthenticateUserController', () => {
   beforeEach(() => {
@@ -38,12 +34,14 @@ describe('AuthenticateUserController', () => {
   it('should call AuthenticateUserUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(authenticateUserUseCaseSpy, 'execute');
 
-    await authenticateUserController.handle(authenticateUserControllerRequest);
+    await authenticateUserController.handle(
+      authenticateUserControllerRequestMock
+    );
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      email: authenticateUserControllerRequest.body.email,
-      password: authenticateUserControllerRequest.body.password,
+      email: authenticateUserControllerRequestMock.body.email,
+      password: authenticateUserControllerRequestMock.body.password,
     });
   });
 
@@ -53,7 +51,7 @@ describe('AuthenticateUserController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = authenticateUserController.handle(
-      authenticateUserControllerRequest
+      authenticateUserControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -67,7 +65,7 @@ describe('AuthenticateUserController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await authenticateUserController.handle(
-      authenticateUserControllerRequest
+      authenticateUserControllerRequestMock
     );
 
     expect(response).toEqual(notFound(error));
@@ -81,7 +79,7 @@ describe('AuthenticateUserController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await authenticateUserController.handle(
-      authenticateUserControllerRequest
+      authenticateUserControllerRequestMock
     );
 
     expect(response).toEqual(unprocessableEntity(error));
@@ -98,7 +96,7 @@ describe('AuthenticateUserController', () => {
       .mockResolvedValueOnce(authentication);
 
     const response = await authenticateUserController.handle(
-      authenticateUserControllerRequest
+      authenticateUserControllerRequestMock
     );
 
     expect(response).toEqual(ok(authentication));

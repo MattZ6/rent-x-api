@@ -1,7 +1,6 @@
 import faker from 'faker';
 
 import { UserNotFoundWithThisEmailError } from '@domain/errors';
-import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotUserPasssordMail';
 
 import { SendForgotUserPasswordMailUseCase } from '@data/usecases/user/SendForgotUserPasswordMail';
 
@@ -9,39 +8,20 @@ import { userMock } from '../../../domain/models/user.mock';
 import {
   CreateUserTokenRepositorySpy,
   FindUserByEmailRepositorySpy,
+  forgotEmailExpiresTimeInMillissecondsMock,
   GenerateUuidProviderSpy,
+  mailDataMock,
+  passwordResetLinkDataMock,
+  sendForgotUserPasswordMailUseCaseInputMock,
   SendMailProviderSpy,
 } from '../../mocks';
 
 let findUserByEmailRepositorySpy: FindUserByEmailRepositorySpy;
 let generateUuidProviderSpy: GenerateUuidProviderSpy;
-const forgotEmailExpiresTimeInMillisseconds = faker.datatype.number({
-  min: 1000,
-  max: 100_000_000,
-});
 let createUserTokenRepositorySpy: CreateUserTokenRepositorySpy;
-const mailData: ISendForgotUserPasswordMailUseCase.EmailData = {
-  from_email: {
-    name: faker.name.findName(),
-    address: faker.internet.email(),
-  },
-  subject: faker.datatype.string(),
-  text_content: faker.datatype.string(),
-  html_template_path: faker.system.filePath(),
-};
-const passwordResetLinkData: ISendForgotUserPasswordMailUseCase.PasswordResetLinkData =
-  {
-    base_url: faker.internet.url(),
-    query_param_name: faker.internet.domainWord(),
-  };
 let sendMailProviderSpy: SendMailProviderSpy;
 
 let sendForgotUserPasswordMailUseCase: SendForgotUserPasswordMailUseCase;
-
-const sendForgotUserPasswordMailUseCaseInputMock: ISendForgotUserPasswordMailUseCase.Input =
-  {
-    email: faker.internet.email(),
-  };
 
 describe('SendForgotUserPasswordMailUseCase', () => {
   beforeEach(() => {
@@ -53,10 +33,10 @@ describe('SendForgotUserPasswordMailUseCase', () => {
     sendForgotUserPasswordMailUseCase = new SendForgotUserPasswordMailUseCase(
       findUserByEmailRepositorySpy,
       generateUuidProviderSpy,
-      forgotEmailExpiresTimeInMillisseconds,
+      forgotEmailExpiresTimeInMillissecondsMock,
       createUserTokenRepositorySpy,
-      mailData,
-      passwordResetLinkData,
+      mailDataMock,
+      passwordResetLinkDataMock,
       sendMailProviderSpy
     );
   });
@@ -153,7 +133,7 @@ describe('SendForgotUserPasswordMailUseCase', () => {
       token,
       user_id: userId,
       expires_in: new Date(
-        now.getTime() + forgotEmailExpiresTimeInMillisseconds
+        now.getTime() + forgotEmailExpiresTimeInMillissecondsMock
       ),
     });
   });
@@ -191,23 +171,23 @@ describe('SendForgotUserPasswordMailUseCase', () => {
     );
 
     const [userFirstName] = userName.trim().split(' ');
-    const passwordResetLink = `${passwordResetLinkData.base_url}?${passwordResetLinkData.query_param_name}=${token}`;
+    const passwordResetLink = `${passwordResetLinkDataMock.base_url}?${passwordResetLinkDataMock.query_param_name}=${token}`;
 
     expect(sendSpy).toHaveBeenCalledTimes(1);
     expect(sendSpy).toHaveBeenCalledWith({
       from: {
-        name: mailData.from_email.name,
-        address: mailData.from_email.address,
+        name: mailDataMock.from_email.name,
+        address: mailDataMock.from_email.address,
       },
       to: {
         name: userName,
         address: userEmail,
       },
-      subject: mailData.subject,
+      subject: mailDataMock.subject,
       content: {
-        text: mailData.text_content,
+        text: mailDataMock.text_content,
         html: {
-          template_path: mailData.html_template_path,
+          template_path: mailDataMock.html_template_path,
           template_variables: {
             user_first_name: userFirstName,
             password_reset_link: passwordResetLink,

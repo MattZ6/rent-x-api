@@ -5,7 +5,10 @@ import { UserNotFoundWithThisIdError } from '@domain/errors';
 import { GetUserProfileUseCase } from '@data/usecases/user/GetUserProfile';
 
 import { userMock } from '../../../domain/models/user.mock';
-import { FindUserByIdRepositorySpy } from '../../mocks';
+import {
+  FindUserByIdRepositorySpy,
+  getUserProfileUseCaseInputMock,
+} from '../../mocks';
 
 let findUserByIdRepositorySpy: FindUserByIdRepositorySpy;
 
@@ -38,9 +41,9 @@ describe('GetUserProfileUseCase', () => {
       .spyOn(findUserByIdRepositorySpy, 'findById')
       .mockRejectedValueOnce(new Error());
 
-    const promise = getUserProfileUseCase.execute({
-      user_id: faker.datatype.uuid(),
-    });
+    const promise = getUserProfileUseCase.execute(
+      getUserProfileUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -50,9 +53,9 @@ describe('GetUserProfileUseCase', () => {
       .spyOn(findUserByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(undefined);
 
-    const promise = getUserProfileUseCase.execute({
-      user_id: faker.datatype.uuid(),
-    });
+    const promise = getUserProfileUseCase.execute(
+      getUserProfileUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(UserNotFoundWithThisIdError);
   });
@@ -62,9 +65,9 @@ describe('GetUserProfileUseCase', () => {
       .spyOn(findUserByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(userMock);
 
-    const user = await getUserProfileUseCase.execute({
-      user_id: faker.datatype.uuid(),
-    });
+    const user = await getUserProfileUseCase.execute(
+      getUserProfileUseCaseInputMock
+    );
 
     expect(user).toEqual(userMock);
   });

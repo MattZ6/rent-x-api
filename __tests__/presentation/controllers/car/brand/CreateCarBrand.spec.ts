@@ -1,21 +1,16 @@
-import faker from 'faker';
-
 import { CarBrandAlreadyExistsWithThisNameError } from '@domain/errors';
 
 import { CreateCarBrandController } from '@presentation/controllers/car/brand/CreateCarBrand';
 import { conflict, created } from '@presentation/helpers/http/http';
 
-import { CreateCarBrandUseCaseSpy } from '../../../mocks';
+import {
+  createCarBrandControllerRequestMock,
+  CreateCarBrandUseCaseSpy,
+} from '../../../mocks';
 
 let createCarBrandUseCaseSpy: CreateCarBrandUseCaseSpy;
 
 let createCarBrandController: CreateCarBrandController;
-
-const createCarBrandControllerRequest: CreateCarBrandController.Request = {
-  body: {
-    name: faker.datatype.string(),
-  },
-};
 
 describe('CreateCarBrandController', () => {
   beforeEach(() => {
@@ -29,11 +24,11 @@ describe('CreateCarBrandController', () => {
   it('should call CreateCarBrandUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(createCarBrandUseCaseSpy, 'execute');
 
-    await createCarBrandController.handle(createCarBrandControllerRequest);
+    await createCarBrandController.handle(createCarBrandControllerRequestMock);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      name: createCarBrandControllerRequest.body.name,
+      name: createCarBrandControllerRequestMock.body.name,
     });
   });
 
@@ -43,7 +38,7 @@ describe('CreateCarBrandController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = createCarBrandController.handle(
-      createCarBrandControllerRequest
+      createCarBrandControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -57,7 +52,7 @@ describe('CreateCarBrandController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await createCarBrandController.handle(
-      createCarBrandControllerRequest
+      createCarBrandControllerRequestMock
     );
 
     expect(response).toEqual(conflict(error));
@@ -65,7 +60,7 @@ describe('CreateCarBrandController', () => {
 
   it('should return created (201) on success', async () => {
     const response = await createCarBrandController.handle(
-      createCarBrandControllerRequest
+      createCarBrandControllerRequestMock
     );
 
     expect(response).toEqual(created<void>());

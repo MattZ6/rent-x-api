@@ -9,11 +9,13 @@ import { AuthenticateUserUseCase } from '@data/usecases/user/AuthenticateUser';
 
 import { userMock } from '../../../domain/models/user.mock';
 import {
+  authenticateUserUseCaseInputMock,
   CompareHashProviderSpy,
   CreateUserTokenRepositorySpy,
   EncryptProviderSpy,
   FindUserByEmailRepositorySpy,
   GenerateUuidProviderSpy,
+  authenticateUserRefreshTokenExpiresTimeInMillissecondsMock,
 } from '../../mocks';
 
 let findUserByEmailRepositorySpy: FindUserByEmailRepositorySpy;
@@ -21,7 +23,6 @@ let compareHashProviderSpy: CompareHashProviderSpy;
 let encryptProviderSpy: EncryptProviderSpy;
 let generateUuidProviderSpy: GenerateUuidProviderSpy;
 let createUserTokenRepositorySpy: CreateUserTokenRepositorySpy;
-const refreshTokenExpiresTimeInMillisseconds = 1 * 24 * 60 * 60 * 1000;
 
 let authenticateUserUseCase: AuthenticateUserUseCase;
 
@@ -38,7 +39,7 @@ describe('AuthenticateUserUseCase', () => {
       compareHashProviderSpy,
       encryptProviderSpy,
       generateUuidProviderSpy,
-      refreshTokenExpiresTimeInMillisseconds,
+      authenticateUserRefreshTokenExpiresTimeInMillissecondsMock,
       createUserTokenRepositorySpy
     );
   });
@@ -52,8 +53,8 @@ describe('AuthenticateUserUseCase', () => {
     const email = faker.internet.email();
 
     await authenticateUserUseCase.execute({
+      ...authenticateUserUseCaseInputMock,
       email,
-      password: faker.internet.password(),
     });
 
     expect(findByEmailSpy).toHaveBeenCalledTimes(1);
@@ -65,10 +66,9 @@ describe('AuthenticateUserUseCase', () => {
       .spyOn(findUserByEmailRepositorySpy, 'findByEmail')
       .mockRejectedValueOnce(new Error());
 
-    const promise = authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    const promise = authenticateUserUseCase.execute(
+      authenticateUserUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -78,10 +78,9 @@ describe('AuthenticateUserUseCase', () => {
       .spyOn(findUserByEmailRepositorySpy, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
-    const promise = authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    const promise = authenticateUserUseCase.execute(
+      authenticateUserUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       UserNotFoundWithThisEmailError
@@ -100,7 +99,7 @@ describe('AuthenticateUserUseCase', () => {
     const password = faker.internet.password();
 
     await authenticateUserUseCase.execute({
-      email: faker.internet.email(),
+      ...authenticateUserUseCaseInputMock,
       password,
     });
 
@@ -116,10 +115,9 @@ describe('AuthenticateUserUseCase', () => {
       .spyOn(compareHashProviderSpy, 'compare')
       .mockRejectedValueOnce(new Error());
 
-    const promise = authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    const promise = authenticateUserUseCase.execute(
+      authenticateUserUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -127,10 +125,9 @@ describe('AuthenticateUserUseCase', () => {
   it('should throw IncorrectPassword if passwords does not match', async () => {
     jest.spyOn(compareHashProviderSpy, 'compare').mockResolvedValueOnce(false);
 
-    const promise = authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    const promise = authenticateUserUseCase.execute(
+      authenticateUserUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(IncorrectPassword);
   });
@@ -147,10 +144,7 @@ describe('AuthenticateUserUseCase', () => {
 
     const encryptSpy = jest.spyOn(encryptProviderSpy, 'encrypt');
 
-    await authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    await authenticateUserUseCase.execute(authenticateUserUseCaseInputMock);
 
     expect(encryptSpy).toHaveBeenCalledTimes(1);
     expect(encryptSpy).toHaveBeenCalledWith({
@@ -163,10 +157,9 @@ describe('AuthenticateUserUseCase', () => {
       .spyOn(encryptProviderSpy, 'encrypt')
       .mockRejectedValueOnce(new Error());
 
-    const promise = authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    const promise = authenticateUserUseCase.execute(
+      authenticateUserUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -174,10 +167,7 @@ describe('AuthenticateUserUseCase', () => {
   it('should call GenerateUuidProvider once', async () => {
     const generateSpy = jest.spyOn(generateUuidProviderSpy, 'generate');
 
-    await authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    await authenticateUserUseCase.execute(authenticateUserUseCaseInputMock);
 
     expect(generateSpy).toHaveBeenCalledTimes(1);
   });
@@ -187,10 +177,9 @@ describe('AuthenticateUserUseCase', () => {
       .spyOn(generateUuidProviderSpy, 'generate')
       .mockRejectedValueOnce(new Error());
 
-    const promise = authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    const promise = authenticateUserUseCase.execute(
+      authenticateUserUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -213,15 +202,12 @@ describe('AuthenticateUserUseCase', () => {
     jest.spyOn(Date, 'now').mockReturnValueOnce(dateNow);
 
     const expiresIn = new Date(
-      dateNow + refreshTokenExpiresTimeInMillisseconds
+      dateNow + authenticateUserRefreshTokenExpiresTimeInMillissecondsMock
     );
 
     const createSpy = jest.spyOn(createUserTokenRepositorySpy, 'create');
 
-    await authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    await authenticateUserUseCase.execute(authenticateUserUseCaseInputMock);
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({
@@ -236,10 +222,9 @@ describe('AuthenticateUserUseCase', () => {
       .spyOn(createUserTokenRepositorySpy, 'create')
       .mockRejectedValueOnce(new Error());
 
-    const promise = authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    const promise = authenticateUserUseCase.execute(
+      authenticateUserUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -256,10 +241,9 @@ describe('AuthenticateUserUseCase', () => {
       .spyOn(generateUuidProviderSpy, 'generate')
       .mockResolvedValueOnce(refreshToken);
 
-    const authentication = await authenticateUserUseCase.execute({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    });
+    const authentication = await authenticateUserUseCase.execute(
+      authenticateUserUseCaseInputMock
+    );
 
     expect(authentication).toHaveProperty('access_token', accessToken);
     expect(authentication).toHaveProperty('refresh_token', refreshToken);

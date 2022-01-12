@@ -1,5 +1,3 @@
-import faker from 'faker';
-
 import {
   TokenExpiredError,
   UserNotFoundWithThisIdError,
@@ -13,19 +11,14 @@ import {
   noContent,
 } from '@presentation/helpers/http/http';
 
-import { ResetUserPasswordUseCaseSpy } from '../../mocks';
+import {
+  resetUserPasswordControllerRequestMock,
+  ResetUserPasswordUseCaseSpy,
+} from '../../mocks';
 
 let resetUserPasswordUseCaseSpy: ResetUserPasswordUseCaseSpy;
 
 let resetUserPasswordController: ResetUserPasswordController;
-
-const resetUserPasswordControllerRequest: ResetUserPasswordController.Request =
-  {
-    body: {
-      token: faker.datatype.string(),
-      new_password: faker.internet.password(),
-    },
-  };
 
 describe('ResetUserPasswordController', () => {
   beforeEach(() => {
@@ -40,13 +33,13 @@ describe('ResetUserPasswordController', () => {
     const executeSpy = jest.spyOn(resetUserPasswordUseCaseSpy, 'execute');
 
     await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequest
+      resetUserPasswordControllerRequestMock
     );
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      token: resetUserPasswordControllerRequest.body.token,
-      new_password: resetUserPasswordControllerRequest.body.new_password,
+      token: resetUserPasswordControllerRequestMock.body.token,
+      new_password: resetUserPasswordControllerRequestMock.body.new_password,
     });
   });
 
@@ -56,7 +49,7 @@ describe('ResetUserPasswordController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = resetUserPasswordController.handle(
-      resetUserPasswordControllerRequest
+      resetUserPasswordControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -70,7 +63,7 @@ describe('ResetUserPasswordController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequest
+      resetUserPasswordControllerRequestMock
     );
 
     expect(response).toEqual(notFound(error));
@@ -84,7 +77,7 @@ describe('ResetUserPasswordController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequest
+      resetUserPasswordControllerRequestMock
     );
 
     expect(response).toEqual(unprocessableEntity(error));
@@ -98,7 +91,7 @@ describe('ResetUserPasswordController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequest
+      resetUserPasswordControllerRequestMock
     );
 
     expect(response).toEqual(notFound(error));
@@ -106,7 +99,7 @@ describe('ResetUserPasswordController', () => {
 
   it('should return no content (204) on success', async () => {
     const response = await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequest
+      resetUserPasswordControllerRequestMock
     );
 
     expect(response).toEqual(noContent());

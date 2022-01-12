@@ -15,6 +15,7 @@ import {
   FindUserByIdRepositorySpy,
   FindUserTokenByTokenRepositorySpy,
   GenerateHashProviderSpy,
+  resetUserPasswordUseCaseInputMock,
   UpdateUserRepositorySpy,
 } from '../../mocks';
 
@@ -52,8 +53,8 @@ describe('ResetUserPasswordUseCase', () => {
     const token = faker.datatype.uuid();
 
     await resetUserPasswordUseCase.execute({
+      ...resetUserPasswordUseCaseInputMock,
       token,
-      new_password: faker.internet.password(),
     });
 
     expect(findByTokenSpy).toHaveBeenCalledTimes(1);
@@ -65,10 +66,9 @@ describe('ResetUserPasswordUseCase', () => {
       .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockRejectedValueOnce(new Error());
 
-    const promise = resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    const promise = resetUserPasswordUseCase.execute(
+      resetUserPasswordUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -78,10 +78,9 @@ describe('ResetUserPasswordUseCase', () => {
       .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce(undefined);
 
-    const promise = resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    const promise = resetUserPasswordUseCase.execute(
+      resetUserPasswordUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       UserTokenNotFoundWithThisTokenError
@@ -97,10 +96,9 @@ describe('ResetUserPasswordUseCase', () => {
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(tokenExpiresIn.getTime() + 1);
 
-    const promise = resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    const promise = resetUserPasswordUseCase.execute(
+      resetUserPasswordUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(TokenExpiredError);
   });
@@ -117,10 +115,7 @@ describe('ResetUserPasswordUseCase', () => {
 
     const findByIdSpy = jest.spyOn(findUserByIdRepositorySpy, 'findById');
 
-    await resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    await resetUserPasswordUseCase.execute(resetUserPasswordUseCaseInputMock);
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
     expect(findByIdSpy).toHaveBeenCalledWith({ id: userId });
@@ -131,10 +126,9 @@ describe('ResetUserPasswordUseCase', () => {
       .spyOn(findUserByIdRepositorySpy, 'findById')
       .mockRejectedValueOnce(new Error());
 
-    const promise = resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    const promise = resetUserPasswordUseCase.execute(
+      resetUserPasswordUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -144,10 +138,9 @@ describe('ResetUserPasswordUseCase', () => {
       .spyOn(findUserByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(undefined);
 
-    const promise = resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    const promise = resetUserPasswordUseCase.execute(
+      resetUserPasswordUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(UserNotFoundWithThisIdError);
   });
@@ -158,7 +151,7 @@ describe('ResetUserPasswordUseCase', () => {
     const newPassword = faker.internet.password();
 
     await resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
+      ...resetUserPasswordUseCaseInputMock,
       new_password: newPassword,
     });
 
@@ -171,10 +164,9 @@ describe('ResetUserPasswordUseCase', () => {
       .spyOn(generateHashProviderSpy, 'hash')
       .mockRejectedValueOnce(new Error());
 
-    const promise = resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    const promise = resetUserPasswordUseCase.execute(
+      resetUserPasswordUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -192,10 +184,7 @@ describe('ResetUserPasswordUseCase', () => {
 
     const updateSpy = jest.spyOn(updateUserRepositorySpy, 'update');
 
-    await resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    await resetUserPasswordUseCase.execute(resetUserPasswordUseCaseInputMock);
 
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith({
@@ -209,10 +198,9 @@ describe('ResetUserPasswordUseCase', () => {
       .spyOn(updateUserRepositorySpy, 'update')
       .mockRejectedValueOnce(new Error());
 
-    const promise = resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    const promise = resetUserPasswordUseCase.execute(
+      resetUserPasswordUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -229,10 +217,7 @@ describe('ResetUserPasswordUseCase', () => {
       'deleteById'
     );
 
-    await resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    await resetUserPasswordUseCase.execute(resetUserPasswordUseCaseInputMock);
 
     expect(deleteByIdSpy).toHaveBeenCalledTimes(1);
     expect(deleteByIdSpy).toHaveBeenCalledWith({ id: userTokenId });
@@ -243,10 +228,9 @@ describe('ResetUserPasswordUseCase', () => {
       .spyOn(deleteUserTokenByIdRepositorySpy, 'deleteById')
       .mockRejectedValueOnce(new Error());
 
-    const promise = resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    const promise = resetUserPasswordUseCase.execute(
+      resetUserPasswordUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -264,10 +248,7 @@ describe('ResetUserPasswordUseCase', () => {
       .spyOn(generateHashProviderSpy, 'hash')
       .mockResolvedValueOnce(newPasswordHash);
 
-    await resetUserPasswordUseCase.execute({
-      token: faker.datatype.uuid(),
-      new_password: faker.internet.password(),
-    });
+    await resetUserPasswordUseCase.execute(resetUserPasswordUseCaseInputMock);
 
     expect(user.password_hash).toBe(newPasswordHash);
   });

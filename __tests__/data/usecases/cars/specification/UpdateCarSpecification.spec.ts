@@ -12,6 +12,7 @@ import {
   CheckIfCarSpecificationExistsByNameRepositorySpy,
   FindCarSpecificationByIdRepositorySpy,
   UpdateCarSpecificationRepositorySpy,
+  updateCarSpecificationUseCaseInputMock,
 } from '../../../mocks';
 
 let findCarSpecificationByIdRepositorySpy: FindCarSpecificationByIdRepositorySpy;
@@ -45,9 +46,8 @@ describe('UpdateCarSpecificationUseCase', () => {
     const id = faker.datatype.uuid();
 
     await updateCarSpecificationUseCase.execute({
+      ...updateCarSpecificationUseCaseInputMock,
       id,
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
     });
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
@@ -59,11 +59,9 @@ describe('UpdateCarSpecificationUseCase', () => {
       .spyOn(findCarSpecificationByIdRepositorySpy, 'findById')
       .mockRejectedValueOnce(new Error());
 
-    const promise = updateCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = updateCarSpecificationUseCase.execute(
+      updateCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -73,11 +71,9 @@ describe('UpdateCarSpecificationUseCase', () => {
       .spyOn(findCarSpecificationByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(undefined);
 
-    const promise = updateCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = updateCarSpecificationUseCase.execute(
+      updateCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       CarSpecificationNotFoundWithThisIdError
@@ -97,9 +93,8 @@ describe('UpdateCarSpecificationUseCase', () => {
     );
 
     await updateCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
+      ...updateCarSpecificationUseCaseInputMock,
       name: `       ${name.toUpperCase()} `,
-      description: faker.datatype.string(),
     });
 
     expect(checkIfExistsByNameSpy).not.toHaveBeenCalled();
@@ -111,11 +106,9 @@ describe('UpdateCarSpecificationUseCase', () => {
       'checkIfExistsByName'
     );
 
-    await updateCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    await updateCarSpecificationUseCase.execute(
+      updateCarSpecificationUseCaseInputMock
+    );
 
     expect(checkIfExistsByNameSpy).toHaveBeenCalledTimes(1);
   });
@@ -129,9 +122,8 @@ describe('UpdateCarSpecificationUseCase', () => {
     const name = faker.datatype.string();
 
     await updateCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
+      ...updateCarSpecificationUseCaseInputMock,
       name,
-      description: faker.datatype.string(),
     });
 
     expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name });
@@ -145,11 +137,9 @@ describe('UpdateCarSpecificationUseCase', () => {
       )
       .mockRejectedValueOnce(new Error());
 
-    const promise = updateCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = updateCarSpecificationUseCase.execute(
+      updateCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -162,11 +152,9 @@ describe('UpdateCarSpecificationUseCase', () => {
       )
       .mockResolvedValueOnce(true);
 
-    const promise = updateCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = updateCarSpecificationUseCase.execute(
+      updateCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       CarSpecificationAlreadyExistsWithThisNameError
@@ -184,7 +172,7 @@ describe('UpdateCarSpecificationUseCase', () => {
     const description = faker.datatype.string();
 
     await updateCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
+      ...updateCarSpecificationUseCaseInputMock,
       name,
       description,
     });
@@ -202,28 +190,29 @@ describe('UpdateCarSpecificationUseCase', () => {
       .spyOn(updateCarSpecificationRepositorySpy, 'update')
       .mockRejectedValueOnce(new Error());
 
-    const promise = updateCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = updateCarSpecificationUseCase.execute(
+      updateCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
 
   it('should update car specification', async () => {
-    const id = faker.datatype.uuid();
-    const name = faker.datatype.string();
-    const description = faker.datatype.string();
+    const specification = await updateCarSpecificationUseCase.execute(
+      updateCarSpecificationUseCaseInputMock
+    );
 
-    const specification = await updateCarSpecificationUseCase.execute({
-      id,
-      name,
-      description,
-    });
-
-    expect(specification).toHaveProperty('id', id);
-    expect(specification).toHaveProperty('name', name);
-    expect(specification).toHaveProperty('description', description);
+    expect(specification).toHaveProperty(
+      'id',
+      updateCarSpecificationUseCaseInputMock.id
+    );
+    expect(specification).toHaveProperty(
+      'name',
+      updateCarSpecificationUseCaseInputMock.name
+    );
+    expect(specification).toHaveProperty(
+      'description',
+      updateCarSpecificationUseCaseInputMock.description
+    );
   });
 });

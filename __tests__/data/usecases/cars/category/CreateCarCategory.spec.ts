@@ -7,6 +7,7 @@ import { CreateCarCategoryUseCase } from '@data/usecases/car/category/CreateCarC
 import {
   CheckIfCarCategoryExistsByNameRepositorySpy,
   CreateCarCategoryRepositorySpy,
+  createCarCategoryUseCaseInputMock,
 } from '../../../mocks';
 
 let checkIfCarCategoryExistsByNameRepositorySpy: CheckIfCarCategoryExistsByNameRepositorySpy;
@@ -35,8 +36,8 @@ describe('CreateCarCategoryUseCase', () => {
     const name = faker.datatype.string();
 
     await createCarCategoryUseCase.execute({
+      ...createCarCategoryUseCaseInputMock,
       name,
-      description: faker.datatype.string(),
     });
 
     expect(checkIfExistsByNameSpy).toHaveBeenCalledTimes(1);
@@ -48,10 +49,9 @@ describe('CreateCarCategoryUseCase', () => {
       .spyOn(checkIfCarCategoryExistsByNameRepositorySpy, 'checkIfExistsByName')
       .mockRejectedValueOnce(new Error());
 
-    const promise = createCarCategoryUseCase.execute({
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = createCarCategoryUseCase.execute(
+      createCarCategoryUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -61,10 +61,9 @@ describe('CreateCarCategoryUseCase', () => {
       .spyOn(checkIfCarCategoryExistsByNameRepositorySpy, 'checkIfExistsByName')
       .mockResolvedValueOnce(true);
 
-    const promise = createCarCategoryUseCase.execute({
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = createCarCategoryUseCase.execute(
+      createCarCategoryUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       CarCategoryAlreadyExistsWithThisNameError
@@ -74,18 +73,12 @@ describe('CreateCarCategoryUseCase', () => {
   it('should call CreateCarCategoryRepository once with correct values', async () => {
     const createSpy = jest.spyOn(createCarCategoryRepositorySpy, 'create');
 
-    const name = faker.datatype.string();
-    const description = faker.datatype.string();
-
-    await createCarCategoryUseCase.execute({
-      name,
-      description,
-    });
+    await createCarCategoryUseCase.execute(createCarCategoryUseCaseInputMock);
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({
-      name,
-      description,
+      name: createCarCategoryUseCaseInputMock.name,
+      description: createCarCategoryUseCaseInputMock.description,
     });
   });
 
@@ -94,26 +87,27 @@ describe('CreateCarCategoryUseCase', () => {
       .spyOn(createCarCategoryRepositorySpy, 'create')
       .mockRejectedValueOnce(new Error());
 
-    const promise = createCarCategoryUseCase.execute({
-      name: faker.datatype.string(),
-      description: faker.datatype.string(),
-    });
+    const promise = createCarCategoryUseCase.execute(
+      createCarCategoryUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
 
   it('should create a car category', async () => {
-    const name = faker.datatype.string();
-    const description = faker.datatype.string();
-
-    const category = await createCarCategoryUseCase.execute({
-      name,
-      description,
-    });
+    const category = await createCarCategoryUseCase.execute(
+      createCarCategoryUseCaseInputMock
+    );
 
     expect(category).toHaveProperty('id');
-    expect(category).toHaveProperty('name', name);
-    expect(category).toHaveProperty('description', description);
+    expect(category).toHaveProperty(
+      'name',
+      createCarCategoryUseCaseInputMock.name
+    );
+    expect(category).toHaveProperty(
+      'description',
+      createCarCategoryUseCaseInputMock.description
+    );
     expect(category).toHaveProperty('created_at');
     expect(category).toHaveProperty('updated_at');
   });

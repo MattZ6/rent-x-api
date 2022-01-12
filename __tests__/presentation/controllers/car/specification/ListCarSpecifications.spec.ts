@@ -1,28 +1,19 @@
-import faker from 'faker';
-
 import { ListCarSpecificationsController } from '@presentation/controllers/car/specification/ListCarSpecifications';
 import { ok } from '@presentation/helpers/http/http';
 
 import { carSpecificationMock } from '../../../../domain/models/car-specification.mock';
-import { ListAllCarSpecificationsUseCaseSpy } from '../../../mocks';
+import {
+  listCarSpecificationsControllerDefaultLimit,
+  listCarSpecificationsControllerDefaultOrder,
+  listCarSpecificationsControllerDefaultOrderBy,
+  listCarSpecificationsControllerDefaultPage,
+  ListAllCarSpecificationsUseCaseSpy,
+  listCarSpecificationsControllerRequestMock,
+} from '../../../mocks';
 
-const defaultOrderBy = 'created_at';
-const defaultOrder = 'DESC';
-const defaultLimit = faker.datatype.number({ min: 10, max: 100 });
-const defaultPage = faker.datatype.number({ min: 1, max: 50 });
 let listAllCarSpecificationsUseCaseSpy: ListAllCarSpecificationsUseCaseSpy;
 
 let listCarSpecificationsController: ListCarSpecificationsController;
-
-const listCarSpecificationsControllerRequest: ListCarSpecificationsController.Request =
-  {
-    query: {
-      order_by: 'name',
-      order: 'ASC',
-      limit: faker.datatype.number({ min: 10, max: 100 }),
-      page: faker.datatype.number({ min: 1, max: 50 }),
-    },
-  };
 
 describe('ListCarSpecificationsController', () => {
   beforeEach(() => {
@@ -30,10 +21,10 @@ describe('ListCarSpecificationsController', () => {
       new ListAllCarSpecificationsUseCaseSpy();
 
     listCarSpecificationsController = new ListCarSpecificationsController(
-      defaultOrderBy,
-      defaultOrder,
-      defaultLimit,
-      defaultPage,
+      listCarSpecificationsControllerDefaultOrderBy,
+      listCarSpecificationsControllerDefaultOrder,
+      listCarSpecificationsControllerDefaultLimit,
+      listCarSpecificationsControllerDefaultPage,
       listAllCarSpecificationsUseCaseSpy
     );
   });
@@ -45,15 +36,15 @@ describe('ListCarSpecificationsController', () => {
     );
 
     await listCarSpecificationsController.handle(
-      listCarSpecificationsControllerRequest
+      listCarSpecificationsControllerRequestMock
     );
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listCarSpecificationsControllerRequest.query.order_by,
-      order: listCarSpecificationsControllerRequest.query.order,
-      limit: listCarSpecificationsControllerRequest.query.limit,
-      page: listCarSpecificationsControllerRequest.query.page,
+      order_by: listCarSpecificationsControllerRequestMock.query.order_by,
+      order: listCarSpecificationsControllerRequestMock.query.order,
+      limit: listCarSpecificationsControllerRequestMock.query.limit,
+      page: listCarSpecificationsControllerRequestMock.query.page,
     });
   });
 
@@ -64,17 +55,17 @@ describe('ListCarSpecificationsController', () => {
     );
 
     const request = {
-      ...listCarSpecificationsControllerRequest,
+      ...listCarSpecificationsControllerRequestMock,
       query: undefined,
     };
 
     await listCarSpecificationsController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: defaultOrderBy,
-      order: defaultOrder,
-      limit: defaultLimit,
-      page: defaultPage,
+      order_by: listCarSpecificationsControllerDefaultOrderBy,
+      order: listCarSpecificationsControllerDefaultOrder,
+      limit: listCarSpecificationsControllerDefaultLimit,
+      page: listCarSpecificationsControllerDefaultPage,
     });
   });
 
@@ -84,7 +75,7 @@ describe('ListCarSpecificationsController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = listCarSpecificationsController.handle(
-      listCarSpecificationsControllerRequest
+      listCarSpecificationsControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -98,7 +89,7 @@ describe('ListCarSpecificationsController', () => {
       .mockResolvedValueOnce(carSpecifications);
 
     const response = await listCarSpecificationsController.handle(
-      listCarSpecificationsControllerRequest
+      listCarSpecificationsControllerRequestMock
     );
 
     expect(response).toEqual(ok(carSpecifications));

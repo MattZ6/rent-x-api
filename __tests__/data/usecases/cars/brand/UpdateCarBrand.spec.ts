@@ -12,6 +12,7 @@ import {
   CheckIfCarBrandExistsByNameRepositorySpy,
   FindCarBrandByIdRepositorySpy,
   UpdateCarBrandRepositorySpy,
+  updateCarBrandUseCaseInputMock,
 } from '../../../mocks';
 
 let findCarBrandByIdRepositorySpy: FindCarBrandByIdRepositorySpy;
@@ -40,8 +41,8 @@ describe('UpdateCarBrandUseCase', () => {
     const id = faker.datatype.uuid();
 
     await updateCarBrandUseCase.execute({
+      ...updateCarBrandUseCaseInputMock,
       id,
-      name: faker.datatype.string(),
     });
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
@@ -53,10 +54,9 @@ describe('UpdateCarBrandUseCase', () => {
       .spyOn(findCarBrandByIdRepositorySpy, 'findById')
       .mockRejectedValueOnce(new Error());
 
-    const promise = updateCarBrandUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-    });
+    const promise = updateCarBrandUseCase.execute(
+      updateCarBrandUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -66,10 +66,9 @@ describe('UpdateCarBrandUseCase', () => {
       .spyOn(findCarBrandByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(undefined);
 
-    const promise = updateCarBrandUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-    });
+    const promise = updateCarBrandUseCase.execute(
+      updateCarBrandUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       CarBrandNotFoundWithThisIdError
@@ -89,7 +88,7 @@ describe('UpdateCarBrandUseCase', () => {
     );
 
     await updateCarBrandUseCase.execute({
-      id: faker.datatype.uuid(),
+      ...updateCarBrandUseCaseInputMock,
       name: `       ${name.toUpperCase()} `,
     });
 
@@ -102,10 +101,7 @@ describe('UpdateCarBrandUseCase', () => {
       'checkIfExistsByName'
     );
 
-    await updateCarBrandUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-    });
+    await updateCarBrandUseCase.execute(updateCarBrandUseCaseInputMock);
 
     expect(checkIfExistsByNameSpy).toHaveBeenCalledTimes(1);
   });
@@ -119,7 +115,7 @@ describe('UpdateCarBrandUseCase', () => {
     const name = faker.datatype.string();
 
     await updateCarBrandUseCase.execute({
-      id: faker.datatype.uuid(),
+      ...updateCarBrandUseCaseInputMock,
       name,
     });
 
@@ -131,10 +127,9 @@ describe('UpdateCarBrandUseCase', () => {
       .spyOn(checkIfCarBrandExistsByNameRepositorySpy, 'checkIfExistsByName')
       .mockRejectedValueOnce(new Error());
 
-    const promise = updateCarBrandUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-    });
+    const promise = updateCarBrandUseCase.execute(
+      updateCarBrandUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -144,10 +139,9 @@ describe('UpdateCarBrandUseCase', () => {
       .spyOn(checkIfCarBrandExistsByNameRepositorySpy, 'checkIfExistsByName')
       .mockResolvedValueOnce(true);
 
-    const promise = updateCarBrandUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-    });
+    const promise = updateCarBrandUseCase.execute(
+      updateCarBrandUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       CarBrandAlreadyExistsWithThisNameError
@@ -164,7 +158,7 @@ describe('UpdateCarBrandUseCase', () => {
     const name = faker.datatype.string();
 
     await updateCarBrandUseCase.execute({
-      id: faker.datatype.uuid(),
+      ...updateCarBrandUseCaseInputMock,
       name,
     });
 
@@ -189,15 +183,11 @@ describe('UpdateCarBrandUseCase', () => {
   });
 
   it('should update car brand', async () => {
-    const id = faker.datatype.uuid();
-    const name = faker.datatype.string();
+    const brand = await updateCarBrandUseCase.execute(
+      updateCarBrandUseCaseInputMock
+    );
 
-    const brand = await updateCarBrandUseCase.execute({
-      id,
-      name,
-    });
-
-    expect(brand).toHaveProperty('id', id);
-    expect(brand).toHaveProperty('name', name);
+    expect(brand).toHaveProperty('id', updateCarBrandUseCaseInputMock.id);
+    expect(brand).toHaveProperty('name', updateCarBrandUseCaseInputMock.name);
   });
 });

@@ -1,22 +1,14 @@
-import faker from 'faker';
-
-import { IListAllCarCategoriesUseCase } from '@domain/usecases/car/category/ListAllCarCategories';
-
 import { ListAllCarCategoriesUseCase } from '@data/usecases/car/category/ListAllCarCategories';
 
 import { carCategoryMock } from '../../../../domain/models/car-category.mock';
-import { FindAllCarCategoriesRepositorySpy } from '../../../mocks';
+import {
+  FindAllCarCategoriesRepositorySpy,
+  listAllCarCategoriesUseCaseInputMock,
+} from '../../../mocks';
 
 let findAllCarCategoriesRepositorySpy: FindAllCarCategoriesRepositorySpy;
 
 let listAllCarCategoriesUseCase: ListAllCarCategoriesUseCase;
-
-const listAllCarCategoriesUseCaseInput: IListAllCarCategoriesUseCase.Input = {
-  order_by: faker.random.arrayElement(['name', 'created_at']),
-  order: faker.random.arrayElement(['ASC', 'DESC']),
-  limit: faker.datatype.number({ min: 1, max: 100 }),
-  page: faker.datatype.number({ min: 1, max: 30 }),
-};
 
 describe('ListAllCarCategoriesUseCase', () => {
   beforeEach(() => {
@@ -30,16 +22,18 @@ describe('ListAllCarCategoriesUseCase', () => {
   it('should call FindAllCarCategoriesRepository once with correct values', async () => {
     const findAllSpy = jest.spyOn(findAllCarCategoriesRepositorySpy, 'findAll');
 
-    await listAllCarCategoriesUseCase.execute(listAllCarCategoriesUseCaseInput);
+    await listAllCarCategoriesUseCase.execute(
+      listAllCarCategoriesUseCaseInputMock
+    );
 
     expect(findAllSpy).toHaveBeenCalledTimes(1);
     expect(findAllSpy).toHaveBeenCalledWith({
-      order_by: listAllCarCategoriesUseCaseInput.order_by,
-      order: listAllCarCategoriesUseCaseInput.order,
-      take: listAllCarCategoriesUseCaseInput.limit,
+      order_by: listAllCarCategoriesUseCaseInputMock.order_by,
+      order: listAllCarCategoriesUseCaseInputMock.order,
+      take: listAllCarCategoriesUseCaseInputMock.limit,
       skip:
-        (listAllCarCategoriesUseCaseInput.page - 1) *
-        listAllCarCategoriesUseCaseInput.limit,
+        (listAllCarCategoriesUseCaseInputMock.page - 1) *
+        listAllCarCategoriesUseCaseInputMock.limit,
     });
   });
 
@@ -49,7 +43,7 @@ describe('ListAllCarCategoriesUseCase', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = listAllCarCategoriesUseCase.execute(
-      listAllCarCategoriesUseCaseInput
+      listAllCarCategoriesUseCaseInputMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -63,7 +57,7 @@ describe('ListAllCarCategoriesUseCase', () => {
       .mockResolvedValueOnce(categoriesMock);
 
     const categories = await listAllCarCategoriesUseCase.execute(
-      listAllCarCategoriesUseCaseInput
+      listAllCarCategoriesUseCaseInputMock
     );
 
     expect(categories).toEqual(categoriesMock);

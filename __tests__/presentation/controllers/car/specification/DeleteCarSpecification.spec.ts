@@ -1,22 +1,16 @@
-import faker from 'faker';
-
 import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors';
 
 import { DeleteCarSpecificationController } from '@presentation/controllers/car/specification/DeleteCarSpecification';
 import { noContent, notFound } from '@presentation/helpers/http/http';
 
-import { DeleteCarSpecificationUseCaseSpy } from '../../../mocks';
+import {
+  deleteCarSpecificationControllerRequestMock,
+  DeleteCarSpecificationUseCaseSpy,
+} from '../../../mocks';
 
 let deleteCarSpecificationUseCaseSpy: DeleteCarSpecificationUseCaseSpy;
 
 let deleteCarSpecificationController: DeleteCarSpecificationController;
-
-const deleteCarSpecificationControllerRequest: DeleteCarSpecificationController.Request =
-  {
-    params: {
-      id: faker.datatype.uuid(),
-    },
-  };
 
 describe('DeleteCarSpecificationController', () => {
   beforeEach(() => {
@@ -31,12 +25,12 @@ describe('DeleteCarSpecificationController', () => {
     const executeSpy = jest.spyOn(deleteCarSpecificationUseCaseSpy, 'execute');
 
     await deleteCarSpecificationController.handle(
-      deleteCarSpecificationControllerRequest
+      deleteCarSpecificationControllerRequestMock
     );
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      id: deleteCarSpecificationControllerRequest.params.id,
+      id: deleteCarSpecificationControllerRequestMock.params.id,
     });
   });
 
@@ -46,7 +40,7 @@ describe('DeleteCarSpecificationController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = deleteCarSpecificationController.handle(
-      deleteCarSpecificationControllerRequest
+      deleteCarSpecificationControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -60,7 +54,7 @@ describe('DeleteCarSpecificationController', () => {
       .mockRejectedValueOnce(error);
 
     const response = await deleteCarSpecificationController.handle(
-      deleteCarSpecificationControllerRequest
+      deleteCarSpecificationControllerRequestMock
     );
 
     expect(response).toEqual(notFound(error));
@@ -68,7 +62,7 @@ describe('DeleteCarSpecificationController', () => {
 
   it('should return no content (204) on success', async () => {
     const response = await deleteCarSpecificationController.handle(
-      deleteCarSpecificationControllerRequest
+      deleteCarSpecificationControllerRequestMock
     );
 
     expect(response).toEqual(noContent());

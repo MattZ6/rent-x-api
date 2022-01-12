@@ -7,7 +7,6 @@ import {
   UserHasOutstandingRentPaymentsError,
   UserNotFoundWithThisIdError,
 } from '@domain/errors';
-import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
 
 import { CreateRentUseCase } from '@data/usecases/rent/CreateRent';
 
@@ -19,30 +18,18 @@ import {
   CheckIfRentExistsWithPendingPaymentByUserRepositorySpy,
   CreateRentRepositorySpy,
   FindCarByIdRepositorySpy,
+  minimumRentDurationTimeInMillissecondsMock,
+  createRentUseCaseInputMock,
 } from '../../mocks';
 
 let checkIfUserExistsByIdRepositorySpy: CheckIfUserExistsByIdRepositorySpy;
 let checkIfRentExistsWithPendingPaymentByUserRepositorySpy: CheckIfRentExistsWithPendingPaymentByUserRepositorySpy;
 let findCarByIdRepositorySpy: FindCarByIdRepositorySpy;
-const minimumDurationTimeInMillisseconds = faker.datatype.number({
-  min: 60_000,
-  max: 60_000_000,
-});
+
 let checkIfRentExistsByOpenScheduleForCarRepositorySpy: CheckIfRentExistsByOpenScheduleForCarRepositorySpy;
 let createRentRepositorySpy: CreateRentRepositorySpy;
 
 let createRentUseCase: CreateRentUseCase;
-
-const start = faker.datatype.datetime();
-
-const createRentUseCaseInputMock: ICreateRentUseCase.Input = {
-  user_id: faker.datatype.uuid(),
-  car_id: faker.datatype.uuid(),
-  start_date: start,
-  expected_return_date: new Date(
-    start.getTime() + minimumDurationTimeInMillisseconds
-  ),
-};
 
 describe('CreateRentUseCase', () => {
   beforeEach(() => {
@@ -59,7 +46,7 @@ describe('CreateRentUseCase', () => {
       checkIfUserExistsByIdRepositorySpy,
       checkIfRentExistsWithPendingPaymentByUserRepositorySpy,
       findCarByIdRepositorySpy,
-      minimumDurationTimeInMillisseconds,
+      minimumRentDurationTimeInMillissecondsMock,
       checkIfRentExistsByOpenScheduleForCarRepositorySpy,
       createRentRepositorySpy
     );
@@ -181,7 +168,7 @@ describe('CreateRentUseCase', () => {
   it('should throw InvalidRentDurationTimeError if the rental duration is less than the defined minimum ', async () => {
     const startDate = faker.datatype.datetime();
     const expectedReturnDate = new Date(
-      startDate.getTime() + minimumDurationTimeInMillisseconds - 1
+      startDate.getTime() + minimumRentDurationTimeInMillissecondsMock - 1
     );
 
     const promise = createRentUseCase.execute({

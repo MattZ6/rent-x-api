@@ -1,5 +1,3 @@
-import faker from 'faker';
-
 import {
   UserAlreadyExistsWithThisDriverLicenseError,
   UserAlreadyExistsWithThisEmailError,
@@ -9,20 +7,14 @@ import { CreateAccountController } from '@presentation/controllers/user/CreateAc
 import { conflict, created } from '@presentation/helpers/http/http';
 
 import { userMock } from '../../../domain/models/user.mock';
-import { CreateUserUseCaseSpy } from '../../mocks';
+import {
+  createAccountControllerRequestMock,
+  CreateUserUseCaseSpy,
+} from '../../mocks';
 
 let createUserUseCaseSpy: CreateUserUseCaseSpy;
 
 let createAccountController: CreateAccountController;
-
-const createAccountControllerRequest: CreateAccountController.Request = {
-  body: {
-    name: faker.name.findName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-    driver_license: faker.datatype.string(),
-  },
-};
 
 describe('CreateAccountController', () => {
   beforeEach(() => {
@@ -34,14 +26,14 @@ describe('CreateAccountController', () => {
   it('should call CreateUserUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(createUserUseCaseSpy, 'execute');
 
-    await createAccountController.handle(createAccountControllerRequest);
+    await createAccountController.handle(createAccountControllerRequestMock);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      name: createAccountControllerRequest.body.name,
-      driver_license: createAccountControllerRequest.body.driver_license,
-      email: createAccountControllerRequest.body.email,
-      password: createAccountControllerRequest.body.password,
+      name: createAccountControllerRequestMock.body.name,
+      driver_license: createAccountControllerRequestMock.body.driver_license,
+      email: createAccountControllerRequestMock.body.email,
+      password: createAccountControllerRequestMock.body.password,
     });
   });
 
@@ -51,7 +43,7 @@ describe('CreateAccountController', () => {
       .mockRejectedValueOnce(new Error());
 
     const promise = createAccountController.handle(
-      createAccountControllerRequest
+      createAccountControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -63,7 +55,7 @@ describe('CreateAccountController', () => {
     jest.spyOn(createUserUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 
     const response = await createAccountController.handle(
-      createAccountControllerRequest
+      createAccountControllerRequestMock
     );
 
     expect(response).toEqual(conflict(error));
@@ -75,7 +67,7 @@ describe('CreateAccountController', () => {
     jest.spyOn(createUserUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 
     const response = await createAccountController.handle(
-      createAccountControllerRequest
+      createAccountControllerRequestMock
     );
 
     expect(response).toEqual(conflict(error));
@@ -85,7 +77,7 @@ describe('CreateAccountController', () => {
     jest.spyOn(createUserUseCaseSpy, 'execute').mockResolvedValueOnce(userMock);
 
     const response = await createAccountController.handle(
-      createAccountControllerRequest
+      createAccountControllerRequestMock
     );
 
     expect(response).toEqual(created<void>());

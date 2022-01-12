@@ -7,6 +7,7 @@ import { DeleteCarSpecificationUseCase } from '@data/usecases/car/specification/
 import {
   CheckIfCarSpecificationExistsByIdRepositorySpy,
   DeleteCarSpecificationByIdRepositorySpy,
+  deleteCarSpecificationUseCaseInputMock,
 } from '../../../mocks';
 
 let checkIfCarSpecificationExistsByIdRepositorySpy: CheckIfCarSpecificationExistsByIdRepositorySpy;
@@ -49,9 +50,9 @@ describe('DeleteCarSpecificationUseCase', () => {
       )
       .mockRejectedValueOnce(new Error());
 
-    const promise = deleteCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
-    });
+    const promise = deleteCarSpecificationUseCase.execute(
+      deleteCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });
@@ -64,9 +65,9 @@ describe('DeleteCarSpecificationUseCase', () => {
       )
       .mockResolvedValueOnce(false);
 
-    const promise = deleteCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
-    });
+    const promise = deleteCarSpecificationUseCase.execute(
+      deleteCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toBeInstanceOf(
       CarSpecificationNotFoundWithThisIdError
@@ -92,9 +93,9 @@ describe('DeleteCarSpecificationUseCase', () => {
       .spyOn(deleteCarSpecificationByIdRepositorySpy, 'deleteById')
       .mockRejectedValueOnce(new Error());
 
-    const promise = deleteCarSpecificationUseCase.execute({
-      id: faker.datatype.uuid(),
-    });
+    const promise = deleteCarSpecificationUseCase.execute(
+      deleteCarSpecificationUseCaseInputMock
+    );
 
     await expect(promise).rejects.toThrow();
   });

@@ -1,5 +1,3 @@
-import faker from 'faker';
-
 import {
   CarNotFoundWithThisIdError,
   InvalidRentDurationTimeError,
@@ -17,20 +15,14 @@ import {
   unprocessableEntity,
 } from '@presentation/helpers/http/http';
 
-import { CreateRentUseCaseSpy } from '../../mocks';
+import {
+  createRentControllerRequestMock,
+  CreateRentUseCaseSpy,
+} from '../../mocks';
 
 let createRentUseCaseSpy: CreateRentUseCaseSpy;
 
 let createRentController: CreateRentController;
-
-const createRentControllerRequestMock: CreateRentController.Request = {
-  body: {
-    car_id: faker.datatype.uuid(),
-    start_date: faker.datatype.datetime(),
-    end_date: faker.datatype.datetime(),
-  },
-  user_id: faker.datatype.uuid(),
-};
 
 describe('CreateRentController', () => {
   beforeEach(() => {
