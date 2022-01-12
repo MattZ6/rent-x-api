@@ -2,6 +2,7 @@ import {
   ICheckIfRentExistsByOpenScheduleForCarRepository,
   ICheckIfRentExistsWithPendingPaymentByUserRepository,
   ICreateRentRepository,
+  IFindRentalByIdRepository,
 } from '@data/protocols/repositories/rent';
 
 import { rentMock } from '../../../domain/models/rent.mock';
@@ -37,5 +38,13 @@ export class CheckIfRentExistsWithPendingPaymentByUserRepositorySpy
     _: ICheckIfRentExistsWithPendingPaymentByUserRepository.Input
   ): Promise<ICheckIfRentExistsWithPendingPaymentByUserRepository.Output> {
     return false;
+  }
+}
+
+export class FindRentalByIdRepositorySpy implements IFindRentalByIdRepository {
+  async findById(
+    _: IFindRentalByIdRepository.Input
+  ): Promise<IFindRentalByIdRepository.Output> {
+    return rentMock;
   }
 }
