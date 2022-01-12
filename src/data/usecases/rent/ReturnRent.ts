@@ -1,6 +1,7 @@
 import {
   RentNotFoundWithProvidedIdError,
   RentBelongsToAnotherUserError,
+  RentAlreadyClosedError,
 } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
 
@@ -24,6 +25,10 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
 
     if (rent.user_id !== user_id) {
       throw new RentBelongsToAnotherUserError();
+    }
+
+    if (rent.return_date) {
+      throw new RentAlreadyClosedError();
     }
 
     return undefined;

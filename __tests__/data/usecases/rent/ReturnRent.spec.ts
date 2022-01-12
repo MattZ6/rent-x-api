@@ -3,6 +3,7 @@ import faker from 'faker';
 import {
   RentBelongsToAnotherUserError,
   RentNotFoundWithProvidedIdError,
+  RentAlreadyClosedError,
 } from '@domain/errors';
 
 import { ReturnRentUseCase } from '@data/usecases/rent/ReturnRent';
@@ -66,5 +67,16 @@ describe('ReturnRentUseCase', () => {
     });
 
     await expect(promise).rejects.toBeInstanceOf(RentBelongsToAnotherUserError);
+  });
+
+  it('should throw RentAlreadyClosedError if rent is already closed/returned', async () => {
+    jest.spyOn(findRentalByIdRepositorySpy, 'findById').mockResolvedValueOnce({
+      ...rentMock,
+      return_date: faker.datatype.datetime(),
+    });
+
+    const promise = returnRentUseCase.execute(returnRentUseCaseInputMock);
+
+    await expect(promise).rejects.toBeInstanceOf(RentAlreadyClosedError);
   });
 });
