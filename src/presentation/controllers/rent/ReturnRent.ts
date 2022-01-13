@@ -8,6 +8,7 @@ import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
 
 import {
   conflict,
+  noContent,
   notFound,
   unprocessableEntity,
 } from '@presentation/helpers/http/http';
@@ -32,7 +33,7 @@ class ReturnRentController implements IController {
         rent_id: id,
       });
 
-      return undefined;
+      return noContent();
     } catch (error) {
       if (error instanceof RentNotFoundWithProvidedIdError) {
         return notFound(error);

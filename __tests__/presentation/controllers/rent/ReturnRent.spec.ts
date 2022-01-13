@@ -10,6 +10,7 @@ import {
 import { ReturnRentController } from '@presentation/controllers/rent/ReturnRent';
 import {
   conflict,
+  noContent,
   notFound,
   unprocessableEntity,
 } from '@presentation/helpers/http/http';
@@ -100,5 +101,13 @@ describe('ReturnRentController', () => {
     );
 
     expect(response).toEqual(conflict(error));
+  });
+
+  it('should return no content (204) on success', async () => {
+    const response = await returnRentController.handle(
+      returnRentControllerRequestMock
+    );
+
+    expect(response).toEqual(noContent());
   });
 });
