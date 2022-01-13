@@ -6,12 +6,22 @@ import {
 } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
 
-import { IFindRentalByIdRepository } from '@data/protocols/repositories/rent/FindRentalByIdRepository';
+import { IFindRentalByIdRepository } from '@data/protocols/repositories/rent';
+import { ICreateRentPaymentRepository } from '@data/protocols/repositories/rent-payment';
 
 export class ReturnRentUseCase implements IReturnRentUseCase {
   constructor(
-    private readonly findRentalByIdRepository: IFindRentalByIdRepository
+    private readonly findRentalByIdRepository: IFindRentalByIdRepository,
+    private readonly createRentPaymentRepository: ICreateRentPaymentRepository
   ) {}
+
+  private getDurationInDays(startDate: Date, endDate: Date): number {
+    const ONE_DAY_IN_MILLISSECONDS = 1 * 24 * 60 * 60 * 1000;
+
+    const durationInMillisseconds = endDate.getTime() - startDate.getTime();
+
+    return Math.ceil(durationInMillisseconds / ONE_DAY_IN_MILLISSECONDS);
+  }
 
   async execute(
     data: IReturnRentUseCase.Input
@@ -37,6 +47,18 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
     if (rent.return_date) {
       throw new RentAlreadyClosedError();
     }
+
+    const rentDurationInDays = this.getDurationInDays(
+      rent.start_date,
+      new Date(returnDateInMillisseconds)
+    );
+
+    const total = rentDurationInDays * rent.daily_rate;
+
+    this.createRentPaymentRepository.create({
+      rent_id: rent.id,
+      total,
+    });
 
     return undefined;
   }

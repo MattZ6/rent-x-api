@@ -10,18 +10,28 @@ import {
 import { ReturnRentUseCase } from '@data/usecases/rent/ReturnRent';
 
 import { rentMock } from '../../../domain/models/rent.mock';
-import { FindRentalByIdRepositorySpy } from '../../mocks';
-import { returnRentUseCaseInputMock } from '../../mocks/usecases/rent/return-rent.mock';
+import {
+  CreateRentPaymentRepositorySpy,
+  FindRentalByIdRepositorySpy,
+  returnRentUseCaseInputMock,
+} from '../../mocks';
+
+const oneDayInMillisseconds = 1 * 24 * 60 * 60 * 1000;
 
 let findRentalByIdRepositorySpy: FindRentalByIdRepositorySpy;
+let createRentPaymentRepositorySpy: CreateRentPaymentRepositorySpy;
 
 let returnRentUseCase: ReturnRentUseCase;
 
 describe('ReturnRentUseCase', () => {
   beforeEach(() => {
     findRentalByIdRepositorySpy = new FindRentalByIdRepositorySpy();
+    createRentPaymentRepositorySpy = new CreateRentPaymentRepositorySpy();
 
-    returnRentUseCase = new ReturnRentUseCase(findRentalByIdRepositorySpy);
+    returnRentUseCase = new ReturnRentUseCase(
+      findRentalByIdRepositorySpy,
+      createRentPaymentRepositorySpy
+    );
   });
 
   it('should call FindRentalByIdRepository once with correct values', async () => {
@@ -97,5 +107,35 @@ describe('ReturnRentUseCase', () => {
     const promise = returnRentUseCase.execute(returnRentUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(RentAlreadyClosedError);
+  });
+
+  it('should call CreateRentPaymentRepository once with correct values', async () => {
+    const returnDateInMillisseconds = faker.date
+      .soon(faker.datatype.number({ min: 1 }), rentMock.start_date)
+      .getTime();
+
+    jest.spyOn(Date, 'now').mockReturnValueOnce(returnDateInMillisseconds);
+
+    const rentId = faker.datatype.uuid();
+
+    jest
+      .spyOn(findRentalByIdRepositorySpy, 'findById')
+      .mockResolvedValueOnce({ ...rentMock, id: rentId });
+
+    const createSpy = jest.spyOn(createRentPaymentRepositorySpy, 'create');
+
+    const rentDurationInMillisseconds =
+      returnDateInMillisseconds - rentMock.start_date.getTime();
+
+    const rentDurationInDays = Math.ceil(
+      rentDurationInMillisseconds / oneDayInMillisseconds
+    );
+
+    const total = rentDurationInDays * rentMock.daily_rate;
+
+    await returnRentUseCase.execute(returnRentUseCaseInputMock);
+
+    expect(createSpy).toHaveBeenCalledTimes(1);
+    expect(createSpy).toHaveBeenCalledWith({ rent_id: rentId, total });
   });
 });
