@@ -2,6 +2,7 @@ import {
   RentNotFoundWithProvidedIdError,
   RentBelongsToAnotherUserError,
   RentAlreadyClosedError,
+  UnableToReturnRentalThatIsNotInProgressError,
 } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
 
@@ -25,6 +26,12 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
 
     if (rent.user_id !== user_id) {
       throw new RentBelongsToAnotherUserError();
+    }
+
+    const returnDateInMillisseconds = Date.now();
+
+    if (returnDateInMillisseconds < rent.start_date.getTime()) {
+      throw new UnableToReturnRentalThatIsNotInProgressError();
     }
 
     if (rent.return_date) {
