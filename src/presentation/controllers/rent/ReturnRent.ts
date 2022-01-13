@@ -1,4 +1,7 @@
-import { RentNotFoundWithProvidedIdError } from '@domain/errors';
+import {
+  RentBelongsToAnotherUserError,
+  RentNotFoundWithProvidedIdError,
+} from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
 
 import { notFound } from '@presentation/helpers/http/http';
@@ -26,6 +29,10 @@ class ReturnRentController implements IController {
       return undefined;
     } catch (error) {
       if (error instanceof RentNotFoundWithProvidedIdError) {
+        return notFound(error);
+      }
+
+      if (error instanceof RentBelongsToAnotherUserError) {
         return notFound(error);
       }
 
