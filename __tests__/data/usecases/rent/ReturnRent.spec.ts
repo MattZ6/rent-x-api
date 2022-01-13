@@ -17,10 +17,32 @@ import {
 } from '../../mocks';
 
 function setSafeReturnDate() {
-  jest.spyOn(Date, 'now').mockReturnValueOnce(rentMock.start_date.getTime());
+  const returnDateInMillisseconds = faker.date
+    .between(rentMock.start_date, rentMock.expected_return_date)
+    .getTime();
+
+  jest.spyOn(Date, 'now').mockReturnValueOnce(returnDateInMillisseconds);
+
+  return { returnDateInMillisseconds };
+}
+
+function setLateReturnDate() {
+  const lateReturnDateInMillisseconds = faker.date
+    .soon(faker.datatype.number({ min: 1 }), rentMock.expected_return_date)
+    .getTime();
+
+  jest.spyOn(Date, 'now').mockReturnValueOnce(lateReturnDateInMillisseconds);
+
+  return { lateReturnDateInMillisseconds };
 }
 
 const oneDayInMillisseconds = 1 * 24 * 60 * 60 * 1000;
+
+function getDurationInDays(startDate: Date, endDate: Date) {
+  const durationInMillisseconds = endDate.getTime() - startDate.getTime();
+
+  return Math.ceil(durationInMillisseconds / oneDayInMillisseconds);
+}
 
 let findRentalByIdRepositorySpy: FindRentalByIdRepositorySpy;
 let createRentPaymentRepositorySpy: CreateRentPaymentRepositorySpy;
@@ -116,11 +138,7 @@ describe('ReturnRentUseCase', () => {
   });
 
   it('should call CreateRentPaymentRepository once with correct values', async () => {
-    const returnDateInMillisseconds = faker.date
-      .soon(faker.datatype.number({ min: 1 }), rentMock.start_date)
-      .getTime();
-
-    jest.spyOn(Date, 'now').mockReturnValueOnce(returnDateInMillisseconds);
+    const { returnDateInMillisseconds } = setSafeReturnDate();
 
     const rentId = faker.datatype.uuid();
 
@@ -130,11 +148,9 @@ describe('ReturnRentUseCase', () => {
 
     const createSpy = jest.spyOn(createRentPaymentRepositorySpy, 'create');
 
-    const rentDurationInMillisseconds =
-      returnDateInMillisseconds - rentMock.start_date.getTime();
-
-    const rentDurationInDays = Math.ceil(
-      rentDurationInMillisseconds / oneDayInMillisseconds
+    const rentDurationInDays = getDurationInDays(
+      rentMock.start_date,
+      new Date(returnDateInMillisseconds)
     );
 
     const total = rentDurationInDays * rentMock.daily_rate;
@@ -143,6 +159,35 @@ describe('ReturnRentUseCase', () => {
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({ rent_id: rentId, total });
+  });
+
+  it('should call CreateRentPaymentRepository with the total considering the daily fine in case of delay', async () => {
+    const { lateReturnDateInMillisseconds } = setLateReturnDate();
+
+    const createSpy = jest.spyOn(createRentPaymentRepositorySpy, 'create');
+
+    const expectedRentDurationInDays = getDurationInDays(
+      rentMock.start_date,
+      rentMock.expected_return_date
+    );
+
+    const rentDurationInDays = getDurationInDays(
+      rentMock.start_date,
+      new Date(lateReturnDateInMillisseconds)
+    );
+
+    const daysOfDelay = rentDurationInDays - expectedRentDurationInDays;
+
+    const total =
+      rentMock.daily_rate * expectedRentDurationInDays +
+      rentMock.daily_late_fee * daysOfDelay;
+
+    await returnRentUseCase.execute(returnRentUseCaseInputMock);
+
+    expect(createSpy).toHaveBeenCalledWith({
+      rent_id: rentMock.id,
+      total,
+    });
   });
 
   it('should throw if CreateRentPaymentRepository throws', async () => {

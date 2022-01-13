@@ -48,12 +48,29 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
       throw new RentAlreadyClosedError();
     }
 
+    const expectedRentDurationInDays = this.getDurationInDays(
+      rent.start_date,
+      rent.expected_return_date
+    );
+
     const rentDurationInDays = this.getDurationInDays(
       rent.start_date,
       new Date(returnDateInMillisseconds)
     );
 
-    const total = rentDurationInDays * rent.daily_rate;
+    let daysOfDelay = rentDurationInDays - expectedRentDurationInDays;
+
+    if (daysOfDelay <= 0) {
+      daysOfDelay = 0;
+    }
+
+    let total = rentDurationInDays * rent.daily_rate;
+
+    if (daysOfDelay > 0) {
+      total =
+        rent.daily_rate * expectedRentDurationInDays +
+        rent.daily_late_fee * daysOfDelay;
+    }
 
     await this.createRentPaymentRepository.create({
       rent_id: rent.id,
@@ -63,3 +80,26 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
     return undefined;
   }
 }
+
+// const rentDurationInDays = getDurationInDays(
+//   new Date(lateReturnDateInMillisseconds),
+//   rentMock.start_date
+// );
+
+// let daysOfDelay = rentDurationInDays - expectedRentDurationInDays;
+
+// if (daysOfDelay <= 0) {
+//   daysOfDelay = 0;
+// }
+
+// const rentIsLate = daysOfDelay > 0;
+
+// let total = 0;
+
+// if (!rentIsLate) {
+//   total = rentMock.daily_rate * rentDurationInDays;
+// } else {
+//   total =
+//     rentMock.daily_rate * expectedRentDurationInDays +
+//     rentMock.daily_late_fee * daysOfDelay;
+// }
