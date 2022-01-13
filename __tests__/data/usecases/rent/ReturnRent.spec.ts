@@ -17,28 +17,30 @@ import {
 } from '../../mocks';
 
 function setSafeReturnDate() {
-  const returnDateInMillisseconds = faker.date
-    .between(rentMock.start_date, rentMock.expected_return_date)
-    .getTime();
+  const returnDateMock = faker.date.between(
+    rentMock.start_date,
+    rentMock.expected_return_date
+  );
 
-  jest.spyOn(Date, 'now').mockReturnValueOnce(returnDateInMillisseconds);
+  jest.spyOn(Date, 'now').mockReturnValueOnce(returnDateMock.getTime());
 
-  return { returnDateInMillisseconds };
+  return { returnDateMock };
 }
 
 function setLateReturnDate() {
-  const lateReturnDateInMillisseconds = faker.date
-    .soon(faker.datatype.number({ min: 1 }), rentMock.expected_return_date)
-    .getTime();
+  const lateReturnDateMock = faker.date.soon(
+    faker.datatype.number({ min: 1 }),
+    rentMock.expected_return_date
+  );
 
-  jest.spyOn(Date, 'now').mockReturnValueOnce(lateReturnDateInMillisseconds);
+  jest.spyOn(Date, 'now').mockReturnValueOnce(lateReturnDateMock.getTime());
 
-  return { lateReturnDateInMillisseconds };
+  return { lateReturnDateMock };
 }
 
-const oneDayInMillisseconds = 1 * 24 * 60 * 60 * 1000;
-
 function getDurationInDays(startDate: Date, endDate: Date) {
+  const oneDayInMillisseconds = 1 * 24 * 60 * 60 * 1000;
+
   const durationInMillisseconds = endDate.getTime() - startDate.getTime();
 
   return Math.ceil(durationInMillisseconds / oneDayInMillisseconds);
@@ -109,13 +111,9 @@ describe('ReturnRentUseCase', () => {
   });
 
   it('should throw UnableToReturnRentalThatIsNotInProgressError if the rental is not in progress', async () => {
-    const returnDateInMillisseconds = rentMock.start_date.getTime() - 1;
-
     jest
-      .spyOn(findRentalByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce({ ...rentMock });
-
-    jest.spyOn(Date, 'now').mockReturnValueOnce(returnDateInMillisseconds);
+      .spyOn(Date, 'now')
+      .mockReturnValueOnce(rentMock.start_date.getTime() - 1);
 
     const promise = returnRentUseCase.execute(returnRentUseCaseInputMock);
 
@@ -138,7 +136,7 @@ describe('ReturnRentUseCase', () => {
   });
 
   it('should call CreateRentPaymentRepository once with correct values', async () => {
-    const { returnDateInMillisseconds } = setSafeReturnDate();
+    const { returnDateMock } = setSafeReturnDate();
 
     const rentId = faker.datatype.uuid();
 
@@ -150,7 +148,7 @@ describe('ReturnRentUseCase', () => {
 
     const rentDurationInDays = getDurationInDays(
       rentMock.start_date,
-      new Date(returnDateInMillisseconds)
+      returnDateMock
     );
 
     const total = rentDurationInDays * rentMock.daily_rate;
@@ -162,7 +160,7 @@ describe('ReturnRentUseCase', () => {
   });
 
   it('should call CreateRentPaymentRepository with the total considering the daily fine in case of delay', async () => {
-    const { lateReturnDateInMillisseconds } = setLateReturnDate();
+    const { lateReturnDateMock } = setLateReturnDate();
 
     const createSpy = jest.spyOn(createRentPaymentRepositorySpy, 'create');
 
@@ -173,7 +171,7 @@ describe('ReturnRentUseCase', () => {
 
     const rentDurationInDays = getDurationInDays(
       rentMock.start_date,
-      new Date(lateReturnDateInMillisseconds)
+      lateReturnDateMock
     );
 
     const daysOfDelay = rentDurationInDays - expectedRentDurationInDays;
