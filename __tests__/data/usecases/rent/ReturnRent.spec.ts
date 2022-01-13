@@ -144,4 +144,18 @@ describe('ReturnRentUseCase', () => {
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({ rent_id: rentId, total });
   });
+
+  it('should throw if CreateRentPaymentRepository throws', async () => {
+    setSafeReturnDate();
+
+    const error = new Error(faker.datatype.string());
+
+    jest
+      .spyOn(createRentPaymentRepositorySpy, 'create')
+      .mockRejectedValueOnce(error);
+
+    const promise = returnRentUseCase.execute(returnRentUseCaseInputMock);
+
+    await expect(promise).rejects.toThrowError(error);
+  });
 });

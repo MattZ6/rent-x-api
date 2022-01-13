@@ -55,7 +55,7 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
 
     const total = rentDurationInDays * rent.daily_rate;
 
-    this.createRentPaymentRepository.create({
+    await this.createRentPaymentRepository.create({
       rent_id: rent.id,
       total,
     });
