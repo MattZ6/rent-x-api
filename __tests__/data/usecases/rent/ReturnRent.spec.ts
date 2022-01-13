@@ -270,4 +270,18 @@ describe('ReturnRentUseCase', () => {
 
     await expect(promise).rejects.toThrowError(error);
   });
+
+  it('should return the updated rent on success', async () => {
+    const { rent } = makeRentMock();
+
+    jest
+      .spyOn(findRentalByIdRepositorySpy, 'findById')
+      .mockResolvedValueOnce(rent);
+
+    setSafeReturnDate(rent);
+
+    const result = await returnRentUseCase.execute(returnRentUseCaseInputMock);
+
+    expect(result).toEqual(rent);
+  });
 });

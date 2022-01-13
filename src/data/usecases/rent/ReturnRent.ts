@@ -84,8 +84,6 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
     rent.payment = rentPayment;
     rent.return_date = new Date(returnDateInMillisseconds);
 
-    await this.updateRentRepository.update(rent);
-
-    return undefined;
+    return this.updateRentRepository.update(rent);
   }
 }
