@@ -246,4 +246,28 @@ describe('ReturnRentUseCase', () => {
       payment: rentPayment,
     });
   });
+
+  it('should throw if UpdateRentRepository throws', async () => {
+    const { rent } = makeRentMock();
+
+    jest
+      .spyOn(findRentalByIdRepositorySpy, 'findById')
+      .mockResolvedValueOnce(rent);
+
+    setSafeReturnDate(rent);
+
+    const { rentPayment } = makeRentPaymentMock();
+
+    jest
+      .spyOn(createRentPaymentRepositorySpy, 'create')
+      .mockResolvedValueOnce(rentPayment);
+
+    const error = new Error(faker.datatype.string());
+
+    jest.spyOn(updateRentRepositorySpy, 'update').mockRejectedValueOnce(error);
+
+    const promise = returnRentUseCase.execute(returnRentUseCaseInputMock);
+
+    await expect(promise).rejects.toThrowError(error);
+  });
 });
