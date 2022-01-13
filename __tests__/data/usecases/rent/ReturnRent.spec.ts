@@ -16,6 +16,10 @@ import {
   returnRentUseCaseInputMock,
 } from '../../mocks';
 
+function setSafeReturnDate() {
+  jest.spyOn(Date, 'now').mockReturnValueOnce(rentMock.start_date.getTime());
+}
+
 const oneDayInMillisseconds = 1 * 24 * 60 * 60 * 1000;
 
 let findRentalByIdRepositorySpy: FindRentalByIdRepositorySpy;
@@ -35,6 +39,8 @@ describe('ReturnRentUseCase', () => {
   });
 
   it('should call FindRentalByIdRepository once with correct values', async () => {
+    setSafeReturnDate();
+
     const findByIdSpy = jest.spyOn(findRentalByIdRepositorySpy, 'findById');
 
     await returnRentUseCase.execute(returnRentUseCaseInputMock);
@@ -97,7 +103,7 @@ describe('ReturnRentUseCase', () => {
   });
 
   it('should throw RentAlreadyClosedError if rent is already closed/returned', async () => {
-    jest.spyOn(Date, 'now').mockReturnValueOnce(rentMock.start_date.getTime());
+    setSafeReturnDate();
 
     jest.spyOn(findRentalByIdRepositorySpy, 'findById').mockResolvedValueOnce({
       ...rentMock,
