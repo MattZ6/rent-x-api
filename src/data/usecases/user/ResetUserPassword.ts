@@ -49,7 +49,9 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
       throw new UserNotFoundWithThisIdError();
     }
 
-    user.password_hash = await this.generateHashProvider.hash(new_password);
+    user.password_hash = await this.generateHashProvider.hash({
+      value: new_password,
+    });
 
     await this.updateUserRepository.update(user);
 

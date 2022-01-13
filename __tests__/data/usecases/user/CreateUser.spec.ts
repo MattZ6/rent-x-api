@@ -136,7 +136,7 @@ describe('CreateUserUseCase', () => {
     });
 
     expect(hashSpy).toHaveBeenCalledTimes(1);
-    expect(hashSpy).toHaveBeenCalledWith(password);
+    expect(hashSpy).toHaveBeenCalledWith({ value: password });
   });
 
   it('should throw if GenerateHashProvider throws', async () => {

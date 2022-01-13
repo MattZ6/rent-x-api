@@ -42,7 +42,9 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       throw new UserAlreadyExistsWithThisDriverLicenseError();
     }
 
-    const hashedPassword = await this.generateHashProvider.hash(password);
+    const hashedPassword = await this.generateHashProvider.hash({
+      value: password,
+    });
 
     return this.createUserRepository.create({
       name,

@@ -1,9 +1,6 @@
 import { sign } from 'jsonwebtoken';
 
-import {
-  EncryptPayload,
-  IEncryptProvider,
-} from '@data/protocols/providers/cryptography/cryptography';
+import { IEncryptProvider } from '@data/protocols/providers/cryptography/cryptography';
 
 export class JWTCryptographyProvider implements IEncryptProvider {
   constructor(
@@ -11,7 +8,9 @@ export class JWTCryptographyProvider implements IEncryptProvider {
     private readonly expiresInSeconds: number
   ) {}
 
-  async encrypt(data: EncryptPayload): Promise<string> {
+  async encrypt(
+    data: IEncryptProvider.Input
+  ): Promise<IEncryptProvider.Output> {
     const { value } = data;
 
     return sign({}, this.secret, {

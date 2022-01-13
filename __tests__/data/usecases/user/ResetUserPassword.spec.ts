@@ -156,7 +156,7 @@ describe('ResetUserPasswordUseCase', () => {
     });
 
     expect(hashSpy).toHaveBeenCalledTimes(1);
-    expect(hashSpy).toHaveBeenCalledWith(newPassword);
+    expect(hashSpy).toHaveBeenCalledWith({ value: newPassword });
   });
 
   it('should throw if GenerateHashProvider throws', async () => {

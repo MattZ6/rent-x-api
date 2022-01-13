@@ -1,7 +1,6 @@
 import { compare, hash } from 'bcryptjs';
 
 import {
-  CompareHashDTO,
   ICompareHashProvider,
   IGenerateHashProvider,
 } from '@data/protocols/providers/cryptography/hash';
@@ -11,11 +10,17 @@ export class BcryptjsHashProvider
 {
   constructor(private readonly salt: number) {}
 
-  async hash(value: string): Promise<string> {
+  async hash(
+    data: IGenerateHashProvider.Input
+  ): Promise<IGenerateHashProvider.Output> {
+    const { value } = data;
+
     return hash(value, this.salt);
   }
 
-  async compare(data: CompareHashDTO): Promise<boolean> {
+  async compare(
+    data: ICompareHashProvider.Input
+  ): Promise<ICompareHashProvider.Output> {
     const { value, value_to_compare } = data;
 
     return compare(value, value_to_compare);
