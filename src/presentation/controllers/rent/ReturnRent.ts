@@ -1,11 +1,16 @@
 import {
+  RentAlreadyClosedError,
   RentBelongsToAnotherUserError,
   RentNotFoundWithProvidedIdError,
   UnableToReturnRentalThatIsNotInProgressError,
 } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
 
-import { notFound, unprocessableEntity } from '@presentation/helpers/http/http';
+import {
+  conflict,
+  notFound,
+  unprocessableEntity,
+} from '@presentation/helpers/http/http';
 import {
   IController,
   IHttpRequest,
@@ -39,6 +44,10 @@ class ReturnRentController implements IController {
 
       if (error instanceof UnableToReturnRentalThatIsNotInProgressError) {
         return unprocessableEntity(error);
+      }
+
+      if (error instanceof RentAlreadyClosedError) {
+        return conflict(error);
       }
 
       throw error;

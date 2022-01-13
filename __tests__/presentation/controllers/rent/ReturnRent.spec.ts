@@ -1,13 +1,18 @@
 import faker from 'faker';
 
 import {
+  RentAlreadyClosedError,
   RentBelongsToAnotherUserError,
   RentNotFoundWithProvidedIdError,
   UnableToReturnRentalThatIsNotInProgressError,
 } from '@domain/errors';
 
 import { ReturnRentController } from '@presentation/controllers/rent/ReturnRent';
-import { notFound, unprocessableEntity } from '@presentation/helpers/http/http';
+import {
+  conflict,
+  notFound,
+  unprocessableEntity,
+} from '@presentation/helpers/http/http';
 
 import {
   returnRentControllerRequestMock,
@@ -83,5 +88,17 @@ describe('ReturnRentController', () => {
     );
 
     expect(response).toEqual(unprocessableEntity(error));
+  });
+
+  it('should return conflict (409) if ReturnRentUseCase throws RentAlreadyClosedError', async () => {
+    const error = new RentAlreadyClosedError();
+
+    jest.spyOn(returnRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
+
+    const response = await returnRentController.handle(
+      returnRentControllerRequestMock
+    );
+
+    expect(response).toEqual(conflict(error));
   });
 });
