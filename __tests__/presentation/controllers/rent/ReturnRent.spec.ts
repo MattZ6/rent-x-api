@@ -3,10 +3,11 @@ import faker from 'faker';
 import {
   RentBelongsToAnotherUserError,
   RentNotFoundWithProvidedIdError,
+  UnableToReturnRentalThatIsNotInProgressError,
 } from '@domain/errors';
 
 import { ReturnRentController } from '@presentation/controllers/rent/ReturnRent';
-import { notFound } from '@presentation/helpers/http/http';
+import { notFound, unprocessableEntity } from '@presentation/helpers/http/http';
 
 import {
   returnRentControllerRequestMock,
@@ -70,5 +71,17 @@ describe('ReturnRentController', () => {
     );
 
     expect(response).toEqual(notFound(error));
+  });
+
+  it('should return unprocessable entity (422) if ReturnRentUseCase throws UnableToReturnRentalThatIsNotInProgressError', async () => {
+    const error = new UnableToReturnRentalThatIsNotInProgressError();
+
+    jest.spyOn(returnRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
+
+    const response = await returnRentController.handle(
+      returnRentControllerRequestMock
+    );
+
+    expect(response).toEqual(unprocessableEntity(error));
   });
 });
