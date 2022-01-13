@@ -1,5 +1,7 @@
+import { RentNotFoundWithProvidedIdError } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
 
+import { notFound } from '@presentation/helpers/http/http';
 import {
   IController,
   IHttpRequest,
@@ -12,15 +14,23 @@ class ReturnRentController implements IController {
   async handle(
     request: ReturnRentController.Request
   ): Promise<ReturnRentController.Response> {
-    const { user_id } = request;
-    const { id } = request.params;
+    try {
+      const { user_id } = request;
+      const { id } = request.params;
 
-    await this.returnRentUseCase.execute({
-      user_id,
-      rent_id: id,
-    });
+      await this.returnRentUseCase.execute({
+        user_id,
+        rent_id: id,
+      });
 
-    return undefined;
+      return undefined;
+    } catch (error) {
+      if (error instanceof RentNotFoundWithProvidedIdError) {
+        return notFound(error);
+      }
+
+      throw error;
+    }
   }
 }
 
