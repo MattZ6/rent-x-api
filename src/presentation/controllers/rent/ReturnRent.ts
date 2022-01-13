@@ -15,7 +15,7 @@ class ReturnRentController implements IController {
     const { user_id } = request;
     const { id } = request.params;
 
-    this.returnRentUseCase.execute({
+    await this.returnRentUseCase.execute({
       user_id,
       rent_id: id,
     });

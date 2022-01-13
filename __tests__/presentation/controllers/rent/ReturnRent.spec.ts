@@ -1,3 +1,5 @@
+import faker from 'faker';
+
 import { ReturnRentController } from '@presentation/controllers/rent/ReturnRent';
 
 import {
@@ -26,5 +28,17 @@ describe('ReturnRentController', () => {
       rent_id: returnRentControllerRequestMock.params.id,
       user_id: returnRentControllerRequestMock.user_id,
     });
+  });
+
+  it('should throw if ReturnRentUseCase throws', async () => {
+    const error = new Error(faker.datatype.string());
+
+    jest.spyOn(returnRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
+
+    const promise = returnRentController.handle(
+      returnRentControllerRequestMock
+    );
+
+    await expect(promise).rejects.toThrowError(error);
   });
 });
