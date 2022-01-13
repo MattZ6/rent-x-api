@@ -6,13 +6,17 @@ import {
 } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
 
-import { IFindRentalByIdRepository } from '@data/protocols/repositories/rent';
+import {
+  IFindRentalByIdRepository,
+  IUpdateRentRepository,
+} from '@data/protocols/repositories/rent';
 import { ICreateRentPaymentRepository } from '@data/protocols/repositories/rent-payment';
 
 export class ReturnRentUseCase implements IReturnRentUseCase {
   constructor(
     private readonly findRentalByIdRepository: IFindRentalByIdRepository,
-    private readonly createRentPaymentRepository: ICreateRentPaymentRepository
+    private readonly createRentPaymentRepository: ICreateRentPaymentRepository,
+    private readonly updateRentRepository: IUpdateRentRepository
   ) {}
 
   private getDurationInDays(startDate: Date, endDate: Date): number {
@@ -72,10 +76,15 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
         rent.daily_late_fee * daysOfDelay;
     }
 
-    await this.createRentPaymentRepository.create({
+    const rentPayment = await this.createRentPaymentRepository.create({
       rent_id: rent.id,
       total,
     });
+
+    rent.payment = rentPayment;
+    rent.return_date = new Date(returnDateInMillisseconds);
+
+    this.updateRentRepository.update(rent);
 
     return undefined;
   }
