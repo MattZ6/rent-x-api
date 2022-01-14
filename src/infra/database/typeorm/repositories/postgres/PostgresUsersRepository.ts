@@ -1,6 +1,7 @@
 import { getRepository, Raw, Repository } from 'typeorm';
 
 import {
+  ICheckIfUserExistsByDriverLicenseRepository,
   ICheckIfUserExistsByEmailRepository,
   ICheckIfUserExistsByIdRepository,
   ICreateUserRepository,
@@ -18,7 +19,8 @@ export class PostgresUsersRepository
     IFindUserByIdRepository,
     IFindUserByEmailRepository,
     IUpdateUserRepository,
-    ICheckIfUserExistsByIdRepository
+    ICheckIfUserExistsByIdRepository,
+    ICheckIfUserExistsByDriverLicenseRepository
 {
   private repository: Repository<User>;
 
@@ -92,6 +94,22 @@ export class PostgresUsersRepository
 
     const count = await this.repository.count({
       where: { id },
+    });
+
+    return count >= 1;
+  }
+
+  async checkIfExistsByDriverLicense(
+    data: ICheckIfUserExistsByDriverLicenseRepository.Input
+  ): Promise<ICheckIfUserExistsByDriverLicenseRepository.Output> {
+    const { driver_license } = data;
+
+    const count = await this.repository.count({
+      where: {
+        driver_license: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
+          value: driver_license,
+        }),
+      },
     });
 
     return count >= 1;

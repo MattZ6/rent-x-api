@@ -7,5 +7,10 @@ export function makeCreateUserUseCase() {
   const usersRepository = makePostgresUsersRepository();
   const hashProvider = makeBcryptjsHashProvider();
 
-  return new CreateUserUseCase(usersRepository, hashProvider, usersRepository);
+  return new CreateUserUseCase(
+    usersRepository,
+    usersRepository,
+    hashProvider,
+    usersRepository
+  );
 }
