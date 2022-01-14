@@ -16,6 +16,7 @@ export const adaptRoute =
       return res.status(response.statusCode).json(response.body);
     } catch (error) {
       console.log(error);
+      console.log('\n');
 
       return res.status(500).json({ message: 'Internal server error' });
     }

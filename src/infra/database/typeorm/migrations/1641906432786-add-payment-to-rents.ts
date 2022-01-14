@@ -35,11 +35,6 @@ export class addPaymentToRents1641906432786 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey(
-      this.TABLE_NAME,
-      this.RENT_PAYMENT_ID_COLUMN_NAME
-    );
-
     return queryRunner.dropColumn(
       this.TABLE_NAME,
       this.RENT_PAYMENT_ID_COLUMN_NAME

@@ -37,7 +37,7 @@ export class createRentPayments1641900730545 implements MigrationInterface {
             default: 'now()',
           },
           {
-            name: 'update_at',
+            name: 'updated_at',
             type: 'timestamp',
             default: 'now()',
           },

@@ -7,6 +7,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { v4 } from 'uuid';
 
 import { IRentPayment } from '@domain/models/RentPayment';
 
@@ -36,4 +37,10 @@ export class RentPayment implements IRentPayment {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  constructor() {
+    if (!this.id) {
+      this.id = v4();
+    }
+  }
 }

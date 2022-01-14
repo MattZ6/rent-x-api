@@ -11,6 +11,8 @@ import {
   ICheckIfRentExistsByOpenScheduleForCarRepository,
   ICheckIfRentExistsWithPendingPaymentByUserRepository,
   ICreateRentRepository,
+  IFindRentalByIdRepository,
+  IUpdateRentRepository,
 } from '@data/protocols/repositories/rent';
 
 import { Rent } from '../../entities/Rent';
@@ -19,7 +21,9 @@ export class PostgresRentsRepository
   implements
     ICheckIfRentExistsWithPendingPaymentByUserRepository,
     ICheckIfRentExistsByOpenScheduleForCarRepository,
-    ICreateRentRepository
+    ICreateRentRepository,
+    IFindRentalByIdRepository,
+    IUpdateRentRepository
 {
   private readonly repository: Repository<Rent>;
 
@@ -104,5 +108,19 @@ export class PostgresRentsRepository
     });
 
     return this.repository.save(rent);
+  }
+
+  async findById(
+    data: IFindRentalByIdRepository.Input
+  ): Promise<IFindRentalByIdRepository.Output> {
+    const { id } = data;
+
+    return this.repository.findOne(id);
+  }
+
+  async update(
+    data: IUpdateRentRepository.Input
+  ): Promise<IUpdateRentRepository.Output> {
+    return this.repository.save(data);
   }
 }
