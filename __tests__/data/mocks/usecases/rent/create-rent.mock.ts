@@ -4,8 +4,8 @@ import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
 
 export const minimumRentDurationTimeInMillissecondsMock = faker.datatype.number(
   {
-    min: 60_000,
-    max: 60_000_000,
+    min: 1 * 24 * 60 * 60 * 1000,
+    max: 30 * 24 * 60 * 60 * 1000,
   }
 );
 

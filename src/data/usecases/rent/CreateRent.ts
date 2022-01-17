@@ -4,6 +4,7 @@ import {
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
   UserNotFoundWithThisIdError,
+  RentalStartDateIsInThePastError,
 } from '@domain/errors';
 import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
 
@@ -24,6 +25,14 @@ export class CreateRentUseCase implements ICreateRentUseCase {
     private readonly checkIfRentExistsByOpenScheduleForCarRepository: ICheckIfRentExistsByOpenScheduleForCarRepository,
     private readonly createRentRepository: ICreateRentRepository
   ) {}
+
+  private getDifferenceInDays(startDate: Date, endDate: Date): number {
+    const ONE_DAY_IN_MILLISSECONDS = 1 * 24 * 60 * 60 * 1000;
+
+    const durationInMillisseconds = endDate.getTime() - startDate.getTime();
+
+    return Math.ceil(durationInMillisseconds / ONE_DAY_IN_MILLISSECONDS);
+  }
 
   async execute(
     data: ICreateRentUseCase.Input
@@ -56,7 +65,27 @@ export class CreateRentUseCase implements ICreateRentUseCase {
       throw new CarNotFoundWithThisIdError();
     }
 
+    const nowInMillisseconds = Date.now();
+    const now = new Date(nowInMillisseconds);
+
+    const nowWithFlatDays = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
     const startDate = new Date(start_date);
+
+    const startDateWithFlatDays = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate()
+    );
+
+    if (startDateWithFlatDays.getTime() <= nowWithFlatDays.getTime()) {
+      throw new RentalStartDateIsInThePastError();
+    }
+
     const expectedReturnDate = new Date(expected_return_date);
 
     const rentalDurationInMillisseconds =

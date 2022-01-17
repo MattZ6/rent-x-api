@@ -6,6 +6,7 @@ import {
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
   UserNotFoundWithThisIdError,
+  RentalStartDateIsInThePastError,
 } from '@domain/errors';
 
 import { CreateRentUseCase } from '@data/usecases/rent/CreateRent';
@@ -21,6 +22,15 @@ import {
   minimumRentDurationTimeInMillissecondsMock,
   createRentUseCaseInputMock,
 } from '../../mocks';
+
+function setSafeStartDate(startDate: Date) {
+  const yesterday = faker.date.recent(
+    1,
+    new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+  );
+
+  jest.spyOn(Date, 'now').mockReturnValueOnce(yesterday.getTime());
+}
 
 let checkIfUserExistsByIdRepositorySpy: CheckIfUserExistsByIdRepositorySpy;
 let checkIfRentExistsWithPendingPaymentByUserRepositorySpy: CheckIfRentExistsWithPendingPaymentByUserRepositorySpy;
@@ -53,6 +63,8 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should call CheckIfUserExistsByIdRepository once with correct values', async () => {
+    setSafeStartDate(createRentUseCaseInputMock.start_date);
+
     const checkIfExistsByIdSpy = jest.spyOn(
       checkIfUserExistsByIdRepositorySpy,
       'checkIfExistsById'
@@ -90,6 +102,8 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should call CheckIfRentExistsWithPendingPaymentByUserRepository once with correct values', async () => {
+    setSafeStartDate(createRentUseCaseInputMock.start_date);
+
     const checksIfExistsWithPendingPaymentByUserSpy = jest.spyOn(
       checkIfRentExistsWithPendingPaymentByUserRepositorySpy,
       'checkIfExistsWithPendingPaymentByUser'
@@ -132,6 +146,8 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should call FindCarByIdRepository once with correct values', async () => {
+    setSafeStartDate(createRentUseCaseInputMock.start_date);
+
     const findById = jest.spyOn(findCarByIdRepositorySpy, 'findById');
 
     const carId = faker.datatype.uuid();
@@ -165,11 +181,38 @@ describe('CreateRentUseCase', () => {
     await expect(promise).rejects.toBeInstanceOf(CarNotFoundWithThisIdError);
   });
 
+  it('should throw RentalStartDateIsInThePastError if start duration less than tomorrow', async () => {
+    const startDate = faker.datatype.datetime();
+    const expectedReturnDate = new Date(
+      startDate.getTime() + minimumRentDurationTimeInMillissecondsMock
+    );
+
+    const edgeDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate()
+    );
+
+    jest.spyOn(Date, 'now').mockReturnValueOnce(edgeDate.getTime());
+
+    const promise = createRentUseCase.execute({
+      ...createRentUseCaseInputMock,
+      start_date: startDate,
+      expected_return_date: expectedReturnDate,
+    });
+
+    await expect(promise).rejects.toBeInstanceOf(
+      RentalStartDateIsInThePastError
+    );
+  });
+
   it('should throw InvalidRentDurationTimeError if the rental duration is less than the defined minimum ', async () => {
     const startDate = faker.datatype.datetime();
     const expectedReturnDate = new Date(
       startDate.getTime() + minimumRentDurationTimeInMillissecondsMock - 1
     );
+
+    setSafeStartDate(startDate);
 
     const promise = createRentUseCase.execute({
       ...createRentUseCaseInputMock,
@@ -181,6 +224,8 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should call CheckIfRentExistsByOpenScheduleForCarRepository once with correct values', async () => {
+    setSafeStartDate(createRentUseCaseInputMock.start_date);
+
     const checkIfExistsByOpenScheduleForCarSpy = jest.spyOn(
       checkIfRentExistsByOpenScheduleForCarRepositorySpy,
       'checkIfExistsByOpenScheduleForCar'
@@ -197,6 +242,8 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should throw if CheckIfRentExistsByOpenScheduleForCarRepository throws', async () => {
+    setSafeStartDate(createRentUseCaseInputMock.start_date);
+
     jest
       .spyOn(
         checkIfRentExistsByOpenScheduleForCarRepositorySpy,
@@ -210,6 +257,8 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should throw CarAlreadyBookedOnThisDateError if already exists a rent in this date for the car', async () => {
+    setSafeStartDate(createRentUseCaseInputMock.start_date);
+
     jest
       .spyOn(
         checkIfRentExistsByOpenScheduleForCarRepositorySpy,
@@ -225,6 +274,8 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should call CreateRentRepository once with correct values', async () => {
+    setSafeStartDate(createRentUseCaseInputMock.start_date);
+
     const car = {
       ...carMock,
       daily_rate: faker.datatype.number(),
@@ -249,6 +300,8 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should throw if CreateRentRepository throws', async () => {
+    setSafeStartDate(createRentUseCaseInputMock.start_date);
+
     jest
       .spyOn(createRentRepositorySpy, 'create')
       .mockRejectedValueOnce(new Error());
@@ -259,6 +312,8 @@ describe('CreateRentUseCase', () => {
   });
 
   it('should return created rent on success', async () => {
+    setSafeStartDate(createRentUseCaseInputMock.start_date);
+
     const rent = { ...rentMock };
 
     jest.spyOn(createRentRepositorySpy, 'create').mockResolvedValueOnce(rent);
