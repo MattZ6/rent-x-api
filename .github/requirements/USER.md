@@ -20,5 +20,5 @@
   - [ ] It should be possible to update user **name**;
   - [ ] It should be possible to update user **email**;
   - [ ] It should be possible to update user **password**;
-  - [ ] It should be possible to update user **avatar picture**;
+  - [x] It should be possible to update user **avatar picture**;
   - [ ] It should be possible to remove user **avatar picture**.
