@@ -9,6 +9,7 @@ interface IFindUserByIdRepository {
 namespace IFindUserByIdRepository {
   export type Input = {
     id: string;
+    relations?: Array<keyof Pick<IUser, 'avatar'>>;
   };
 
   export type Output = IUser | undefined;

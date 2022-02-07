@@ -1,3 +1,5 @@
+import { IUserAvatar } from './UserAvatar';
+
 export interface IUser {
   id: string;
   name: string;
@@ -6,4 +8,5 @@ export interface IUser {
   driver_license: string;
   created_at: Date;
   updated_at: Date;
+  avatar?: IUserAvatar;
 }

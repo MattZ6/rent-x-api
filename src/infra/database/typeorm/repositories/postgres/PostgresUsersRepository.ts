@@ -62,9 +62,9 @@ export class PostgresUsersRepository
   async findById(
     data: IFindUserByIdRepository.Input
   ): Promise<IFindUserByIdRepository.Output> {
-    const { id } = data;
+    const { id, relations } = data;
 
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, { relations });
   }
 
   async findByEmail(

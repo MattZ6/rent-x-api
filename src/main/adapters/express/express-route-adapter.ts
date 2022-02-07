@@ -6,10 +6,24 @@ export const adaptRoute =
   (controller: IController) =>
   async (req: Request, res: Response): Promise<Response> => {
     try {
+      const body = req.body || {};
+
+      if (req.file) {
+        Object.assign(body, {
+          file: req.file,
+        });
+      }
+
+      if (req.files) {
+        Object.assign(body, {
+          files: req.files,
+        });
+      }
+
       const response = await controller.handle({
         params: req.params || {},
         query: req.query || {},
-        body: req.body || {},
+        body,
         user_id: req.user_id,
       });
 

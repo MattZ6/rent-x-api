@@ -2,49 +2,40 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToOne,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { v4 } from 'uuid';
 
 import { IUser } from '@domain/models/User';
 import { IUserAvatar } from '@domain/models/UserAvatar';
 
 import { tableNames } from '../constants';
-import { UserAvatar } from './UserAvatar';
+import { User } from './User';
 
-@Entity(tableNames.USERS)
-export class User implements IUser {
-  @PrimaryColumn('uuid')
+@Entity(tableNames.USER_AVATARS)
+export class UserAvatar implements IUserAvatar {
+  @PrimaryColumn()
   id: string;
 
-  @Column()
-  name: string;
+  @OneToOne(() => User, { primary: true })
+  user: IUser;
 
   @Column()
-  email: string;
+  original_name: string;
 
   @Column()
-  password_hash: string;
+  mime_type: string;
 
   @Column()
-  driver_license: string;
+  extension: string;
+
+  @Column()
+  size_in_bytes: number;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  @JoinColumn({ name: 'id' })
-  @OneToOne(() => UserAvatar)
-  avatar?: IUserAvatar;
-
-  constructor() {
-    if (!this.id) {
-      this.id = v4();
-    }
-  }
 }
