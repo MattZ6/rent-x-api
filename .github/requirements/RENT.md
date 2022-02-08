@@ -11,7 +11,7 @@
   - [x] If a car's **daily rate** and **fine** have been changed during a rental, the amounts **prior to the change** must be charged;
 
 - 📅 **Car schedule**
- - [ ] It should be possible to list the car's schedule with all the periods the car will be rented starting from now.
+  - [ ] It should be possible to list the car's schedule with all the periods the car will be rented starting from now.
 
 - 📅 **User's rentals**
   - [ ] It should be possible to list all car rentals from a user.

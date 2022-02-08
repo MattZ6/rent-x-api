@@ -13,7 +13,6 @@
 
 - 📅 **Car images**
   - [ ] It should be possible to add **images** to a car;
-  - [ ] It should be possible to add **images** from a car;
   - [ ] Only administrators can update car **images**.
 
 - ✔ **Get car details**
