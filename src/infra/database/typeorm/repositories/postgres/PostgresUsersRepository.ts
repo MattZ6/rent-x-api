@@ -1,0 +1,117 @@
+import { getRepository, Raw, Repository } from 'typeorm';
+
+import {
+  ICheckIfUserExistsByDriverLicenseRepository,
+  ICheckIfUserExistsByEmailRepository,
+  ICheckIfUserExistsByIdRepository,
+  ICreateUserRepository,
+  IFindUserByEmailRepository,
+  IFindUserByIdRepository,
+  IUpdateUserRepository,
+} from '@data/protocols/repositories/user';
+
+import { User } from '../../entities/User';
+
+export class PostgresUsersRepository
+  implements
+    ICheckIfUserExistsByEmailRepository,
+    ICreateUserRepository,
+    IFindUserByIdRepository,
+    IFindUserByEmailRepository,
+    IUpdateUserRepository,
+    ICheckIfUserExistsByIdRepository,
+    ICheckIfUserExistsByDriverLicenseRepository
+{
+  private repository: Repository<User>;
+
+  constructor() {
+    this.repository = getRepository(User);
+  }
+
+  async checkIfExistsByEmail(
+    data: ICheckIfUserExistsByEmailRepository.Input
+  ): Promise<ICheckIfUserExistsByEmailRepository.Output> {
+    const { email } = data;
+
+    const count = await this.repository.count({
+      where: {
+        email: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
+          value: email,
+        }),
+      },
+    });
+
+    return count >= 1;
+  }
+
+  async create(
+    data: ICreateUserRepository.Input
+  ): Promise<ICreateUserRepository.Output> {
+    const { name, driver_license, email, password_hash } = data;
+
+    const user = this.repository.create({
+      name,
+      driver_license,
+      email,
+      password_hash,
+    });
+
+    return this.repository.save(user);
+  }
+
+  async findById(
+    data: IFindUserByIdRepository.Input
+  ): Promise<IFindUserByIdRepository.Output> {
+    const { id, relations } = data;
+
+    return this.repository.findOne(id, { relations });
+  }
+
+  async findByEmail(
+    data: IFindUserByEmailRepository.Input
+  ): Promise<IFindUserByEmailRepository.Output> {
+    const { email } = data;
+
+    return this.repository.findOne({
+      where: {
+        email: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
+          value: email,
+        }),
+      },
+    });
+  }
+
+  async update(
+    data: IUpdateUserRepository.Input
+  ): Promise<IUpdateUserRepository.Output> {
+    return this.repository.save(data);
+  }
+
+  async checkIfExistsById(
+    data: ICheckIfUserExistsByIdRepository.Input
+  ): Promise<ICheckIfUserExistsByIdRepository.Output> {
+    const { id } = data;
+
+    const count = await this.repository.count({
+      where: { id },
+    });
+
+    return count >= 1;
+  }
+
+  async checkIfExistsByDriverLicense(
+    data: ICheckIfUserExistsByDriverLicenseRepository.Input
+  ): Promise<ICheckIfUserExistsByDriverLicenseRepository.Output> {
+    const { driver_license } = data;
+
+    const count = await this.repository.count({
+      where: {
+        driver_license: Raw(field => `LOWER(${field}) = LOWER(:value)`, {
+          value: driver_license,
+        }),
+      },
+    });
+
+    return count >= 1;
+  }
+}

@@ -276,7 +276,7 @@
         "daily_rate": {
           "type": "number"
         },
-        "fine_amount": {
+        "daily_late_fee": {
           "type": "number"
         },
         "brand": {

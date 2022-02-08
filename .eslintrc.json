@@ -34,6 +34,12 @@
         }
       }
     ],
+    "@typescript-eslint/no-unused-vars": [
+      "error", {
+        "argsIgnorePattern": "_"
+      }
+    ],
+    "@typescript-eslint/no-namespace": "off",
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
     "no-shadow": "off",
@@ -41,6 +47,7 @@
     "no-useless-constructor": "off",
     "no-empty-function": "off",
     "lines-between-class-members": "off",
+    "max-classes-per-file": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -54,10 +61,11 @@
         "newlinesBetween": "always",
         "groups": [
           "module",
-          "/^@utils/",
-          "/^@config/",
-          "/^@modules/",
-          "/^@shared/",
+          "/^@domain/",
+          "/^@data/",
+          "/^@presentation/",
+          "/^@infra/",
+          "/^@main/",
           ["parent", "sibling", "index"]
         ],
         "alphabetize": { "order": "asc", "ignoreCase": true }
@@ -65,12 +73,7 @@
     ],
     "import/no-extraneous-dependencies": [
       "error",
-      {
-        "devDependencies": [
-          "**/*.spec.ts",
-          "jest.config.ts"
-        ]
-      }
+      { "devDependencies": ["__tests__/**/*", "jest.config.ts"] }
     ],
     "prettier/prettier": "error"
   },
