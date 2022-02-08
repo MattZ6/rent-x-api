@@ -36,6 +36,12 @@ yarn
 
 ### Iniciar
 
+Crie uma cópia do arquivo `.env.example` e em seguida prencha as variávels necessárias:
+
+```bash
+cp .env.example .env
+```
+
 Para rodar a aplicação em ambiente de desenvolvimento, execute o comando:
 
 ```bash
