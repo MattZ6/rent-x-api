@@ -12,7 +12,7 @@
   "bugs": "https://github.com/mattz6/rent-x-api/issues",
   "scripts": {
     "dev": "tsnd -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/main/server.ts",
-    "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli",
+    "typeorm": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli",
     "test": "jest",
     "test:coverage": "yarn test --coverage",
     "seed:admin": "tsnd src/shared/infra/typeorm/seeders/admin-user.ts"

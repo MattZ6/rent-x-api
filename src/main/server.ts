@@ -11,8 +11,10 @@ startDatabaseConnection()
 
       const app = (await import('./config/app')).default;
 
-      app.listen(3333, () => {
-        console.log(`🚀 Server is running at http://localhost:3333\n`);
+      app.listen(process.env.API_PORT, () => {
+        console.log(
+          `🚀 Server is running at http://localhost:${process.env.API_PORT}\n`
+        );
       });
     } catch (error) {
       console.log(

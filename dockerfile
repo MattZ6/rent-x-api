@@ -4,10 +4,10 @@ WORKDIR /usr/app
 
 COPY package.json ./
 
-RUN npm i
+RUN yarn
 
 COPY . .
 
-EXPOSE 3333
+EXPOSE ${API_PORT}
 
-CMD ["npm","run","dev"]
+CMD ["yarn", "dev"]
