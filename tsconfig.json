@@ -10,11 +10,7 @@
       "@data/*": ["data/*"],
       "@presentation/*": ["presentation/*"],
       "@infra/*": ["infra/*"],
-      "@main/*": ["main/*"],
-      "@config/*": ["config/*"],
-      "@modules/*": ["modules/*"],
-      "@shared/*": ["shared/*"],
-      "@utils/*": ["utils/*"]
+      "@main/*": ["main/*"]
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,

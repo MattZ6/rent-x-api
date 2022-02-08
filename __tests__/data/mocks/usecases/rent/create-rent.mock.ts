@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
 

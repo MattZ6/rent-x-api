@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { IRent } from '@domain/models/Rent';
 
@@ -16,7 +16,7 @@ export const rentMock: IRent = {
   start_date: startDate,
   expected_return_date: faker.date.soon(
     faker.datatype.number({ min: 1 }),
-    startDate
+    startDate.toUTCString()
   ),
   daily_late_fee: faker.datatype.float({ min: 500.0, max: 1_000.0 }),
   daily_rate: faker.datatype.float({ min: 100.0, max: 500.0 }),
@@ -34,7 +34,7 @@ export function makeRentMock() {
     start_date: startDate,
     expected_return_date: faker.date.soon(
       faker.datatype.number({ min: 1 }),
-      startDate
+      startDate.toUTCString()
     ),
     daily_late_fee: faker.datatype.float({ min: 500.0, max: 1_000.0 }),
     daily_rate: faker.datatype.float({ min: 100.0, max: 500.0 }),

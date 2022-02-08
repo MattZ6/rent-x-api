@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetUserPassword';
 

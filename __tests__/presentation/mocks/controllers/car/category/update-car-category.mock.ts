@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { UpdateCarCategoryController } from '@presentation/controllers/car/category/UpdateCarCategory';
 

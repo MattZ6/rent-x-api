@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { IEncryptProvider } from '@data/protocols/providers/cryptography/cryptography';
 import {

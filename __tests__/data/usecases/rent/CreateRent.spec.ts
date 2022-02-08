@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import {
   CarNotFoundWithThisIdError,
@@ -26,7 +26,11 @@ import {
 function setSafeStartDate(startDate: Date) {
   const yesterday = faker.date.recent(
     1,
-    new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+    new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate()
+    ).toUTCString()
   );
 
   jest.spyOn(Date, 'now').mockReturnValueOnce(yesterday.getTime());

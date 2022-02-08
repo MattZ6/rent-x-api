@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { IListAllCarCategoriesUseCase } from '@domain/usecases/car/category/ListAllCarCategories';
 

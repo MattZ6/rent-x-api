@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import {
   RentBelongsToAnotherUserError,
@@ -21,8 +21,10 @@ import {
 
 function setSafeReturnDate(rent?: IRent) {
   const returnDateMock = faker.date.between(
-    rent?.start_date ?? rentMock.start_date,
-    rent?.expected_return_date ?? rentMock.expected_return_date
+    new Date(rent?.start_date ?? rentMock.start_date).toUTCString(),
+    new Date(
+      rent?.expected_return_date ?? rentMock.expected_return_date
+    ).toUTCString()
   );
 
   jest.spyOn(Date, 'now').mockReturnValueOnce(returnDateMock.getTime());
@@ -33,7 +35,9 @@ function setSafeReturnDate(rent?: IRent) {
 function setLateReturnDate(rent?: IRent) {
   const lateReturnDateMock = faker.date.soon(
     faker.datatype.number({ min: 1 }),
-    rent?.expected_return_date ?? rentMock.expected_return_date
+    new Date(
+      rent?.expected_return_date ?? rentMock.expected_return_date
+    ).toUTCString()
   );
 
   jest.spyOn(Date, 'now').mockReturnValueOnce(lateReturnDateMock.getTime());

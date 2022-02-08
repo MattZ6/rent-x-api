@@ -66,10 +66,6 @@
           "/^@presentation/",
           "/^@infra/",
           "/^@main/",
-          "/^@utils/",
-          "/^@config/",
-          "/^@modules/",
-          "/^@shared/",
           ["parent", "sibling", "index"]
         ],
         "alphabetize": { "order": "asc", "ignoreCase": true }
@@ -77,12 +73,7 @@
     ],
     "import/no-extraneous-dependencies": [
       "error",
-      {
-        "devDependencies": [
-          "**/*.spec.ts",
-          "jest.config.ts"
-        ]
-      }
+      { "devDependencies": ["__tests__/**/*", "jest.config.ts"] }
     ],
     "prettier/prettier": "error"
   },

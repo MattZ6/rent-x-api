@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { ICar, TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
 

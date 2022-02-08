@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { UserNotFoundWithThisIdError } from '@domain/errors';
 
@@ -33,7 +33,10 @@ describe('GetUserProfileUseCase', () => {
     });
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
-    expect(findByIdSpy).toHaveBeenCalledWith({ id: userId });
+    expect(findByIdSpy).toHaveBeenCalledWith({
+      id: userId,
+      relations: ['avatar'],
+    });
   });
 
   it('should throw if FindUserByIdRepository throws', async () => {

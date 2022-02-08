@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/CreateCarCategory';
 
