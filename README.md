@@ -4,6 +4,8 @@
   </h1>
 
   > Back-end API da aplicação de alugueis de veículos Rent-X, construída na trilha de Node JS do bootcamp Ignite da Rocketseat.
+
+  [![Coverage status](https://coveralls.io/repos/github/MattZ6/rent-x-api/badge.svg?branch=main)](https://coveralls.io/github/MattZ6/rent-x-api?branch=main)
 </div>
 
 ## 💡 Você vai precisar
