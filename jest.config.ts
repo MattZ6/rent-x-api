@@ -22,6 +22,8 @@ export default {
   collectCoverageFrom: [
     '<rootDir>/src/application/usecases/**/*.ts',
     '<rootDir>/src/presentation/controllers/**/*.ts',
+    '<rootDir>/src/presentation/middlewares/**/*.ts',
+    '<rootDir>/src/main/decorators/**/*.ts',
   ],
 
   // The directory where Jest should output its coverage files
@@ -174,7 +176,30 @@ export default {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  // transform: undefined,
+  transform: {
+    '^.+\\.(t|j)sx?$': [
+      '@swc/jest',
+      {
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            tsx: false,
+            decorators: true,
+          },
+          target: 'es2017',
+          keepClassNames: true,
+          transform: {
+            legacyDecorator: true,
+            decoratorMetadata: true,
+          },
+        },
+        module: {
+          type: 'es2017',
+          noInterop: false,
+        },
+      },
+    ],
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
