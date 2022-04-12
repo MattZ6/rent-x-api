@@ -7,7 +7,7 @@ import {
   Transporter,
 } from 'nodemailer';
 
-import { ISendMailProvider } from '@data/protocols/providers/mail';
+import { ISendMailProvider } from '@application/protocols/providers/mail';
 
 export class EtherealMailProvider implements ISendMailProvider {
   private client: Transporter;

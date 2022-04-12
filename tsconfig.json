@@ -7,7 +7,7 @@
     "baseUrl": "./src",
     "paths": {
       "@domain/*": ["domain/*"],
-      "@data/*": ["data/*"],
+      "@application/*": ["application/*"],
       "@presentation/*": ["presentation/*"],
       "@infra/*": ["infra/*"],
       "@main/*": ["main/*"]

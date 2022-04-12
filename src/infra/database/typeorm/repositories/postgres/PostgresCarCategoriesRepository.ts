@@ -7,7 +7,7 @@ import {
   IFindAllCarCategoriesRepository,
   IFindCarCategoryByIdRepository,
   IUpdateCarCategoryRepository,
-} from '@data/protocols/repositories/car-category';
+} from '@application/protocols/repositories/car-category';
 
 import { CarCategory } from '../../entities/CarCategory';
 

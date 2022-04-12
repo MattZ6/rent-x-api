@@ -1,4 +1,4 @@
-import { CreateUserUseCase } from '@data/usecases/user/CreateUser';
+import { CreateUserUseCase } from '@application/usecases/user/CreateUser';
 
 import { makeBcryptjsHashProvider } from '@main/factories/providers/BcryptjsHashProviderFactory';
 import { makePostgresUsersRepository } from '@main/factories/repositories/PostgresUsersRepositoryFactory';

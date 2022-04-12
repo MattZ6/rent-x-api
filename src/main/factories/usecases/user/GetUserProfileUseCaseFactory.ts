@@ -1,4 +1,4 @@
-import { GetUserProfileUseCase } from '@data/usecases/user/GetUserProfile';
+import { GetUserProfileUseCase } from '@application/usecases/user/GetUserProfile';
 
 import { makePostgresUsersRepository } from '@main/factories/repositories/PostgresUsersRepositoryFactory';
 

@@ -1,4 +1,4 @@
-import { AuthenticateUserUseCase } from '@data/usecases/user/AuthenticateUser';
+import { AuthenticateUserUseCase } from '@application/usecases/user/AuthenticateUser';
 
 import { authConfig } from '@main/config/environment/auth';
 import { makeBcryptjsHashProvider } from '@main/factories/providers/BcryptjsHashProviderFactory';

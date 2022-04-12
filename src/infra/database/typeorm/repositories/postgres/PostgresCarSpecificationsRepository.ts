@@ -9,7 +9,7 @@ import {
   IFindAllSpecificationsByIdsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
-} from '@data/protocols/repositories/car-specification';
+} from '@application/protocols/repositories/car-specification';
 
 import { CarSpecification } from '../../entities/CarSpecification';
 

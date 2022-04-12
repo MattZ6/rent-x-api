@@ -5,7 +5,7 @@ import {
   ICreateCarRepository,
   IFindAllCarsRepository,
   IFindCarByIdRepository,
-} from '@data/protocols/repositories/car';
+} from '@application/protocols/repositories/car';
 
 import { Car } from '../../entities/Car';
 

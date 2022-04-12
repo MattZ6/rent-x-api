@@ -1,4 +1,4 @@
-import { UpdateCarSpecificationUseCase } from '@data/usecases/car/specification/UpdateCarSpecification';
+import { UpdateCarSpecificationUseCase } from '@application/usecases/car/specification/UpdateCarSpecification';
 
 import { makePostgresCarSpecificationsRepository } from '@main/factories/repositories/PostgresCarSpecificationsRepositoryFactory';
 

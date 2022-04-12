@@ -1,4 +1,4 @@
-import { GetCarDetailsUseCase } from '@data/usecases/car/GetCarDetails';
+import { GetCarDetailsUseCase } from '@application/usecases/car/GetCarDetails';
 
 import { makePostgresCarsRepository } from '@main/factories/repositories/PostgresCarsRepositoryFactory';
 

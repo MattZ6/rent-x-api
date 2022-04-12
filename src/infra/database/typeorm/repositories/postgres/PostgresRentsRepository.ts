@@ -13,7 +13,7 @@ import {
   ICreateRentRepository,
   IFindRentalByIdRepository,
   IUpdateRentRepository,
-} from '@data/protocols/repositories/rent';
+} from '@application/protocols/repositories/rent';
 
 import { Rent } from '../../entities/Rent';
 

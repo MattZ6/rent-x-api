@@ -1,6 +1,6 @@
 import { getRepository, Repository } from 'typeorm';
 
-import { ICreateRentPaymentRepository } from '@data/protocols/repositories/rent-payment';
+import { ICreateRentPaymentRepository } from '@application/protocols/repositories/rent-payment';
 
 import { RentPayment } from '../../entities/RentPayment';
 

@@ -7,7 +7,7 @@ import {
   IFindAllCarBrandsRepository,
   IFindCarBrandByIdRepository,
   IUpdateCarBrandRepository,
-} from '@data/protocols/repositories/car-brand';
+} from '@application/protocols/repositories/car-brand';
 
 import { CarBrand } from '../../entities/CarBrand';
 

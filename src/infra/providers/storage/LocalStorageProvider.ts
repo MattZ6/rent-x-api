@@ -1,7 +1,7 @@
 import { access, mkdir, writeFile } from 'fs/promises';
 import { resolve } from 'path';
 
-import { IStoreFileProvider } from '@data/protocols/providers/storage';
+import { IStoreFileProvider } from '@application/protocols/providers/storage';
 
 export class DiskStorageProvider implements IStoreFileProvider {
   constructor(private readonly rootFolder: string) {}

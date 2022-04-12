@@ -4,7 +4,7 @@ import {
   ICreateUserAvatarRepository,
   IFindUserAvatarByIdRepository,
   IUpdateUserAvatarRepository,
-} from '@data/protocols/repositories/user-avatar';
+} from '@application/protocols/repositories/user-avatar';
 
 import { UserAvatar } from '../../entities/UserAvatar';
 
