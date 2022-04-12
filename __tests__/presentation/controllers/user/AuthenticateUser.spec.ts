@@ -11,7 +11,7 @@ import {
   notFound,
   ok,
   unprocessableEntity,
-} from '@presentation/helpers/http/http';
+} from '@presentation/helpers/http';
 
 import {
   authenticateUserControllerRequestMock,

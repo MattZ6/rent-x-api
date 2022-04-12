@@ -1,7 +1,7 @@
 import { UserNotFoundWithThisEmailError } from '@domain/errors';
 import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotUserPasssordMail';
 
-import { noContent } from '@presentation/helpers/http/http';
+import { noContent } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

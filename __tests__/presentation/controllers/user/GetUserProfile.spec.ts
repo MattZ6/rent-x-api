@@ -1,7 +1,7 @@
 import { UserNotFoundWithThisIdError } from '@domain/errors';
 
 import { GetUserProfileController } from '@presentation/controllers/user/GetUserProfile';
-import { notFound, ok } from '@presentation/helpers/http/http';
+import { notFound, ok } from '@presentation/helpers/http';
 
 import { userMock } from '../../../domain/models/user.mock';
 import {

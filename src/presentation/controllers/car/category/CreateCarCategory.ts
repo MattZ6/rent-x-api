@@ -1,7 +1,7 @@
 import { CarCategoryAlreadyExistsWithThisNameError } from '@domain/errors';
 import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/CreateCarCategory';
 
-import { conflict, created } from '@presentation/helpers/http/http';
+import { conflict, created } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

@@ -1,5 +1,5 @@
 import { ListCarsController } from '@presentation/controllers/car/ListCars';
-import { ok } from '@presentation/helpers/http/http';
+import { ok } from '@presentation/helpers/http';
 
 import { carMock } from '../../../domain/models/car.mock';
 import {

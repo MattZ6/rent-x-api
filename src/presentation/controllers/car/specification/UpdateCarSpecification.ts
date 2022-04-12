@@ -4,7 +4,7 @@ import {
 } from '@domain/errors';
 import { IUpdateCarSpecificationUseCase } from '@domain/usecases/car/specification/UpdateCarSpecification';
 
-import { conflict, noContent, notFound } from '@presentation/helpers/http/http';
+import { conflict, noContent, notFound } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

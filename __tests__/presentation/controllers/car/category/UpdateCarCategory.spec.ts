@@ -4,7 +4,7 @@ import {
 } from '@domain/errors';
 
 import { UpdateCarCategoryController } from '@presentation/controllers/car/category/UpdateCarCategory';
-import { conflict, noContent, notFound } from '@presentation/helpers/http/http';
+import { conflict, noContent, notFound } from '@presentation/helpers/http';
 
 import {
   updateCarCategoryControllerRequestMock,

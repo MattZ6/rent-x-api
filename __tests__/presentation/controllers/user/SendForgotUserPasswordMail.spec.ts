@@ -1,7 +1,7 @@
 import { UserNotFoundWithThisEmailError } from '@domain/errors';
 
 import { SendForgotUserPasswordMailController } from '@presentation/controllers/user/SendForgotUserPasswordMail';
-import { noContent } from '@presentation/helpers/http/http';
+import { noContent } from '@presentation/helpers/http';
 
 import {
   sendForgotUserPasswordMailControllerRequestMock,

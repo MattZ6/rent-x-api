@@ -6,7 +6,7 @@ import {
 } from '@domain/errors';
 import { ICreateCarUseCase } from '@domain/usecases/car/CreateCar';
 
-import { conflict, created, notFound } from '@presentation/helpers/http/http';
+import { conflict, created, notFound } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

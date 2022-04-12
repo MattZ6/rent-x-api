@@ -1,7 +1,7 @@
 import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors';
 import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/specification/DeleteCarSpecification';
 
-import { noContent, notFound } from '@presentation/helpers/http/http';
+import { noContent, notFound } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

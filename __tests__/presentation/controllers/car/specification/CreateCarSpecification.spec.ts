@@ -1,7 +1,7 @@
 import { CarSpecificationAlreadyExistsWithThisNameError } from '@domain/errors';
 
 import { CreateCarSpecificationController } from '@presentation/controllers/car/specification/CreateCarSpecification';
-import { conflict, created } from '@presentation/helpers/http/http';
+import { conflict, created } from '@presentation/helpers/http';
 
 import {
   createCarSpecificationControllerRequestMock,

@@ -9,7 +9,7 @@ import {
   notFound,
   unprocessableEntity,
   noContent,
-} from '@presentation/helpers/http/http';
+} from '@presentation/helpers/http';
 
 import {
   resetUserPasswordControllerRequestMock,

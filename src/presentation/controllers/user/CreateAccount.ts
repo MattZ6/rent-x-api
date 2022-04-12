@@ -4,7 +4,7 @@ import {
 } from '@domain/errors';
 import { ICreateUserUseCase } from '@domain/usecases/user/CreateUser';
 
-import { conflict, created } from '@presentation/helpers/http/http';
+import { conflict, created } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

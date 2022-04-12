@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { UserNotFoundWithThisIdError } from '@domain/errors';
 
 import { UpdateUserAvatarController } from '@presentation/controllers/user/UpdateUserAvatar';
-import { noContent, notFound } from '@presentation/helpers/http/http';
+import { noContent, notFound } from '@presentation/helpers/http';
 
 import {
   makeUpdateUserAvatarControllerRequestMock,

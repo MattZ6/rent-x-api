@@ -1,7 +1,7 @@
 import { UserNotFoundWithThisIdError } from '@domain/errors';
 import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateUserAvatar';
 
-import { noContent, notFound } from '@presentation/helpers/http/http';
+import { noContent, notFound } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

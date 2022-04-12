@@ -1,7 +1,7 @@
 import { UserNotFoundWithThisIdError } from '@domain/errors';
 import { IGetUserProfileUseCase } from '@domain/usecases/user/GetUserProfile';
 
-import { notFound, ok } from '@presentation/helpers/http/http';
+import { notFound, ok } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

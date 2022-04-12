@@ -1,7 +1,7 @@
 import { CarNotFoundWithThisIdError } from '@domain/errors';
 import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetCarDetails';
 
-import { notFound, ok } from '@presentation/helpers/http/http';
+import { notFound, ok } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

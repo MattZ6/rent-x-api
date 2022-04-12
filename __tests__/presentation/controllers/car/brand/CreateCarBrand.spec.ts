@@ -1,7 +1,7 @@
 import { CarBrandAlreadyExistsWithThisNameError } from '@domain/errors';
 
 import { CreateCarBrandController } from '@presentation/controllers/car/brand/CreateCarBrand';
-import { conflict, created } from '@presentation/helpers/http/http';
+import { conflict, created } from '@presentation/helpers/http';
 
 import {
   createCarBrandControllerRequestMock,

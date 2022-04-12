@@ -1,5 +1,5 @@
 import { ListCarSpecificationsController } from '@presentation/controllers/car/specification/ListCarSpecifications';
-import { ok } from '@presentation/helpers/http/http';
+import { ok } from '@presentation/helpers/http';
 
 import { carSpecificationMock } from '../../../../domain/models/car-specification.mock';
 import {

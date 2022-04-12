@@ -4,7 +4,7 @@ import {
 } from '@domain/errors';
 
 import { CreateAccountController } from '@presentation/controllers/user/CreateAccount';
-import { conflict, created } from '@presentation/helpers/http/http';
+import { conflict, created } from '@presentation/helpers/http';
 
 import { userMock } from '../../../domain/models/user.mock';
 import {

@@ -1,6 +1,6 @@
 import { IListAllCarBrandsUseCase } from '@domain/usecases/car/brand/ListAllCarBrands';
 
-import { ok } from '@presentation/helpers/http/http';
+import { ok } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,

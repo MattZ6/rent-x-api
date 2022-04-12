@@ -6,7 +6,7 @@ import {
 } from '@domain/errors';
 
 import { CreateCarController } from '@presentation/controllers/car/CreateCar';
-import { conflict, created, notFound } from '@presentation/helpers/http/http';
+import { conflict, created, notFound } from '@presentation/helpers/http';
 
 import {
   createCarControllerRequestMock,

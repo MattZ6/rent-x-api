@@ -1,7 +1,7 @@
 import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors';
 
 import { DeleteCarSpecificationController } from '@presentation/controllers/car/specification/DeleteCarSpecification';
-import { noContent, notFound } from '@presentation/helpers/http/http';
+import { noContent, notFound } from '@presentation/helpers/http';
 
 import {
   deleteCarSpecificationControllerRequestMock,

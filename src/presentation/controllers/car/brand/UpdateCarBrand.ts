@@ -4,7 +4,7 @@ import {
 } from '@domain/errors';
 import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/UpdateCarBrand';
 
-import { conflict, noContent, notFound } from '@presentation/helpers/http/http';
+import { conflict, noContent, notFound } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
