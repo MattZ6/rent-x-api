@@ -5,8 +5,14 @@
 
   > Back-end API da aplicação de alugueis de veículos Rent-X, construída na trilha de Node JS do bootcamp Ignite da Rocketseat.
 
-  [![Coverage status](https://coveralls.io/repos/github/MattZ6/rent-x-api/badge.svg?branch=main)](https://coveralls.io/github/MattZ6/rent-x-api?branch=main)
+  <span>🚧 Em desenvolvimento... 🚧</span>
+
+  [![build-image]][build-url] [![coveralls-image]][coveralls-url] [![license-image]][license-url]
 </div>
+
+## 📝 Requisitos
+
+Você pode encontrar os requisitos da aplicação [aqui](https://github.com/MattZ6/rent-x-api/tree/main/.github/requirements).
 
 ## 💡 Você vai precisar
 
@@ -94,3 +100,12 @@ ___
 <div align="center">
   <strong>Ignite Bootcamp 🔥</strong>
 </div>
+
+[license-url]: LICENSE.md
+[license-image]: https://img.shields.io/github/license/MattZ6/rent-x-api?color=303030&labelColor=232320&style=for-the-badge
+
+[build-image]: https://img.shields.io/github/workflow/status/MattZ6/rent-x-api/Coveralls/main?style=for-the-badge&labelColor=232320
+[build-url]: https://github.com/MattZ6/rent-x-api/actions
+
+[coveralls-image]: https://img.shields.io/coveralls/github/MattZ6/rent-x-api/main?style=for-the-badge&labelColor=232320
+[coveralls-url]: https://coveralls.io/github/MattZ6/rent-x-api?branch=main
