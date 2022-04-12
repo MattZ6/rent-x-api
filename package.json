@@ -8,7 +8,10 @@
     "email": "matt_z6@hotmail.com",
     "url": "https://github.com/mattz6"
   },
-  "repository": "https://github.com/mattz6/rent-x-api",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattz6/rent-x-api"
+  },
   "bugs": "https://github.com/mattz6/rent-x-api/issues",
   "scripts": {
     "dev": "tsnd -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/main/server.ts",
