@@ -1,28 +1,29 @@
 import { Router } from 'express';
 
+import { adaptMiddleware } from '@main/adapters/express/middleware';
 import { adaptRoute } from '@main/adapters/express/route';
-import { authenticationMiddleware } from '@main/config/middlewares/authentication';
 import { makeCreateCarCategoryController } from '@main/factories/controllers/car/category/CreateCarCategoryControllerFactory';
 import { makeListCarCategoriesController } from '@main/factories/controllers/car/category/ListCarCategoriesControllerFactory';
 import { makeUpdateCarCategoryController } from '@main/factories/controllers/car/category/UpdateCarCategoryControllerFactory';
+import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
 const carCategoriesRoutes = Router();
 
 carCategoriesRoutes.post(
   '/',
-  authenticationMiddleware,
+  adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeCreateCarCategoryController())
 );
 
 carCategoriesRoutes.put(
   '/:id',
-  authenticationMiddleware,
+  adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeUpdateCarCategoryController())
 );
 
 carCategoriesRoutes.get(
   '/',
-  authenticationMiddleware,
+  adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeListCarCategoriesController())
 );
 

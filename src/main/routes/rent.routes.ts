@@ -1,21 +1,22 @@
 import { Router } from 'express';
 
+import { adaptMiddleware } from '@main/adapters/express/middleware';
 import { adaptRoute } from '@main/adapters/express/route';
-import { authenticationMiddleware } from '@main/config/middlewares/authentication';
 import { makeCreateRentController } from '@main/factories/controllers/rent/CreateRentControllerFactory';
 import { makeReturnRentController } from '@main/factories/controllers/rent/ReturnRentControllerFactory';
+import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
 const rentRoutes = Router();
 
 rentRoutes.post(
   '/',
-  authenticationMiddleware,
+  adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeCreateRentController())
 );
 
 rentRoutes.post(
   '/:id/return',
-  authenticationMiddleware,
+  adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeReturnRentController())
 );
 

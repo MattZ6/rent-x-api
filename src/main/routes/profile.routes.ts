@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import multer from 'multer';
 
+import { adaptMiddleware } from '@main/adapters/express/middleware';
 import { adaptRoute } from '@main/adapters/express/route';
-import { authenticationMiddleware } from '@main/config/middlewares/authentication';
 import { makeGetUserProfileController } from '@main/factories/controllers/user/GetUserProfileControllerFactory';
 import { makeUpdateUserAvatarController } from '@main/factories/controllers/user/UpdateUserAvatarControllerFactory';
+import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
 const profileRoutes = Router();
 
@@ -12,13 +13,13 @@ const upload = multer();
 
 profileRoutes.get(
   '/',
-  authenticationMiddleware,
+  adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeGetUserProfileController())
 );
 
 profileRoutes.patch(
   '/avatar',
-  authenticationMiddleware,
+  adaptMiddleware(makeAuthenticationMiddleware()),
   upload.single('file'),
   adaptRoute(makeUpdateUserAvatarController())
 );

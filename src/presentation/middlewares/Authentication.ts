@@ -3,44 +3,42 @@ import { IVerifyCriptographyProvider } from '@application/protocols/providers/cr
 import {
   AccessTokenNotProvidedError,
   InvalidTokenError,
-  PermissionDeniedError,
   TokenExpiredError,
 } from '@presentation/errors';
-import { forbidden, ok, unauthorized } from '@presentation/helpers/http';
+import { ok, unauthorized } from '@presentation/helpers/http';
 import {
   IHttpRequest,
   IHttpResponse,
   IMiddleware,
 } from '@presentation/protocols';
 
-class ClientAuthenticationMiddleware implements IMiddleware {
+class AuthenticationMiddleware implements IMiddleware {
   constructor(
     private readonly verifyCriptographyProvider: IVerifyCriptographyProvider
   ) {}
 
   async handle(
-    request: ClientAuthenticationMiddleware.Request
-  ): Promise<ClientAuthenticationMiddleware.Response> {
+    request: AuthenticationMiddleware.Request
+  ): Promise<AuthenticationMiddleware.Response> {
     try {
-      const accessToken = request.headers['x-access-token'];
+      const { authorization } = request.headers;
+
+      if (!authorization) {
+        throw new AccessTokenNotProvidedError();
+      }
+
+      const accessToken = String(authorization).trim().replace('Bearer ', '');
 
       if (!accessToken) {
         throw new AccessTokenNotProvidedError();
       }
 
-      const { subject, payload } =
-        await this.verifyCriptographyProvider.verify<ClientAuthenticationMiddleware.TokenPayload>(
-          {
-            value: accessToken,
-          }
-        );
+      const { subject } = await this.verifyCriptographyProvider.verify({
+        value: accessToken,
+      });
 
-      if (payload.role !== 'client') {
-        throw new PermissionDeniedError();
-      }
-
-      return ok<ClientAuthenticationMiddleware.ResponseBody>({
-        client_id: subject,
+      return ok<AuthenticationMiddleware.ResponseBody>({
+        user_id: subject,
       });
     } catch (error) {
       if (error instanceof AccessTokenNotProvidedError) {
@@ -55,18 +53,14 @@ class ClientAuthenticationMiddleware implements IMiddleware {
         return unauthorized(error);
       }
 
-      if (error instanceof PermissionDeniedError) {
-        return forbidden(error);
-      }
-
       throw error;
     }
   }
 }
 
-namespace ClientAuthenticationMiddleware {
+namespace AuthenticationMiddleware {
   type RequestHeaders = {
-    ['x-access-token']: string;
+    authorization: string;
   };
 
   export type Request = IHttpRequest<unknown, unknown, unknown, RequestHeaders>;
@@ -78,4 +72,4 @@ namespace ClientAuthenticationMiddleware {
   };
 }
 
-export { ClientAuthenticationMiddleware };
+export { AuthenticationMiddleware };
