@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { adaptRoute } from '@main/adapters/express/express-route-adapter';
+import { adaptRoute } from '@main/adapters/express/route';
 import { authenticationMiddleware } from '@main/config/middlewares/authentication';
 import { makeCreateRentController } from '@main/factories/controllers/rent/CreateRentControllerFactory';
 import { makeReturnRentController } from '@main/factories/controllers/rent/ReturnRentControllerFactory';

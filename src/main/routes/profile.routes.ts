@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 
-import { adaptRoute } from '@main/adapters/express/express-route-adapter';
+import { adaptRoute } from '@main/adapters/express/route';
 import { authenticationMiddleware } from '@main/config/middlewares/authentication';
 import { makeGetUserProfileController } from '@main/factories/controllers/user/GetUserProfileControllerFactory';
 import { makeUpdateUserAvatarController } from '@main/factories/controllers/user/UpdateUserAvatarControllerFactory';

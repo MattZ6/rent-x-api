@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { adaptRoute } from '@main/adapters/express/express-route-adapter';
+import { adaptRoute } from '@main/adapters/express/route';
 import { authenticationMiddleware } from '@main/config/middlewares/authentication';
 import { makeCreateCarSpecificationController } from '@main/factories/controllers/car/specification/CreateCarSpecificationControllerFactory';
 import { makeDeleteCarSpecificationController } from '@main/factories/controllers/car/specification/DeleteCarSpecificationControllerFactory';
