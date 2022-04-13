@@ -1,7 +1,7 @@
 import { DomainError } from '@domain/errors';
 
 export class IncorrectPassword extends DomainError {
-  constructor(message = 'Incorrect password.') {
-    super(message);
+  constructor(message = 'Incorrect password.', code = 'password.wrong') {
+    super(message, code);
   }
 }
