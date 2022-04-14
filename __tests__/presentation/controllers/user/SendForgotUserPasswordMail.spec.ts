@@ -1,4 +1,4 @@
-import { UserNotFoundWithThisEmailError } from '@domain/errors';
+import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 
 import { SendForgotUserPasswordMailController } from '@presentation/controllers/user/SendForgotUserPasswordMail';
 import { noContent } from '@presentation/helpers/http';
@@ -54,7 +54,7 @@ describe('SendForgotUserPasswordMailController', () => {
   it('should return no content (204) if SendForgotUserPasswordMailUseCase throws UserNotFoundWithThisEmailError', async () => {
     jest
       .spyOn(sendForgotUserPasswordMailUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new UserNotFoundWithThisEmailError());
+      .mockRejectedValueOnce(new UserNotFoundWithProvidedEmailError());
 
     const response = await sendForgotUserPasswordMailController.handle(
       sendForgotUserPasswordMailControllerRequestMock

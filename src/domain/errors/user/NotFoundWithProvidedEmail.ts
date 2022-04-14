@@ -1,6 +1,6 @@
 import { DomainError } from '@domain/errors';
 
-export class UserNotFoundWithThisEmailError extends DomainError {
+export class UserNotFoundWithProvidedEmailError extends DomainError {
   constructor(
     message = 'No users found with the email provided.',
     code = 'user.not.exists'

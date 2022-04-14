@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import {
   WrongPasswordError,
-  UserNotFoundWithThisEmailError,
+  UserNotFoundWithProvidedEmailError,
 } from '@domain/errors';
 
 import { AuthenticateUserUseCase } from '@application/usecases/user/AuthenticateUser';
@@ -83,7 +83,7 @@ describe('AuthenticateUserUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      UserNotFoundWithThisEmailError
+      UserNotFoundWithProvidedEmailError
     );
   });
 

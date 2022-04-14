@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import {
   WrongPasswordError,
-  UserNotFoundWithThisEmailError,
+  UserNotFoundWithProvidedEmailError,
 } from '@domain/errors';
 import { IAuthenticateUserUseCase } from '@domain/usecases/user/AuthenticateUser';
 
@@ -54,7 +54,7 @@ describe('AuthenticateUserController', () => {
   });
 
   it('should return not found (404) if AuthenticateUserUseCase throws UserNotFoundWithThisEmailError', async () => {
-    const error = new UserNotFoundWithThisEmailError();
+    const error = new UserNotFoundWithProvidedEmailError();
 
     jest
       .spyOn(authenticateUserUseCaseSpy, 'execute')
