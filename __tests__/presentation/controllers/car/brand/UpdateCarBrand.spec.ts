@@ -1,5 +1,5 @@
 import {
-  CarBrandAlreadyExistsWithThisNameError,
+  CarBrandAlreadyExistsWithProvidedNameError,
   CarBrandNotFoundWithThisIdError,
 } from '@domain/errors';
 
@@ -63,7 +63,7 @@ describe('UpdateCarBrandController', () => {
   });
 
   it('should return conflict (409) if UpdateCarBrandUseCase throws CarBrandAlreadyExistsWithThisNameError', async () => {
-    const error = new CarBrandAlreadyExistsWithThisNameError();
+    const error = new CarBrandAlreadyExistsWithProvidedNameError();
 
     jest
       .spyOn(updateCarBrandUseCaseSpy, 'execute')

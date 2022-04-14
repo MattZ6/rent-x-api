@@ -1,4 +1,4 @@
-import { CarBrandAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarBrandAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { ICreateCarBrandUseCase } from '@domain/usecases/car/brand/CreateCarBrand';
 
 import { conflict, created } from '@presentation/helpers/http';
@@ -23,7 +23,7 @@ class CreateCarBrandController implements IController {
 
       return created<void>();
     } catch (error) {
-      if (error instanceof CarBrandAlreadyExistsWithThisNameError) {
+      if (error instanceof CarBrandAlreadyExistsWithProvidedNameError) {
         return conflict(error);
       }
 

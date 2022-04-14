@@ -1,5 +1,5 @@
 import {
-  CarBrandAlreadyExistsWithThisNameError,
+  CarBrandAlreadyExistsWithProvidedNameError,
   CarBrandNotFoundWithThisIdError,
 } from '@domain/errors';
 import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/UpdateCarBrand';
@@ -32,7 +32,7 @@ class UpdateCarBrandController implements IController {
         return notFound(error);
       }
 
-      if (error instanceof CarBrandAlreadyExistsWithThisNameError) {
+      if (error instanceof CarBrandAlreadyExistsWithProvidedNameError) {
         return conflict(error);
       }
 

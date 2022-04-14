@@ -1,6 +1,6 @@
 import { DomainError } from '@domain/errors';
 
-export class CarBrandAlreadyExistsWithThisNameError extends DomainError {
+export class CarBrandAlreadyExistsWithProvidedNameError extends DomainError {
   constructor(
     message = 'There is already a registered car brand with this name.',
     code = 'car.brand.exists'

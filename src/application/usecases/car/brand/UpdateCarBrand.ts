@@ -1,6 +1,6 @@
 import {
   CarBrandNotFoundWithThisIdError,
-  CarBrandAlreadyExistsWithThisNameError,
+  CarBrandAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/UpdateCarBrand';
 
@@ -38,7 +38,7 @@ export class UpdateCarBrandUseCase implements IUpdateCarBrandUseCase {
         });
 
       if (alreadyInUse) {
-        throw new CarBrandAlreadyExistsWithThisNameError();
+        throw new CarBrandAlreadyExistsWithProvidedNameError();
       }
     }
 

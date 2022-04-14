@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { CarBrandAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarBrandAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
 import { CreateCarBrandUseCase } from '@application/usecases/car/brand/CreateCarBrand';
 
@@ -65,7 +65,7 @@ describe('CreateCarBrandUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarBrandAlreadyExistsWithThisNameError
+      CarBrandAlreadyExistsWithProvidedNameError
     );
   });
 
