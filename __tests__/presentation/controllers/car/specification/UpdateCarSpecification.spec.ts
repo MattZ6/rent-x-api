@@ -1,5 +1,5 @@
 import {
-  CarSpecificationAlreadyExistsWithThisNameError,
+  CarSpecificationAlreadyExistsWithProvidedNameError,
   CarSpecificationNotFoundWithThisIdError,
 } from '@domain/errors';
 
@@ -66,7 +66,7 @@ describe('UpdateCarSpecificationController', () => {
   });
 
   it('should return conflict (409) if UpdateCarSpecificationUseCase throws CarSpecificationAlreadyExistsWithThisNameError', async () => {
-    const error = new CarSpecificationAlreadyExistsWithThisNameError();
+    const error = new CarSpecificationAlreadyExistsWithProvidedNameError();
 
     jest
       .spyOn(updateCarSpecificationUseCaseSpy, 'execute')

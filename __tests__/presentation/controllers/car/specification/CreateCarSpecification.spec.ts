@@ -1,4 +1,4 @@
-import { CarSpecificationAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarSpecificationAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
 import { CreateCarSpecificationController } from '@presentation/controllers/car/specification/CreateCarSpecification';
 import { conflict, created } from '@presentation/helpers/http';
@@ -48,7 +48,7 @@ describe('CreateCarSpecificationController', () => {
   });
 
   it('should return conflict (409) if CreateCarSpecificationUseCase throws CarSpecificationAlreadyExistsWithThisNameError', async () => {
-    const error = new CarSpecificationAlreadyExistsWithThisNameError();
+    const error = new CarSpecificationAlreadyExistsWithProvidedNameError();
 
     jest
       .spyOn(createCarSpecificationUseCaseSpy, 'execute')

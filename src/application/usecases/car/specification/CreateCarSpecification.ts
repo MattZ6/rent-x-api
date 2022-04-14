@@ -1,4 +1,4 @@
-import { CarSpecificationAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarSpecificationAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { ICreateCarSpecificationUseCase } from '@domain/usecases/car/specification/CreateCarSpecification';
 
 import {
@@ -25,7 +25,7 @@ export class CreateCarSpecificationUseCase
       );
 
     if (alreadyExists) {
-      throw new CarSpecificationAlreadyExistsWithThisNameError();
+      throw new CarSpecificationAlreadyExistsWithProvidedNameError();
     }
 
     return this.createCarSpecificationRepository.create({ name, description });

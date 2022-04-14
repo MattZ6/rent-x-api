@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { CarSpecificationAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarSpecificationAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
 import { CreateCarSpecificationUseCase } from '@application/usecases/car/specification/CreateCarSpecification';
 
@@ -73,7 +73,7 @@ describe('CreateCarSpecificationUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarSpecificationAlreadyExistsWithThisNameError
+      CarSpecificationAlreadyExistsWithProvidedNameError
     );
   });
 

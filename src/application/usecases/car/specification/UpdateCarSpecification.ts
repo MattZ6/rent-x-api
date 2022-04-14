@@ -1,6 +1,6 @@
 import {
   CarSpecificationNotFoundWithThisIdError,
-  CarSpecificationAlreadyExistsWithThisNameError,
+  CarSpecificationAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 import { IUpdateCarSpecificationUseCase } from '@domain/usecases/car/specification/UpdateCarSpecification';
 
@@ -43,7 +43,7 @@ export class UpdateCarSpecificationUseCase
         );
 
       if (alreadyInUse) {
-        throw new CarSpecificationAlreadyExistsWithThisNameError();
+        throw new CarSpecificationAlreadyExistsWithProvidedNameError();
       }
     }
 

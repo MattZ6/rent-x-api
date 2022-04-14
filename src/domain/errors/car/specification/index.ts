@@ -1,3 +1,3 @@
 export * from './CarSpecificationNotFoundWithThisIdError';
-export * from './CarSpecificationAlreadyExistsWithThisNameError';
+export * from './AlreadyExistsWithProvidedName';
 export * from './OneOrMoreCarSpecificationsNotFoundWithThisIdsError';
