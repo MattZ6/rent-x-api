@@ -4,7 +4,7 @@ import {
   CarAlreadyExistsWithThisLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
   CarCategoryNotFoundWithProvidedIdError,
-  OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
+  OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
 
 import { CreateCarUseCase } from '@application/usecases/car/CreateCar';
@@ -261,7 +261,7 @@ describe('CreateCarUseCase', () => {
     });
 
     await expect(promise).rejects.toBeInstanceOf(
-      OneOrMoreCarSpecificationsNotFoundWithThisIdsError
+      OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError
     );
   });
 

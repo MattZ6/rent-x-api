@@ -2,7 +2,7 @@ import {
   CarAlreadyExistsWithThisLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
   CarCategoryNotFoundWithProvidedIdError,
-  OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
+  OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
 
 import { CreateCarController } from '@presentation/controllers/car/CreateCar';
@@ -98,7 +98,7 @@ describe('CreateCarController', () => {
   });
 
   it('should return not found (404) if CreateCarUseCase throws OneOrMoreCarSpecificationsNotFoundWithThisIdsError', async () => {
-    const error = new OneOrMoreCarSpecificationsNotFoundWithThisIdsError();
+    const error = new OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError();
 
     jest.spyOn(createCarUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 

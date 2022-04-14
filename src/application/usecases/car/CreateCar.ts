@@ -2,7 +2,7 @@ import {
   CarAlreadyExistsWithThisLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
   CarCategoryNotFoundWithProvidedIdError,
-  OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
+  OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
 import { ICar } from '@domain/models/Car';
 import { ICarSpecification } from '@domain/models/CarSpecification';
@@ -83,7 +83,7 @@ export class CreateCarUseCase implements ICreateCarUseCase {
         });
 
       if (specifications.length !== specificationsIds.length) {
-        throw new OneOrMoreCarSpecificationsNotFoundWithThisIdsError();
+        throw new OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError();
       }
     }
 
