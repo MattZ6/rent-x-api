@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import {
   UserTokenExpiredError,
   UserNotFoundWithProvidedIdError,
-  UserTokenNotFoundWithThisTokenError,
+  UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
 import { ResetUserPasswordUseCase } from '@application/usecases/user/ResetUserPassword';
@@ -83,7 +83,7 @@ describe('ResetUserPasswordUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      UserTokenNotFoundWithThisTokenError
+      UserTokenNotFoundWithProvidedTokenError
     );
   });
 

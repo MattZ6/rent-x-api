@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import {
   UserTokenExpiredError,
-  UserTokenNotFoundWithThisTokenError,
+  UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
 import { RefreshUserAccessTokenUseCase } from '@application/usecases/user/RefreshUserAccessToken';
@@ -82,7 +82,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
     );
 
     await expect(response).rejects.toBeInstanceOf(
-      UserTokenNotFoundWithThisTokenError
+      UserTokenNotFoundWithProvidedTokenError
     );
   });
 

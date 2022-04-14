@@ -1,7 +1,7 @@
 import {
   UserTokenExpiredError,
   UserNotFoundWithProvidedIdError,
-  UserTokenNotFoundWithThisTokenError,
+  UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetUserPassword';
 
@@ -32,7 +32,7 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
     const userToken = await this.findUserTokenByToken.findByToken({ token });
 
     if (!userToken) {
-      throw new UserTokenNotFoundWithThisTokenError();
+      throw new UserTokenNotFoundWithProvidedTokenError();
     }
 
     const hasExpired = Date.now() > userToken.expires_in.getTime();

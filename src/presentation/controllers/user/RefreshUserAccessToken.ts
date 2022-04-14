@@ -1,6 +1,6 @@
 import {
   UserTokenExpiredError,
-  UserTokenNotFoundWithThisTokenError,
+  UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshUserAccessToken';
 
@@ -28,7 +28,7 @@ class RefreshUserAccessTokenController implements IController {
 
       return ok(authentication);
     } catch (error) {
-      if (error instanceof UserTokenNotFoundWithThisTokenError) {
+      if (error instanceof UserTokenNotFoundWithProvidedTokenError) {
         return notFound(error);
       }
 
