@@ -1,6 +1,6 @@
 import {
   UserAlreadyExistsWithProvidedDriverLicenseError,
-  UserAlreadyExistsWithThisEmailError,
+  UserAlreadyExistsWithProvidedEmailError,
 } from '@domain/errors';
 import { ICreateUserUseCase } from '@domain/usecases/user/CreateUser';
 
@@ -30,7 +30,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       });
 
     if (alreadyExistsWithProvidedEmail) {
-      throw new UserAlreadyExistsWithThisEmailError();
+      throw new UserAlreadyExistsWithProvidedEmailError();
     }
 
     const alreadyExistsWithProvidedDriverLicense =
