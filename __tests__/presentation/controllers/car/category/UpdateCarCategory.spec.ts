@@ -1,6 +1,6 @@
 import {
   CarCategoryAlreadyExistsWithProvidedNameError,
-  CarCategoryNotFoundWithThisIdError,
+  CarCategoryNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { UpdateCarCategoryController } from '@presentation/controllers/car/category/UpdateCarCategory';
@@ -52,7 +52,7 @@ describe('UpdateCarCategoryController', () => {
   });
 
   it('should return no found (404) if UpdateCarCategoryUseCase throws CarCategoryNotFoundWithThisIdError', async () => {
-    const error = new CarCategoryNotFoundWithThisIdError();
+    const error = new CarCategoryNotFoundWithProvidedIdError();
 
     jest
       .spyOn(updateCarCategoryUseCaseSpy, 'execute')

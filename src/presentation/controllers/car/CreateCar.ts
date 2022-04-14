@@ -1,7 +1,7 @@
 import {
   CarAlreadyExistsWithThisLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
-  CarCategoryNotFoundWithThisIdError,
+  CarCategoryNotFoundWithProvidedIdError,
   OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
 } from '@domain/errors';
 import { ICreateCarUseCase } from '@domain/usecases/car/CreateCar';
@@ -64,7 +64,7 @@ class CreateCarController implements IController {
         return notFound(error);
       }
 
-      if (error instanceof CarCategoryNotFoundWithThisIdError) {
+      if (error instanceof CarCategoryNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import {
   CarCategoryAlreadyExistsWithProvidedNameError,
-  CarCategoryNotFoundWithThisIdError,
+  CarCategoryNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { UpdateCarCategoryUseCase } from '@application/usecases/car/category/UpdateCarCategory';
@@ -74,7 +74,7 @@ describe('UpdateCarCategoryUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarCategoryNotFoundWithThisIdError
+      CarCategoryNotFoundWithProvidedIdError
     );
   });
 

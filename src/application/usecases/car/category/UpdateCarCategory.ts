@@ -1,5 +1,5 @@
 import {
-  CarCategoryNotFoundWithThisIdError,
+  CarCategoryNotFoundWithProvidedIdError,
   CarCategoryAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 import { IUpdateCarCategoryUseCase } from '@domain/usecases/car/category/UpdateCarCategory';
@@ -25,7 +25,7 @@ export class UpdateCarCategoryUseCase implements IUpdateCarCategoryUseCase {
     const category = await this.findCarCategoryByIdRepository.findById({ id });
 
     if (!category) {
-      throw new CarCategoryNotFoundWithThisIdError();
+      throw new CarCategoryNotFoundWithProvidedIdError();
     }
 
     const areSameName =

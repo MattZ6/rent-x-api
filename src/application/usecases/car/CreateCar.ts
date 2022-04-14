@@ -1,7 +1,7 @@
 import {
   CarAlreadyExistsWithThisLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
-  CarCategoryNotFoundWithThisIdError,
+  CarCategoryNotFoundWithProvidedIdError,
   OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
 } from '@domain/errors';
 import { ICar } from '@domain/models/Car';
@@ -69,7 +69,7 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       });
 
     if (!categoryExists) {
-      throw new CarCategoryNotFoundWithThisIdError();
+      throw new CarCategoryNotFoundWithProvidedIdError();
     }
 
     const specificationsIds = [...new Set(specifications_ids ?? [])];

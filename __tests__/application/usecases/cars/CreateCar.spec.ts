@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import {
   CarAlreadyExistsWithThisLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
-  CarCategoryNotFoundWithThisIdError,
+  CarCategoryNotFoundWithProvidedIdError,
   OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
 } from '@domain/errors';
 
@@ -169,7 +169,7 @@ describe('CreateCarUseCase', () => {
     const promise = createCarUseCase.execute(createCarUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarCategoryNotFoundWithThisIdError
+      CarCategoryNotFoundWithProvidedIdError
     );
   });
 

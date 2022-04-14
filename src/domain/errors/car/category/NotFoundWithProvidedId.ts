@@ -1,6 +1,6 @@
 import { DomainError } from '@domain/errors';
 
-export class CarCategoryNotFoundWithThisIdError extends DomainError {
+export class CarCategoryNotFoundWithProvidedIdError extends DomainError {
   constructor(
     message = 'No car specifications found with the id provided.',
     code = 'car.category.not.exists'

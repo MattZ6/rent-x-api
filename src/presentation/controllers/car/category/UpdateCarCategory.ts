@@ -1,6 +1,6 @@
 import {
   CarCategoryAlreadyExistsWithProvidedNameError,
-  CarCategoryNotFoundWithThisIdError,
+  CarCategoryNotFoundWithProvidedIdError,
 } from '@domain/errors';
 import { IUpdateCarCategoryUseCase } from '@domain/usecases/car/category/UpdateCarCategory';
 
@@ -31,7 +31,7 @@ class UpdateCarCategoryController implements IController {
 
       return noContent();
     } catch (error) {
-      if (error instanceof CarCategoryNotFoundWithThisIdError) {
+      if (error instanceof CarCategoryNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 
