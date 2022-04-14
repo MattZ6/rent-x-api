@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import {
   TokenExpiredError,
-  UserNotFoundWithThisIdError,
+  UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
 
@@ -142,7 +142,9 @@ describe('ResetUserPasswordUseCase', () => {
       resetUserPasswordUseCaseInputMock
     );
 
-    await expect(promise).rejects.toBeInstanceOf(UserNotFoundWithThisIdError);
+    await expect(promise).rejects.toBeInstanceOf(
+      UserNotFoundWithProvidedIdError
+    );
   });
 
   it('should call GenerateHashProvider once with correct values', async () => {

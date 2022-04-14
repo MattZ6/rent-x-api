@@ -1,4 +1,4 @@
-import { UserNotFoundWithThisIdError } from '@domain/errors';
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateUserAvatar';
 
 import { noContent, notFound } from '@presentation/helpers/http';
@@ -33,7 +33,7 @@ class UpdateUserAvatarController implements IController {
 
       return noContent();
     } catch (error) {
-      if (error instanceof UserNotFoundWithThisIdError) {
+      if (error instanceof UserNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 

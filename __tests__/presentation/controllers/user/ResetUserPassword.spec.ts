@@ -1,6 +1,6 @@
 import {
   TokenExpiredError,
-  UserNotFoundWithThisIdError,
+  UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
 
@@ -84,7 +84,7 @@ describe('ResetUserPasswordController', () => {
   });
 
   it('should return not found (404) if RefreshUserAccessTokenUseCase throws UserNotFoundWithThisIdError', async () => {
-    const error = new UserNotFoundWithThisIdError();
+    const error = new UserNotFoundWithProvidedIdError();
 
     jest
       .spyOn(resetUserPasswordUseCaseSpy, 'execute')

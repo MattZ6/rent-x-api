@@ -5,7 +5,7 @@ import {
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
-  UserNotFoundWithThisIdError,
+  UserNotFoundWithProvidedIdError,
   RentalStartDateIsInThePastError,
 } from '@domain/errors';
 
@@ -102,7 +102,9 @@ describe('CreateRentUseCase', () => {
 
     const promise = createRentUseCase.execute(createRentUseCaseInputMock);
 
-    await expect(promise).rejects.toBeInstanceOf(UserNotFoundWithThisIdError);
+    await expect(promise).rejects.toBeInstanceOf(
+      UserNotFoundWithProvidedIdError
+    );
   });
 
   it('should call CheckIfRentExistsWithPendingPaymentByUserRepository once with correct values', async () => {

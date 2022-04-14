@@ -3,7 +3,7 @@ import {
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
-  UserNotFoundWithThisIdError,
+  UserNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { CreateRentController } from '@presentation/controllers/rent/CreateRent';
@@ -58,7 +58,7 @@ describe('CreateRentController', () => {
   });
 
   it('should return not found (404) if CreateRentUseCase throws UserNotFoundWithThisIdError', async () => {
-    const error = new UserNotFoundWithThisIdError();
+    const error = new UserNotFoundWithProvidedIdError();
 
     jest.spyOn(createRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 

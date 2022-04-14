@@ -1,4 +1,4 @@
-import { UserNotFoundWithThisIdError } from '@domain/errors';
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { GetUserProfileController } from '@presentation/controllers/user/GetUserProfile';
 import { notFound, ok } from '@presentation/helpers/http';
@@ -46,7 +46,7 @@ describe('GetUserProfileController', () => {
   });
 
   it('should return not found (404) if GetUserProfileUseCase throws UserNotFoundWithThisIdError', async () => {
-    const error = new UserNotFoundWithThisIdError();
+    const error = new UserNotFoundWithProvidedIdError();
 
     jest
       .spyOn(getUserProfileUseCaseSpy, 'execute')

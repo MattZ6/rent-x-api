@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { UserNotFoundWithThisIdError } from '@domain/errors';
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { UpdateUserAvatarUseCase } from '@application/usecases/user/UpdateUserAvatar';
 
@@ -80,7 +80,9 @@ describe('UpdateUserAvatarUseCase', () => {
 
     const promise = updateUserAvatarUseCase.execute(input);
 
-    await expect(promise).rejects.toBeInstanceOf(UserNotFoundWithThisIdError);
+    await expect(promise).rejects.toBeInstanceOf(
+      UserNotFoundWithProvidedIdError
+    );
   });
 
   it('should call FindUserAvatarByIdRepository once with correct values', async () => {

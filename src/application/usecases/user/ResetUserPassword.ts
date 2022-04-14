@@ -1,6 +1,6 @@
 import {
   TokenExpiredError,
-  UserNotFoundWithThisIdError,
+  UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
 import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetUserPassword';
@@ -46,7 +46,7 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
     });
 
     if (!user) {
-      throw new UserNotFoundWithThisIdError();
+      throw new UserNotFoundWithProvidedIdError();
     }
 
     user.password_hash = await this.generateHashProvider.hash({

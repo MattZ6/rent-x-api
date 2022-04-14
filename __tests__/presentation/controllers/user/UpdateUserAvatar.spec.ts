@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { UserNotFoundWithThisIdError } from '@domain/errors';
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { UpdateUserAvatarController } from '@presentation/controllers/user/UpdateUserAvatar';
 import { noContent, notFound } from '@presentation/helpers/http';
@@ -58,7 +58,7 @@ describe('UpdateUserAvatarController', () => {
   });
 
   it('should return not found (404) if UpdateUserAvatarUseCase throws UserNotFoundWithThisIdError', async () => {
-    const error = new UserNotFoundWithThisIdError();
+    const error = new UserNotFoundWithProvidedIdError();
 
     jest
       .spyOn(updateUserAvatarUseCaseSpy, 'execute')

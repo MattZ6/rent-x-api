@@ -1,6 +1,6 @@
 import {
   TokenExpiredError,
-  UserNotFoundWithThisIdError,
+  UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
 import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetUserPassword';
@@ -42,7 +42,7 @@ class ResetUserPasswordController implements IController {
         return unprocessableEntity(error);
       }
 
-      if (error instanceof UserNotFoundWithThisIdError) {
+      if (error instanceof UserNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 
