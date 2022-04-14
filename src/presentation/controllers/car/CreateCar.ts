@@ -1,5 +1,5 @@
 import {
-  CarAlreadyExistsWithThisLicensePlateError,
+  CarAlreadyExistsWithProvidedLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
   CarCategoryNotFoundWithProvidedIdError,
   OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
@@ -56,7 +56,7 @@ class CreateCarController implements IController {
 
       return created<void>();
     } catch (error) {
-      if (error instanceof CarAlreadyExistsWithThisLicensePlateError) {
+      if (error instanceof CarAlreadyExistsWithProvidedLicensePlateError) {
         return conflict(error);
       }
 

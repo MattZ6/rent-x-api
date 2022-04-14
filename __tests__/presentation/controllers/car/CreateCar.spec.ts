@@ -1,5 +1,5 @@
 import {
-  CarAlreadyExistsWithThisLicensePlateError,
+  CarAlreadyExistsWithProvidedLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
   CarCategoryNotFoundWithProvidedIdError,
   OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
@@ -62,7 +62,7 @@ describe('CreateCarController', () => {
   });
 
   it('should return conflict (409) if CreateCarUseCase throws CarAlreadyExistsWithThisLicensePlateError', async () => {
-    const error = new CarAlreadyExistsWithThisLicensePlateError();
+    const error = new CarAlreadyExistsWithProvidedLicensePlateError();
 
     jest.spyOn(createCarUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 

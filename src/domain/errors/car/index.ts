@@ -1,4 +1,4 @@
-export * from './CarAlreadyExistsWithThisLicensePlateError';
+export * from './AlreadyExistsWithProvidedLicensePlate';
 export * from './NotFoundWithProvidedId';
 
 export * from './brand';

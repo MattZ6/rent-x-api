@@ -1,5 +1,5 @@
 import {
-  CarAlreadyExistsWithThisLicensePlateError,
+  CarAlreadyExistsWithProvidedLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
   CarCategoryNotFoundWithProvidedIdError,
   OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
@@ -51,7 +51,7 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       );
 
     if (alreadyExistsWithLicensePlate) {
-      throw new CarAlreadyExistsWithThisLicensePlateError();
+      throw new CarAlreadyExistsWithProvidedLicensePlateError();
     }
 
     const brandExists =

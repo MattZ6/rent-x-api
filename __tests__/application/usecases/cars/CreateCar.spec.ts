@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  CarAlreadyExistsWithThisLicensePlateError,
+  CarAlreadyExistsWithProvidedLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
   CarCategoryNotFoundWithProvidedIdError,
   OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
@@ -91,7 +91,7 @@ describe('CreateCarUseCase', () => {
     const promise = createCarUseCase.execute(createCarUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarAlreadyExistsWithThisLicensePlateError
+      CarAlreadyExistsWithProvidedLicensePlateError
     );
   });
 
