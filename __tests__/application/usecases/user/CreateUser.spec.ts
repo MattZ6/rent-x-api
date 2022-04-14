@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  UserAlreadyExistsWithThisDriverLicenseError,
+  UserAlreadyExistsWithProvidedDriverLicenseError,
   UserAlreadyExistsWithThisEmailError,
 } from '@domain/errors';
 
@@ -121,7 +121,7 @@ describe('CreateUserUseCase', () => {
     const promise = createUserUseCase.execute(createUserUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(
-      UserAlreadyExistsWithThisDriverLicenseError
+      UserAlreadyExistsWithProvidedDriverLicenseError
     );
   });
 

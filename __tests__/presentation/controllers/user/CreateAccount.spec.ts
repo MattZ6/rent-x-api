@@ -1,5 +1,5 @@
 import {
-  UserAlreadyExistsWithThisDriverLicenseError,
+  UserAlreadyExistsWithProvidedDriverLicenseError,
   UserAlreadyExistsWithThisEmailError,
 } from '@domain/errors';
 
@@ -62,7 +62,7 @@ describe('CreateAccountController', () => {
   });
 
   it('should return conflict (409) if CreateUserUseCase throws UserAlreadyExistsWithThisDriverLicenseError', async () => {
-    const error = new UserAlreadyExistsWithThisDriverLicenseError();
+    const error = new UserAlreadyExistsWithProvidedDriverLicenseError();
 
     jest.spyOn(createUserUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 
