@@ -1,5 +1,5 @@
 import {
-  IncorrectPassword,
+  WrongPasswordError,
   UserNotFoundWithThisEmailError,
 } from '@domain/errors';
 import { IAuthenticateUserUseCase } from '@domain/usecases/user/AuthenticateUser';
@@ -37,7 +37,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
     });
 
     if (!passwordsMatch) {
-      throw new IncorrectPassword();
+      throw new WrongPasswordError();
     }
 
     const accessToken = await this.encryptProvider.encrypt({

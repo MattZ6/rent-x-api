@@ -1,17 +1,13 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  IncorrectPassword,
+  WrongPasswordError,
   UserNotFoundWithThisEmailError,
 } from '@domain/errors';
 import { IAuthenticateUserUseCase } from '@domain/usecases/user/AuthenticateUser';
 
 import { AuthenticateUserController } from '@presentation/controllers/user/AuthenticateUser';
-import {
-  notFound,
-  ok,
-  unprocessableEntity,
-} from '@presentation/helpers/http';
+import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
 
 import {
   authenticateUserControllerRequestMock,
@@ -72,7 +68,7 @@ describe('AuthenticateUserController', () => {
   });
 
   it('should return unprocessable entity (422) if AuthenticateUserUseCase throws IncorrectPassword', async () => {
-    const error = new IncorrectPassword();
+    const error = new WrongPasswordError();
 
     jest
       .spyOn(authenticateUserUseCaseSpy, 'execute')

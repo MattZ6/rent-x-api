@@ -1,14 +1,10 @@
 import {
-  IncorrectPassword,
+  WrongPasswordError,
   UserNotFoundWithThisEmailError,
 } from '@domain/errors';
 import { IAuthenticateUserUseCase } from '@domain/usecases/user/AuthenticateUser';
 
-import {
-  notFound,
-  ok,
-  unprocessableEntity,
-} from '@presentation/helpers/http';
+import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -37,7 +33,7 @@ class AuthenticateUserController implements IController {
         return notFound(error);
       }
 
-      if (error instanceof IncorrectPassword) {
+      if (error instanceof WrongPasswordError) {
         return unprocessableEntity(error);
       }
 
