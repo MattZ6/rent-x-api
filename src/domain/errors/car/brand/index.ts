@@ -1,2 +1,2 @@
 export * from './AlreadyExistsWithProvidedName';
-export * from './CarBrandNotFoundWithThisIdError';
+export * from './NotFoundWithProvidedId';

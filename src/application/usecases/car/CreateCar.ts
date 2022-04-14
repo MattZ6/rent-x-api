@@ -1,6 +1,6 @@
 import {
   CarAlreadyExistsWithThisLicensePlateError,
-  CarBrandNotFoundWithThisIdError,
+  CarBrandNotFoundWithProvidedIdError,
   CarCategoryNotFoundWithThisIdError,
   OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
 } from '@domain/errors';
@@ -60,7 +60,7 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       });
 
     if (!brandExists) {
-      throw new CarBrandNotFoundWithThisIdError();
+      throw new CarBrandNotFoundWithProvidedIdError();
     }
 
     const categoryExists =
