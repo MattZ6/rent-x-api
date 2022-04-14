@@ -1,14 +1,10 @@
 import {
-  TokenExpiredError,
+  UserTokenExpiredError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
 import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshUserAccessToken';
 
-import {
-  notFound,
-  ok,
-  unprocessableEntity,
-} from '@presentation/helpers/http';
+import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -36,7 +32,7 @@ class RefreshUserAccessTokenController implements IController {
         return notFound(error);
       }
 
-      if (error instanceof TokenExpiredError) {
+      if (error instanceof UserTokenExpiredError) {
         return unprocessableEntity(error);
       }
 

@@ -1,5 +1,5 @@
 import {
-  TokenExpiredError,
+  UserTokenExpiredError,
   UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
@@ -38,7 +38,7 @@ class ResetUserPasswordController implements IController {
         return notFound(error);
       }
 
-      if (error instanceof TokenExpiredError) {
+      if (error instanceof UserTokenExpiredError) {
         return unprocessableEntity(error);
       }
 

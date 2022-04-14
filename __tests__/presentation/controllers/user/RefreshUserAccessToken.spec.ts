@@ -1,14 +1,10 @@
 import {
-  TokenExpiredError,
+  UserTokenExpiredError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
 
 import { RefreshUserAccessTokenController } from '@presentation/controllers/user/RefreshUserAccessToken';
-import {
-  notFound,
-  ok,
-  unprocessableEntity,
-} from '@presentation/helpers/http';
+import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
 
 import {
   refreshUserAccessTokenControllerRequestMock,
@@ -69,8 +65,8 @@ describe('RefreshUserAccessTokenController', () => {
     expect(response).toEqual(notFound(error));
   });
 
-  it('should return unprocessable entity (422) if RefreshUserAccessTokenUseCase throws TokenExpiredError', async () => {
-    const error = new TokenExpiredError();
+  it('should return unprocessable entity (422) if RefreshUserAccessTokenUseCase throws UserTokenExpiredError', async () => {
+    const error = new UserTokenExpiredError();
 
     jest
       .spyOn(refreshUserAccessTokenUseCaseSpy, 'execute')

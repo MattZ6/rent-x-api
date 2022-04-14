@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  TokenExpiredError,
+  UserTokenExpiredError,
   UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
@@ -87,7 +87,7 @@ describe('ResetUserPasswordUseCase', () => {
     );
   });
 
-  it('should throw TokenExpiredError if now is at least 1ms after token expiration date', async () => {
+  it('should throw UserTokenExpiredError if now is at least 1ms after token expiration date', async () => {
     const tokenExpiresIn = faker.datatype.datetime();
 
     jest
@@ -100,7 +100,7 @@ describe('ResetUserPasswordUseCase', () => {
       resetUserPasswordUseCaseInputMock
     );
 
-    await expect(promise).rejects.toBeInstanceOf(TokenExpiredError);
+    await expect(promise).rejects.toBeInstanceOf(UserTokenExpiredError);
   });
 
   it('should call FindUserByIdRepository once witch correct values', async () => {

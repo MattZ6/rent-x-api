@@ -1,5 +1,5 @@
 import {
-  TokenExpiredError,
+  UserTokenExpiredError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
 import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshUserAccessToken';
@@ -40,7 +40,7 @@ export class RefreshUserAccessTokenUseCase
     const hasExpired = userToken.expires_in.getTime() < Date.now();
 
     if (hasExpired) {
-      throw new TokenExpiredError();
+      throw new UserTokenExpiredError();
     }
 
     const accessToken = await this.encryptProvider.encrypt({

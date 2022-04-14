@@ -1,5 +1,5 @@
 import {
-  TokenExpiredError,
+  UserTokenExpiredError,
   UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithThisTokenError,
 } from '@domain/errors';
@@ -38,7 +38,7 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
     const hasExpired = Date.now() > userToken.expires_in.getTime();
 
     if (hasExpired) {
-      throw new TokenExpiredError();
+      throw new UserTokenExpiredError();
     }
 
     const user = await this.findUserByIdRepository.findById({
