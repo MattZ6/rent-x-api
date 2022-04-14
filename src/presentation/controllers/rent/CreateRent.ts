@@ -1,5 +1,5 @@
 import {
-  CarNotFoundWithThisIdError,
+  CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
@@ -47,7 +47,7 @@ class CreateRentController implements IController {
         return paymentRequired(error);
       }
 
-      if (error instanceof CarNotFoundWithThisIdError) {
+      if (error instanceof CarNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 

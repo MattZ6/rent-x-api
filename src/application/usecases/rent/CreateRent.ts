@@ -1,5 +1,5 @@
 import {
-  CarNotFoundWithThisIdError,
+  CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
@@ -62,7 +62,7 @@ export class CreateRentUseCase implements ICreateRentUseCase {
     });
 
     if (!car) {
-      throw new CarNotFoundWithThisIdError();
+      throw new CarNotFoundWithProvidedIdError();
     }
 
     const nowInMillisseconds = Date.now();

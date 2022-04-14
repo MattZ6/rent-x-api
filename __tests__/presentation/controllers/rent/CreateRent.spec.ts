@@ -1,5 +1,5 @@
 import {
-  CarNotFoundWithThisIdError,
+  CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
@@ -82,7 +82,7 @@ describe('CreateRentController', () => {
   });
 
   it('should return not found (404) if CreateRentUseCase throws CarNotFoundWithThisIdError', async () => {
-    const error = new CarNotFoundWithThisIdError();
+    const error = new CarNotFoundWithProvidedIdError();
 
     jest.spyOn(createRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 

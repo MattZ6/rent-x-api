@@ -1,4 +1,4 @@
-import { CarNotFoundWithThisIdError } from '@domain/errors';
+import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetCarDetails';
 
 import { IFindCarByIdRepository } from '@application/protocols/repositories/car';
@@ -17,7 +17,7 @@ export class GetCarDetailsUseCase implements IGetCarDetailsUseCase {
     });
 
     if (!car) {
-      throw new CarNotFoundWithThisIdError();
+      throw new CarNotFoundWithProvidedIdError();
     }
 
     return car;

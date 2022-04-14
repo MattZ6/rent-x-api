@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  CarNotFoundWithThisIdError,
+  CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
@@ -184,7 +184,9 @@ describe('CreateRentUseCase', () => {
 
     const promise = createRentUseCase.execute(createRentUseCaseInputMock);
 
-    await expect(promise).rejects.toBeInstanceOf(CarNotFoundWithThisIdError);
+    await expect(promise).rejects.toBeInstanceOf(
+      CarNotFoundWithProvidedIdError
+    );
   });
 
   it('should throw RentalStartDateIsInThePastError if start duration less than tomorrow', async () => {
