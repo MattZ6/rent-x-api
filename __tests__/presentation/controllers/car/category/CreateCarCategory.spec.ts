@@ -1,4 +1,4 @@
-import { CarCategoryAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
 import { CreateCarCategoryController } from '@presentation/controllers/car/category/CreateCarCategory';
 import { conflict, created } from '@presentation/helpers/http';
@@ -48,7 +48,7 @@ describe('CreateCarCategoryController', () => {
   });
 
   it('should return conflict (409) if CreateCarCategoryUseCase throws CarCategoryAlreadyExistsWithThisNameError', async () => {
-    const error = new CarCategoryAlreadyExistsWithThisNameError();
+    const error = new CarCategoryAlreadyExistsWithProvidedNameError();
 
     jest
       .spyOn(createCarCategoryUseCaseSpy, 'execute')

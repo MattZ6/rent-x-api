@@ -1,2 +1,2 @@
-export * from './CarCategoryAlreadyExistsWithThisNameError';
+export * from './AlreadyExistsWithProvidedName';
 export * from './CarCategoryNotFoundWithThisIdError';

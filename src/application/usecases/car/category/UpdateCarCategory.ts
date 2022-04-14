@@ -1,6 +1,6 @@
 import {
   CarCategoryNotFoundWithThisIdError,
-  CarCategoryAlreadyExistsWithThisNameError,
+  CarCategoryAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 import { IUpdateCarCategoryUseCase } from '@domain/usecases/car/category/UpdateCarCategory';
 
@@ -38,7 +38,7 @@ export class UpdateCarCategoryUseCase implements IUpdateCarCategoryUseCase {
         );
 
       if (alreadyInUse) {
-        throw new CarCategoryAlreadyExistsWithThisNameError();
+        throw new CarCategoryAlreadyExistsWithProvidedNameError();
       }
     }
 
