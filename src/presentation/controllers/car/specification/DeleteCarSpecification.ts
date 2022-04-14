@@ -1,4 +1,4 @@
-import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors';
+import { CarSpecificationNotFoundWithProvidedIdError } from '@domain/errors';
 import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/specification/DeleteCarSpecification';
 
 import { noContent, notFound } from '@presentation/helpers/http';
@@ -23,7 +23,7 @@ class DeleteCarSpecificationController implements IController {
 
       return noContent();
     } catch (error) {
-      if (error instanceof CarSpecificationNotFoundWithThisIdError) {
+      if (error instanceof CarSpecificationNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 

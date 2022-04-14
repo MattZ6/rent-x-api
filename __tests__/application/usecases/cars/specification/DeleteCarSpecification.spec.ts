@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors';
+import { CarSpecificationNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { DeleteCarSpecificationUseCase } from '@application/usecases/car/specification/DeleteCarSpecification';
 
@@ -70,7 +70,7 @@ describe('DeleteCarSpecificationUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarSpecificationNotFoundWithThisIdError
+      CarSpecificationNotFoundWithProvidedIdError
     );
   });
 

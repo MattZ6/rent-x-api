@@ -1,6 +1,6 @@
 import {
   CarSpecificationAlreadyExistsWithProvidedNameError,
-  CarSpecificationNotFoundWithThisIdError,
+  CarSpecificationNotFoundWithProvidedIdError,
 } from '@domain/errors';
 import { IUpdateCarSpecificationUseCase } from '@domain/usecases/car/specification/UpdateCarSpecification';
 
@@ -31,7 +31,7 @@ class UpdateCarSpecificationController implements IController {
 
       return noContent();
     } catch (error) {
-      if (error instanceof CarSpecificationNotFoundWithThisIdError) {
+      if (error instanceof CarSpecificationNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 

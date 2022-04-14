@@ -1,6 +1,6 @@
 import {
   CarSpecificationAlreadyExistsWithProvidedNameError,
-  CarSpecificationNotFoundWithThisIdError,
+  CarSpecificationNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { UpdateCarSpecificationController } from '@presentation/controllers/car/specification/UpdateCarSpecification';
@@ -52,7 +52,7 @@ describe('UpdateCarSpecificationController', () => {
   });
 
   it('should return not found (404) if UpdateCarSpecificationUseCase throws CarSpecificationNotFoundWithThisIdError', async () => {
-    const error = new CarSpecificationNotFoundWithThisIdError();
+    const error = new CarSpecificationNotFoundWithProvidedIdError();
 
     jest
       .spyOn(updateCarSpecificationUseCaseSpy, 'execute')

@@ -1,5 +1,5 @@
 import {
-  CarSpecificationNotFoundWithThisIdError,
+  CarSpecificationNotFoundWithProvidedIdError,
   CarSpecificationAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 import { IUpdateCarSpecificationUseCase } from '@domain/usecases/car/specification/UpdateCarSpecification';
@@ -28,7 +28,7 @@ export class UpdateCarSpecificationUseCase
       await this.findCarSpecificationByIdRepository.findById({ id });
 
     if (!specification) {
-      throw new CarSpecificationNotFoundWithThisIdError();
+      throw new CarSpecificationNotFoundWithProvidedIdError();
     }
 
     const areSameName =

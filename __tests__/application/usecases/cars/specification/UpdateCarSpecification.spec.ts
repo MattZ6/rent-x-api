@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import {
   CarSpecificationAlreadyExistsWithProvidedNameError,
-  CarSpecificationNotFoundWithThisIdError,
+  CarSpecificationNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { UpdateCarSpecificationUseCase } from '@application/usecases/car/specification/UpdateCarSpecification';
@@ -76,7 +76,7 @@ describe('UpdateCarSpecificationUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarSpecificationNotFoundWithThisIdError
+      CarSpecificationNotFoundWithProvidedIdError
     );
   });
 
