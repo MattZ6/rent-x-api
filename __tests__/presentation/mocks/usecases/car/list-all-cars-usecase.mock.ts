@@ -1,4 +1,4 @@
-import { IListAllCarsUseCase } from '@domain/usecases/car/ListAllCars';
+import { IListAllCarsUseCase } from '@domain/usecases/car/ListAll';
 
 export class ListAllCarsUseCaseSpy implements IListAllCarsUseCase {
   async execute(

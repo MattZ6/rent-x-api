@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IListAllCarsUseCase } from '@domain/usecases/car/ListAllCars';
+import { IListAllCarsUseCase } from '@domain/usecases/car/ListAll';
 
 import { ListCarsController } from '@presentation/controllers/car/ListCars';
 

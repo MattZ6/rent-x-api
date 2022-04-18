@@ -1,4 +1,4 @@
-import { IListAllCarsUseCase } from '@domain/usecases/car/ListAllCars';
+import { IListAllCarsUseCase } from '@domain/usecases/car/ListAll';
 
 import { ok } from '@presentation/helpers/http';
 import {

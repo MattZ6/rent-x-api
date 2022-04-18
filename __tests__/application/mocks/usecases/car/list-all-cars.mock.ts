@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IListAllCarsUseCase } from '@domain/usecases/car/ListAllCars';
+import { IListAllCarsUseCase } from '@domain/usecases/car/ListAll';
 
 export const listAllCarsUseCaseInputMock: IListAllCarsUseCase.Input = {
   order_by: faker.random.arrayElement([
