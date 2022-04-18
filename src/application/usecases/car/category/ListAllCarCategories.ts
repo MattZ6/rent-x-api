@@ -1,4 +1,4 @@
-import { IListAllCarCategoriesUseCase } from '@domain/usecases/car/category/ListAllCarCategories';
+import { IListAllCarCategoriesUseCase } from '@domain/usecases/car/category/ListAll';
 
 import { IFindAllCarCategoriesRepository } from '@application/protocols/repositories/car-category';
 
