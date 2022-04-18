@@ -2,7 +2,7 @@ import {
   CarCategoryNotFoundWithProvidedIdError,
   CarCategoryAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
-import { IUpdateCarCategoryUseCase } from '@domain/usecases/car/category/UpdateCarCategory';
+import { IUpdateCarCategoryUseCase } from '@domain/usecases/car/category/Update';
 
 import {
   ICheckIfCarCategoryExistsByNameRepository,
