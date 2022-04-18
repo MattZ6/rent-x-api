@@ -1,7 +1,7 @@
 import {
-  TokenExpiredError,
-  UserNotFoundWithThisIdError,
-  UserTokenNotFoundWithThisTokenError,
+  UserTokenExpiredError,
+  UserNotFoundWithProvidedIdError,
+  UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
 import { ResetUserPasswordController } from '@presentation/controllers/user/ResetUserPassword';
@@ -56,7 +56,7 @@ describe('ResetUserPasswordController', () => {
   });
 
   it('should return not found (404) if RefreshUserAccessTokenUseCase throws UserTokenNotFoundWithThisTokenError', async () => {
-    const error = new UserTokenNotFoundWithThisTokenError();
+    const error = new UserTokenNotFoundWithProvidedTokenError();
 
     jest
       .spyOn(resetUserPasswordUseCaseSpy, 'execute')
@@ -69,8 +69,8 @@ describe('ResetUserPasswordController', () => {
     expect(response).toEqual(notFound(error));
   });
 
-  it('should return unprocessable entity (422) if RefreshUserAccessTokenUseCase throws TokenExpiredError', async () => {
-    const error = new TokenExpiredError();
+  it('should return unprocessable entity (422) if RefreshUserAccessTokenUseCase throws UserTokenExpiredError', async () => {
+    const error = new UserTokenExpiredError();
 
     jest
       .spyOn(resetUserPasswordUseCaseSpy, 'execute')
@@ -84,7 +84,7 @@ describe('ResetUserPasswordController', () => {
   });
 
   it('should return not found (404) if RefreshUserAccessTokenUseCase throws UserNotFoundWithThisIdError', async () => {
-    const error = new UserNotFoundWithThisIdError();
+    const error = new UserNotFoundWithProvidedIdError();
 
     jest
       .spyOn(resetUserPasswordUseCaseSpy, 'execute')

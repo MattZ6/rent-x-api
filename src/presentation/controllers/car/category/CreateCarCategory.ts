@@ -1,4 +1,4 @@
-import { CarCategoryAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/CreateCarCategory';
 
 import { conflict, created } from '@presentation/helpers/http';
@@ -26,7 +26,7 @@ class CreateCarCategoryController implements IController {
 
       return created<void>();
     } catch (error) {
-      if (error instanceof CarCategoryAlreadyExistsWithThisNameError) {
+      if (error instanceof CarCategoryAlreadyExistsWithProvidedNameError) {
         return conflict(error);
       }
 

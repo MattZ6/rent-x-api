@@ -1,8 +1,8 @@
 import {
-  CarAlreadyExistsWithThisLicensePlateError,
-  CarBrandNotFoundWithThisIdError,
-  CarCategoryNotFoundWithThisIdError,
-  OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
+  CarAlreadyExistsWithProvidedLicensePlateError,
+  CarBrandNotFoundWithProvidedIdError,
+  CarCategoryNotFoundWithProvidedIdError,
+  OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
 import { ICar } from '@domain/models/Car';
 import { ICarSpecification } from '@domain/models/CarSpecification';
@@ -51,7 +51,7 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       );
 
     if (alreadyExistsWithLicensePlate) {
-      throw new CarAlreadyExistsWithThisLicensePlateError();
+      throw new CarAlreadyExistsWithProvidedLicensePlateError();
     }
 
     const brandExists =
@@ -60,7 +60,7 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       });
 
     if (!brandExists) {
-      throw new CarBrandNotFoundWithThisIdError();
+      throw new CarBrandNotFoundWithProvidedIdError();
     }
 
     const categoryExists =
@@ -69,7 +69,7 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       });
 
     if (!categoryExists) {
-      throw new CarCategoryNotFoundWithThisIdError();
+      throw new CarCategoryNotFoundWithProvidedIdError();
     }
 
     const specificationsIds = [...new Set(specifications_ids ?? [])];
@@ -83,7 +83,7 @@ export class CreateCarUseCase implements ICreateCarUseCase {
         });
 
       if (specifications.length !== specificationsIds.length) {
-        throw new OneOrMoreCarSpecificationsNotFoundWithThisIdsError();
+        throw new OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError();
       }
     }
 

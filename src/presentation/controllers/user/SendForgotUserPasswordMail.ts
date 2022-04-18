@@ -1,4 +1,4 @@
-import { UserNotFoundWithThisEmailError } from '@domain/errors';
+import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotUserPasssordMail';
 
 import { noContent } from '@presentation/helpers/http';
@@ -25,7 +25,7 @@ class SendForgotUserPasswordMailController implements IController {
 
       return noContent();
     } catch (error) {
-      if (error instanceof UserNotFoundWithThisEmailError) {
+      if (error instanceof UserNotFoundWithProvidedEmailError) {
         return noContent();
       }
 

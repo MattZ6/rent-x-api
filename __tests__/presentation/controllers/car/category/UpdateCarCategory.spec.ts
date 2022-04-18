@@ -1,6 +1,6 @@
 import {
-  CarCategoryAlreadyExistsWithThisNameError,
-  CarCategoryNotFoundWithThisIdError,
+  CarCategoryAlreadyExistsWithProvidedNameError,
+  CarCategoryNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { UpdateCarCategoryController } from '@presentation/controllers/car/category/UpdateCarCategory';
@@ -52,7 +52,7 @@ describe('UpdateCarCategoryController', () => {
   });
 
   it('should return no found (404) if UpdateCarCategoryUseCase throws CarCategoryNotFoundWithThisIdError', async () => {
-    const error = new CarCategoryNotFoundWithThisIdError();
+    const error = new CarCategoryNotFoundWithProvidedIdError();
 
     jest
       .spyOn(updateCarCategoryUseCaseSpy, 'execute')
@@ -66,7 +66,7 @@ describe('UpdateCarCategoryController', () => {
   });
 
   it('should return conflict (409) if UpdateCarCategoryUseCase throws CarCategoryAlreadyExistsWithThisNameError', async () => {
-    const error = new CarCategoryAlreadyExistsWithThisNameError();
+    const error = new CarCategoryAlreadyExistsWithProvidedNameError();
 
     jest
       .spyOn(updateCarCategoryUseCaseSpy, 'execute')

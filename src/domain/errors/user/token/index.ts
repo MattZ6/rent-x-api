@@ -1,2 +1,3 @@
-export * from './UserTokenNotFoundWithThisTokenError';
-export * from './UserTokenNotFoundWithThisTokenFromUserError';
+export * from './Expired';
+export * from './NotFoundWithProvidedToken';
+export * from './NotFoundWithProvidedTokenFromUser';

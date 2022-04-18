@@ -1,4 +1,4 @@
-import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors';
+import { CarSpecificationNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { DeleteCarSpecificationController } from '@presentation/controllers/car/specification/DeleteCarSpecification';
 import { noContent, notFound } from '@presentation/helpers/http';
@@ -47,7 +47,7 @@ describe('DeleteCarSpecificationController', () => {
   });
 
   it('should return conflict (409) if DeleteCarSpecificationUseCase throws CarSpecificationNotFoundWithThisIdError', async () => {
-    const error = new CarSpecificationNotFoundWithThisIdError();
+    const error = new CarSpecificationNotFoundWithProvidedIdError();
 
     jest
       .spyOn(deleteCarSpecificationUseCaseSpy, 'execute')

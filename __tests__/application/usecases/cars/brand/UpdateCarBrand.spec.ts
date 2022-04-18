@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  CarBrandAlreadyExistsWithThisNameError,
-  CarBrandNotFoundWithThisIdError,
+  CarBrandAlreadyExistsWithProvidedNameError,
+  CarBrandNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { UpdateCarBrandUseCase } from '@application/usecases/car/brand/UpdateCarBrand';
@@ -71,7 +71,7 @@ describe('UpdateCarBrandUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarBrandNotFoundWithThisIdError
+      CarBrandNotFoundWithProvidedIdError
     );
   });
 
@@ -144,7 +144,7 @@ describe('UpdateCarBrandUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarBrandAlreadyExistsWithThisNameError
+      CarBrandAlreadyExistsWithProvidedNameError
     );
   });
 

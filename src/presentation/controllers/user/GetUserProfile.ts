@@ -1,4 +1,4 @@
-import { UserNotFoundWithThisIdError } from '@domain/errors';
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 import { IGetUserProfileUseCase } from '@domain/usecases/user/GetUserProfile';
 
 import { notFound, ok } from '@presentation/helpers/http';
@@ -21,7 +21,7 @@ class GetUserProfileController implements IController {
 
       return ok(user);
     } catch (error) {
-      if (error instanceof UserNotFoundWithThisIdError) {
+      if (error instanceof UserNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 

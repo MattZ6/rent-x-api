@@ -1,9 +1,9 @@
 import {
-  CarNotFoundWithThisIdError,
+  CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
-  UserNotFoundWithThisIdError,
+  UserNotFoundWithProvidedIdError,
 } from '@domain/errors';
 import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
 
@@ -39,7 +39,7 @@ class CreateRentController implements IController {
 
       return created<void>();
     } catch (error) {
-      if (error instanceof UserNotFoundWithThisIdError) {
+      if (error instanceof UserNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 
@@ -47,7 +47,7 @@ class CreateRentController implements IController {
         return paymentRequired(error);
       }
 
-      if (error instanceof CarNotFoundWithThisIdError) {
+      if (error instanceof CarNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 

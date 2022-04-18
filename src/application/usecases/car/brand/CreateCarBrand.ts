@@ -1,4 +1,4 @@
-import { CarBrandAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarBrandAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { ICreateCarBrandUseCase } from '@domain/usecases/car/brand/CreateCarBrand';
 
 import {
@@ -23,7 +23,7 @@ export class CreateCarBrandUseCase implements ICreateCarBrandUseCase {
       });
 
     if (exists) {
-      throw new CarBrandAlreadyExistsWithThisNameError();
+      throw new CarBrandAlreadyExistsWithProvidedNameError();
     }
 
     return this.createCarBrandRepository.create({ name });

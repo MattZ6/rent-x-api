@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { UserNotFoundWithThisIdError } from '@domain/errors';
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { GetUserProfileUseCase } from '@application/usecases/user/GetUserProfile';
 
@@ -60,7 +60,9 @@ describe('GetUserProfileUseCase', () => {
       getUserProfileUseCaseInputMock
     );
 
-    await expect(promise).rejects.toBeInstanceOf(UserNotFoundWithThisIdError);
+    await expect(promise).rejects.toBeInstanceOf(
+      UserNotFoundWithProvidedIdError
+    );
   });
 
   it('should return user on success', async () => {

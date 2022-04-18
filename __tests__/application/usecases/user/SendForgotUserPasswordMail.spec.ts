@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { UserNotFoundWithThisEmailError } from '@domain/errors';
+import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 
 import { SendForgotUserPasswordMailUseCase } from '@application/usecases/user/SendForgotUserPasswordMail';
 
@@ -79,7 +79,7 @@ describe('SendForgotUserPasswordMailUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      UserNotFoundWithThisEmailError
+      UserNotFoundWithProvidedEmailError
     );
   });
 

@@ -1,8 +1,7 @@
-export * from './IncorrectPassword';
-export * from './TokenExpiredError';
-export * from './UserAlreadyExistsWithThisDriverLicenseError';
-export * from './UserAlreadyExistsWithThisEmailError';
-export * from './UserNotFoundWithThisEmailError';
-export * from './UserNotFoundWithThisIdError';
+export * from './AlreadyExistsWithProvidedDriverLicense';
+export * from './AlreadyExistsWithProvidedEmail';
+export * from './NotFoundWithProvidedEmail';
+export * from './NotFoundWithProvidedId';
+export * from './WrongPassword';
 
 export * from './token';

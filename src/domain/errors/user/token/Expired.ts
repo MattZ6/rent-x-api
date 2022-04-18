@@ -1,6 +1,6 @@
 import { DomainError } from '@domain/errors';
 
-export class TokenExpiredError extends DomainError {
+export class UserTokenExpiredError extends DomainError {
   constructor(message = 'Token has expired.', code = 'user_token.expired') {
     super(message, code);
   }

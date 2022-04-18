@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  CarSpecificationAlreadyExistsWithThisNameError,
-  CarSpecificationNotFoundWithThisIdError,
+  CarSpecificationAlreadyExistsWithProvidedNameError,
+  CarSpecificationNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { UpdateCarSpecificationUseCase } from '@application/usecases/car/specification/UpdateCarSpecification';
@@ -76,7 +76,7 @@ describe('UpdateCarSpecificationUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarSpecificationNotFoundWithThisIdError
+      CarSpecificationNotFoundWithProvidedIdError
     );
   });
 
@@ -157,7 +157,7 @@ describe('UpdateCarSpecificationUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarSpecificationAlreadyExistsWithThisNameError
+      CarSpecificationAlreadyExistsWithProvidedNameError
     );
   });
 

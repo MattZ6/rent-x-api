@@ -1,4 +1,4 @@
-import { CarNotFoundWithThisIdError } from '@domain/errors';
+import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetCarDetails';
 
 import { notFound, ok } from '@presentation/helpers/http';
@@ -21,7 +21,7 @@ class GetCarDetailsController implements IController {
 
       return ok(car);
     } catch (error) {
-      if (error instanceof CarNotFoundWithThisIdError) {
+      if (error instanceof CarNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 

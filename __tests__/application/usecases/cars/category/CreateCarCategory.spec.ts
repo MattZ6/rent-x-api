@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { CarCategoryAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
 import { CreateCarCategoryUseCase } from '@application/usecases/car/category/CreateCarCategory';
 
@@ -66,7 +66,7 @@ describe('CreateCarCategoryUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarCategoryAlreadyExistsWithThisNameError
+      CarCategoryAlreadyExistsWithProvidedNameError
     );
   });
 

@@ -1,4 +1,4 @@
-import { UserNotFoundWithThisIdError } from '@domain/errors';
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateUserAvatar';
 
 import { IStoreFileProvider } from '@application/protocols/providers/storage';
@@ -30,7 +30,7 @@ export class UpdateUserAvatarUseCase implements IUpdateUserAvatarUseCase {
       });
 
     if (!userExists) {
-      throw new UserNotFoundWithThisIdError();
+      throw new UserNotFoundWithProvidedIdError();
     }
 
     let avatar = await this.findUserAvatarByIdRepository.findById({

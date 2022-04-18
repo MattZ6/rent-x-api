@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  TokenExpiredError,
-  UserTokenNotFoundWithThisTokenError,
+  UserTokenExpiredError,
+  UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
 import { RefreshUserAccessTokenUseCase } from '@application/usecases/user/RefreshUserAccessToken';
@@ -82,11 +82,11 @@ describe('RefreshUserAccessTokenUseCase', () => {
     );
 
     await expect(response).rejects.toBeInstanceOf(
-      UserTokenNotFoundWithThisTokenError
+      UserTokenNotFoundWithProvidedTokenError
     );
   });
 
-  it('should throw TokenExpiredError if token has expired', async () => {
+  it('should throw UserTokenExpiredError if token has expired', async () => {
     const expiresInDate = faker.datatype.datetime();
 
     jest
@@ -99,7 +99,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
       refreshUserAccessTokenUseCaseInputMock
     );
 
-    await expect(promise).rejects.toBeInstanceOf(TokenExpiredError);
+    await expect(promise).rejects.toBeInstanceOf(UserTokenExpiredError);
   });
 
   it('should call EncryptProvider once with correct values', async () => {

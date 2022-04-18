@@ -1,6 +1,6 @@
 import {
-  UserAlreadyExistsWithThisDriverLicenseError,
-  UserAlreadyExistsWithThisEmailError,
+  UserAlreadyExistsWithProvidedDriverLicenseError,
+  UserAlreadyExistsWithProvidedEmailError,
 } from '@domain/errors';
 import { ICreateUserUseCase } from '@domain/usecases/user/CreateUser';
 
@@ -29,11 +29,11 @@ class CreateAccountController implements IController {
 
       return created<void>();
     } catch (error) {
-      if (error instanceof UserAlreadyExistsWithThisEmailError) {
+      if (error instanceof UserAlreadyExistsWithProvidedEmailError) {
         return conflict(error);
       }
 
-      if (error instanceof UserAlreadyExistsWithThisDriverLicenseError) {
+      if (error instanceof UserAlreadyExistsWithProvidedDriverLicenseError) {
         return conflict(error);
       }
 

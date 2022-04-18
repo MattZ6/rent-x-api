@@ -1,4 +1,4 @@
-import { CarSpecificationNotFoundWithThisIdError } from '@domain/errors';
+import { CarSpecificationNotFoundWithProvidedIdError } from '@domain/errors';
 import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/specification/DeleteCarSpecification';
 
 import {
@@ -25,7 +25,7 @@ export class DeleteCarSpecificationUseCase
       });
 
     if (!exists) {
-      throw new CarSpecificationNotFoundWithThisIdError();
+      throw new CarSpecificationNotFoundWithProvidedIdError();
     }
 
     await this.deleteCarSpecificationByIdRepository.deleteById({ id });

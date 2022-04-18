@@ -1,4 +1,4 @@
-import { CarNotFoundWithThisIdError } from '@domain/errors';
+import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { GetCarDetailsController } from '@presentation/controllers/car/GetCarDetails';
 import { notFound, ok } from '@presentation/helpers/http';
@@ -46,7 +46,7 @@ describe('GetCarDetailsController', () => {
   });
 
   it('should return not found (404) if GetCarDetailsUseCase throws CarNotFoundWithThisIdError', async () => {
-    const error = new CarNotFoundWithThisIdError();
+    const error = new CarNotFoundWithProvidedIdError();
 
     jest.spyOn(getCarDetailsUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 

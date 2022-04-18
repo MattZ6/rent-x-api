@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  IncorrectPassword,
-  UserNotFoundWithThisEmailError,
+  WrongPasswordError,
+  UserNotFoundWithProvidedEmailError,
 } from '@domain/errors';
 
 import { AuthenticateUserUseCase } from '@application/usecases/user/AuthenticateUser';
@@ -83,7 +83,7 @@ describe('AuthenticateUserUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      UserNotFoundWithThisEmailError
+      UserNotFoundWithProvidedEmailError
     );
   });
 
@@ -129,7 +129,7 @@ describe('AuthenticateUserUseCase', () => {
       authenticateUserUseCaseInputMock
     );
 
-    await expect(promise).rejects.toBeInstanceOf(IncorrectPassword);
+    await expect(promise).rejects.toBeInstanceOf(WrongPasswordError);
   });
 
   it('should call EncryptProvider once with correct values', async () => {

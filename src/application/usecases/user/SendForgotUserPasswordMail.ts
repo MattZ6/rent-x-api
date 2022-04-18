@@ -1,4 +1,4 @@
-import { UserNotFoundWithThisEmailError } from '@domain/errors';
+import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotUserPasssordMail';
 
 import { ISendMailProvider } from '@application/protocols/providers/mail/SendMailProvider';
@@ -27,7 +27,7 @@ export class SendForgotUserPasswordMailUseCase
     const user = await this.findUserByEmailRepository.findByEmail({ email });
 
     if (!user) {
-      throw new UserNotFoundWithThisEmailError();
+      throw new UserNotFoundWithProvidedEmailError();
     }
 
     const token = await this.generateUuidProvider.generate();

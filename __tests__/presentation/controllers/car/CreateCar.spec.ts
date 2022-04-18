@@ -1,8 +1,8 @@
 import {
-  CarAlreadyExistsWithThisLicensePlateError,
-  CarBrandNotFoundWithThisIdError,
-  CarCategoryNotFoundWithThisIdError,
-  OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
+  CarAlreadyExistsWithProvidedLicensePlateError,
+  CarBrandNotFoundWithProvidedIdError,
+  CarCategoryNotFoundWithProvidedIdError,
+  OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
 
 import { CreateCarController } from '@presentation/controllers/car/CreateCar';
@@ -62,7 +62,7 @@ describe('CreateCarController', () => {
   });
 
   it('should return conflict (409) if CreateCarUseCase throws CarAlreadyExistsWithThisLicensePlateError', async () => {
-    const error = new CarAlreadyExistsWithThisLicensePlateError();
+    const error = new CarAlreadyExistsWithProvidedLicensePlateError();
 
     jest.spyOn(createCarUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 
@@ -74,7 +74,7 @@ describe('CreateCarController', () => {
   });
 
   it('should return not found (404) if CreateCarUseCase throws CarBrandNotFoundWithThisIdError', async () => {
-    const error = new CarBrandNotFoundWithThisIdError();
+    const error = new CarBrandNotFoundWithProvidedIdError();
 
     jest.spyOn(createCarUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 
@@ -86,7 +86,7 @@ describe('CreateCarController', () => {
   });
 
   it('should return not found (404) if CreateCarUseCase throws CarCategoryNotFoundWithThisIdError', async () => {
-    const error = new CarCategoryNotFoundWithThisIdError();
+    const error = new CarCategoryNotFoundWithProvidedIdError();
 
     jest.spyOn(createCarUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 
@@ -98,7 +98,7 @@ describe('CreateCarController', () => {
   });
 
   it('should return not found (404) if CreateCarUseCase throws OneOrMoreCarSpecificationsNotFoundWithThisIdsError', async () => {
-    const error = new OneOrMoreCarSpecificationsNotFoundWithThisIdsError();
+    const error = new OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError();
 
     jest.spyOn(createCarUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 

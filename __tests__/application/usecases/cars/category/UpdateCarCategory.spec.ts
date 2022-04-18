@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  CarCategoryAlreadyExistsWithThisNameError,
-  CarCategoryNotFoundWithThisIdError,
+  CarCategoryAlreadyExistsWithProvidedNameError,
+  CarCategoryNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { UpdateCarCategoryUseCase } from '@application/usecases/car/category/UpdateCarCategory';
@@ -74,7 +74,7 @@ describe('UpdateCarCategoryUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarCategoryNotFoundWithThisIdError
+      CarCategoryNotFoundWithProvidedIdError
     );
   });
 
@@ -147,7 +147,7 @@ describe('UpdateCarCategoryUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarCategoryAlreadyExistsWithThisNameError
+      CarCategoryAlreadyExistsWithProvidedNameError
     );
   });
 

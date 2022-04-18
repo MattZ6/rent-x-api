@@ -1,6 +1,6 @@
 import {
-  UserAlreadyExistsWithThisDriverLicenseError,
-  UserAlreadyExistsWithThisEmailError,
+  UserAlreadyExistsWithProvidedDriverLicenseError,
+  UserAlreadyExistsWithProvidedEmailError,
 } from '@domain/errors';
 import { ICreateUserUseCase } from '@domain/usecases/user/CreateUser';
 
@@ -30,7 +30,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       });
 
     if (alreadyExistsWithProvidedEmail) {
-      throw new UserAlreadyExistsWithThisEmailError();
+      throw new UserAlreadyExistsWithProvidedEmailError();
     }
 
     const alreadyExistsWithProvidedDriverLicense =
@@ -39,7 +39,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       );
 
     if (alreadyExistsWithProvidedDriverLicense) {
-      throw new UserAlreadyExistsWithThisDriverLicenseError();
+      throw new UserAlreadyExistsWithProvidedDriverLicenseError();
     }
 
     const hashedPassword = await this.generateHashProvider.hash({

@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  CarAlreadyExistsWithThisLicensePlateError,
-  CarBrandNotFoundWithThisIdError,
-  CarCategoryNotFoundWithThisIdError,
-  OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
+  CarAlreadyExistsWithProvidedLicensePlateError,
+  CarBrandNotFoundWithProvidedIdError,
+  CarCategoryNotFoundWithProvidedIdError,
+  OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
 
 import { CreateCarUseCase } from '@application/usecases/car/CreateCar';
@@ -91,7 +91,7 @@ describe('CreateCarUseCase', () => {
     const promise = createCarUseCase.execute(createCarUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarAlreadyExistsWithThisLicensePlateError
+      CarAlreadyExistsWithProvidedLicensePlateError
     );
   });
 
@@ -130,7 +130,7 @@ describe('CreateCarUseCase', () => {
     const promise = createCarUseCase.execute(createCarUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarBrandNotFoundWithThisIdError
+      CarBrandNotFoundWithProvidedIdError
     );
   });
 
@@ -169,7 +169,7 @@ describe('CreateCarUseCase', () => {
     const promise = createCarUseCase.execute(createCarUseCaseInputMock);
 
     await expect(promise).rejects.toBeInstanceOf(
-      CarCategoryNotFoundWithThisIdError
+      CarCategoryNotFoundWithProvidedIdError
     );
   });
 
@@ -261,7 +261,7 @@ describe('CreateCarUseCase', () => {
     });
 
     await expect(promise).rejects.toBeInstanceOf(
-      OneOrMoreCarSpecificationsNotFoundWithThisIdsError
+      OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError
     );
   });
 

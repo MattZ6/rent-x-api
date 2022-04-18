@@ -1,4 +1,4 @@
-import { CarCategoryAlreadyExistsWithThisNameError } from '@domain/errors';
+import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/CreateCarCategory';
 
 import {
@@ -23,7 +23,7 @@ export class CreateCarCategoryUseCase implements ICreateCarCategoryUseCase {
       });
 
     if (alreadyExists) {
-      throw new CarCategoryAlreadyExistsWithThisNameError();
+      throw new CarCategoryAlreadyExistsWithProvidedNameError();
     }
 
     return this.createCarCategoryRepository.create({ name, description });

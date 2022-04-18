@@ -1,6 +1,6 @@
 import {
-  CarBrandNotFoundWithThisIdError,
-  CarBrandAlreadyExistsWithThisNameError,
+  CarBrandNotFoundWithProvidedIdError,
+  CarBrandAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/UpdateCarBrand';
 
@@ -25,7 +25,7 @@ export class UpdateCarBrandUseCase implements IUpdateCarBrandUseCase {
     const brand = await this.findCarBrandByIdRepository.findById({ id });
 
     if (!brand) {
-      throw new CarBrandNotFoundWithThisIdError();
+      throw new CarBrandNotFoundWithProvidedIdError();
     }
 
     const areSameName =
@@ -38,7 +38,7 @@ export class UpdateCarBrandUseCase implements IUpdateCarBrandUseCase {
         });
 
       if (alreadyInUse) {
-        throw new CarBrandAlreadyExistsWithThisNameError();
+        throw new CarBrandAlreadyExistsWithProvidedNameError();
       }
     }
 

@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import {
-  TokenExpiredError,
-  UserNotFoundWithThisIdError,
-  UserTokenNotFoundWithThisTokenError,
+  UserTokenExpiredError,
+  UserNotFoundWithProvidedIdError,
+  UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
 import { ResetUserPasswordUseCase } from '@application/usecases/user/ResetUserPassword';
@@ -83,11 +83,11 @@ describe('ResetUserPasswordUseCase', () => {
     );
 
     await expect(promise).rejects.toBeInstanceOf(
-      UserTokenNotFoundWithThisTokenError
+      UserTokenNotFoundWithProvidedTokenError
     );
   });
 
-  it('should throw TokenExpiredError if now is at least 1ms after token expiration date', async () => {
+  it('should throw UserTokenExpiredError if now is at least 1ms after token expiration date', async () => {
     const tokenExpiresIn = faker.datatype.datetime();
 
     jest
@@ -100,7 +100,7 @@ describe('ResetUserPasswordUseCase', () => {
       resetUserPasswordUseCaseInputMock
     );
 
-    await expect(promise).rejects.toBeInstanceOf(TokenExpiredError);
+    await expect(promise).rejects.toBeInstanceOf(UserTokenExpiredError);
   });
 
   it('should call FindUserByIdRepository once witch correct values', async () => {
@@ -142,7 +142,9 @@ describe('ResetUserPasswordUseCase', () => {
       resetUserPasswordUseCaseInputMock
     );
 
-    await expect(promise).rejects.toBeInstanceOf(UserNotFoundWithThisIdError);
+    await expect(promise).rejects.toBeInstanceOf(
+      UserNotFoundWithProvidedIdError
+    );
   });
 
   it('should call GenerateHashProvider once with correct values', async () => {

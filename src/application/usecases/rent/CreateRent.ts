@@ -1,9 +1,9 @@
 import {
-  CarNotFoundWithThisIdError,
+  CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
   UserHasOutstandingRentPaymentsError,
-  UserNotFoundWithThisIdError,
+  UserNotFoundWithProvidedIdError,
   RentalStartDateIsInThePastError,
 } from '@domain/errors';
 import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
@@ -45,7 +45,7 @@ export class CreateRentUseCase implements ICreateRentUseCase {
       });
 
     if (!userExists) {
-      throw new UserNotFoundWithThisIdError();
+      throw new UserNotFoundWithProvidedIdError();
     }
 
     const userHasPendingPayment =
@@ -62,7 +62,7 @@ export class CreateRentUseCase implements ICreateRentUseCase {
     });
 
     if (!car) {
-      throw new CarNotFoundWithThisIdError();
+      throw new CarNotFoundWithProvidedIdError();
     }
 
     const nowInMillisseconds = Date.now();

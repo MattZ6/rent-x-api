@@ -1,7 +1,7 @@
 import {
-  TokenExpiredError,
-  UserNotFoundWithThisIdError,
-  UserTokenNotFoundWithThisTokenError,
+  UserTokenExpiredError,
+  UserNotFoundWithProvidedIdError,
+  UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetUserPassword';
 
@@ -32,13 +32,13 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
     const userToken = await this.findUserTokenByToken.findByToken({ token });
 
     if (!userToken) {
-      throw new UserTokenNotFoundWithThisTokenError();
+      throw new UserTokenNotFoundWithProvidedTokenError();
     }
 
     const hasExpired = Date.now() > userToken.expires_in.getTime();
 
     if (hasExpired) {
-      throw new TokenExpiredError();
+      throw new UserTokenExpiredError();
     }
 
     const user = await this.findUserByIdRepository.findById({
@@ -46,7 +46,7 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
     });
 
     if (!user) {
-      throw new UserNotFoundWithThisIdError();
+      throw new UserNotFoundWithProvidedIdError();
     }
 
     user.password_hash = await this.generateHashProvider.hash({

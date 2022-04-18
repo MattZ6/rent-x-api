@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { CarNotFoundWithThisIdError } from '@domain/errors';
+import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { GetCarDetailsUseCase } from '@application/usecases/car/GetCarDetails';
 
@@ -52,7 +52,9 @@ describe('GetCarDetailsUseCase', () => {
 
     const promise = getCarDetailsUseCase.execute(getCarDetailsUseCaseInputMock);
 
-    await expect(promise).rejects.toBeInstanceOf(CarNotFoundWithThisIdError);
+    await expect(promise).rejects.toBeInstanceOf(
+      CarNotFoundWithProvidedIdError
+    );
   });
 
   it('should get car data', async () => {

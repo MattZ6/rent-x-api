@@ -1,6 +1,6 @@
 import {
-  CarSpecificationNotFoundWithThisIdError,
-  CarSpecificationAlreadyExistsWithThisNameError,
+  CarSpecificationNotFoundWithProvidedIdError,
+  CarSpecificationAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 import { IUpdateCarSpecificationUseCase } from '@domain/usecases/car/specification/UpdateCarSpecification';
 
@@ -28,7 +28,7 @@ export class UpdateCarSpecificationUseCase
       await this.findCarSpecificationByIdRepository.findById({ id });
 
     if (!specification) {
-      throw new CarSpecificationNotFoundWithThisIdError();
+      throw new CarSpecificationNotFoundWithProvidedIdError();
     }
 
     const areSameName =
@@ -43,7 +43,7 @@ export class UpdateCarSpecificationUseCase
         );
 
       if (alreadyInUse) {
-        throw new CarSpecificationAlreadyExistsWithThisNameError();
+        throw new CarSpecificationAlreadyExistsWithProvidedNameError();
       }
     }
 

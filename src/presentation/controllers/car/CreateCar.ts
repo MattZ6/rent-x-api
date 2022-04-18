@@ -1,8 +1,8 @@
 import {
-  CarAlreadyExistsWithThisLicensePlateError,
-  CarBrandNotFoundWithThisIdError,
-  CarCategoryNotFoundWithThisIdError,
-  OneOrMoreCarSpecificationsNotFoundWithThisIdsError,
+  CarAlreadyExistsWithProvidedLicensePlateError,
+  CarBrandNotFoundWithProvidedIdError,
+  CarCategoryNotFoundWithProvidedIdError,
+  OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
 import { ICreateCarUseCase } from '@domain/usecases/car/CreateCar';
 
@@ -56,19 +56,21 @@ class CreateCarController implements IController {
 
       return created<void>();
     } catch (error) {
-      if (error instanceof CarAlreadyExistsWithThisLicensePlateError) {
+      if (error instanceof CarAlreadyExistsWithProvidedLicensePlateError) {
         return conflict(error);
       }
 
-      if (error instanceof CarBrandNotFoundWithThisIdError) {
+      if (error instanceof CarBrandNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 
-      if (error instanceof CarCategoryNotFoundWithThisIdError) {
+      if (error instanceof CarCategoryNotFoundWithProvidedIdError) {
         return notFound(error);
       }
 
-      if (error instanceof OneOrMoreCarSpecificationsNotFoundWithThisIdsError) {
+      if (
+        error instanceof OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError
+      ) {
         return notFound(error);
       }
 
