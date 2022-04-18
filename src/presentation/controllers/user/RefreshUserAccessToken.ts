@@ -2,7 +2,7 @@ import {
   UserTokenExpiredError,
   UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
-import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshUserAccessToken';
+import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshAccessToken';
 
 import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
 import {

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshUserAccessToken';
+import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshAccessToken';
 
 export const refreshTokenExpiresTimeInMillissecondsMock = faker.datatype.number(
   {
