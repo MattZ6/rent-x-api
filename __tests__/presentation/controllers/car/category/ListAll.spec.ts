@@ -1,29 +1,29 @@
-import { ListCarCategoriesController } from '@presentation/controllers/car/category/ListCarCategories';
+import { ListAllCarCategoriesController } from '@presentation/controllers/car/category/ListAll';
 import { ok } from '@presentation/helpers/http';
 
 import { carCategoryMock } from '../../../../domain/entities';
 import {
-  listCarCategoriesControllerDefaultLimit,
-  listCarCategoriesControllerDefaultOrder,
-  listCarCategoriesControllerDefaultOrderBy,
-  listCarCategoriesControllerDefaultPage,
+  listAllCarCategoriesControllerDefaultLimit,
+  listAllCarCategoriesControllerDefaultOrder,
+  listAllCarCategoriesControllerDefaultOrderBy,
+  listAllCarCategoriesControllerDefaultPage,
   ListAllCarCategoriesUseCaseSpy,
-  listCarCategoriesControllerRequestMock,
+  listAllCarCategoriesControllerRequestMock,
 } from '../../../mocks';
 
 let listAllCarCategoriesUseCaseSpy: ListAllCarCategoriesUseCaseSpy;
 
-let listCarCategoriesController: ListCarCategoriesController;
+let listAllCarCategoriesController: ListAllCarCategoriesController;
 
-describe('ListCarCategoriesController', () => {
+describe('ListAllCarCategoriesController', () => {
   beforeEach(() => {
     listAllCarCategoriesUseCaseSpy = new ListAllCarCategoriesUseCaseSpy();
 
-    listCarCategoriesController = new ListCarCategoriesController(
-      listCarCategoriesControllerDefaultOrderBy,
-      listCarCategoriesControllerDefaultOrder,
-      listCarCategoriesControllerDefaultLimit,
-      listCarCategoriesControllerDefaultPage,
+    listAllCarCategoriesController = new ListAllCarCategoriesController(
+      listAllCarCategoriesControllerDefaultOrderBy,
+      listAllCarCategoriesControllerDefaultOrder,
+      listAllCarCategoriesControllerDefaultLimit,
+      listAllCarCategoriesControllerDefaultPage,
       listAllCarCategoriesUseCaseSpy
     );
   });
@@ -31,16 +31,16 @@ describe('ListCarCategoriesController', () => {
   it('should call ListAllCarCategoriesUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(listAllCarCategoriesUseCaseSpy, 'execute');
 
-    await listCarCategoriesController.handle(
-      listCarCategoriesControllerRequestMock
+    await listAllCarCategoriesController.handle(
+      listAllCarCategoriesControllerRequestMock
     );
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listCarCategoriesControllerRequestMock.query.order_by,
-      order: listCarCategoriesControllerRequestMock.query.order,
-      limit: listCarCategoriesControllerRequestMock.query.limit,
-      page: listCarCategoriesControllerRequestMock.query.page,
+      order_by: listAllCarCategoriesControllerRequestMock.query.order_by,
+      order: listAllCarCategoriesControllerRequestMock.query.order,
+      limit: listAllCarCategoriesControllerRequestMock.query.limit,
+      page: listAllCarCategoriesControllerRequestMock.query.page,
     });
   });
 
@@ -48,17 +48,17 @@ describe('ListCarCategoriesController', () => {
     const executeSpy = jest.spyOn(listAllCarCategoriesUseCaseSpy, 'execute');
 
     const request = {
-      ...listCarCategoriesControllerRequestMock,
+      ...listAllCarCategoriesControllerRequestMock,
       query: undefined,
     };
 
-    await listCarCategoriesController.handle(request);
+    await listAllCarCategoriesController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listCarCategoriesControllerDefaultOrderBy,
-      order: listCarCategoriesControllerDefaultOrder,
-      limit: listCarCategoriesControllerDefaultLimit,
-      page: listCarCategoriesControllerDefaultPage,
+      order_by: listAllCarCategoriesControllerDefaultOrderBy,
+      order: listAllCarCategoriesControllerDefaultOrder,
+      limit: listAllCarCategoriesControllerDefaultLimit,
+      page: listAllCarCategoriesControllerDefaultPage,
     });
   });
 
@@ -67,8 +67,8 @@ describe('ListCarCategoriesController', () => {
       .spyOn(listAllCarCategoriesUseCaseSpy, 'execute')
       .mockRejectedValueOnce(new Error());
 
-    const promise = listCarCategoriesController.handle(
-      listCarCategoriesControllerRequestMock
+    const promise = listAllCarCategoriesController.handle(
+      listAllCarCategoriesControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -81,8 +81,8 @@ describe('ListCarCategoriesController', () => {
       .spyOn(listAllCarCategoriesUseCaseSpy, 'execute')
       .mockResolvedValueOnce(categories);
 
-    const response = await listCarCategoriesController.handle(
-      listCarCategoriesControllerRequestMock
+    const response = await listAllCarCategoriesController.handle(
+      listAllCarCategoriesControllerRequestMock
     );
 
     expect(response).toEqual(ok(categories));

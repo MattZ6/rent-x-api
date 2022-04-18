@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
-import { UpdateUserAvatarController } from '@presentation/controllers/user/UpdateUserAvatar';
+import { UpdateUserAvatarController } from '@presentation/controllers/user/UpdateAvatar';
 import { noContent, notFound } from '@presentation/helpers/http';
 
 import {

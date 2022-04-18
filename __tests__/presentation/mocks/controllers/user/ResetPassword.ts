@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { ResetUserPasswordController } from '@presentation/controllers/user/ResetUserPassword';
+import { ResetUserPasswordController } from '@presentation/controllers/user/ResetPassword';
 
 export const resetUserPasswordControllerRequestMock: ResetUserPasswordController.Request =
   {

@@ -3,7 +3,7 @@ import {
   UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
-import { RefreshUserAccessTokenController } from '@presentation/controllers/user/RefreshUserAccessToken';
+import { RefreshUserAccessTokenController } from '@presentation/controllers/user/RefreshAccessToken';
 import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
 
 import {

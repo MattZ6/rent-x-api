@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/entities/Car';
 
-import { CreateCarController } from '@presentation/controllers/car/CreateCar';
+import { CreateCarController } from '@presentation/controllers/car/Create';
 
 export const createCarControllerRequestMock: CreateCarController.Request = {
   method: faker.internet.httpMethod(),

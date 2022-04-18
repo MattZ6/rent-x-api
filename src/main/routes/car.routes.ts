@@ -2,9 +2,9 @@ import { Router } from 'express';
 
 import { adaptMiddleware } from '@main/adapters/express/middleware';
 import { adaptRoute } from '@main/adapters/express/route';
-import { makeCreateCarController } from '@main/factories/controllers/car/CreateCarControllerFactory';
-import { makeGetCarDetailsController } from '@main/factories/controllers/car/GetCarDetailsControllerFactory';
-import { makeListCarsController } from '@main/factories/controllers/car/ListCarsControllerFactory';
+import { makeCreateCarController } from '@main/factories/controllers/car/Create';
+import { makeGetCarDetailsController } from '@main/factories/controllers/car/GetDetails';
+import { makeListCarsController } from '@main/factories/controllers/car/ListAll';
 import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
 const carsRoutes = Router();

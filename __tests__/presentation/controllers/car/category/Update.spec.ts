@@ -3,7 +3,7 @@ import {
   CarCategoryNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
-import { UpdateCarCategoryController } from '@presentation/controllers/car/category/UpdateCarCategory';
+import { UpdateCarCategoryController } from '@presentation/controllers/car/category/Update';
 import { conflict, noContent, notFound } from '@presentation/helpers/http';
 
 import {

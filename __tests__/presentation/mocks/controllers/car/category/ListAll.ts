@@ -1,19 +1,21 @@
 import { faker } from '@faker-js/faker';
 
-import { ListCarCategoriesController } from '@presentation/controllers/car/category/ListCarCategories';
+import { ListAllCarCategoriesController } from '@presentation/controllers/car/category/ListAll';
 
-export const listCarCategoriesControllerDefaultOrderBy = 'created_at';
-export const listCarCategoriesControllerDefaultOrder = 'DESC';
-export const listCarCategoriesControllerDefaultLimit = faker.datatype.number({
-  min: 10,
-  max: 100,
-});
-export const listCarCategoriesControllerDefaultPage = faker.datatype.number({
+export const listAllCarCategoriesControllerDefaultOrderBy = 'created_at';
+export const listAllCarCategoriesControllerDefaultOrder = 'DESC';
+export const listAllCarCategoriesControllerDefaultLimit = faker.datatype.number(
+  {
+    min: 10,
+    max: 100,
+  }
+);
+export const listAllCarCategoriesControllerDefaultPage = faker.datatype.number({
   min: 1,
   max: 50,
 });
 
-export const listCarCategoriesControllerRequestMock: ListCarCategoriesController.Request =
+export const listAllCarCategoriesControllerRequestMock: ListAllCarCategoriesController.Request =
   {
     method: faker.internet.httpMethod(),
     original_url: faker.internet.url(),

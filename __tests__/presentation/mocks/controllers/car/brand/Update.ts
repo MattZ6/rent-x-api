@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { UpdateCarBrandController } from '@presentation/controllers/car/brand/UpdateCarBrand';
+import { UpdateCarBrandController } from '@presentation/controllers/car/brand/Update';
 
 export const updateCarBrandControllerRequestMock: UpdateCarBrandController.Request =
   {

@@ -1,6 +1,6 @@
 import { CarSpecificationNotFoundWithProvidedIdError } from '@domain/errors';
 
-import { DeleteCarSpecificationController } from '@presentation/controllers/car/specification/DeleteCarSpecification';
+import { DeleteCarSpecificationController } from '@presentation/controllers/car/specification/Delete';
 import { noContent, notFound } from '@presentation/helpers/http';
 
 import {

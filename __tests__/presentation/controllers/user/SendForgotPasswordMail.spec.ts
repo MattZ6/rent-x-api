@@ -1,6 +1,6 @@
 import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 
-import { SendForgotUserPasswordMailController } from '@presentation/controllers/user/SendForgotUserPasswordMail';
+import { SendForgotUserPasswordMailController } from '@presentation/controllers/user/SendForgotPasswordMail';
 import { noContent } from '@presentation/helpers/http';
 
 import {

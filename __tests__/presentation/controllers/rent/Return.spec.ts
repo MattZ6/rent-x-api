@@ -7,7 +7,7 @@ import {
   RentalIsNotInProgressError,
 } from '@domain/errors';
 
-import { ReturnRentController } from '@presentation/controllers/rent/ReturnRent';
+import { ReturnRentController } from '@presentation/controllers/rent/Return';
 import {
   conflict,
   noContent,

@@ -3,7 +3,7 @@ import {
   CarBrandNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
-import { UpdateCarBrandController } from '@presentation/controllers/car/brand/UpdateCarBrand';
+import { UpdateCarBrandController } from '@presentation/controllers/car/brand/Update';
 import { conflict, noContent, notFound } from '@presentation/helpers/http';
 
 import {

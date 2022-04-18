@@ -2,9 +2,9 @@ import { Router } from 'express';
 
 import { adaptMiddleware } from '@main/adapters/express/middleware';
 import { adaptRoute } from '@main/adapters/express/route';
-import { makeCreateCarBrandController } from '@main/factories/controllers/car/brand/CreateCarBrandControllerFactory';
-import { makeListCarBrandsController } from '@main/factories/controllers/car/brand/ListCarBrandsControllerFactory';
-import { makeUpdateCarBrandController } from '@main/factories/controllers/car/brand/UpdateCarBrandControllerFactory';
+import { makeCreateCarBrandController } from '@main/factories/controllers/car/brand/Create';
+import { makeListAllCarBrandsController } from '@main/factories/controllers/car/brand/ListAll';
+import { makeUpdateCarBrandController } from '@main/factories/controllers/car/brand/Update';
 import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
 const carBrandsRoutes = Router();
@@ -12,7 +12,7 @@ const carBrandsRoutes = Router();
 carBrandsRoutes.get(
   '/',
   adaptMiddleware(makeAuthenticationMiddleware()),
-  adaptRoute(makeListCarBrandsController())
+  adaptRoute(makeListAllCarBrandsController())
 );
 carBrandsRoutes.post(
   '/',

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { SendForgotUserPasswordMailController } from '@presentation/controllers/user/SendForgotUserPasswordMail';
+import { SendForgotUserPasswordMailController } from '@presentation/controllers/user/SendForgotPasswordMail';
 
 export const sendForgotUserPasswordMailControllerRequestMock: SendForgotUserPasswordMailController.Request =
   {

@@ -3,7 +3,7 @@ import {
   CarSpecificationNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
-import { UpdateCarSpecificationController } from '@presentation/controllers/car/specification/UpdateCarSpecification';
+import { UpdateCarSpecificationController } from '@presentation/controllers/car/specification/Update';
 import { conflict, noContent, notFound } from '@presentation/helpers/http';
 
 import {

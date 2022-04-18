@@ -6,7 +6,7 @@ import {
   UserNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
-import { CreateRentController } from '@presentation/controllers/rent/CreateRent';
+import { CreateRentController } from '@presentation/controllers/rent/Create';
 import {
   conflict,
   created,

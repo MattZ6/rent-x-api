@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { CreateAccountController } from '@presentation/controllers/user/CreateAccount';
+import { CreateAccountController } from '@presentation/controllers/user/Create';
 
 export const createAccountControllerRequestMock: CreateAccountController.Request =
   {

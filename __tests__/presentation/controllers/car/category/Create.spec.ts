@@ -1,6 +1,6 @@
 import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
-import { CreateCarCategoryController } from '@presentation/controllers/car/category/CreateCarCategory';
+import { CreateCarCategoryController } from '@presentation/controllers/car/category/Create';
 import { conflict, created } from '@presentation/helpers/http';
 
 import {

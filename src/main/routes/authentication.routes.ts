@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
 import { adaptRoute } from '@main/adapters/express/route';
-import { makeAuthenticateUserController } from '@main/factories/controllers/user/AuthenticateUserControllerFactory';
-import { makeCreateAccountController } from '@main/factories/controllers/user/CreateAccountControllerFactory';
-import { makeRefreshUserAccessTokenController } from '@main/factories/controllers/user/RefreshUserAccessTokenControllerFactory';
-import { makeResetUserPasswordController } from '@main/factories/controllers/user/ResetUserPasswordControllerFactory';
-import { makeSendForgotUserPasswordMailController } from '@main/factories/controllers/user/SendForgotUserPasswordMailControllerFactory';
+import { makeAuthenticateUserController } from '@main/factories/controllers/user/Authenticate';
+import { makeCreateAccountController } from '@main/factories/controllers/user/Create';
+import { makeRefreshUserAccessTokenController } from '@main/factories/controllers/user/RefreshAccessToken';
+import { makeResetUserPasswordController } from '@main/factories/controllers/user/ResetPassword';
+import { makeSendForgotUserPasswordMailController } from '@main/factories/controllers/user/SendForgotPasswordMail';
 
 const authenticationRoutes = Router();
 
