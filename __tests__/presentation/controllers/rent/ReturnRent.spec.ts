@@ -4,7 +4,7 @@ import {
   RentAlreadyClosedError,
   RentBelongsToAnotherUserError,
   RentNotFoundWithProvidedIdError,
-  UnableToReturnRentalThatIsNotInProgressError,
+  RentalIsNotInProgressError,
 } from '@domain/errors';
 
 import { ReturnRentController } from '@presentation/controllers/rent/ReturnRent';
@@ -80,7 +80,7 @@ describe('ReturnRentController', () => {
   });
 
   it('should return unprocessable entity (422) if ReturnRentUseCase throws UnableToReturnRentalThatIsNotInProgressError', async () => {
-    const error = new UnableToReturnRentalThatIsNotInProgressError();
+    const error = new RentalIsNotInProgressError();
 
     jest.spyOn(returnRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
 

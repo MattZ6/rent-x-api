@@ -4,7 +4,7 @@ import {
   RentBelongsToAnotherUserError,
   RentNotFoundWithProvidedIdError,
   RentAlreadyClosedError,
-  UnableToReturnRentalThatIsNotInProgressError,
+  RentalIsNotInProgressError,
 } from '@domain/errors';
 import { IRent } from '@domain/models/Rent';
 
@@ -127,9 +127,7 @@ describe('ReturnRentUseCase', () => {
 
     const promise = returnRentUseCase.execute(returnRentUseCaseInputMock);
 
-    await expect(promise).rejects.toBeInstanceOf(
-      UnableToReturnRentalThatIsNotInProgressError
-    );
+    await expect(promise).rejects.toBeInstanceOf(RentalIsNotInProgressError);
   });
 
   it('should throw RentAlreadyClosedError if rent is already closed/returned', async () => {

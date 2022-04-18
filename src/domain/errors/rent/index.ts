@@ -1,8 +1,9 @@
-export * from './CarAlreadyBookedOnThisDateError';
-export * from './InvalidRentDurationTimeError';
-export * from './RentAlreadyClosedError';
-export * from './RentalStartDateIsInThePastError';
-export * from './RentBelongsToAnotherUserError';
-export * from './RentNotFoundWithProvidedIdError';
-export * from './UnableToReturnRentalThatIsNotInProgressError';
-export * from './UserHasRentsWithPendingPaymentError';
+export * from './CarAlreadyBookedOnThisDate';
+export * from './InvalidDurationTime';
+export * from './AlreadyClosed';
+export * from './StartDateIsInThePast';
+export * from './BelongsToAnotherUser';
+export * from './NotFoundWithProvidedId';
+export * from './NotInProgress';
+
+export * from './payment';

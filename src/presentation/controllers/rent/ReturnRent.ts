@@ -2,7 +2,7 @@ import {
   RentAlreadyClosedError,
   RentBelongsToAnotherUserError,
   RentNotFoundWithProvidedIdError,
-  UnableToReturnRentalThatIsNotInProgressError,
+  RentalIsNotInProgressError,
 } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
 
@@ -43,7 +43,7 @@ class ReturnRentController implements IController {
         return notFound(error);
       }
 
-      if (error instanceof UnableToReturnRentalThatIsNotInProgressError) {
+      if (error instanceof RentalIsNotInProgressError) {
         return unprocessableEntity(error);
       }
 
