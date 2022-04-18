@@ -1,4 +1,4 @@
-import { IGetUserProfileUseCase } from '@domain/usecases/user/GetUserProfile';
+import { IGetUserProfileUseCase } from '@domain/usecases/user/GetProfile';
 
 import { userMock } from '../../../../domain/models/user.mock';
 
