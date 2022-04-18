@@ -1,5 +1,5 @@
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
-import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateUserAvatar';
+import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateAvatar';
 
 import { IStoreFileProvider } from '@application/protocols/providers/storage';
 import { ICheckIfUserExistsByIdRepository } from '@application/protocols/repositories/user';

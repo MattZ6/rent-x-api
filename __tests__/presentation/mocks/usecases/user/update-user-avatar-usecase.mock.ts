@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateUserAvatar';
+import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateAvatar';
 
 import { makeUserAvatar } from '../../../../domain/models/user-avatar.mock';
 

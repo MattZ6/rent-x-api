@@ -1,5 +1,5 @@
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
-import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateUserAvatar';
+import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateAvatar';
 
 import { noContent, notFound } from '@presentation/helpers/http';
 import {
