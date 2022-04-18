@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { UpdateUserAvatarController } from '@presentation/controllers/user/UpdateUserAvatar';
+import { UpdateUserAvatarController } from '@presentation/controllers/user/UpdateAvatar';
 
 export function makeUpdateUserAvatarControllerRequestMock(): UpdateUserAvatarController.Request {
   return {

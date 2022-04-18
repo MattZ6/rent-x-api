@@ -1,6 +1,6 @@
 import { CarBrandAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
-import { CreateCarBrandController } from '@presentation/controllers/car/brand/CreateCarBrand';
+import { CreateCarBrandController } from '@presentation/controllers/car/brand/Create';
 import { conflict, created } from '@presentation/helpers/http';
 
 import {

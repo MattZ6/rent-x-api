@@ -1,6 +1,6 @@
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
-import { GetUserProfileController } from '@presentation/controllers/user/GetUserProfile';
+import { GetUserProfileController } from '@presentation/controllers/user/GetProfile';
 import { notFound, ok } from '@presentation/helpers/http';
 
 import { userMock } from '../../../domain/entities';

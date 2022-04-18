@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker';
 
 import { IListAllCarsUseCase } from '@domain/usecases/car/ListAll';
 
-import { ListCarsController } from '@presentation/controllers/car/ListCars';
+import { ListAllCarsController } from '@presentation/controllers/car/ListAll';
 
-export const listCarsControllerDefaultOrderBy: IListAllCarsUseCase.OrderBy =
+export const listAllCarsControllerDefaultOrderBy: IListAllCarsUseCase.OrderBy =
   faker.random.arrayElement([
     'name',
     'created_at',
@@ -12,18 +12,18 @@ export const listCarsControllerDefaultOrderBy: IListAllCarsUseCase.OrderBy =
     'number_of_seats',
     'max_speed',
   ]);
-export const listCarsControllerDefaultOrder: IListAllCarsUseCase.Order =
+export const listAllCarsControllerDefaultOrder: IListAllCarsUseCase.Order =
   faker.random.arrayElement(['ASC', 'DESC']);
-export const listCarsControllerDefaultLimit = faker.datatype.number({
+export const listAllCarsControllerDefaultLimit = faker.datatype.number({
   min: 10,
   max: 100,
 });
-export const listCarsControllerDefaultPage = faker.datatype.number({
+export const listAllCarsControllerDefaultPage = faker.datatype.number({
   min: 1,
   max: 50,
 });
 
-export const listCarsControllerRequestMock: ListCarsController.Request = {
+export const listAllCarsControllerRequestMock: ListAllCarsController.Request = {
   headers: undefined,
   params: undefined,
   body: undefined,

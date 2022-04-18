@@ -6,7 +6,7 @@ import {
 } from '@domain/errors';
 import { IAuthenticateUserUseCase } from '@domain/usecases/user/Authenticate';
 
-import { AuthenticateUserController } from '@presentation/controllers/user/AuthenticateUser';
+import { AuthenticateUserController } from '@presentation/controllers/user/Authenticate';
 import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
 
 import {

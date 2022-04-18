@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { DeleteCarSpecificationController } from '@presentation/controllers/car/specification/DeleteCarSpecification';
+import { DeleteCarSpecificationController } from '@presentation/controllers/car/specification/Delete';
 
 export const deleteCarSpecificationControllerRequestMock: DeleteCarSpecificationController.Request =
   {

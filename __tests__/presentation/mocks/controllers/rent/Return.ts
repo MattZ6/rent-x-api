@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { ReturnRentController } from '@presentation/controllers/rent/ReturnRent';
+import { ReturnRentController } from '@presentation/controllers/rent/Return';
 
 export const returnRentControllerRequestMock: ReturnRentController.Request = {
   headers: undefined,

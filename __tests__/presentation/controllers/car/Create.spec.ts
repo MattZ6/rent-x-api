@@ -5,7 +5,7 @@ import {
   OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
 
-import { CreateCarController } from '@presentation/controllers/car/CreateCar';
+import { CreateCarController } from '@presentation/controllers/car/Create';
 import { conflict, created, notFound } from '@presentation/helpers/http';
 
 import {

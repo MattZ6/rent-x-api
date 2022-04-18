@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { RefreshUserAccessTokenController } from '@presentation/controllers/user/RefreshUserAccessToken';
+import { RefreshUserAccessTokenController } from '@presentation/controllers/user/RefreshAccessToken';
 
 export const refreshUserAccessTokenControllerRequestMock: RefreshUserAccessTokenController.Request =
   {

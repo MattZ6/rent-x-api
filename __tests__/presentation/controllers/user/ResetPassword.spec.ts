@@ -4,7 +4,7 @@ import {
   UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
-import { ResetUserPasswordController } from '@presentation/controllers/user/ResetUserPassword';
+import { ResetUserPasswordController } from '@presentation/controllers/user/ResetPassword';
 import {
   notFound,
   unprocessableEntity,

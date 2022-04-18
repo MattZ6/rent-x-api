@@ -2,9 +2,9 @@ import { Router } from 'express';
 
 import { adaptMiddleware } from '@main/adapters/express/middleware';
 import { adaptRoute } from '@main/adapters/express/route';
-import { makeCreateCarCategoryController } from '@main/factories/controllers/car/category/CreateCarCategoryControllerFactory';
-import { makeListCarCategoriesController } from '@main/factories/controllers/car/category/ListCarCategoriesControllerFactory';
-import { makeUpdateCarCategoryController } from '@main/factories/controllers/car/category/UpdateCarCategoryControllerFactory';
+import { makeCreateCarCategoryController } from '@main/factories/controllers/car/category/Create';
+import { makeListAllCarCategoriesController } from '@main/factories/controllers/car/category/ListAll';
+import { makeUpdateCarCategoryController } from '@main/factories/controllers/car/category/Update';
 import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
 const carCategoriesRoutes = Router();
@@ -24,7 +24,7 @@ carCategoriesRoutes.put(
 carCategoriesRoutes.get(
   '/',
   adaptMiddleware(makeAuthenticationMiddleware()),
-  adaptRoute(makeListCarCategoriesController())
+  adaptRoute(makeListAllCarCategoriesController())
 );
 
 export default carCategoriesRoutes;

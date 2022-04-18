@@ -1,30 +1,30 @@
-import { ListCarSpecificationsController } from '@presentation/controllers/car/specification/ListCarSpecifications';
+import { ListAllCarSpecificationsController } from '@presentation/controllers/car/specification/ListAll';
 import { ok } from '@presentation/helpers/http';
 
 import { carSpecificationMock } from '../../../../domain/entities';
 import {
-  listCarSpecificationsControllerDefaultLimit,
-  listCarSpecificationsControllerDefaultOrder,
-  listCarSpecificationsControllerDefaultOrderBy,
-  listCarSpecificationsControllerDefaultPage,
+  listAllCarSpecificationsControllerDefaultLimit,
+  listAllCarSpecificationsControllerDefaultOrder,
+  listAllCarSpecificationsControllerDefaultOrderBy,
+  listAllCarSpecificationsControllerDefaultPage,
   ListAllCarSpecificationsUseCaseSpy,
-  listCarSpecificationsControllerRequestMock,
+  listAllCarSpecificationsControllerRequestMock,
 } from '../../../mocks';
 
 let listAllCarSpecificationsUseCaseSpy: ListAllCarSpecificationsUseCaseSpy;
 
-let listCarSpecificationsController: ListCarSpecificationsController;
+let listAllCarSpecificationsController: ListAllCarSpecificationsController;
 
-describe('ListCarSpecificationsController', () => {
+describe('ListAllCarSpecificationsController', () => {
   beforeEach(() => {
     listAllCarSpecificationsUseCaseSpy =
       new ListAllCarSpecificationsUseCaseSpy();
 
-    listCarSpecificationsController = new ListCarSpecificationsController(
-      listCarSpecificationsControllerDefaultOrderBy,
-      listCarSpecificationsControllerDefaultOrder,
-      listCarSpecificationsControllerDefaultLimit,
-      listCarSpecificationsControllerDefaultPage,
+    listAllCarSpecificationsController = new ListAllCarSpecificationsController(
+      listAllCarSpecificationsControllerDefaultOrderBy,
+      listAllCarSpecificationsControllerDefaultOrder,
+      listAllCarSpecificationsControllerDefaultLimit,
+      listAllCarSpecificationsControllerDefaultPage,
       listAllCarSpecificationsUseCaseSpy
     );
   });
@@ -35,16 +35,16 @@ describe('ListCarSpecificationsController', () => {
       'execute'
     );
 
-    await listCarSpecificationsController.handle(
-      listCarSpecificationsControllerRequestMock
+    await listAllCarSpecificationsController.handle(
+      listAllCarSpecificationsControllerRequestMock
     );
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listCarSpecificationsControllerRequestMock.query.order_by,
-      order: listCarSpecificationsControllerRequestMock.query.order,
-      limit: listCarSpecificationsControllerRequestMock.query.limit,
-      page: listCarSpecificationsControllerRequestMock.query.page,
+      order_by: listAllCarSpecificationsControllerRequestMock.query.order_by,
+      order: listAllCarSpecificationsControllerRequestMock.query.order,
+      limit: listAllCarSpecificationsControllerRequestMock.query.limit,
+      page: listAllCarSpecificationsControllerRequestMock.query.page,
     });
   });
 
@@ -55,17 +55,17 @@ describe('ListCarSpecificationsController', () => {
     );
 
     const request = {
-      ...listCarSpecificationsControllerRequestMock,
+      ...listAllCarSpecificationsControllerRequestMock,
       query: undefined,
     };
 
-    await listCarSpecificationsController.handle(request);
+    await listAllCarSpecificationsController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listCarSpecificationsControllerDefaultOrderBy,
-      order: listCarSpecificationsControllerDefaultOrder,
-      limit: listCarSpecificationsControllerDefaultLimit,
-      page: listCarSpecificationsControllerDefaultPage,
+      order_by: listAllCarSpecificationsControllerDefaultOrderBy,
+      order: listAllCarSpecificationsControllerDefaultOrder,
+      limit: listAllCarSpecificationsControllerDefaultLimit,
+      page: listAllCarSpecificationsControllerDefaultPage,
     });
   });
 
@@ -74,8 +74,8 @@ describe('ListCarSpecificationsController', () => {
       .spyOn(listAllCarSpecificationsUseCaseSpy, 'execute')
       .mockRejectedValueOnce(new Error());
 
-    const promise = listCarSpecificationsController.handle(
-      listCarSpecificationsControllerRequestMock
+    const promise = listAllCarSpecificationsController.handle(
+      listAllCarSpecificationsControllerRequestMock
     );
 
     await expect(promise).rejects.toThrow();
@@ -88,8 +88,8 @@ describe('ListCarSpecificationsController', () => {
       .spyOn(listAllCarSpecificationsUseCaseSpy, 'execute')
       .mockResolvedValueOnce(carSpecifications);
 
-    const response = await listCarSpecificationsController.handle(
-      listCarSpecificationsControllerRequestMock
+    const response = await listAllCarSpecificationsController.handle(
+      listAllCarSpecificationsControllerRequestMock
     );
 
     expect(response).toEqual(ok(carSpecifications));

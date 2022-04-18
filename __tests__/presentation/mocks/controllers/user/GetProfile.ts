@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { GetUserProfileController } from '@presentation/controllers/user/GetUserProfile';
+import { GetUserProfileController } from '@presentation/controllers/user/GetProfile';
 
 export const getUserProfileControllerRequestMock: GetUserProfileController.Request =
   {
