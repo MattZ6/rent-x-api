@@ -6,7 +6,7 @@ import {
 } from '@domain/errors';
 import { ICar } from '@domain/models/Car';
 import { ICarSpecification } from '@domain/models/CarSpecification';
-import { ICreateCarUseCase } from '@domain/usecases/car/CreateCar';
+import { ICreateCarUseCase } from '@domain/usecases/car/Create';
 
 import {
   ICheckIfCarExistsByLicensePlateRepository,

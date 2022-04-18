@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
-import { ICreateCarUseCase } from '@domain/usecases/car/CreateCar';
+import { ICreateCarUseCase } from '@domain/usecases/car/Create';
 
 export const createCarUseCaseInputMock: ICreateCarUseCase.Input = {
   name: faker.datatype.string(),

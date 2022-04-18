@@ -4,7 +4,7 @@ import {
   CarCategoryNotFoundWithProvidedIdError,
   OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
-import { ICreateCarUseCase } from '@domain/usecases/car/CreateCar';
+import { ICreateCarUseCase } from '@domain/usecases/car/Create';
 
 import { conflict, created, notFound } from '@presentation/helpers/http';
 import {

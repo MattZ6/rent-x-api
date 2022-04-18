@@ -1,4 +1,4 @@
-import { ICreateCarUseCase } from '@domain/usecases/car/CreateCar';
+import { ICreateCarUseCase } from '@domain/usecases/car/Create';
 
 import { carMock } from '../../../../domain/models/car.mock';
 
