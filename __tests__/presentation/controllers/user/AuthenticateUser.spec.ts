@@ -4,7 +4,7 @@ import {
   WrongPasswordError,
   UserNotFoundWithProvidedEmailError,
 } from '@domain/errors';
-import { IAuthenticateUserUseCase } from '@domain/usecases/user/AuthenticateUser';
+import { IAuthenticateUserUseCase } from '@domain/usecases/user/Authenticate';
 
 import { AuthenticateUserController } from '@presentation/controllers/user/AuthenticateUser';
 import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
