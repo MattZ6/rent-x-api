@@ -2,7 +2,7 @@ import {
   CarSpecificationNotFoundWithProvidedIdError,
   CarSpecificationAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
-import { IUpdateCarSpecificationUseCase } from '@domain/usecases/car/specification/UpdateCarSpecification';
+import { IUpdateCarSpecificationUseCase } from '@domain/usecases/car/specification/Update';
 
 import {
   ICheckIfCarSpecificationExistsByNameRepository,
