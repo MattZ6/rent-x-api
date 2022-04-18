@@ -3,7 +3,7 @@ import {
   UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
-import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetUserPassword';
+import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetPassword';
 
 import {
   notFound,

@@ -1,4 +1,4 @@
-import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetUserPassword';
+import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetPassword';
 
 export class ResetUserPasswordUseCaseSpy implements IResetUserPasswordUseCase {
   async execute(
