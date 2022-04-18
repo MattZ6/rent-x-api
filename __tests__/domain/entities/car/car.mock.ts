@@ -1,6 +1,10 @@
 import { faker } from '@faker-js/faker';
 
-import { ICar, TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
+import {
+  ICar,
+  TransmissionTypeEnum,
+  TypeOfFuelEnum,
+} from '@domain/entities/Car';
 
 import { carBrandMock } from './car-brand.mock';
 import { carCategoryMock } from './car-category.mock';

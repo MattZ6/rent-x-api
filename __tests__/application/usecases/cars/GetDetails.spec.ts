@@ -4,7 +4,7 @@ import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { GetCarDetailsUseCase } from '@application/usecases/car/GetDetails';
 
-import { carMock } from '../../../domain/models';
+import { carMock } from '../../../domain/entities';
 import {
   FindCarByIdRepositorySpy,
   getCarDetailsUseCaseInputMock,

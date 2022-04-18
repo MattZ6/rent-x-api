@@ -1,6 +1,6 @@
 import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/Update';
 
-import { carBrandMock } from '../../../../../domain/models';
+import { carBrandMock } from '../../../../../domain/entities';
 
 export class UpdateCarBrandUseCaseSpy implements IUpdateCarBrandUseCase {
   async execute(

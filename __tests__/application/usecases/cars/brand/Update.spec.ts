@@ -7,7 +7,7 @@ import {
 
 import { UpdateCarBrandUseCase } from '@application/usecases/car/brand/Update';
 
-import { carBrandMock } from '../../../../domain/models';
+import { carBrandMock } from '../../../../domain/entities';
 import {
   CheckIfCarBrandExistsByNameRepositorySpy,
   FindCarBrandByIdRepositorySpy,

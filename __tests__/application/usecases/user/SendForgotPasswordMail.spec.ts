@@ -4,7 +4,7 @@ import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 
 import { SendForgotUserPasswordMailUseCase } from '@application/usecases/user/SendForgotPasswordMail';
 
-import { userMock } from '../../../domain/models';
+import { userMock } from '../../../domain/entities';
 import {
   CreateUserTokenRepositorySpy,
   FindUserByEmailRepositorySpy,

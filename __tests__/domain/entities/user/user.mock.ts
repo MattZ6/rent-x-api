@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IUser } from '@domain/models/User';
+import { IUser } from '@domain/entities/User';
 
 export const userMock: IUser = {
   id: faker.datatype.uuid(),

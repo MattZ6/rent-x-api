@@ -1,6 +1,6 @@
 import { ListAllCarCategoriesUseCase } from '@application/usecases/car/category/ListAll';
 
-import { carCategoryMock } from '../../../../domain/models';
+import { carCategoryMock } from '../../../../domain/entities';
 import {
   FindAllCarCategoriesRepositorySpy,
   listAllCarCategoriesUseCaseInputMock,

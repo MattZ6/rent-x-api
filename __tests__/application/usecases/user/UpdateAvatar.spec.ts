@@ -4,7 +4,7 @@ import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { UpdateUserAvatarUseCase } from '@application/usecases/user/UpdateAvatar';
 
-import { makeUserAvatar } from '../../../domain/models';
+import { makeUserAvatar } from '../../../domain/entities';
 import {
   CheckIfUserExistsByIdRepositorySpy,
   CreateUserAvatarRepositorySpy,

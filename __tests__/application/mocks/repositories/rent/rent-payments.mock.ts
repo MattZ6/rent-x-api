@@ -1,6 +1,6 @@
 import { ICreateRentPaymentRepository } from '@application/protocols/repositories/rent-payment';
 
-import { rentPaymentMock } from '../../../../domain/models';
+import { rentPaymentMock } from '../../../../domain/entities';
 
 export class CreateRentPaymentRepositorySpy
   implements ICreateRentPaymentRepository

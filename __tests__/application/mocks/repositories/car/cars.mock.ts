@@ -6,7 +6,7 @@ import {
   IFindCarByIdRepository,
 } from '@application/protocols/repositories/car';
 
-import { carMock } from '../../../../domain/models';
+import { carMock } from '../../../../domain/entities';
 
 export class CheckIfCarExistsByLicensePlateRepositorySpy
   implements ICheckIfCarExistsByLicensePlateRepository

@@ -1,6 +1,6 @@
 import { IGetUserProfileUseCase } from '@domain/usecases/user/GetProfile';
 
-import { userMock } from '../../../../domain/models';
+import { userMock } from '../../../../domain/entities';
 
 export class GetUserProfileUseCaseSpy implements IGetUserProfileUseCase {
   async execute(

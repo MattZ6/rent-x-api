@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { v4 } from 'uuid';
 
-import { IUserToken } from '@domain/models/UserToken';
+import { IUserToken } from '@domain/entities/UserToken';
 
 import { tableNames } from '../constants';
 

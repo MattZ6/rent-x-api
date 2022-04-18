@@ -6,7 +6,7 @@ import {
 import { CreateAccountController } from '@presentation/controllers/user/CreateAccount';
 import { conflict, created } from '@presentation/helpers/http';
 
-import { userMock } from '../../../domain/models';
+import { userMock } from '../../../domain/entities';
 import {
   createAccountControllerRequestMock,
   CreateUserUseCaseSpy,

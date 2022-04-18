@@ -1,4 +1,4 @@
-import { IRent } from '@domain/models/Rent';
+import { IRent } from '@domain/entities/Rent';
 
 interface ICreateRentUseCase {
   execute(data: ICreateRentUseCase.Input): Promise<ICreateRentUseCase.Output>;

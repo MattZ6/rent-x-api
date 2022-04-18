@@ -7,7 +7,7 @@ import {
 
 import { AuthenticateUserUseCase } from '@application/usecases/user/Authenticate';
 
-import { userMock } from '../../../domain/models';
+import { userMock } from '../../../domain/entities';
 import {
   authenticateUserUseCaseInputMock,
   CompareHashProviderSpy,

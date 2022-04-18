@@ -3,7 +3,7 @@ import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 import { GetCarDetailsController } from '@presentation/controllers/car/GetCarDetails';
 import { notFound, ok } from '@presentation/helpers/http';
 
-import { carMock } from '../../../domain/models';
+import { carMock } from '../../../domain/entities';
 import {
   getCarDetailsControllerRequestMock,
   GetCarDetailsUseCaseSpy,

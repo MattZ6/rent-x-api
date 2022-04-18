@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { v4 } from 'uuid';
 
-import { ICarSpecification } from '@domain/models/CarSpecification';
+import { ICarSpecification } from '@domain/entities/CarSpecification';
 
 import { tableNames } from '../constants';
 

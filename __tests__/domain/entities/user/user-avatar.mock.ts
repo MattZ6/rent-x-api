@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IUserAvatar } from '@domain/models/UserAvatar';
+import { IUserAvatar } from '@domain/entities/UserAvatar';
 
 export function makeUserAvatar(): IUserAvatar {
   return {

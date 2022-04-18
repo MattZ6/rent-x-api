@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IUserToken } from '@domain/models/UserToken';
+import { IUserToken } from '@domain/entities/UserToken';
 
 const oneDayInMillisseconds = 1 * 24 * 60 * 60 * 1000;
 

@@ -1,4 +1,4 @@
-import { ICarSpecification } from '@domain/models/CarSpecification';
+import { ICarSpecification } from '@domain/entities/CarSpecification';
 
 interface IListAllCarSpecificationsUseCase {
   execute(

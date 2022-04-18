@@ -4,7 +4,7 @@ import {
   IUpdateUserAvatarRepository,
 } from '@application/protocols/repositories/user-avatar';
 
-import { makeUserAvatar } from '../../../../domain/models';
+import { makeUserAvatar } from '../../../../domain/entities';
 
 export class FindUserAvatarByIdRepositorySpy
   implements IFindUserAvatarByIdRepository

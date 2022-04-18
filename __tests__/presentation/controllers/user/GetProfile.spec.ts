@@ -3,7 +3,7 @@ import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 import { GetUserProfileController } from '@presentation/controllers/user/GetUserProfile';
 import { notFound, ok } from '@presentation/helpers/http';
 
-import { userMock } from '../../../domain/models';
+import { userMock } from '../../../domain/entities';
 import {
   getUserProfileControllerRequestMock,
   GetUserProfileUseCaseSpy,

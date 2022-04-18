@@ -7,7 +7,7 @@ import {
 
 import { UpdateCarCategoryUseCase } from '@application/usecases/car/category/Update';
 
-import { carCategoryMock } from '../../../../domain/models';
+import { carCategoryMock } from '../../../../domain/entities';
 import {
   CheckIfCarCategoryExistsByNameRepositorySpy,
   FindCarCategoryByIdRepositorySpy,

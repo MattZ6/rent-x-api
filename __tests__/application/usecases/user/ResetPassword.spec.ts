@@ -8,7 +8,7 @@ import {
 
 import { ResetUserPasswordUseCase } from '@application/usecases/user/ResetPassword';
 
-import { userMock, userTokenMock } from '../../../domain/models';
+import { userMock, userTokenMock } from '../../../domain/entities';
 import {
   DeleteUserTokenByIdRepositorySpy,
   FindUserByIdRepositorySpy,

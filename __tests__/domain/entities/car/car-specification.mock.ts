@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-import { ICarCategory } from '@domain/models/CarCategory';
+import { ICarSpecification } from '@domain/entities/CarSpecification';
 
-export const carCategoryMock: ICarCategory = {
+export const carSpecificationMock: ICarSpecification = {
   id: faker.datatype.uuid(),
   name: faker.vehicle.model(),
   description: faker.vehicle.model(),

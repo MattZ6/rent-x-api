@@ -1,7 +1,7 @@
 import { ListCarsController } from '@presentation/controllers/car/ListCars';
 import { ok } from '@presentation/helpers/http';
 
-import { carMock } from '../../../domain/models';
+import { carMock } from '../../../domain/entities';
 import {
   listCarsControllerDefaultLimit,
   listCarsControllerDefaultOrder,

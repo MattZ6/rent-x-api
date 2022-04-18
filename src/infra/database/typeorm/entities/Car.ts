@@ -11,10 +11,14 @@ import {
 } from 'typeorm';
 import { v4 } from 'uuid';
 
-import { ICar, TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
-import { ICarBrand } from '@domain/models/CarBrand';
-import { ICarCategory } from '@domain/models/CarCategory';
-import { ICarSpecification } from '@domain/models/CarSpecification';
+import {
+  ICar,
+  TransmissionTypeEnum,
+  TypeOfFuelEnum,
+} from '@domain/entities/Car';
+import { ICarBrand } from '@domain/entities/CarBrand';
+import { ICarCategory } from '@domain/entities/CarCategory';
+import { ICarSpecification } from '@domain/entities/CarSpecification';
 
 import { tableNames } from '../constants';
 import { CarBrand } from './CarBrand';

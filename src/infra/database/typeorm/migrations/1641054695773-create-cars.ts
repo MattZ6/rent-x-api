@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-import { TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
+import { TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/entities/Car';
 
 import { tableNames } from '../constants';
 

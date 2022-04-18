@@ -1,12 +1,12 @@
 import { faker } from '@faker-js/faker';
 
+import { IRent } from '@domain/entities/Rent';
 import {
   RentBelongsToAnotherUserError,
   RentNotFoundWithProvidedIdError,
   RentAlreadyClosedError,
   RentalIsNotInProgressError,
 } from '@domain/errors';
-import { IRent } from '@domain/models/Rent';
 
 import { ReturnRentUseCase } from '@application/usecases/rent/Return';
 
@@ -14,7 +14,7 @@ import {
   makeRentMock,
   rentMock,
   makeRentPaymentMock,
-} from '../../../domain/models';
+} from '../../../domain/entities';
 import {
   CreateRentPaymentRepositorySpy,
   FindRentalByIdRepositorySpy,

@@ -1,4 +1,4 @@
-import { IUser } from '@domain/models/User';
+import { IUser } from '@domain/entities/User';
 
 interface ICreateUserRepository {
   create(

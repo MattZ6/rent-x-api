@@ -11,7 +11,7 @@ import {
 
 import { CreateRentUseCase } from '@application/usecases/rent/Create';
 
-import { carMock, rentMock } from '../../../domain/models';
+import { carMock, rentMock } from '../../../domain/entities';
 import {
   CheckIfRentExistsByOpenScheduleForCarRepositorySpy,
   CheckIfUserExistsByIdRepositorySpy,

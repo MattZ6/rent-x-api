@@ -9,7 +9,7 @@ import {
   IUpdateCarSpecificationRepository,
 } from '@application/protocols/repositories/car-specification';
 
-import { carSpecificationMock } from '../../../../domain/models';
+import { carSpecificationMock } from '../../../../domain/entities';
 
 export class CheckIfCarSpecificationExistsByNameRepositorySpy
   implements ICheckIfCarSpecificationExistsByNameRepository

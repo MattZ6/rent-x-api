@@ -1,4 +1,4 @@
-import { ICarBrand } from '@domain/models/CarBrand';
+import { ICarBrand } from '@domain/entities/CarBrand';
 
 interface ICreateCarBrandRepository {
   create(

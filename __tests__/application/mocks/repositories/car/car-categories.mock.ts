@@ -7,7 +7,7 @@ import {
   IUpdateCarCategoryRepository,
 } from '@application/protocols/repositories/car-category';
 
-import { carCategoryMock } from '../../../../domain/models';
+import { carCategoryMock } from '../../../../domain/entities';
 
 export class CheckIfCarCategoryExistsByNameRepositorySpy
   implements ICheckIfCarCategoryExistsByNameRepository

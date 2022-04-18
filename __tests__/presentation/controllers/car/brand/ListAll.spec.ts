@@ -1,7 +1,7 @@
 import { ListCarBrandsController } from '@presentation/controllers/car/brand/ListCarBrands';
 import { ok } from '@presentation/helpers/http';
 
-import { carCategoryMock } from '../../../../domain/models';
+import { carCategoryMock } from '../../../../domain/entities';
 import {
   listCarBrandsControllerDefaultLimitMock,
   listCarBrandsControllerDefaultOrderMock,

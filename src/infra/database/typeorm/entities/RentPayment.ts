@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { v4 } from 'uuid';
 
-import { IRentPayment } from '@domain/models/RentPayment';
+import { IRentPayment } from '@domain/entities/RentPayment';
 
 import { tableNames } from '../constants';
 import { Rent } from './Rent';

@@ -1,6 +1,6 @@
 import { IReturnRentUseCase } from '@domain/usecases/rent/Return';
 
-import { makeRentMock } from '../../../../domain/models';
+import { makeRentMock } from '../../../../domain/entities';
 
 export class ReturnRentUseCaseSpy implements IReturnRentUseCase {
   async execute(

@@ -7,7 +7,7 @@ import {
 
 import { UpdateCarSpecificationUseCase } from '@application/usecases/car/specification/Update';
 
-import { carSpecificationMock } from '../../../../domain/models';
+import { carSpecificationMock } from '../../../../domain/entities';
 import {
   CheckIfCarSpecificationExistsByNameRepositorySpy,
   FindCarSpecificationByIdRepositorySpy,

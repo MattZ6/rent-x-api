@@ -1,4 +1,4 @@
-import { ICar } from '@domain/models/Car';
+import { ICar } from '@domain/entities/Car';
 
 interface IListAllCarsUseCase {
   execute(data: IListAllCarsUseCase.Input): Promise<IListAllCarsUseCase.Output>;

@@ -1,11 +1,11 @@
+import { ICar } from '@domain/entities/Car';
+import { ICarSpecification } from '@domain/entities/CarSpecification';
 import {
   CarAlreadyExistsWithProvidedLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
   CarCategoryNotFoundWithProvidedIdError,
   OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
-import { ICar } from '@domain/models/Car';
-import { ICarSpecification } from '@domain/models/CarSpecification';
 import { ICreateCarUseCase } from '@domain/usecases/car/Create';
 
 import {

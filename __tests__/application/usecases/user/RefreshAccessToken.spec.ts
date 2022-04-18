@@ -7,7 +7,7 @@ import {
 
 import { RefreshUserAccessTokenUseCase } from '@application/usecases/user/RefreshAccessToken';
 
-import { userTokenMock } from '../../../domain/models';
+import { userTokenMock } from '../../../domain/entities';
 import {
   CreateUserTokenRepositorySpy,
   DeleteUserTokenByIdRepositorySpy,

@@ -9,7 +9,7 @@ import {
 
 import { CreateCarUseCase } from '@application/usecases/car/Create';
 
-import { carSpecificationMock } from '../../../domain/models';
+import { carSpecificationMock } from '../../../domain/entities';
 import {
   CheckIfCarBrandExistsByIdRepositorySpy,
   CheckIfCarCategoryExistsByIdRepositorySpy,

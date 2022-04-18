@@ -8,7 +8,7 @@ import {
   IUpdateUserRepository,
 } from '@application/protocols/repositories/user';
 
-import { userMock } from '../../../../domain/models';
+import { userMock } from '../../../../domain/entities';
 
 export class CheckIfUserExistsByEmailRepositorySpy
   implements ICheckIfUserExistsByEmailRepository

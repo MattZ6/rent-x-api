@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IRentPayment } from '@domain/models/RentPayment';
+import { IRentPayment } from '@domain/entities/RentPayment';
 
 import { rentMock } from './rent.mock';
 

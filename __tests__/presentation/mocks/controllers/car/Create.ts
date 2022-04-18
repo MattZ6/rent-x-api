@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/models/Car';
+import { TransmissionTypeEnum, TypeOfFuelEnum } from '@domain/entities/Car';
 
 import { CreateCarController } from '@presentation/controllers/car/CreateCar';
 

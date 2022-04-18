@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { ICarBrand } from '@domain/models/CarBrand';
+import { ICarBrand } from '@domain/entities/CarBrand';
 
 export const carBrandMock: ICarBrand = {
   id: faker.datatype.uuid(),

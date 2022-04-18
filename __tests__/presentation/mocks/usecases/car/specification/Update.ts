@@ -1,6 +1,6 @@
 import { IUpdateCarSpecificationUseCase } from '@domain/usecases/car/specification/Update';
 
-import { carSpecificationMock } from '../../../../../domain/models';
+import { carSpecificationMock } from '../../../../../domain/entities';
 
 export class UpdateCarSpecificationUseCaseSpy
   implements IUpdateCarSpecificationUseCase

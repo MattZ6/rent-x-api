@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { ListAllCarsUseCase } from '@application/usecases/car/ListAll';
 
-import { carMock } from '../../../domain/models';
+import { carMock } from '../../../domain/entities';
 import {
   FindAllCarsRepositorySpy,
   listAllCarsUseCaseInputMock,

@@ -6,7 +6,7 @@ import {
   IUpdateRentRepository,
 } from '@application/protocols/repositories/rent';
 
-import { rentMock } from '../../../../domain/models';
+import { rentMock } from '../../../../domain/entities';
 
 export class CreateRentRepositorySpy implements ICreateRentRepository {
   async create(

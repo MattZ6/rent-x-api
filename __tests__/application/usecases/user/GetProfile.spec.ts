@@ -4,7 +4,7 @@ import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { GetUserProfileUseCase } from '@application/usecases/user/GetProfile';
 
-import { userMock } from '../../../domain/models';
+import { userMock } from '../../../domain/entities';
 import {
   FindUserByIdRepositorySpy,
   getUserProfileUseCaseInputMock,

@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { v4 } from 'uuid';
 
-import { IRent } from '@domain/models/Rent';
+import { IRent } from '@domain/entities/Rent';
 
 import { tableNames } from '../constants';
 import { Car } from './Car';
