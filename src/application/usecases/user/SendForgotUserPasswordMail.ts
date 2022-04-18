@@ -1,5 +1,5 @@
 import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
-import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotUserPasssordMail';
+import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotPasssordMail';
 
 import { ISendMailProvider } from '@application/protocols/providers/mail/SendMailProvider';
 import { IGenerateUuidProvider } from '@application/protocols/providers/uuid';

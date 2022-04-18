@@ -1,4 +1,4 @@
-import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotUserPasssordMail';
+import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotPasssordMail';
 
 export class SendForgotUserPasswordMailUseCaseSpy
   implements ISendForgotUserPasswordMailUseCase

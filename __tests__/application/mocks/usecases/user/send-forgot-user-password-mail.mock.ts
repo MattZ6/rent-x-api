@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotUserPasssordMail';
+import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotPasssordMail';
 
 export const forgotEmailExpiresTimeInMillissecondsMock = faker.datatype.number({
   min: 1_000,

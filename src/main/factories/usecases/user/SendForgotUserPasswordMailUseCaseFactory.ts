@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 
-import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotUserPasssordMail';
+import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotPasssordMail';
 
 import { SendForgotUserPasswordMailUseCase } from '@application/usecases/user/SendForgotUserPasswordMail';
 
