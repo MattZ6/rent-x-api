@@ -1,5 +1,5 @@
 import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
-import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotUserPasssordMail';
+import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotPasssordMail';
 
 import { noContent } from '@presentation/helpers/http';
 import {

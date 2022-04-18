@@ -2,7 +2,7 @@ import {
   UserAlreadyExistsWithProvidedDriverLicenseError,
   UserAlreadyExistsWithProvidedEmailError,
 } from '@domain/errors';
-import { ICreateUserUseCase } from '@domain/usecases/user/CreateUser';
+import { ICreateUserUseCase } from '@domain/usecases/user/Create';
 
 import { conflict, created } from '@presentation/helpers/http';
 import {

@@ -1,4 +1,4 @@
-import { ICarCategory } from '@domain/models/CarCategory';
+import { ICarCategory } from '@domain/entities/CarCategory';
 
 interface IFindAllCarCategoriesRepository {
   findAll(

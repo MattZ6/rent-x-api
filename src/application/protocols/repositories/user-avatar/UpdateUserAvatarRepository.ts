@@ -1,4 +1,4 @@
-import { IUserAvatar } from '@domain/models/UserAvatar';
+import { IUserAvatar } from '@domain/entities/UserAvatar';
 
 interface IUpdateUserAvatarRepository {
   update(

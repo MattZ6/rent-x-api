@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { IUser } from '@domain/models/User';
-import { IUserAvatar } from '@domain/models/UserAvatar';
+import { IUser } from '@domain/entities/User';
+import { IUserAvatar } from '@domain/entities/UserAvatar';
 
 import { tableNames } from '../constants';
 import { User } from './User';

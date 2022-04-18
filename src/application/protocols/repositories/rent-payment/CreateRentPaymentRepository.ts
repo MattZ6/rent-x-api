@@ -1,4 +1,4 @@
-import { IRentPayment } from '@domain/models/RentPayment';
+import { IRentPayment } from '@domain/entities/RentPayment';
 
 interface ICreateRentPaymentRepository {
   create(

@@ -2,7 +2,7 @@ import {
   CarBrandAlreadyExistsWithProvidedNameError,
   CarBrandNotFoundWithProvidedIdError,
 } from '@domain/errors';
-import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/UpdateCarBrand';
+import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/Update';
 
 import { conflict, noContent, notFound } from '@presentation/helpers/http';
 import {

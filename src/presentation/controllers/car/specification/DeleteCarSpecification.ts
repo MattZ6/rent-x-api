@@ -1,5 +1,5 @@
 import { CarSpecificationNotFoundWithProvidedIdError } from '@domain/errors';
-import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/specification/DeleteCarSpecification';
+import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/specification/Delete';
 
 import { noContent, notFound } from '@presentation/helpers/http';
 import {

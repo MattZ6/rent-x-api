@@ -1,4 +1,4 @@
-import { IUserToken } from '@domain/models/UserToken';
+import { IUserToken } from '@domain/entities/UserToken';
 
 interface ICreateUserTokenRepository {
   create(

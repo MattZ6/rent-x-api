@@ -1,4 +1,4 @@
-import { CreateRentUseCase } from '@application/usecases/rent/CreateRent';
+import { CreateRentUseCase } from '@application/usecases/rent/Create';
 
 import { rentConfig } from '@main/config/environment/rent';
 import { makePostgresCarsRepository } from '@main/factories/repositories/PostgresCarsRepositoryFactory';

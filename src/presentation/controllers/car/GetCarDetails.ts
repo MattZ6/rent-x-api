@@ -1,5 +1,5 @@
 import { CarNotFoundWithProvidedIdError } from '@domain/errors';
-import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetCarDetails';
+import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetDetails';
 
 import { notFound, ok } from '@presentation/helpers/http';
 import {

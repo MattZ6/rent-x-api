@@ -1,4 +1,4 @@
-import { RefreshUserAccessTokenUseCase } from '@application/usecases/user/RefreshUserAccessToken';
+import { RefreshUserAccessTokenUseCase } from '@application/usecases/user/RefreshAccessToken';
 
 import { authConfig } from '@main/config/environment/auth';
 import { makeJWTCryptographyProvider } from '@main/factories/providers/JWTCryptographyProviderFactory';

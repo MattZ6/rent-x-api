@@ -1,5 +1,5 @@
 import { CarBrandAlreadyExistsWithProvidedNameError } from '@domain/errors';
-import { ICreateCarBrandUseCase } from '@domain/usecases/car/brand/CreateCarBrand';
+import { ICreateCarBrandUseCase } from '@domain/usecases/car/brand/Create';
 
 import { conflict, created } from '@presentation/helpers/http';
 import {

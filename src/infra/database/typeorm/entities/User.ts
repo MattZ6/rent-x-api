@@ -9,8 +9,8 @@ import {
 } from 'typeorm';
 import { v4 } from 'uuid';
 
-import { IUser } from '@domain/models/User';
-import { IUserAvatar } from '@domain/models/UserAvatar';
+import { IUser } from '@domain/entities/User';
+import { IUserAvatar } from '@domain/entities/UserAvatar';
 
 import { tableNames } from '../constants';
 import { UserAvatar } from './UserAvatar';

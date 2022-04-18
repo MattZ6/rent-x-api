@@ -1,4 +1,4 @@
-import { ReturnRentUseCase } from '@application/usecases/rent/ReturnRent';
+import { ReturnRentUseCase } from '@application/usecases/rent/Return';
 
 import { makePostgresRentPaymentsRepository } from '@main/factories/repositories/PostgresRentPaymentsRepositoryFactory';
 import { makePostgresRentsRepository } from '@main/factories/repositories/PostgresRentsRepositoryFactory';

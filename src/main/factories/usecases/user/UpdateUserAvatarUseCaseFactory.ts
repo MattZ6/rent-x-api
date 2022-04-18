@@ -1,4 +1,4 @@
-import { UpdateUserAvatarUseCase } from '@application/usecases/user/UpdateUserAvatar';
+import { UpdateUserAvatarUseCase } from '@application/usecases/user/UpdateAvatar';
 
 import { storageConfig } from '@main/config/environment/storage';
 import { makeDiskStorageProvider } from '@main/factories/providers/DiskStorageProviderFactory';
