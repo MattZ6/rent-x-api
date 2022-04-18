@@ -1,4 +1,4 @@
-import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/UpdateCarBrand';
+import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/Update';
 
 import { carBrandMock } from '../../../../../domain/models/car-brand.mock';
 
