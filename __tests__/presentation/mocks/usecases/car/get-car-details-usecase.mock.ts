@@ -1,4 +1,4 @@
-import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetCarDetails';
+import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetDetails';
 
 import { carMock } from '../../../../domain/models/car.mock';
 
