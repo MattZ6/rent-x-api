@@ -1,5 +1,5 @@
 import { CarSpecificationAlreadyExistsWithProvidedNameError } from '@domain/errors';
-import { ICreateCarSpecificationUseCase } from '@domain/usecases/car/specification/CreateCarSpecification';
+import { ICreateCarSpecificationUseCase } from '@domain/usecases/car/specification/Create';
 
 import { conflict, created } from '@presentation/helpers/http';
 import {
