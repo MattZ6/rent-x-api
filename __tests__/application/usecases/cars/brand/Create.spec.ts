@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { CarBrandAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
-import { CreateCarBrandUseCase } from '@application/usecases/car/brand/CreateCarBrand';
+import { CreateCarBrandUseCase } from '@application/usecases/car/brand/Create';
 
 import {
   CheckIfCarBrandExistsByNameRepositorySpy,

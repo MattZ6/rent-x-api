@@ -5,9 +5,9 @@ import {
   UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
-import { RefreshUserAccessTokenUseCase } from '@application/usecases/user/RefreshUserAccessToken';
+import { RefreshUserAccessTokenUseCase } from '@application/usecases/user/RefreshAccessToken';
 
-import { userTokenMock } from '../../../domain/models/user/user-token.mock';
+import { userTokenMock } from '../../../domain/models';
 import {
   CreateUserTokenRepositorySpy,
   DeleteUserTokenByIdRepositorySpy,

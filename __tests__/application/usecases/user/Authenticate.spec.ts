@@ -5,9 +5,9 @@ import {
   UserNotFoundWithProvidedEmailError,
 } from '@domain/errors';
 
-import { AuthenticateUserUseCase } from '@application/usecases/user/AuthenticateUser';
+import { AuthenticateUserUseCase } from '@application/usecases/user/Authenticate';
 
-import { userMock } from '../../../domain/models/user/user.mock';
+import { userMock } from '../../../domain/models';
 import {
   authenticateUserUseCaseInputMock,
   CompareHashProviderSpy,

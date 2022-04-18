@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { CarSpecificationAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
-import { CreateCarSpecificationUseCase } from '@application/usecases/car/specification/CreateCarSpecification';
+import { CreateCarSpecificationUseCase } from '@application/usecases/car/specification/Create';
 
 import {
   CheckIfCarSpecificationExistsByNameRepositorySpy,

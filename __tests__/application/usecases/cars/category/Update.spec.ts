@@ -5,7 +5,7 @@ import {
   CarCategoryNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
-import { UpdateCarCategoryUseCase } from '@application/usecases/car/category/UpdateCarCategory';
+import { UpdateCarCategoryUseCase } from '@application/usecases/car/category/Update';
 
 import { carCategoryMock } from '../../../../domain/models';
 import {

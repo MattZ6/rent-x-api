@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker';
 
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
-import { GetUserProfileUseCase } from '@application/usecases/user/GetUserProfile';
+import { GetUserProfileUseCase } from '@application/usecases/user/GetProfile';
 
-import { userMock } from '../../../domain/models/user/user.mock';
+import { userMock } from '../../../domain/models';
 import {
   FindUserByIdRepositorySpy,
   getUserProfileUseCaseInputMock,

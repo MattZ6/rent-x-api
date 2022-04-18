@@ -6,10 +6,9 @@ import {
   UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
-import { ResetUserPasswordUseCase } from '@application/usecases/user/ResetUserPassword';
+import { ResetUserPasswordUseCase } from '@application/usecases/user/ResetPassword';
 
-import { userTokenMock } from '../../../domain/models/user/user-token.mock';
-import { userMock } from '../../../domain/models/user/user.mock';
+import { userMock, userTokenMock } from '../../../domain/models';
 import {
   DeleteUserTokenByIdRepositorySpy,
   FindUserByIdRepositorySpy,

@@ -5,7 +5,7 @@ import {
   UserAlreadyExistsWithProvidedEmailError,
 } from '@domain/errors';
 
-import { CreateUserUseCase } from '@application/usecases/user/CreateUser';
+import { CreateUserUseCase } from '@application/usecases/user/Create';
 
 import {
   CheckIfUserExistsByDriverLicenseRepositorySpy,

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 
-import { GetCarDetailsUseCase } from '@application/usecases/car/GetCarDetails';
+import { GetCarDetailsUseCase } from '@application/usecases/car/GetDetails';
 
 import { carMock } from '../../../domain/models';
 import {

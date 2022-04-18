@@ -5,7 +5,7 @@ import {
   CarBrandNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
-import { UpdateCarBrandUseCase } from '@application/usecases/car/brand/UpdateCarBrand';
+import { UpdateCarBrandUseCase } from '@application/usecases/car/brand/Update';
 
 import { carBrandMock } from '../../../../domain/models';
 import {

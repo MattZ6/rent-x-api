@@ -2,7 +2,7 @@ import { resolve } from 'path';
 
 import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotPasssordMail';
 
-import { SendForgotUserPasswordMailUseCase } from '@application/usecases/user/SendForgotUserPasswordMail';
+import { SendForgotUserPasswordMailUseCase } from '@application/usecases/user/SendForgotPasswordMail';
 
 import { mailConfig } from '@main/config/environment/mail';
 import { makeEtherealMailProvider } from '@main/factories/providers/EtherealMailProviderFactory';

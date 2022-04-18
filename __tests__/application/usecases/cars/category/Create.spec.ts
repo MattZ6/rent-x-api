@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
-import { CreateCarCategoryUseCase } from '@application/usecases/car/category/CreateCarCategory';
+import { CreateCarCategoryUseCase } from '@application/usecases/car/category/Create';
 
 import {
   CheckIfCarCategoryExistsByNameRepositorySpy,

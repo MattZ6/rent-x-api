@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker';
 
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
-import { UpdateUserAvatarUseCase } from '@application/usecases/user/UpdateUserAvatar';
+import { UpdateUserAvatarUseCase } from '@application/usecases/user/UpdateAvatar';
 
-import { makeUserAvatar } from '../../../domain/models/user/user-avatar.mock';
+import { makeUserAvatar } from '../../../domain/models';
 import {
   CheckIfUserExistsByIdRepositorySpy,
   CreateUserAvatarRepositorySpy,

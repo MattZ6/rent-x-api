@@ -1,6 +1,6 @@
-import { ListAllCarSpecificationsUseCase } from '@application/usecases/car/specification/ListAllCarSpecifications';
+import { ListAllCarSpecificationsUseCase } from '@application/usecases/car/specification/ListAll';
 
-import { carSpecificationMock } from '../../../../domain/models/car/car-specification.mock';
+import { carSpecificationMock } from '../../../../domain/models';
 import {
   FindAllCarSpecificationsRepositorySpy,
   listAllCarSpecificationsUseCaseInputMock,

@@ -1,4 +1,4 @@
-import { ListAllCarBrandsUseCase } from '@application/usecases/car/brand/ListAllCarBrands';
+import { ListAllCarBrandsUseCase } from '@application/usecases/car/brand/ListAll';
 
 import { carBrandMock } from '../../../../domain/models';
 import {

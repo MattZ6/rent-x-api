@@ -5,7 +5,7 @@ import {
   CarSpecificationNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
-import { UpdateCarSpecificationUseCase } from '@application/usecases/car/specification/UpdateCarSpecification';
+import { UpdateCarSpecificationUseCase } from '@application/usecases/car/specification/Update';
 
 import { carSpecificationMock } from '../../../../domain/models';
 import {

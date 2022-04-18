@@ -9,7 +9,7 @@ import {
   RentalStartDateIsInThePastError,
 } from '@domain/errors';
 
-import { CreateRentUseCase } from '@application/usecases/rent/CreateRent';
+import { CreateRentUseCase } from '@application/usecases/rent/Create';
 
 import { carMock, rentMock } from '../../../domain/models';
 import {

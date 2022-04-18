@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker';
 
 import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 
-import { SendForgotUserPasswordMailUseCase } from '@application/usecases/user/SendForgotUserPasswordMail';
+import { SendForgotUserPasswordMailUseCase } from '@application/usecases/user/SendForgotPasswordMail';
 
-import { userMock } from '../../../domain/models/user/user.mock';
+import { userMock } from '../../../domain/models';
 import {
   CreateUserTokenRepositorySpy,
   FindUserByEmailRepositorySpy,

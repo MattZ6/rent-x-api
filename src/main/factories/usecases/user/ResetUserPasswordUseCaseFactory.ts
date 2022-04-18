@@ -1,4 +1,4 @@
-import { ResetUserPasswordUseCase } from '@application/usecases/user/ResetUserPassword';
+import { ResetUserPasswordUseCase } from '@application/usecases/user/ResetPassword';
 
 import { makeBcryptjsHashProvider } from '@main/factories/providers/BcryptjsHashProviderFactory';
 import { makePostgresUsersRepository } from '@main/factories/repositories/PostgresUsersRepositoryFactory';

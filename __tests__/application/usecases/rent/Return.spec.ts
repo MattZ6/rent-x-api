@@ -8,7 +8,7 @@ import {
 } from '@domain/errors';
 import { IRent } from '@domain/models/Rent';
 
-import { ReturnRentUseCase } from '@application/usecases/rent/ReturnRent';
+import { ReturnRentUseCase } from '@application/usecases/rent/Return';
 
 import {
   makeRentMock,

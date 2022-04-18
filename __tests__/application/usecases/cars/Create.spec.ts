@@ -7,7 +7,7 @@ import {
   OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError,
 } from '@domain/errors';
 
-import { CreateCarUseCase } from '@application/usecases/car/CreateCar';
+import { CreateCarUseCase } from '@application/usecases/car/Create';
 
 import { carSpecificationMock } from '../../../domain/models';
 import {

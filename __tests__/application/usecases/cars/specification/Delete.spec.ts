@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { CarSpecificationNotFoundWithProvidedIdError } from '@domain/errors';
 
-import { DeleteCarSpecificationUseCase } from '@application/usecases/car/specification/DeleteCarSpecification';
+import { DeleteCarSpecificationUseCase } from '@application/usecases/car/specification/Delete';
 
 import {
   CheckIfCarSpecificationExistsByIdRepositorySpy,

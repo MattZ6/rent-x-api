@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { IReturnRentUseCase } from '@domain/usecases/rent/Return';
 
-import { rentMock } from '../../../../domain/models/rent/rent.mock';
+import { rentMock } from '../../../../domain/models';
 
 export const returnRentUseCaseInputMock: IReturnRentUseCase.Input = {
   rent_id: faker.datatype.uuid(),
