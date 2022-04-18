@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { ICreateUserUseCase } from '@domain/usecases/user/CreateUser';
+import { ICreateUserUseCase } from '@domain/usecases/user/Create';
 
 export const createUserUseCaseInputMock: ICreateUserUseCase.Input = {
   name: faker.name.findName(),

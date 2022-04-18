@@ -1,4 +1,4 @@
-import { ICreateUserUseCase } from '@domain/usecases/user/CreateUser';
+import { ICreateUserUseCase } from '@domain/usecases/user/Create';
 
 import { userMock } from '../../../../domain/models/user.mock';
 
