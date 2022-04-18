@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
+import { IReturnRentUseCase } from '@domain/usecases/rent/Return';
 
 import { rentMock } from '../../../../domain/models/rent.mock';
 

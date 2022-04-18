@@ -1,4 +1,4 @@
-import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
+import { IReturnRentUseCase } from '@domain/usecases/rent/Return';
 
 import { makeRentMock } from '../../../../domain/models/rent.mock';
 

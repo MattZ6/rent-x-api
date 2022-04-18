@@ -4,7 +4,7 @@ import {
   RentNotFoundWithProvidedIdError,
   RentalIsNotInProgressError,
 } from '@domain/errors';
-import { IReturnRentUseCase } from '@domain/usecases/rent/ReturnRent';
+import { IReturnRentUseCase } from '@domain/usecases/rent/Return';
 
 import {
   conflict,
