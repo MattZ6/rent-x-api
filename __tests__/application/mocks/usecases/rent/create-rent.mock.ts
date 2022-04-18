@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
+import { ICreateRentUseCase } from '@domain/usecases/rent/Create';
 
 export const minimumRentDurationTimeInMillissecondsMock = faker.datatype.number(
   {

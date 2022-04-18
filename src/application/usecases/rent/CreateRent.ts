@@ -6,7 +6,7 @@ import {
   UserNotFoundWithProvidedIdError,
   RentalStartDateIsInThePastError,
 } from '@domain/errors';
-import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
+import { ICreateRentUseCase } from '@domain/usecases/rent/Create';
 
 import { IFindCarByIdRepository } from '@application/protocols/repositories/car';
 import {

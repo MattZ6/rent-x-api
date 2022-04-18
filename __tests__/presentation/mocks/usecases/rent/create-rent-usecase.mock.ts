@@ -1,4 +1,4 @@
-import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
+import { ICreateRentUseCase } from '@domain/usecases/rent/Create';
 
 import { rentMock } from '../../../../domain/models/rent.mock';
 

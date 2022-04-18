@@ -5,7 +5,7 @@ import {
   UserHasOutstandingRentPaymentsError,
   UserNotFoundWithProvidedIdError,
 } from '@domain/errors';
-import { ICreateRentUseCase } from '@domain/usecases/rent/CreateRent';
+import { ICreateRentUseCase } from '@domain/usecases/rent/Create';
 
 import {
   conflict,
