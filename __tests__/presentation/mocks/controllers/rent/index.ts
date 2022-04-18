@@ -1,2 +1,2 @@
-export * from './create-rent.mock';
-export * from './return-rent.mock';
+export * from './Create';
+export * from './Return';

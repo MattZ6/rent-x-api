@@ -2,6 +2,6 @@ export * from './brand';
 export * from './category';
 export * from './specification';
 
-export * from './create-car.mock';
-export * from './get-car-details.mock';
-export * from './list-cars.mock';
+export * from './Create';
+export * from './GetDetails';
+export * from './ListAll';

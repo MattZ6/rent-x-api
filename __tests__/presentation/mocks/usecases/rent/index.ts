@@ -1,2 +1,2 @@
-export * from './create-rent-usecase.mock';
-export * from './return-rent-usecase.mock';
+export * from './Create';
+export * from './Return';
