@@ -1,4 +1,4 @@
-import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/specification/DeleteCarSpecification';
+import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/specification/Delete';
 
 export class DeleteCarSpecificationUseCaseSpy
   implements IDeleteCarSpecificationUseCase
