@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/CreateCarCategory';
+import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/Create';
 
 export const createCarCategoryUseCaseInputMock: ICreateCarCategoryUseCase.Input =
   {

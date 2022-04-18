@@ -1,5 +1,5 @@
 import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
-import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/CreateCarCategory';
+import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/Create';
 
 import { conflict, created } from '@presentation/helpers/http';
 import {
