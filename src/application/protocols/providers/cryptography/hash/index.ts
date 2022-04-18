@@ -1,2 +1,2 @@
-export * from './CompareHashProvider';
-export * from './GenerateHashProvider';
+export * from './Compare';
+export * from './Generate';

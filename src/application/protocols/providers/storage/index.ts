@@ -1,1 +1,1 @@
-export * from './StoreFileProvider';
+export * from './StoreFile';

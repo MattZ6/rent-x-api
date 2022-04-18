@@ -1,1 +1,1 @@
-export * from './SendMailProvider';
+export * from './Send';
