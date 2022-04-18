@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAllCarSpecifications';
+import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAll';
 
 export const listAllCarSpecificationsUseCaseInputMock: IListAllCarSpecificationsUseCase.Input =
   {

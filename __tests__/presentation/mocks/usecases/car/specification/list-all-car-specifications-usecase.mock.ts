@@ -1,4 +1,4 @@
-import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAllCarSpecifications';
+import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAll';
 
 export class ListAllCarSpecificationsUseCaseSpy
   implements IListAllCarSpecificationsUseCase
