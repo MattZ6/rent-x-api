@@ -5,10 +5,9 @@ interface ICreateUserUseCase {
 }
 
 namespace ICreateUserUseCase {
-  export type Input = Pick<
-    User,
-    'name' | 'role' | 'driver_license' | 'email'
-  > & { password: string };
+  export type Input = Pick<User, 'name' | 'driver_license' | 'email'> & {
+    password: string;
+  };
 
   export type Output = User;
 }

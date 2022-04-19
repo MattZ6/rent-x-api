@@ -1,13 +1,13 @@
 import {
-  UserAlreadyExistsWithProvidedDriverLicenseError,
   UserAlreadyExistsWithProvidedEmailError,
+  UserAlreadyExistsWithProvidedDriverLicenseError,
 } from '@domain/errors';
 import { ICreateUserUseCase } from '@domain/usecases/user/Create';
 
-import { IGenerateHashProvider } from '@application/protocols/providers/cryptography/hash';
+import { IGenerateHashProvider } from '@application/protocols/providers/cryptography';
 import {
-  ICheckIfUserExistsByDriverLicenseRepository,
   ICheckIfUserExistsByEmailRepository,
+  ICheckIfUserExistsByDriverLicenseRepository,
   ICreateUserRepository,
 } from '@application/protocols/repositories/user';
 
@@ -46,11 +46,14 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       value: password,
     });
 
-    return this.createUserRepository.create({
+    const user = await this.createUserRepository.create({
       name,
-      email,
       driver_license,
+      role: 'DRIVER',
+      email,
       password_hash: hashedPassword,
     });
+
+    return user;
   }
 }

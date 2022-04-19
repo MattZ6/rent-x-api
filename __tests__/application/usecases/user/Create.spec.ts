@@ -1,5 +1,3 @@
-import { faker } from '@faker-js/faker';
-
 import {
   UserAlreadyExistsWithProvidedDriverLicenseError,
   UserAlreadyExistsWithProvidedEmailError,
@@ -7,12 +5,14 @@ import {
 
 import { CreateUserUseCase } from '@application/usecases/user/Create';
 
+import { makeErrorMock, makeUserMock } from '../../../domain';
 import {
   CheckIfUserExistsByDriverLicenseRepositorySpy,
   CheckIfUserExistsByEmailRepositorySpy,
   CreateUserRepositorySpy,
-  createUserUseCaseInputMock,
   GenerateHashProviderSpy,
+  makeCreateUserUseCaseInputMock,
+  makeGenerateHashProviderOutputMock,
 } from '../../mocks';
 
 let checkIfUserExistsByEmailRepositorySpy: CheckIfUserExistsByEmailRepositorySpy;
@@ -45,33 +45,38 @@ describe('CreateUserUseCase', () => {
       'checkIfExistsByEmail'
     );
 
-    const email = faker.internet.email();
+    const input = makeCreateUserUseCaseInputMock();
 
-    await createUserUseCase.execute({
-      ...createUserUseCaseInputMock,
-      email,
-    });
+    await createUserUseCase.execute(input);
 
     expect(checkIfExistsByEmailSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByEmailSpy).toHaveBeenCalledWith({ email });
+    expect(checkIfExistsByEmailSpy).toHaveBeenCalledWith({
+      email: input.email,
+    });
   });
 
   it('should throw if CheckIfUserExistsByEmailRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(checkIfUserExistsByEmailRepositorySpy, 'checkIfExistsByEmail')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
+    const input = makeCreateUserUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createUserUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw UserAlreadyExistsWithThisEmailError if provided email is already in use', async () => {
+  it('should throw UserAlreadyExistsWithProvidedEmailError if CheckIfUserExistsByEmailRepository returns true', async () => {
     jest
       .spyOn(checkIfUserExistsByEmailRepositorySpy, 'checkIfExistsByEmail')
       .mockResolvedValueOnce(true);
 
-    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
+    const input = makeCreateUserUseCaseInputMock();
+
+    const promise = createUserUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       UserAlreadyExistsWithProvidedEmailError
@@ -84,33 +89,34 @@ describe('CreateUserUseCase', () => {
       'checkIfExistsByDriverLicense'
     );
 
-    const driverLicense = faker.datatype.string();
+    const input = makeCreateUserUseCaseInputMock();
 
-    await createUserUseCase.execute({
-      ...createUserUseCaseInputMock,
-      driver_license: driverLicense,
-    });
+    await createUserUseCase.execute(input);
 
     expect(checkIfExistsByDriverLicenseSpy).toHaveBeenCalledTimes(1);
     expect(checkIfExistsByDriverLicenseSpy).toHaveBeenCalledWith({
-      driver_license: driverLicense,
+      driver_license: input.driver_license,
     });
   });
 
   it('should throw if CheckIfUserExistsByDriverLicenseRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(
         checkIfUserExistsByDriverLicenseRepositorySpy,
         'checkIfExistsByDriverLicense'
       )
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
+    const input = makeCreateUserUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createUserUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw UserAlreadyExistsWithThisDriverLicenseError if provided driver license is already in use', async () => {
+  it('should throw UserAlreadyExistsWithProvidedDriverLicenseError if CheckIfUserExistsByDriverLicenseRepository returns true', async () => {
     jest
       .spyOn(
         checkIfUserExistsByDriverLicenseRepositorySpy,
@@ -118,7 +124,9 @@ describe('CreateUserUseCase', () => {
       )
       .mockResolvedValueOnce(true);
 
-    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
+    const input = makeCreateUserUseCaseInputMock();
+
+    const promise = createUserUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       UserAlreadyExistsWithProvidedDriverLicenseError
@@ -128,77 +136,76 @@ describe('CreateUserUseCase', () => {
   it('should call GenerateHashProvider once with correct values', async () => {
     const hashSpy = jest.spyOn(generateHashProviderSpy, 'hash');
 
-    const password = faker.internet.password();
+    const input = makeCreateUserUseCaseInputMock();
 
-    await createUserUseCase.execute({
-      ...createUserUseCaseInputMock,
-      password,
-    });
+    await createUserUseCase.execute(input);
 
     expect(hashSpy).toHaveBeenCalledTimes(1);
-    expect(hashSpy).toHaveBeenCalledWith({ value: password });
+    expect(hashSpy).toHaveBeenCalledWith({ value: input.password });
   });
 
   it('should throw if GenerateHashProvider throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(generateHashProviderSpy, 'hash')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
+    const input = makeCreateUserUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createUserUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should call CreateUserRepository once with correct values', async () => {
-    const hashedPassword = faker.internet.password();
+    const generateHashProviderOutputMock = makeGenerateHashProviderOutputMock();
 
     jest
       .spyOn(generateHashProviderSpy, 'hash')
-      .mockResolvedValueOnce(hashedPassword);
+      .mockResolvedValueOnce(generateHashProviderOutputMock);
 
     const createSpy = jest.spyOn(createUserRepositorySpy, 'create');
 
-    await createUserUseCase.execute(createUserUseCaseInputMock);
+    const input = makeCreateUserUseCaseInputMock();
+
+    await createUserUseCase.execute(input);
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({
-      name: createUserUseCaseInputMock.name,
-      email: createUserUseCaseInputMock.email,
-      driver_license: createUserUseCaseInputMock.driver_license,
-      password_hash: hashedPassword,
+      name: input.name,
+      role: 'DRIVER',
+      driver_license: input.driver_license,
+      email: input.email,
+      password_hash: generateHashProviderOutputMock,
     });
   });
 
   it('should throw if CreateUserRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(createUserRepositorySpy, 'create')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createUserUseCase.execute(createUserUseCaseInputMock);
+    const input = makeCreateUserUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createUserUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should return a new user on success', async () => {
-    const passwordHash = faker.internet.password();
+    const userMock = makeUserMock();
 
     jest
-      .spyOn(generateHashProviderSpy, 'hash')
-      .mockResolvedValueOnce(passwordHash);
+      .spyOn(createUserRepositorySpy, 'create')
+      .mockResolvedValueOnce(userMock);
 
-    const response = await createUserUseCase.execute(
-      createUserUseCaseInputMock
-    );
+    const input = makeCreateUserUseCaseInputMock();
 
-    expect(response).toHaveProperty('id');
-    expect(response).toHaveProperty('name', createUserUseCaseInputMock.name);
-    expect(response).toHaveProperty('email', createUserUseCaseInputMock.email);
-    expect(response).toHaveProperty('password_hash', passwordHash);
-    expect(response).toHaveProperty(
-      'driver_license',
-      createUserUseCaseInputMock.driver_license
-    );
-    expect(response).toHaveProperty('created_at');
-    expect(response).toHaveProperty('updated_at');
+    const response = await createUserUseCase.execute(input);
+
+    expect(response).toEqual(userMock);
   });
 });
