@@ -17,7 +17,7 @@ class GetUserProfileController implements IController {
     try {
       const { user_id } = request;
 
-      const user = await this.getUserProfileUseCase.execute({ user_id });
+      const user = await this.getUserProfileUseCase.execute({ id: user_id });
 
       return ok(user);
     } catch (error) {

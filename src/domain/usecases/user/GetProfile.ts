@@ -8,7 +8,7 @@ interface IGetUserProfileUseCase {
 
 namespace IGetUserProfileUseCase {
   export type Input = {
-    user_id: string;
+    id: string;
   };
 
   export type Output = User;
