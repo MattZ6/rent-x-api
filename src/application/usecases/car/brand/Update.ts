@@ -8,7 +8,7 @@ import {
   ICheckIfCarBrandExistsByNameRepository,
   IFindCarBrandByIdRepository,
   IUpdateCarBrandRepository,
-} from '@application/protocols/repositories/car-brand';
+} from '@application/protocols/repositories/car/brand';
 
 export class UpdateCarBrandUseCase implements IUpdateCarBrandUseCase {
   constructor(

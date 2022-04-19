@@ -1,15 +1,17 @@
 import { faker } from '@faker-js/faker';
 
-import { IUserAvatar } from '@domain/entities/UserAvatar';
+import { UserAvatar } from '@domain/entities/UserAvatar';
 
-export function makeUserAvatar(): IUserAvatar {
+export function makeUserAvatarMock(): UserAvatar {
+  const date = faker.datatype.datetime();
+
   return {
     id: faker.datatype.uuid(),
     original_name: faker.system.fileName(),
     extension: faker.system.fileExt(),
     mime_type: faker.system.mimeType(),
     size_in_bytes: faker.datatype.number(),
-    created_at: faker.datatype.datetime(),
-    updated_at: faker.datatype.datetime(),
+    created_at: date,
+    updated_at: date,
   };
 }

@@ -1,6 +1,6 @@
 import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAll';
 
-import { IFindAllCarSpecificationsRepository } from '@application/protocols/repositories/car-specification';
+import { IFindAllCarSpecificationsRepository } from '@application/protocols/repositories/car/specification';
 
 export class ListAllCarSpecificationsUseCase
   implements IListAllCarSpecificationsUseCase
@@ -15,8 +15,8 @@ export class ListAllCarSpecificationsUseCase
     const { sort_by: order_by, order_by: order, limit, offset: page } = data;
 
     return this.findAllCarSpecificationsRepository.findAll({
-      order_by,
-      order,
+      sort_by: order_by,
+      order_by: order,
       take: limit,
       skip: (page - 1) * limit,
     });

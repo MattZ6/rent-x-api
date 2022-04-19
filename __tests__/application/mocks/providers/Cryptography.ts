@@ -6,11 +6,15 @@ import {
   IGenerateHashProvider,
 } from '@application/protocols/providers/cryptography/hash';
 
+export function makeGenerateHashProviderOutputMock(): IGenerateHashProvider.Output {
+  return faker.internet.password();
+}
+
 export class GenerateHashProviderSpy implements IGenerateHashProvider {
   async hash(
     _: IGenerateHashProvider.Input
   ): Promise<IGenerateHashProvider.Output> {
-    return faker.internet.password();
+    return makeGenerateHashProviderOutputMock();
   }
 }
 

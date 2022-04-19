@@ -1,18 +1,10 @@
 import { faker } from '@faker-js/faker';
 
-import { IUser, User, UserRole } from '@domain/entities/User';
-
-export const userMock: IUser = {
-  id: faker.datatype.uuid(),
-  name: faker.name.findName(),
-  email: faker.internet.email(),
-  password_hash: faker.internet.password(),
-  driver_license: faker.datatype.string(),
-  created_at: faker.datatype.datetime(),
-  updated_at: faker.datatype.datetime(),
-};
+import { User, UserRole } from '@domain/entities/User';
 
 export function makeUserMock(): User {
+  const date = faker.datatype.datetime();
+
   return {
     id: faker.datatype.uuid(),
     name: faker.name.findName(),
@@ -20,7 +12,7 @@ export function makeUserMock(): User {
     email: faker.internet.email(),
     password_hash: faker.internet.password(),
     driver_license: faker.datatype.string(),
-    created_at: faker.datatype.datetime(),
-    updated_at: faker.datatype.datetime(),
+    created_at: date,
+    updated_at: date,
   };
 }

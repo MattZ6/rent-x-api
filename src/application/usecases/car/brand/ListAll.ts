@@ -1,6 +1,6 @@
 import { IListAllCarBrandsUseCase } from '@domain/usecases/car/brand/ListAll';
 
-import { IFindAllCarBrandsRepository } from '@application/protocols/repositories/car-brand';
+import { IFindAllCarBrandsRepository } from '@application/protocols/repositories/car/brand';
 
 export class ListAllCarBrandsUseCase implements IListAllCarBrandsUseCase {
   constructor(
@@ -15,8 +15,8 @@ export class ListAllCarBrandsUseCase implements IListAllCarBrandsUseCase {
     const skip = limit * (page - 1);
 
     return this.findAllCarBrandsRepository.findAll({
-      order_by,
-      order,
+      sort_by: order_by,
+      order_by: order,
       take: limit,
       skip,
     });

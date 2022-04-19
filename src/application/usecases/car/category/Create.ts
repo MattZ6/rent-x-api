@@ -4,7 +4,7 @@ import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/Create'
 import {
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
-} from '@application/protocols/repositories/car-category';
+} from '@application/protocols/repositories/car/category';
 
 export class CreateCarCategoryUseCase implements ICreateCarCategoryUseCase {
   constructor(

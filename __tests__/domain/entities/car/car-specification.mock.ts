@@ -1,11 +1,15 @@
 import { faker } from '@faker-js/faker';
 
-import { ICarSpecification } from '@domain/entities/CarSpecification';
+import { CarSpecification } from '@domain/entities/CarSpecification';
 
-export const carSpecificationMock: ICarSpecification = {
-  id: faker.datatype.uuid(),
-  name: faker.vehicle.model(),
-  description: faker.vehicle.model(),
-  created_at: faker.date.recent(),
-  updated_at: faker.date.recent(),
-};
+export function makeCarSpecificationMock(): CarSpecification {
+  const date = faker.datatype.datetime();
+
+  return {
+    id: faker.datatype.uuid(),
+    name: faker.vehicle.model(),
+    description: faker.vehicle.model(),
+    created_at: date,
+    updated_at: date,
+  };
+}

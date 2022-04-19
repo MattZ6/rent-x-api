@@ -10,7 +10,7 @@ import {
   IFindRentalByIdRepository,
   IUpdateRentRepository,
 } from '@application/protocols/repositories/rent';
-import { ICreateRentPaymentRepository } from '@application/protocols/repositories/rent-payment';
+import { ICreateRentPaymentRepository } from '@application/protocols/repositories/rent/payment';
 
 export class ReturnRentUseCase implements IReturnRentUseCase {
   constructor(

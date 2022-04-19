@@ -4,7 +4,7 @@ import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { UpdateUserAvatarUseCase } from '@application/usecases/user/UpdateAvatar';
 
-import { makeUserAvatar } from '../../../domain/entities';
+import { makeUserAvatarMock } from '../../../domain/entities';
 import {
   CheckIfUserExistsByIdRepositorySpy,
   CreateUserAvatarRepositorySpy,
@@ -111,7 +111,7 @@ describe('UpdateUserAvatarUseCase', () => {
   });
 
   it('should call UpdateUserAvatarRepository once with correct values once the avatar exists', async () => {
-    const userAvatar = makeUserAvatar();
+    const userAvatar = makeUserAvatarMock();
 
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
@@ -150,7 +150,7 @@ describe('UpdateUserAvatarUseCase', () => {
   it('should throw if UpdateUserAvatarRepository throws', async () => {
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(makeUserAvatar());
+      .mockResolvedValueOnce(makeUserAvatarMock());
 
     const error = new Error(faker.datatype.string());
 
@@ -187,7 +187,7 @@ describe('UpdateUserAvatarUseCase', () => {
   });
 
   it('should not call CreateUserAvatarRepository if the user avatar exists', async () => {
-    const userAvatar = makeUserAvatar();
+    const userAvatar = makeUserAvatarMock();
 
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
@@ -252,7 +252,7 @@ describe('UpdateUserAvatarUseCase', () => {
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(undefined);
 
-    const userAvatar = makeUserAvatar();
+    const userAvatar = makeUserAvatarMock();
 
     jest
       .spyOn(createUserAvatarRepositorySpy, 'create')
@@ -266,7 +266,7 @@ describe('UpdateUserAvatarUseCase', () => {
   });
 
   it('should return a update avatar if the user have one previously', async () => {
-    const userAvatar = makeUserAvatar();
+    const userAvatar = makeUserAvatarMock();
 
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')

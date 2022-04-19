@@ -8,7 +8,7 @@ import {
   ICheckIfCarSpecificationExistsByNameRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
-} from '@application/protocols/repositories/car-specification';
+} from '@application/protocols/repositories/car/specification';
 
 export class UpdateCarSpecificationUseCase
   implements IUpdateCarSpecificationUseCase

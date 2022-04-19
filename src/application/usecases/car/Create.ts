@@ -12,9 +12,9 @@ import {
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
 } from '@application/protocols/repositories/car';
-import { ICheckIfCarBrandExistsByIdRepository } from '@application/protocols/repositories/car-brand';
-import { ICheckIfCarCategoryExistsByIdRepository } from '@application/protocols/repositories/car-category';
-import { IFindAllSpecificationsByIdsRepository } from '@application/protocols/repositories/car-specification';
+import { ICheckIfCarBrandExistsByIdRepository } from '@application/protocols/repositories/car/brand';
+import { ICheckIfCarCategoryExistsByIdRepository } from '@application/protocols/repositories/car/category';
+import { IFindAllSpecificationsByIdsRepository } from '@application/protocols/repositories/car/specification';
 
 export class CreateCarUseCase implements ICreateCarUseCase {
   constructor(

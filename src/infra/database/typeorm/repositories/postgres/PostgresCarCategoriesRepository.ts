@@ -7,7 +7,7 @@ import {
   IFindAllCarCategoriesRepository,
   IFindCarCategoryByIdRepository,
   IUpdateCarCategoryRepository,
-} from '@application/protocols/repositories/car-category';
+} from '@application/protocols/repositories/car/category';
 
 import { CarCategory } from '../../entities/CarCategory';
 
@@ -69,7 +69,7 @@ export class PostgresCarCategoriesRepository
   async findAll(
     data: IFindAllCarCategoriesRepository.Input
   ): Promise<IFindAllCarCategoriesRepository.Output> {
-    const { order_by, order, take, skip } = data;
+    const { sort_by: order_by, order_by: order, take, skip } = data;
 
     return this.repository.find({
       order: { [order_by]: order },

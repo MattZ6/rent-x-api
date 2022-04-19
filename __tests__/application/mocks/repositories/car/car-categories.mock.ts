@@ -5,9 +5,9 @@ import {
   IFindAllCarCategoriesRepository,
   IFindCarCategoryByIdRepository,
   IUpdateCarCategoryRepository,
-} from '@application/protocols/repositories/car-category';
+} from '@application/protocols/repositories/car/category';
 
-import { carCategoryMock } from '../../../../domain/entities';
+import { makeCarCategoryMock } from '../../../../domain/entities';
 
 export class CheckIfCarCategoryExistsByNameRepositorySpy
   implements ICheckIfCarCategoryExistsByNameRepository
@@ -27,11 +27,11 @@ export class CreateCarCategoryRepositorySpy
   ): Promise<ICreateCarCategoryRepository.Output> {
     const { name, description } = data;
 
-    const category = { ...carCategoryMock };
+    const carCategoryMock = makeCarCategoryMock();
 
-    Object.assign(category, { name, description });
+    Object.assign(carCategoryMock, { name, description });
 
-    return category;
+    return carCategoryMock;
   }
 }
 
@@ -43,11 +43,11 @@ export class FindCarCategoryByIdRepositorySpy
   ): Promise<IFindCarCategoryByIdRepository.Output> {
     const { id } = data;
 
-    const category = { ...carCategoryMock };
+    const carCategoryMock = makeCarCategoryMock();
 
-    Object.assign(category, { id });
+    Object.assign(carCategoryMock, { id });
 
-    return category;
+    return carCategoryMock;
   }
 }
 
@@ -57,7 +57,13 @@ export class UpdateCarCategoryRepositorySpy
   async update(
     data: IUpdateCarCategoryRepository.Input
   ): Promise<IUpdateCarCategoryRepository.Output> {
-    return data;
+    const { id, description, name } = data;
+
+    const carCategoryMock = makeCarCategoryMock();
+
+    Object.assign(carCategoryMock, { id, description, name });
+
+    return carCategoryMock;
   }
 }
 
@@ -67,7 +73,7 @@ export class FindAllCarCategoriesRepositorySpy
   async findAll(
     _: IFindAllCarCategoriesRepository.Input
   ): Promise<IFindAllCarCategoriesRepository.Output> {
-    return [carCategoryMock, carCategoryMock, carCategoryMock];
+    return [];
   }
 }
 

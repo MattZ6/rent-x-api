@@ -6,7 +6,7 @@ import {
   IFindCarByIdRepository,
 } from '@application/protocols/repositories/car';
 
-import { carMock } from '../../../../domain/entities';
+import { makeCarMock } from '../../../../domain/entities';
 
 export class CheckIfCarExistsByLicensePlateRepositorySpy
   implements ICheckIfCarExistsByLicensePlateRepository
@@ -25,40 +25,38 @@ export class CreateCarRepositorySpy implements ICreateCarRepository {
     const {
       brand_id,
       category_id,
+      daily_late_fee,
       daily_rate,
       description,
-      daily_late_fee,
-      license_plate,
-      name,
       horse_power,
+      license_plate,
       max_speed,
+      name,
       number_of_seats,
       transmission_type,
       type_of_fuel,
       zero_to_one_hundred_in_millisseconds,
-      specifications,
     } = data;
 
-    const car = { ...carMock };
+    const carMock = makeCarMock();
 
-    Object.assign(car, {
+    Object.assign(carMock, {
       brand_id,
       category_id,
+      daily_late_fee,
       daily_rate,
       description,
-      daily_late_fee,
-      license_plate,
-      name,
-      specifications,
       horse_power,
+      license_plate,
       max_speed,
+      name,
       number_of_seats,
       transmission_type,
       type_of_fuel,
       zero_to_one_hundred_in_millisseconds,
     });
 
-    return car;
+    return carMock;
   }
 }
 
@@ -66,7 +64,7 @@ export class FindAllCarsRepositorySpy implements IFindAllCarsRepository {
   async findAll(
     _: IFindAllCarsRepository.Input
   ): Promise<IFindAllCarsRepository.Output> {
-    return [carMock, carMock, carMock];
+    return [];
   }
 }
 
@@ -74,7 +72,13 @@ export class FindCarByIdRepositorySpy implements IFindCarByIdRepository {
   async findById(
     data: IFindCarByIdRepository.Input
   ): Promise<IFindCarByIdRepository.Output> {
-    return { ...carMock, id: data.id };
+    const { id } = data;
+
+    const carMock = makeCarMock();
+
+    Object.assign(carMock, { id });
+
+    return carMock;
   }
 }
 

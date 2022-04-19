@@ -17,7 +17,7 @@ class GetCarDetailsController implements IController {
     try {
       const { id } = request.params;
 
-      const car = await this.getCarDetailsUseCase.execute({ car_id: id });
+      const car = await this.getCarDetailsUseCase.execute({ id });
 
       return ok(car);
     } catch (error) {

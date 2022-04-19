@@ -5,9 +5,9 @@ import {
   IFindAllCarBrandsRepository,
   IFindCarBrandByIdRepository,
   IUpdateCarBrandRepository,
-} from '@application/protocols/repositories/car-brand';
+} from '@application/protocols/repositories/car/brand';
 
-import { carBrandMock } from '../../../../domain/entities';
+import { makeCarBrandMock } from '../../../../domain';
 
 export class CheckIfCarBrandExistsByNameRepositorySpy
   implements ICheckIfCarBrandExistsByNameRepository
@@ -25,11 +25,11 @@ export class CreateCarBrandRepositorySpy implements ICreateCarBrandRepository {
   ): Promise<ICreateCarBrandRepository.Output> {
     const { name } = data;
 
-    const brand = { ...carBrandMock };
+    const carBrandMock = makeCarBrandMock();
 
-    Object.assign(brand, { name });
+    Object.assign(carBrandMock, { name });
 
-    return brand;
+    return carBrandMock;
   }
 }
 
@@ -41,11 +41,11 @@ export class FindCarBrandByIdRepositorySpy
   ): Promise<IFindCarBrandByIdRepository.Output> {
     const { id } = data;
 
-    const brand = { ...carBrandMock };
+    const carBrandMock = makeCarBrandMock();
 
-    Object.assign(brand, { id });
+    Object.assign(carBrandMock, { id });
 
-    return brand;
+    return carBrandMock;
   }
 }
 
@@ -53,7 +53,13 @@ export class UpdateCarBrandRepositorySpy implements IUpdateCarBrandRepository {
   async update(
     data: IUpdateCarBrandRepository.Input
   ): Promise<IUpdateCarBrandRepository.Output> {
-    return data;
+    const { id, name } = data;
+
+    const carBrandMock = makeCarBrandMock();
+
+    Object.assign(carBrandMock, { id, name });
+
+    return carBrandMock;
   }
 }
 
@@ -73,6 +79,6 @@ export class FindAllCarBrandsRepositorySpy
   async findAll(
     _: IFindAllCarBrandsRepository.Input
   ): Promise<IFindAllCarBrandsRepository.Output> {
-    return [carBrandMock, carBrandMock, carBrandMock];
+    return [];
   }
 }

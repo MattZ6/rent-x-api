@@ -7,9 +7,9 @@ import {
   IFindAllSpecificationsByIdsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
-} from '@application/protocols/repositories/car-specification';
+} from '@application/protocols/repositories/car/specification';
 
-import { carSpecificationMock } from '../../../../domain/entities';
+import { makeCarSpecificationMock } from '../../../../domain/entities';
 
 export class CheckIfCarSpecificationExistsByNameRepositorySpy
   implements ICheckIfCarSpecificationExistsByNameRepository
@@ -29,11 +29,11 @@ export class CreateCarSpecificationRepositorySpy
   ): Promise<ICreateCarSpecificationRepository.Output> {
     const { name, description } = data;
 
-    const specification = { ...carSpecificationMock };
+    const carSpecificationMock = makeCarSpecificationMock();
 
-    Object.assign(specification, { name, description });
+    Object.assign(carSpecificationMock, { name, description });
 
-    return specification;
+    return carSpecificationMock;
   }
 }
 
@@ -45,11 +45,11 @@ export class FindCarSpecificationByIdRepositorySpy
   ): Promise<IFindCarSpecificationByIdRepository.Output> {
     const { id } = data;
 
-    const specification = { ...carSpecificationMock };
+    const carSpecificationMock = makeCarSpecificationMock();
 
-    Object.assign(specification, { id });
+    Object.assign(carSpecificationMock, { id });
 
-    return specification;
+    return carSpecificationMock;
   }
 }
 
@@ -59,7 +59,13 @@ export class UpdateCarSpecificationRepositorySpy
   async update(
     data: IUpdateCarSpecificationRepository.Input
   ): Promise<IUpdateCarSpecificationRepository.Output> {
-    return data;
+    const { id, description, name } = data;
+
+    const carSpecificationMock = makeCarSpecificationMock();
+
+    Object.assign(carSpecificationMock, { id, description, name });
+
+    return carSpecificationMock;
   }
 }
 
@@ -69,7 +75,7 @@ export class FindAllCarSpecificationsRepositorySpy
   async findAll(
     _: IFindAllCarSpecificationsRepository.Input
   ): Promise<IFindAllCarSpecificationsRepository.Output> {
-    return [carSpecificationMock, carSpecificationMock, carSpecificationMock];
+    return [];
   }
 }
 
@@ -99,6 +105,6 @@ export class FindAllSpecificationsByIdsRepositorySpy
   async findAllByIds(
     _: IFindAllSpecificationsByIdsRepository.Input
   ): Promise<IFindAllSpecificationsByIdsRepository.Output> {
-    return [carSpecificationMock, carSpecificationMock];
+    return [];
   }
 }

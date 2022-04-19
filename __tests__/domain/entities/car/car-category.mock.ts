@@ -1,11 +1,15 @@
 import { faker } from '@faker-js/faker';
 
-import { ICarCategory } from '@domain/entities/CarCategory';
+import { CarCategory } from '@domain/entities/CarCategory';
 
-export const carCategoryMock: ICarCategory = {
-  id: faker.datatype.uuid(),
-  name: faker.vehicle.model(),
-  description: faker.vehicle.model(),
-  created_at: faker.date.recent(),
-  updated_at: faker.date.recent(),
-};
+export function makeCarCategoryMock(): CarCategory {
+  const date = faker.datatype.datetime();
+
+  return {
+    id: faker.datatype.uuid(),
+    name: faker.vehicle.model(),
+    description: faker.vehicle.model(),
+    created_at: date,
+    updated_at: date,
+  };
+}

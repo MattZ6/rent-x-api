@@ -1,24 +1,38 @@
 import {
+  ICreateRentRepository,
   ICheckIfRentExistsByOpenScheduleForCarRepository,
   ICheckIfRentExistsWithPendingPaymentByUserRepository,
-  ICreateRentRepository,
   IFindRentalByIdRepository,
   IUpdateRentRepository,
 } from '@application/protocols/repositories/rent';
 
-import { rentMock } from '../../../../domain/entities';
+import { makeRentMock } from '../../../../domain';
 
 export class CreateRentRepositorySpy implements ICreateRentRepository {
   async create(
     data: ICreateRentRepository.Input
   ): Promise<ICreateRentRepository.Output> {
-    const { car_id, expected_return_date, start_date, user_id } = data;
+    const {
+      daily_late_fee,
+      daily_rate,
+      car_id,
+      expected_return_date,
+      start_date,
+      user_id,
+    } = data;
 
-    const rent = { ...rentMock };
+    const rentMock = makeRentMock();
 
-    Object.assign(rent, { car_id, user_id, expected_return_date, start_date });
+    Object.assign(rentMock, {
+      daily_late_fee,
+      daily_rate,
+      car_id,
+      expected_return_date,
+      start_date,
+      user_id,
+    });
 
-    return rent;
+    return rentMock;
   }
 }
 
@@ -44,8 +58,14 @@ export class CheckIfRentExistsWithPendingPaymentByUserRepositorySpy
 
 export class FindRentalByIdRepositorySpy implements IFindRentalByIdRepository {
   async findById(
-    _: IFindRentalByIdRepository.Input
+    data: IFindRentalByIdRepository.Input
   ): Promise<IFindRentalByIdRepository.Output> {
+    const { id } = data;
+
+    const rentMock = makeRentMock();
+
+    Object.assign(rentMock, { id });
+
     return rentMock;
   }
 }
@@ -54,6 +74,28 @@ export class UpdateRentRepositorySpy implements IUpdateRentRepository {
   async update(
     data: IUpdateRentRepository.Input
   ): Promise<IUpdateRentRepository.Output> {
-    return data;
+    const {
+      id,
+      daily_late_fee,
+      daily_rate,
+      expected_return_date,
+      payment_id,
+      return_date,
+      start_date,
+    } = data;
+
+    const rentMock = makeRentMock();
+
+    Object.assign(rentMock, {
+      id,
+      daily_late_fee,
+      daily_rate,
+      expected_return_date,
+      payment_id,
+      return_date,
+      start_date,
+    });
+
+    return rentMock;
   }
 }

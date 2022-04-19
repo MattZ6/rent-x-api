@@ -7,8 +7,8 @@ interface ICreateUserUseCase {
 namespace ICreateUserUseCase {
   export type Input = Pick<
     User,
-    'name' | 'role' | 'driver_license' | 'email' | 'password_hash'
-  >;
+    'name' | 'role' | 'driver_license' | 'email'
+  > & { password: string };
 
   export type Output = User;
 }

@@ -9,7 +9,7 @@ import {
   IFindAllSpecificationsByIdsRepository,
   IFindCarSpecificationByIdRepository,
   IUpdateCarSpecificationRepository,
-} from '@application/protocols/repositories/car-specification';
+} from '@application/protocols/repositories/car/specification';
 
 import { CarSpecification } from '../../entities/CarSpecification';
 
@@ -73,7 +73,7 @@ export class PostgresCarSpecificationsRepository
   async findAll(
     data: IFindAllCarSpecificationsRepository.Input
   ): Promise<IFindAllCarSpecificationsRepository.Output> {
-    const { order_by, order, take, skip } = data;
+    const { sort_by: order_by, order_by: order, take, skip } = data;
 
     return this.repository.find({
       order: { [order_by]: order },

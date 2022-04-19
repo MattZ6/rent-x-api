@@ -8,7 +8,7 @@ interface IGetCarDetailsUseCase {
 
 namespace IGetCarDetailsUseCase {
   export type Input = {
-    car_id: string;
+    id: string;
   };
 
   export type Output = Car | null;

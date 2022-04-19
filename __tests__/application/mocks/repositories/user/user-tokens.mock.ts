@@ -1,10 +1,10 @@
 import {
   ICreateUserTokenRepository,
   IDeleteUserTokenByIdRepository,
-} from '@application/protocols/repositories/user-token';
-import { IFindUserTokenByTokenRepository } from '@application/protocols/repositories/user-token/FindUserTokenByTokenRepository';
+  IFindUserTokenByTokenRepository,
+} from '@application/protocols/repositories/user';
 
-import { userTokenMock } from '../../../../domain/entities';
+import { makeUserTokenMock } from '../../../../domain';
 
 export class CreateUserTokenRepositorySpy
   implements ICreateUserTokenRepository
@@ -14,11 +14,11 @@ export class CreateUserTokenRepositorySpy
   ): Promise<ICreateUserTokenRepository.Output> {
     const { token, expires_in, user_id } = data;
 
-    const userToken = { ...userTokenMock };
+    const userTokenMock = makeUserTokenMock();
 
-    Object.assign(userToken, { token, expires_in, user_id });
+    Object.assign(userTokenMock, { token, expires_in, user_id });
 
-    return userToken;
+    return userTokenMock;
   }
 }
 
@@ -40,10 +40,10 @@ export class FindUserTokenByTokenRepositorySpy
   ): Promise<IFindUserTokenByTokenRepository.Output> {
     const { token } = data;
 
-    const userToken = { ...userTokenMock };
+    const userTokenMock = makeUserTokenMock();
 
-    Object.assign(userToken, { token });
+    Object.assign(userTokenMock, { token });
 
-    return userToken;
+    return userTokenMock;
   }
 }

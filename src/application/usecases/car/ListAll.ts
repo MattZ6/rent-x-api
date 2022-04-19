@@ -17,8 +17,8 @@ export class ListAllCarsUseCase implements IListAllCarsUseCase {
     }
 
     return this.findAllCarsRepository.findAll({
-      order_by,
-      order,
+      sort_by: order_by,
+      order_by: order,
       take: limit,
       skip: tempPage * limit,
       relations: ['brand', 'category'],

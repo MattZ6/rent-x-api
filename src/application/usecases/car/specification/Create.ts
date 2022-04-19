@@ -4,7 +4,7 @@ import { ICreateCarSpecificationUseCase } from '@domain/usecases/car/specificati
 import {
   ICheckIfCarSpecificationExistsByNameRepository,
   ICreateCarSpecificationRepository,
-} from '@application/protocols/repositories/car-specification';
+} from '@application/protocols/repositories/car/specification';
 
 export class CreateCarSpecificationUseCase
   implements ICreateCarSpecificationUseCase

@@ -8,7 +8,7 @@ import {
   ICheckIfCarCategoryExistsByNameRepository,
   IFindCarCategoryByIdRepository,
   IUpdateCarCategoryRepository,
-} from '@application/protocols/repositories/car-category';
+} from '@application/protocols/repositories/car/category';
 
 export class UpdateCarCategoryUseCase implements IUpdateCarCategoryUseCase {
   constructor(

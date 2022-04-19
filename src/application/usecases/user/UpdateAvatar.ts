@@ -7,7 +7,7 @@ import {
   ICreateUserAvatarRepository,
   IFindUserAvatarByIdRepository,
   IUpdateUserAvatarRepository,
-} from '@application/protocols/repositories/user-avatar';
+} from '@application/protocols/repositories/user/avatar';
 
 export class UpdateUserAvatarUseCase implements IUpdateUserAvatarUseCase {
   constructor(

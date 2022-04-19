@@ -26,7 +26,7 @@ describe('GetCarDetailsUseCase', () => {
 
     const carId = faker.datatype.uuid();
 
-    await getCarDetailsUseCase.execute({ car_id: carId });
+    await getCarDetailsUseCase.execute({ id: carId });
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
     expect(findByIdSpy).toHaveBeenCalledWith({
@@ -63,7 +63,7 @@ describe('GetCarDetailsUseCase', () => {
       .mockResolvedValueOnce(carMock);
 
     const response = await getCarDetailsUseCase.execute({
-      car_id: carMock.id,
+      id: carMock.id,
     });
 
     expect(response).toEqual(carMock);

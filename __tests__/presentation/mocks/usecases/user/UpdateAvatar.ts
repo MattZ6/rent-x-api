@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateAvatar';
 
-import { makeUserAvatar } from '../../../../domain/entities';
+import { makeUserAvatarMock } from '../../../../domain/entities';
 
 export function makeUpdateUserAvatarUseCaseInputMock(): IUpdateUserAvatarUseCase.Input {
   return {
@@ -21,6 +21,6 @@ export class UpdateUserAvatarUseCaseSpy implements IUpdateUserAvatarUseCase {
   async execute(
     _: IUpdateUserAvatarUseCase.Input
   ): Promise<IUpdateUserAvatarUseCase.Output> {
-    return makeUserAvatar();
+    return makeUserAvatarMock();
   }
 }

@@ -2,9 +2,9 @@ import {
   ICreateUserAvatarRepository,
   IFindUserAvatarByIdRepository,
   IUpdateUserAvatarRepository,
-} from '@application/protocols/repositories/user-avatar';
+} from '@application/protocols/repositories/user/avatar';
 
-import { makeUserAvatar } from '../../../../domain/entities';
+import { makeUserAvatarMock } from '../../../../domain/entities';
 
 export class FindUserAvatarByIdRepositorySpy
   implements IFindUserAvatarByIdRepository
@@ -14,11 +14,11 @@ export class FindUserAvatarByIdRepositorySpy
   ): Promise<IFindUserAvatarByIdRepository.Output> {
     const { id } = data;
 
-    const userAvatar = makeUserAvatar();
+    const userAvatarMock = makeUserAvatarMock();
 
-    Object.assign(userAvatar, { id });
+    Object.assign(userAvatarMock, { id });
 
-    return userAvatar;
+    return userAvatarMock;
   }
 }
 
@@ -28,7 +28,19 @@ export class UpdateUserAvatarRepositorySpy
   async update(
     data: IUpdateUserAvatarRepository.Input
   ): Promise<IUpdateUserAvatarRepository.Output> {
-    return data;
+    const { id, extension, mime_type, original_name, size_in_bytes } = data;
+
+    const userAvatarMock = makeUserAvatarMock();
+
+    Object.assign(userAvatarMock, {
+      id,
+      extension,
+      mime_type,
+      original_name,
+      size_in_bytes,
+    });
+
+    return userAvatarMock;
   }
 }
 
@@ -40,9 +52,9 @@ export class CreateUserAvatarRepositorySpy
   ): Promise<ICreateUserAvatarRepository.Output> {
     const { id, mime_type, size_in_bytes, original_name, extension } = data;
 
-    const userAvatar = makeUserAvatar();
+    const userAvatarMock = makeUserAvatarMock();
 
-    Object.assign(userAvatar, {
+    Object.assign(userAvatarMock, {
       id,
       mime_type,
       size_in_bytes,
@@ -50,6 +62,6 @@ export class CreateUserAvatarRepositorySpy
       extension,
     });
 
-    return userAvatar;
+    return userAvatarMock;
   }
 }

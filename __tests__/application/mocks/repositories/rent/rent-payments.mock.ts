@@ -1,13 +1,19 @@
-import { ICreateRentPaymentRepository } from '@application/protocols/repositories/rent-payment';
+import { ICreateRentPaymentRepository } from '@application/protocols/repositories/rent/payment';
 
-import { rentPaymentMock } from '../../../../domain/entities';
+import { makeRentPaymentMock } from '../../../../domain';
 
 export class CreateRentPaymentRepositorySpy
   implements ICreateRentPaymentRepository
 {
   async create(
-    _: ICreateRentPaymentRepository.Input
+    data: ICreateRentPaymentRepository.Input
   ): Promise<ICreateRentPaymentRepository.Output> {
+    const { rent_id, total } = data;
+
+    const rentPaymentMock = makeRentPaymentMock();
+
+    Object.assign(rentPaymentMock, { rent_id, total });
+
     return rentPaymentMock;
   }
 }

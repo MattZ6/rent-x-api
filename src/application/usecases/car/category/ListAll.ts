@@ -1,6 +1,6 @@
 import { IListAllCarCategoriesUseCase } from '@domain/usecases/car/category/ListAll';
 
-import { IFindAllCarCategoriesRepository } from '@application/protocols/repositories/car-category';
+import { IFindAllCarCategoriesRepository } from '@application/protocols/repositories/car/category';
 
 export class ListAllCarCategoriesUseCase
   implements IListAllCarCategoriesUseCase
@@ -15,8 +15,8 @@ export class ListAllCarCategoriesUseCase
     const { sort_by: order_by, order_by: order, limit, offset: page } = data;
 
     return this.findAllCarCategoriesRepository.findAll({
-      order_by,
-      order,
+      sort_by: order_by,
+      order_by: order,
       take: limit,
       skip: (page - 1) * limit,
     });

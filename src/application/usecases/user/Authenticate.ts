@@ -5,12 +5,14 @@ import {
 } from '@domain/errors';
 import { IAuthenticateUserUseCase } from '@domain/usecases/user/Authenticate';
 
-import { IEncryptProvider } from '@application/protocols/providers/cryptography/cryptography';
-import { ICompareHashProvider } from '@application/protocols/providers/cryptography/hash';
+import {
+  ICompareHashProvider,
+  IEncryptProvider,
+} from '@application/protocols/providers/cryptography';
 import { IGenerateUuidProvider } from '@application/protocols/providers/uuid';
 import {
-  ICreateUserTokenRepository,
   IFindUserByEmailRepository,
+  ICreateUserTokenRepository,
 } from '@application/protocols/repositories/user';
 
 export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {

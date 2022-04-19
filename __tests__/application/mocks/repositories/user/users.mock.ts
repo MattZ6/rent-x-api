@@ -8,7 +8,7 @@ import {
   IUpdateUserRepository,
 } from '@application/protocols/repositories/user';
 
-import { makeUserMock, userMock } from '../../../../domain/entities';
+import { makeUserMock } from '../../../../domain/entities';
 
 export class CheckIfUserExistsByEmailRepositorySpy
   implements ICheckIfUserExistsByEmailRepository
@@ -24,13 +24,19 @@ export class CreateUserRepositorySpy implements ICreateUserRepository {
   async create(
     data: ICreateUserRepository.Input
   ): Promise<ICreateUserRepository.Output> {
-    const { name, email, password_hash, driver_license } = data;
+    const { role, name, email, password_hash, driver_license } = data;
 
-    const user = { ...userMock };
+    const userMock = makeUserMock();
 
-    Object.assign(user, { name, email, password_hash, driver_license });
+    Object.assign(userMock, {
+      role,
+      name,
+      email,
+      password_hash,
+      driver_license,
+    });
 
-    return user;
+    return userMock;
   }
 }
 
@@ -56,11 +62,11 @@ export class FindUserByIdRepositorySpy implements IFindUserByIdRepository {
   ): Promise<IFindUserByIdRepository.Output> {
     const { id } = data;
 
-    const user = { ...userMock };
+    const userMock = makeUserMock();
 
-    Object.assign(user, { id });
+    Object.assign(userMock, { id });
 
-    return user;
+    return userMock;
   }
 }
 
@@ -68,7 +74,20 @@ export class UpdateUserRepositorySpy implements IUpdateUserRepository {
   async update(
     data: IUpdateUserRepository.Input
   ): Promise<IUpdateUserRepository.Output> {
-    return data;
+    const { id, driver_license, email, name, password_hash, role } = data;
+
+    const userMock = makeUserMock();
+
+    Object.assign(userMock, {
+      id,
+      driver_license,
+      email,
+      name,
+      password_hash,
+      role,
+    });
+
+    return userMock;
   }
 }
 

@@ -4,7 +4,7 @@ import { ICreateCarBrandUseCase } from '@domain/usecases/car/brand/Create';
 import {
   ICheckIfCarBrandExistsByNameRepository,
   ICreateCarBrandRepository,
-} from '@application/protocols/repositories/car-brand';
+} from '@application/protocols/repositories/car/brand';
 
 export class CreateCarBrandUseCase implements ICreateCarBrandUseCase {
   constructor(

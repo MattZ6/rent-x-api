@@ -2,20 +2,20 @@ import { faker } from '@faker-js/faker';
 
 import { ICreateRentUseCase } from '@domain/usecases/rent/Create';
 
-export const minimumRentDurationTimeInMillissecondsMock = faker.datatype.number(
-  {
-    min: 1 * 24 * 60 * 60 * 1000,
-    max: 30 * 24 * 60 * 60 * 1000,
-  }
-);
+export function makeCreateRentUseCaseRentDurationInMillisseconds() {
+  return faker.datatype.number({ min: 1 });
+}
 
-const start = faker.datatype.datetime();
+export function makeCreateRentUseCaseInputMock(): ICreateRentUseCase.Input {
+  const startDate = faker.datatype.datetime();
 
-export const createRentUseCaseInputMock: ICreateRentUseCase.Input = {
-  user_id: faker.datatype.uuid(),
-  car_id: faker.datatype.uuid(),
-  start_date: start,
-  expected_return_date: new Date(
-    start.getTime() + minimumRentDurationTimeInMillissecondsMock
-  ),
-};
+  return {
+    user_id: faker.datatype.uuid(),
+    car_id: faker.datatype.uuid(),
+    start_date: startDate,
+    expected_return_date: faker.date.soon(
+      faker.datatype.number({ min: 1 }),
+      startDate
+    ),
+  };
+}

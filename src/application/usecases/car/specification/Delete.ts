@@ -4,7 +4,7 @@ import { IDeleteCarSpecificationUseCase } from '@domain/usecases/car/specificati
 import {
   ICheckIfCarSpecificationExistsByIdRepository,
   IDeleteCarSpecificationByIdRepository,
-} from '@application/protocols/repositories/car-specification';
+} from '@application/protocols/repositories/car/specification';
 
 export class DeleteCarSpecificationUseCase
   implements IDeleteCarSpecificationUseCase

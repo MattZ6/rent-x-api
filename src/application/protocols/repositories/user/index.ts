@@ -1,9 +1,10 @@
-export * from './CheckIfUserExistsByEmailRepository';
-export * from './CheckIfUserExistsByDriverLicenseRepository';
-export * from './CheckIfUserExistsByIdRepository';
-export * from './CreateUserRepository';
+export * from './CheckIfExistsByDriverLicense';
+export * from './CheckIfExistsByEmail';
+export * from './CheckIfExistsById';
+export * from './Create';
 export * from './FindByEmail';
-export * from './FindUserByIdRepository';
-export * from './UpdateUserRepository';
+export * from './FindById';
+export * from './Update';
 
+export * from './avatar';
 export * from './token';

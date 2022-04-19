@@ -81,7 +81,7 @@ export class PostgresCarsRepository
   async findAll(
     data: IFindAllCarsRepository.Input
   ): Promise<IFindAllCarsRepository.Output> {
-    const { order_by, order, skip, take, relations } = data;
+    const { sort_by: order_by, order_by: order, skip, take, relations } = data;
 
     return this.repository.find({
       order: { [order_by]: order },
