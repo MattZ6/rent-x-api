@@ -1,4 +1,4 @@
-import { IUserToken } from '@domain/entities/UserToken';
+import { UserToken } from '@domain/entities/UserToken';
 
 interface ICreateUserTokenRepository {
   create(
@@ -7,9 +7,9 @@ interface ICreateUserTokenRepository {
 }
 
 namespace ICreateUserTokenRepository {
-  export type Input = { token: string; user_id: string; expires_in: Date };
+  export type Input = Pick<UserToken, 'token' | 'expires_in' | 'user_id'>;
 
-  export type Output = IUserToken;
+  export type Output = UserToken;
 }
 
 export { ICreateUserTokenRepository };

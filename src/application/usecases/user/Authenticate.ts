@@ -1,3 +1,4 @@
+import { UserRole } from '@domain/entities/User';
 import {
   WrongPasswordError,
   UserNotFoundWithProvidedEmailError,
@@ -14,7 +15,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
   constructor(
     private readonly findUserByEmailRepository: IFindUserByEmailRepository,
     private readonly compareHashProvider: ICompareHashProvider,
-    private readonly encryptProvider: IEncryptProvider,
+    private readonly encryptProvider: IEncryptProvider<{ role: UserRole }>,
     private readonly generateUuidProvider: IGenerateUuidProvider,
     private readonly refreshTokenExpiresTimeInMillisseconds: number,
     private readonly createUserTokenRepository: ICreateUserTokenRepository
@@ -33,7 +34,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
 
     const passwordsMatch = await this.compareHashProvider.compare({
       value: password,
-      value_to_compare: user.password_hash,
+      hashed_value: user.password_hash,
     });
 
     if (!passwordsMatch) {
@@ -41,7 +42,8 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
     }
 
     const accessToken = await this.encryptProvider.encrypt({
-      value: user.id,
+      subject: user.id,
+      payload: { role: user.role },
     });
 
     const refreshToken = await this.generateUuidProvider.generate();
@@ -50,7 +52,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
       Date.now() + this.refreshTokenExpiresTimeInMillisseconds
     );
 
-    await this.createUserTokenRepository.create({
+    const userToken = await this.createUserTokenRepository.create({
       user_id: user.id,
       token: refreshToken,
       expires_in: expiresDate,
@@ -58,7 +60,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
 
     return {
       access_token: accessToken,
-      refresh_token: refreshToken,
+      refresh_token: userToken.token,
     };
   }
 }

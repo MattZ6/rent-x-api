@@ -1,4 +1,4 @@
-import { IUser } from '@domain/entities/User';
+import { User } from '@domain/entities/User';
 
 interface IFindUserByEmailRepository {
   findByEmail(
@@ -7,11 +7,9 @@ interface IFindUserByEmailRepository {
 }
 
 namespace IFindUserByEmailRepository {
-  export type Input = {
-    email: string;
-  };
+  export type Input = Pick<User, 'email'>;
 
-  export type Output = IUser | undefined;
+  export type Output = User | null;
 }
 
 export { IFindUserByEmailRepository };

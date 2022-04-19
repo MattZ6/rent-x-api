@@ -22,8 +22,13 @@ export class CompareHashProviderSpy implements ICompareHashProvider {
   }
 }
 
-export class EncryptProviderSpy implements IEncryptProvider {
-  async encrypt(_: IEncryptProvider.Input): Promise<IEncryptProvider.Output> {
-    return faker.datatype.uuid();
+export function makeEncryptProviderOutputMock(): IEncryptProvider.Output {
+  return faker.datatype.string();
+}
+export class EncryptProviderSpy implements IEncryptProvider<unknown> {
+  async encrypt(
+    _: IEncryptProvider.Input<unknown>
+  ): Promise<IEncryptProvider.Output> {
+    return makeEncryptProviderOutputMock();
   }
 }

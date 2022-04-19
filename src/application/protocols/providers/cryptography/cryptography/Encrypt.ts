@@ -1,10 +1,11 @@
-interface IEncryptProvider {
-  encrypt(data: IEncryptProvider.Input): Promise<IEncryptProvider.Output>;
+interface IEncryptProvider<P = unknown> {
+  encrypt(data: IEncryptProvider.Input<P>): Promise<IEncryptProvider.Output>;
 }
 
 namespace IEncryptProvider {
-  export type Input = {
-    value: string;
+  export type Input<P> = {
+    subject: string;
+    payload?: P;
   };
 
   export type Output = string;

@@ -8,8 +8,13 @@ export const authenticateUserRefreshTokenExpiresTimeInMillissecondsMock =
     max: 360_000_000_000,
   });
 
-export const authenticateUserUseCaseInputMock: IAuthenticateUserUseCase.Input =
-  {
+export function makeAuthenticateUserUseCaseRefreshTokenExpiresInMillisseconds() {
+  return faker.datatype.number({ min: 1 });
+}
+
+export function makeAuthenticateUserUseCaseInputMock(): IAuthenticateUserUseCase.Input {
+  return {
     email: faker.internet.email(),
     password: faker.internet.password(),
   };
+}

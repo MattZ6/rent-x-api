@@ -1,3 +1,5 @@
+import { Authentication } from '@domain/entities/Authentication';
+
 interface IAuthenticateUserUseCase {
   execute(
     data: IAuthenticateUserUseCase.Input
@@ -10,10 +12,7 @@ namespace IAuthenticateUserUseCase {
     password: string;
   };
 
-  export type Output = {
-    access_token: string;
-    refresh_token: string;
-  };
+  export type Output = Authentication;
 }
 
 export { IAuthenticateUserUseCase };

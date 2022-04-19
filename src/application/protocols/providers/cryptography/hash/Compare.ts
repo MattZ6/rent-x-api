@@ -7,7 +7,7 @@ interface ICompareHashProvider {
 namespace ICompareHashProvider {
   export type Input = {
     value: string;
-    value_to_compare: string;
+    hashed_value: string;
   };
 
   export type Output = boolean;

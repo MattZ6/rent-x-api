@@ -21,7 +21,7 @@ export class BcryptjsHashProvider
   async compare(
     data: ICompareHashProvider.Input
   ): Promise<ICompareHashProvider.Output> {
-    const { value, value_to_compare } = data;
+    const { value, hashed_value: value_to_compare } = data;
 
     return compare(value, value_to_compare);
   }
