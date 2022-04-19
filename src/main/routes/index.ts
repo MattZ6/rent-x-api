@@ -10,7 +10,7 @@ import rentRoutes from './rent.routes';
 
 const routes = Router();
 
-routes.use('/v1/authentication', authenticationRoutes);
+routes.use('/v1/auth', authenticationRoutes);
 routes.use('/v1/profile', profileRoutes);
 routes.use('/v1/brands', carBrandsRoutes);
 routes.use('/v1/specifications', carSpecificationsRoutes);

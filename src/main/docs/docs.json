@@ -1,0 +1,125 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "v0.2.0-beta",
+    "title": "🏎 Rent-X API Docs",
+    "description": "API docs for cars rent application",
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/MattZ6/rent-x-api/blob/main/LICENSE.md"
+    },
+    "contact": {
+      "name": "Matheus Felipe Zanin",
+      "email": "matt_z6@hotmail.com",
+      "url": "https://github.com/MattZ6"
+    }
+  },
+  "tags": [
+    {
+      "name": "User",
+      "description": "Endpoints related to the Users's scope"
+    }
+  ],
+  "paths": {
+    "/v1/auth/sign/in": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Performs User authentication",
+        "description": "Performs User authentication",
+        "requestBody": {
+          "required": true,
+          "description": "User's credentials",
+          "content": {
+            "application/json": {
+              "example": {
+                "email": "client@rentx.com",
+                "password": "clientpass"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/Credentials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "access_token": "...",
+                  "refresh_token": "..."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user.not.exists",
+                  "message": "User not found with provided email."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "password.wrong",
+                  "message": "Wrong password."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Credentials": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "RefreshToken": {
+        "type": "object",
+        "properties": {
+          "refresh_token": {
+            "type": "string",
+            "example": "..."
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "userAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Access-Token",
+        "description": "The user's access token"
+      }
+    }
+  }
+}
