@@ -42,13 +42,13 @@ class AuthenticateUserController implements IController {
   }
 }
 
-type AuthenticateUserBodyRequest = {
-  email: string;
-  password: string;
-};
-
 namespace AuthenticateUserController {
-  export type Request = IHttpRequest<AuthenticateUserBodyRequest, void, void>;
+  export type RequestBody = {
+    email: string;
+    password: string;
+  };
+
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }
