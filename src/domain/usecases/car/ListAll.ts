@@ -1,25 +1,26 @@
-import { ICar } from '@domain/entities/Car';
+import { Car } from '@domain/entities/Car';
 
 interface IListAllCarsUseCase {
   execute(data: IListAllCarsUseCase.Input): Promise<IListAllCarsUseCase.Output>;
 }
 
 namespace IListAllCarsUseCase {
-  export type OrderBy = keyof Pick<
-    ICar,
+  export type SortBy = keyof Pick<
+    Car,
     'name' | 'created_at' | 'horse_power' | 'number_of_seats' | 'max_speed'
   >;
-
-  export type Order = 'ASC' | 'DESC';
+  export type OrderBy = 'asc' | 'desc';
+  export type Limit = number;
+  export type Offset = number;
 
   export type Input = {
-    order_by: OrderBy;
-    order: Order;
-    limit: number;
-    page: number;
+    sort_by?: SortBy;
+    order_by?: OrderBy;
+    limit?: Limit;
+    offset?: Offset;
   };
 
-  export type Output = ICar[];
+  export type Output = Car[];
 }
 
 export { IListAllCarsUseCase };

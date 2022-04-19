@@ -12,7 +12,7 @@ export class ListAllCarCategoriesUseCase
   async execute(
     data?: IListAllCarCategoriesUseCase.Input
   ): Promise<IListAllCarCategoriesUseCase.Output> {
-    const { order_by, order, limit, page } = data;
+    const { sort_by: order_by, order_by: order, limit, offset: page } = data;
 
     return this.findAllCarCategoriesRepository.findAll({
       order_by,

@@ -9,8 +9,8 @@ import {
 
 class ListAllCarsController implements IController {
   constructor(
-    private readonly defaultOrderBy: IListAllCarsUseCase.OrderBy,
-    private readonly defaultOrder: IListAllCarsUseCase.Order,
+    private readonly defaultOrderBy: IListAllCarsUseCase.SortBy,
+    private readonly defaultOrder: IListAllCarsUseCase.OrderBy,
     private readonly defaultLimit: number,
     private readonly defaultPage: number,
     private readonly listAllCarsUseCase: IListAllCarsUseCase
@@ -27,10 +27,10 @@ class ListAllCarsController implements IController {
     } = request.query ?? {};
 
     const cars = await this.listAllCarsUseCase.execute({
-      order_by,
-      order,
+      sort_by: order_by,
+      order_by: order,
       limit,
-      page,
+      offset: page,
     });
 
     return ok(cars);
@@ -39,8 +39,8 @@ class ListAllCarsController implements IController {
 
 namespace ListAllCarsController {
   type ListAllCarsQueryParamsRequest = {
-    order_by?: IListAllCarsUseCase.OrderBy;
-    order?: IListAllCarsUseCase.Order;
+    order_by?: IListAllCarsUseCase.SortBy;
+    order?: IListAllCarsUseCase.OrderBy;
     limit?: number;
     page?: number;
   };

@@ -1,4 +1,4 @@
-import { IRent } from '@domain/entities/Rent';
+import { Rent } from '@domain/entities/Rent';
 
 interface IReturnRentUseCase {
   execute(data: IReturnRentUseCase.Input): Promise<IReturnRentUseCase.Output>;
@@ -10,7 +10,7 @@ namespace IReturnRentUseCase {
     rent_id: string;
   };
 
-  export type Output = IRent;
+  export type Output = Rent;
 }
 
 export { IReturnRentUseCase };

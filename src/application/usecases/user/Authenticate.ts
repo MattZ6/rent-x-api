@@ -8,8 +8,10 @@ import { IAuthenticateUserUseCase } from '@domain/usecases/user/Authenticate';
 import { IEncryptProvider } from '@application/protocols/providers/cryptography/cryptography';
 import { ICompareHashProvider } from '@application/protocols/providers/cryptography/hash';
 import { IGenerateUuidProvider } from '@application/protocols/providers/uuid';
-import { IFindUserByEmailRepository } from '@application/protocols/repositories/user';
-import { ICreateUserTokenRepository } from '@application/protocols/repositories/user-token';
+import {
+  ICreateUserTokenRepository,
+  IFindUserByEmailRepository,
+} from '@application/protocols/repositories/user';
 
 export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
   constructor(

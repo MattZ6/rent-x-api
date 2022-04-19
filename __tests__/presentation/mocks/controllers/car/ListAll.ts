@@ -4,7 +4,7 @@ import { IListAllCarsUseCase } from '@domain/usecases/car/ListAll';
 
 import { ListAllCarsController } from '@presentation/controllers/car/ListAll';
 
-export const listAllCarsControllerDefaultOrderBy: IListAllCarsUseCase.OrderBy =
+export const listAllCarsControllerDefaultOrderBy: IListAllCarsUseCase.SortBy =
   faker.random.arrayElement([
     'name',
     'created_at',
@@ -12,7 +12,7 @@ export const listAllCarsControllerDefaultOrderBy: IListAllCarsUseCase.OrderBy =
     'number_of_seats',
     'max_speed',
   ]);
-export const listAllCarsControllerDefaultOrder: IListAllCarsUseCase.Order =
+export const listAllCarsControllerDefaultOrder: IListAllCarsUseCase.OrderBy =
   faker.random.arrayElement(['ASC', 'DESC']);
 export const listAllCarsControllerDefaultLimit = faker.datatype.number({
   min: 10,

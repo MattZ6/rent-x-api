@@ -1,4 +1,4 @@
-export interface IUserAvatar {
+export type UserAvatar = {
   id: string;
   original_name: string;
   mime_type: string;
@@ -6,4 +6,4 @@ export interface IUserAvatar {
   size_in_bytes: number;
   created_at: Date;
   updated_at: Date;
-}
+};

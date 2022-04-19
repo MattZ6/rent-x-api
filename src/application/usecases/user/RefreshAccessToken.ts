@@ -6,8 +6,8 @@ import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshAcc
 
 import { IEncryptProvider } from '@application/protocols/providers/cryptography/cryptography';
 import { IGenerateUuidProvider } from '@application/protocols/providers/uuid';
+import { ICreateUserTokenRepository } from '@application/protocols/repositories/user';
 import {
-  ICreateUserTokenRepository,
   IDeleteUserTokenByIdRepository,
   IFindUserTokenByTokenRepository,
 } from '@application/protocols/repositories/user-token';

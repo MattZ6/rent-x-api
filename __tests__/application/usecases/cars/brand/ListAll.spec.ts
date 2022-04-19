@@ -26,11 +26,11 @@ describe('ListAllCarBrandsUseCase', () => {
 
     expect(findAllSpy).toHaveBeenCalledTimes(1);
     expect(findAllSpy).toHaveBeenCalledWith({
-      order_by: listAllCarBrandsUseCaseInputMock.order_by,
-      order: listAllCarBrandsUseCaseInputMock.order,
+      order_by: listAllCarBrandsUseCaseInputMock.sort_by,
+      order: listAllCarBrandsUseCaseInputMock.order_by,
       take: listAllCarBrandsUseCaseInputMock.limit,
       skip:
-        (listAllCarBrandsUseCaseInputMock.page - 1) *
+        (listAllCarBrandsUseCaseInputMock.offset - 1) *
         listAllCarBrandsUseCaseInputMock.limit,
     });
   });

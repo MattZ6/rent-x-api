@@ -26,12 +26,12 @@ describe('ListAllCarsUseCase', () => {
 
     expect(findAllSpy).toHaveBeenCalledTimes(1);
     expect(findAllSpy).toHaveBeenCalledWith({
-      order_by: listAllCarsUseCaseInputMock.order_by,
-      order: listAllCarsUseCaseInputMock.order,
+      order_by: listAllCarsUseCaseInputMock.sort_by,
+      order: listAllCarsUseCaseInputMock.order_by,
       take: listAllCarsUseCaseInputMock.limit,
       skip:
         listAllCarsUseCaseInputMock.limit *
-        (listAllCarsUseCaseInputMock.page - 1),
+        (listAllCarsUseCaseInputMock.offset - 1),
       relations: ['brand', 'category'],
     });
   });
@@ -51,12 +51,12 @@ describe('ListAllCarsUseCase', () => {
 
     await listAllCarsUseCase.execute({
       ...listAllCarsUseCaseInputMock,
-      page: faker.datatype.number({ min: -100, max: 0 }),
+      offset: faker.datatype.number({ min: -100, max: 0 }),
     });
 
     expect(findAllSpy).toHaveBeenCalledWith({
-      order_by: listAllCarsUseCaseInputMock.order_by,
-      order: listAllCarsUseCaseInputMock.order,
+      order_by: listAllCarsUseCaseInputMock.sort_by,
+      order: listAllCarsUseCaseInputMock.order_by,
       take: listAllCarsUseCaseInputMock.limit,
       skip: 0,
       relations: ['brand', 'category'],

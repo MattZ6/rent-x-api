@@ -8,7 +8,7 @@ import {
   IUpdateUserRepository,
 } from '@application/protocols/repositories/user';
 
-import { userMock } from '../../../../domain/entities';
+import { makeUserMock, userMock } from '../../../../domain/entities';
 
 export class CheckIfUserExistsByEmailRepositorySpy
   implements ICheckIfUserExistsByEmailRepository
@@ -42,11 +42,11 @@ export class FindUserByEmailRepositorySpy
   ): Promise<IFindUserByEmailRepository.Output> {
     const { email } = data;
 
-    const user = { ...userMock };
+    const userMock = makeUserMock();
 
-    Object.assign(user, { email });
+    Object.assign(userMock, { email });
 
-    return user;
+    return userMock;
   }
 }
 

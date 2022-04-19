@@ -1,4 +1,4 @@
-import { ICarCategory } from '@domain/entities/CarCategory';
+import { CarCategory } from '@domain/entities/CarCategory';
 
 interface IUpdateCarCategoryUseCase {
   execute(
@@ -7,13 +7,11 @@ interface IUpdateCarCategoryUseCase {
 }
 
 namespace IUpdateCarCategoryUseCase {
-  export type Input = {
+  export type Input = Pick<Partial<CarCategory>, 'name' | 'description'> & {
     id: string;
-    name: string;
-    description: string;
   };
 
-  export type Output = ICarCategory;
+  export type Output = CarCategory;
 }
 
 export { IUpdateCarCategoryUseCase };

@@ -1,4 +1,4 @@
-import { ICarBrand } from '@domain/entities/CarBrand';
+import { CarBrand } from '@domain/entities/CarBrand';
 
 interface ICreateCarBrandUseCase {
   execute(
@@ -7,11 +7,9 @@ interface ICreateCarBrandUseCase {
 }
 
 namespace ICreateCarBrandUseCase {
-  export type Input = {
-    name: string;
-  };
+  export type Input = Pick<CarBrand, 'name'>;
 
-  export type Output = ICarBrand;
+  export type Output = CarBrand;
 }
 
 export { ICreateCarBrandUseCase };

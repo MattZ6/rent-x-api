@@ -1,4 +1,4 @@
-import { IUser } from '@domain/entities/User';
+import { User } from '@domain/entities/User';
 
 interface IGetUserProfileUseCase {
   execute(
@@ -11,7 +11,7 @@ namespace IGetUserProfileUseCase {
     user_id: string;
   };
 
-  export type Output = IUser;
+  export type Output = User;
 }
 
 export { IGetUserProfileUseCase };

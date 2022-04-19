@@ -1,3 +1,5 @@
+import { Authentication } from '@domain/entities/Authentication';
+
 interface IRefreshUserAccessTokenUseCase {
   execute(
     data: IRefreshUserAccessTokenUseCase.Input
@@ -9,10 +11,7 @@ namespace IRefreshUserAccessTokenUseCase {
     refresh_token: string;
   };
 
-  export type Output = {
-    access_token: string;
-    refresh_token: string;
-  };
+  export type Output = Authentication;
 }
 
 export { IRefreshUserAccessTokenUseCase };

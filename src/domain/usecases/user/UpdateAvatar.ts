@@ -1,4 +1,4 @@
-import { IUserAvatar } from '@domain/entities/UserAvatar';
+import { UserAvatar } from '@domain/entities/UserAvatar';
 
 interface IUpdateUserAvatarUseCase {
   execute(
@@ -20,7 +20,7 @@ namespace IUpdateUserAvatarUseCase {
     file: UploadedFile;
   };
 
-  export type Output = IUserAvatar;
+  export type Output = UserAvatar;
 }
 
 export { IUpdateUserAvatarUseCase };

@@ -8,7 +8,7 @@ export class ListAllCarsUseCase implements IListAllCarsUseCase {
   async execute(
     data: IListAllCarsUseCase.Input
   ): Promise<IListAllCarsUseCase.Output> {
-    const { order_by, order, limit, page } = data;
+    const { sort_by: order_by, order_by: order, limit, offset: page } = data;
 
     let tempPage = page - 1;
 

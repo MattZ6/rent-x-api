@@ -1,4 +1,4 @@
-import { ICarCategory } from '@domain/entities/CarCategory';
+import { CarCategory } from '@domain/entities/CarCategory';
 
 interface IListAllCarCategoriesUseCase {
   execute(
@@ -7,18 +7,19 @@ interface IListAllCarCategoriesUseCase {
 }
 
 namespace IListAllCarCategoriesUseCase {
-  export type OrderBy = keyof Pick<ICarCategory, 'name' | 'created_at'>;
-
-  export type Order = 'ASC' | 'DESC';
+  export type SortBy = keyof Pick<CarCategory, 'name' | 'created_at'>;
+  export type OrderBy = 'asc' | 'desc';
+  export type Limit = number;
+  export type Offset = number;
 
   export type Input = {
-    order_by: OrderBy;
-    order: Order;
-    limit: number;
-    page: number;
+    sort_by?: SortBy;
+    order_by?: OrderBy;
+    limit?: Limit;
+    offset?: Offset;
   };
 
-  export type Output = ICarCategory[];
+  export type Output = CarCategory[];
 }
 
 export { IListAllCarCategoriesUseCase };

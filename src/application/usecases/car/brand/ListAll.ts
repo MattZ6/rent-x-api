@@ -10,7 +10,7 @@ export class ListAllCarBrandsUseCase implements IListAllCarBrandsUseCase {
   async execute(
     data?: IListAllCarBrandsUseCase.Input
   ): Promise<IListAllCarBrandsUseCase.Output> {
-    const { order_by, order, limit, page } = data;
+    const { sort_by: order_by, order_by: order, limit, offset: page } = data;
 
     const skip = limit * (page - 1);
 

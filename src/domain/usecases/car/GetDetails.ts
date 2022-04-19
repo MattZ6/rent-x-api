@@ -1,4 +1,4 @@
-import { ICar } from '@domain/entities/Car';
+import { Car } from '@domain/entities/Car';
 
 interface IGetCarDetailsUseCase {
   execute(
@@ -11,7 +11,7 @@ namespace IGetCarDetailsUseCase {
     car_id: string;
   };
 
-  export type Output = ICar;
+  export type Output = Car | null;
 }
 
 export { IGetCarDetailsUseCase };

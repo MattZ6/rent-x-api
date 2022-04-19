@@ -1,19 +1,8 @@
-import { ICarBrand } from './CarBrand';
-import { ICarCategory } from './CarCategory';
-import { ICarSpecification } from './CarSpecification';
+export type CarTypeOfFuelEnum = 'ALCOHOL' | 'GAS' | 'ELETRICITY';
 
-export enum TypeOfFuelEnum {
-  ALCOHOL = 'alcohol',
-  GAS = 'gas',
-  ELETRICITY = 'eletricity',
-}
+export type CarTransmissionTypeEnum = 'MANUAL' | 'AUTO';
 
-export enum TransmissionTypeEnum {
-  MANUAL = 'manual',
-  AUTO = 'auto',
-}
-
-export interface ICar {
+export type Car = {
   id: string;
   name: string;
   description: string;
@@ -21,16 +10,13 @@ export interface ICar {
   daily_rate: number;
   daily_late_fee: number;
   brand_id: string;
-  brand: ICarBrand;
   category_id: string;
-  category: ICarCategory;
-  specifications: ICarSpecification[];
-  type_of_fuel: TypeOfFuelEnum;
-  transmission_type: TransmissionTypeEnum;
+  type_of_fuel: CarTypeOfFuelEnum;
+  transmission_type: CarTransmissionTypeEnum;
   number_of_seats: number;
   horse_power: number;
   max_speed: number;
   zero_to_one_hundred_in_millisseconds: number;
   created_at: Date;
   updated_at: Date;
-}
+};

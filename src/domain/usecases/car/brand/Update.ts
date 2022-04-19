@@ -1,4 +1,4 @@
-import { ICarBrand } from '@domain/entities/CarBrand';
+import { CarBrand } from '@domain/entities/CarBrand';
 
 interface IUpdateCarBrandUseCase {
   execute(
@@ -7,12 +7,11 @@ interface IUpdateCarBrandUseCase {
 }
 
 namespace IUpdateCarBrandUseCase {
-  export type Input = {
+  export type Input = Pick<Partial<CarBrand>, 'name'> & {
     id: string;
-    name: string;
   };
 
-  export type Output = ICarBrand;
+  export type Output = CarBrand;
 }
 
 export { IUpdateCarBrandUseCase };

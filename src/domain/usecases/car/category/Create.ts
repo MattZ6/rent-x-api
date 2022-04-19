@@ -1,4 +1,4 @@
-import { ICarCategory } from '@domain/entities/CarCategory';
+import { CarCategory } from '@domain/entities/CarCategory';
 
 interface ICreateCarCategoryUseCase {
   execute(
@@ -7,12 +7,9 @@ interface ICreateCarCategoryUseCase {
 }
 
 namespace ICreateCarCategoryUseCase {
-  export type Input = {
-    name: string;
-    description: string;
-  };
+  export type Input = Pick<CarCategory, 'name' | 'description'>;
 
-  export type Output = ICarCategory;
+  export type Output = CarCategory;
 }
 
 export { ICreateCarCategoryUseCase };
