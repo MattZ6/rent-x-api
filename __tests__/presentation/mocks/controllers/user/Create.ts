@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { CreateAccountController } from '@presentation/controllers/user/Create';
 
-export const createAccountControllerRequestMock: CreateAccountController.Request =
-  {
+export function makeCreateAccountControllerRequestMock(): CreateAccountController.Request {
+  return {
     headers: undefined,
     params: undefined,
     query: undefined,
@@ -16,3 +16,4 @@ export const createAccountControllerRequestMock: CreateAccountController.Request
       driver_license: faker.datatype.string(),
     },
   };
+}

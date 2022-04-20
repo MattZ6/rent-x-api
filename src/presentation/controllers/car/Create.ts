@@ -80,9 +80,9 @@ class CreateCarController implements IController {
 }
 
 namespace CreateCarController {
-  type CreateCarBodyRequest = ICreateCarUseCase.Input;
+  type RequestBody = ICreateCarUseCase.Input;
 
-  export type Request = IHttpRequest<CreateCarBodyRequest, void, void>;
+  export type Request = IHttpRequest<RequestBody, void, void>;
 
   export type Response = IHttpResponse;
 }

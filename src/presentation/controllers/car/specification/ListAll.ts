@@ -20,17 +20,17 @@ class ListAllCarSpecificationsController implements IController {
     request: ListAllCarSpecificationsController.Request
   ): Promise<ListAllCarSpecificationsController.Response> {
     const {
-      order_by = this.defaultOrderBy,
-      order = this.defaultOrder,
+      sort_by = this.defaultOrderBy,
+      order_by = this.defaultOrder,
       limit = this.defaultLimit,
-      page = this.defaultPage,
+      offset = this.defaultPage,
     } = request.query ?? {};
 
     const specifications = await this.listAllCarSpecificationsUseCase.execute({
-      sort_by: order_by,
-      order_by: order,
+      sort_by,
+      order_by,
       limit,
-      offset: page,
+      offset,
     });
 
     return ok(specifications);
@@ -38,18 +38,19 @@ class ListAllCarSpecificationsController implements IController {
 }
 
 namespace ListAllCarSpecificationsController {
-  type ListCarSpecificationsQueryParamsRequest = {
-    order_by?: IListAllCarSpecificationsUseCase.SortBy;
-    order?: IListAllCarSpecificationsUseCase.OrderBy;
-    limit?: number;
-    page?: number;
+  export type SortBy = IListAllCarSpecificationsUseCase.SortBy;
+  export type OrderBy = IListAllCarSpecificationsUseCase.OrderBy;
+  export type Limit = IListAllCarSpecificationsUseCase.Limit;
+  export type Offset = IListAllCarSpecificationsUseCase.Offset;
+
+  type RequestQuery = {
+    sort_by?: SortBy;
+    order_by?: OrderBy;
+    limit?: Limit;
+    offset?: Offset;
   };
 
-  export type Request = IHttpRequest<
-    void,
-    void,
-    ListCarSpecificationsQueryParamsRequest
-  >;
+  export type Request = IHttpRequest<void, void, RequestQuery, void>;
 
   export type Response = IHttpResponse;
 }

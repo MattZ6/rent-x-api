@@ -20,10 +20,10 @@ class ListAllCarsController implements IController {
     request: ListAllCarsController.Request
   ): Promise<ListAllCarsController.Response> {
     const {
-      order_by = this.defaultOrderBy,
-      order = this.defaultOrder,
+      sort_by: order_by = this.defaultOrderBy,
+      order_by: order = this.defaultOrder,
       limit = this.defaultLimit,
-      page = this.defaultPage,
+      offset: page = this.defaultPage,
     } = request.query ?? {};
 
     const cars = await this.listAllCarsUseCase.execute({
@@ -38,14 +38,21 @@ class ListAllCarsController implements IController {
 }
 
 namespace ListAllCarsController {
-  type ListAllCarsQueryParamsRequest = {
-    order_by?: IListAllCarsUseCase.SortBy;
-    order?: IListAllCarsUseCase.OrderBy;
-    limit?: number;
-    page?: number;
+  export type SortBy = IListAllCarsUseCase.SortBy;
+  export type OrderBy = IListAllCarsUseCase.OrderBy;
+  export type Limit = IListAllCarsUseCase.Limit;
+  export type Offset = IListAllCarsUseCase.Offset;
+
+  type RequestQuery = {
+    sort_by?: SortBy;
+    order_by?: OrderBy;
+    limit?: Limit;
+    offset?: Offset;
+    brand_id?: string;
+    category_id?: string;
   };
 
-  export type Request = IHttpRequest<void, void, ListAllCarsQueryParamsRequest>;
+  export type Request = IHttpRequest<void, void, RequestQuery, void>;
 
   export type Response = IHttpResponse;
 }

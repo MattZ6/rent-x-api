@@ -35,10 +35,10 @@ describe('ListAllCarsController', () => {
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listAllCarsControllerRequestMock.query.order_by,
-      order: listAllCarsControllerRequestMock.query.order,
+      order_by: listAllCarsControllerRequestMock.query.sort_by,
+      order: listAllCarsControllerRequestMock.query.order_by,
       limit: listAllCarsControllerRequestMock.query.limit,
-      page: listAllCarsControllerRequestMock.query.page,
+      page: listAllCarsControllerRequestMock.query.offset,
     });
   });
 

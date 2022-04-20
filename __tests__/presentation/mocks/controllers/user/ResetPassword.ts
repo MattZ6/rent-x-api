@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { ResetUserPasswordController } from '@presentation/controllers/user/ResetPassword';
 
-export const resetUserPasswordControllerRequestMock: ResetUserPasswordController.Request =
-  {
+export function makeResetUserPasswordControllerRequestMock(): ResetUserPasswordController.Request {
+  return {
     headers: undefined,
     params: undefined,
     query: undefined,
@@ -14,3 +14,4 @@ export const resetUserPasswordControllerRequestMock: ResetUserPasswordController
       new_password: faker.internet.password(),
     },
   };
+}

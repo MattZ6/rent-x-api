@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { DeleteCarSpecificationController } from '@presentation/controllers/car/specification/Delete';
 
-export const deleteCarSpecificationControllerRequestMock: DeleteCarSpecificationController.Request =
-  {
+export function makeDeleteCarSpecificationControllerRequestMock(): DeleteCarSpecificationController.Request {
+  return {
     method: faker.internet.httpMethod(),
     original_url: faker.internet.url(),
     headers: undefined,
@@ -13,3 +13,4 @@ export const deleteCarSpecificationControllerRequestMock: DeleteCarSpecification
       id: faker.datatype.uuid(),
     },
   };
+}

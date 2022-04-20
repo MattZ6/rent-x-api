@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { AuthenticateUserController } from '@presentation/controllers/user/Authenticate';
 
-export const authenticateUserControllerRequestMock: AuthenticateUserController.Request =
-  {
+export function makeAuthenticateUserControllerRequestMock(): AuthenticateUserController.Request {
+  return {
     headers: undefined,
     params: undefined,
     query: undefined,
@@ -14,3 +14,4 @@ export const authenticateUserControllerRequestMock: AuthenticateUserController.R
       password: faker.internet.password(),
     },
   };
+}

@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { RefreshUserAccessTokenController } from '@presentation/controllers/user/RefreshAccessToken';
 
-export const refreshUserAccessTokenControllerRequestMock: RefreshUserAccessTokenController.Request =
-  {
+export function makeRefreshUserAccessTokenControllerRequestMock(): RefreshUserAccessTokenController.Request {
+  return {
     headers: undefined,
     params: undefined,
     query: undefined,
@@ -11,3 +11,4 @@ export const refreshUserAccessTokenControllerRequestMock: RefreshUserAccessToken
     original_url: faker.internet.url(),
     body: { refresh_token: faker.datatype.string() },
   };
+}

@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { UpdateCarBrandController } from '@presentation/controllers/car/brand/Update';
 
-export const updateCarBrandControllerRequestMock: UpdateCarBrandController.Request =
-  {
+export function makeUpdateCarBrandControllerRequestMock(): UpdateCarBrandController.Request {
+  return {
     method: faker.internet.httpMethod(),
     original_url: faker.internet.url(),
     headers: undefined,
@@ -15,3 +15,4 @@ export const updateCarBrandControllerRequestMock: UpdateCarBrandController.Reque
       name: faker.datatype.string(),
     },
   };
+}

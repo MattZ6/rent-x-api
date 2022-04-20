@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { GetUserProfileController } from '@presentation/controllers/user/GetProfile';
 
-export const getUserProfileControllerRequestMock: GetUserProfileController.Request =
-  {
+export function makeGetUserProfileControllerRequestMock(): GetUserProfileController.Request {
+  return {
     headers: undefined,
     params: undefined,
     query: undefined,
@@ -12,3 +12,4 @@ export const getUserProfileControllerRequestMock: GetUserProfileController.Reque
     original_url: faker.internet.url(),
     user_id: faker.datatype.uuid(),
   };
+}

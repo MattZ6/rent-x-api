@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { GetCarDetailsController } from '@presentation/controllers/car/GetDetails';
 
-export const getCarDetailsControllerRequestMock: GetCarDetailsController.Request =
-  {
+export function makeGetCarDetailsControllerRequestMock(): GetCarDetailsController.Request {
+  return {
     headers: undefined,
     query: undefined,
     body: undefined,
@@ -13,3 +13,4 @@ export const getCarDetailsControllerRequestMock: GetCarDetailsController.Request
       id: faker.datatype.uuid(),
     },
   };
+}

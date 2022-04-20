@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { UpdateCarCategoryController } from '@presentation/controllers/car/category/Update';
 
-export const updateCarCategoryControllerRequestMock: UpdateCarCategoryController.Request =
-  {
+export function makeUpdateCarCategoryControllerRequestMock(): UpdateCarCategoryController.Request {
+  return {
     method: faker.internet.httpMethod(),
     original_url: faker.internet.url(),
     headers: undefined,
@@ -16,3 +16,4 @@ export const updateCarCategoryControllerRequestMock: UpdateCarCategoryController
       description: faker.datatype.string(),
     },
   };
+}
