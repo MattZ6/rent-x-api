@@ -24,32 +24,33 @@ export class UpdateCarSpecificationUseCase
   ): Promise<IUpdateCarSpecificationUseCase.Output> {
     const { id, name, description } = data;
 
-    const specification =
+    let carSpecification =
       await this.findCarSpecificationByIdRepository.findById({ id });
 
-    if (!specification) {
+    if (!carSpecification) {
       throw new CarSpecificationNotFoundWithProvidedIdError();
     }
 
     const areSameName =
-      name.toLowerCase().trim() === specification.name.toLowerCase().trim();
+      name.toLowerCase().trim() === carSpecification.name.toLowerCase().trim();
 
     if (!areSameName) {
-      const alreadyInUse =
+      const alreadyExists =
         await this.checkIfCarSpecificationExistsByNameRepository.checkIfExistsByName(
-          {
-            name,
-          }
+          { name }
         );
 
-      if (alreadyInUse) {
+      if (alreadyExists) {
         throw new CarSpecificationAlreadyExistsWithProvidedNameError();
       }
     }
 
-    specification.name = name;
-    specification.description = description;
+    carSpecification = await this.updateCarSpecificationRepository.update({
+      id: carSpecification.id,
+      name: name.trim(),
+      description: description.trim(),
+    });
 
-    return this.updateCarSpecificationRepository.update(specification);
+    return carSpecification;
   }
 }
