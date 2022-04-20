@@ -26,6 +26,8 @@ export class CreateCarBrandUseCase implements ICreateCarBrandUseCase {
       throw new CarBrandAlreadyExistsWithProvidedNameError();
     }
 
-    return this.createCarBrandRepository.create({ name });
+    const carBrand = await this.createCarBrandRepository.create({ name });
+
+    return carBrand;
   }
 }
