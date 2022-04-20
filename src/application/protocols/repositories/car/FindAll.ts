@@ -16,6 +16,12 @@ namespace IFindAllCarsRepository {
   export type Skip = number;
 
   export type Input = {
+    brand_id?: string;
+    category_id?: string;
+    include?: {
+      brand?: boolean;
+      category?: boolean;
+    };
     sort_by: SortBy;
     order_by: OrderBy;
     take: Take;

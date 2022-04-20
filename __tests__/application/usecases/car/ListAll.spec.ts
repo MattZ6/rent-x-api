@@ -1,77 +1,111 @@
-import { faker } from '@faker-js/faker';
+import { IListAllCarsUseCase } from '@domain/usecases/car/ListAll';
 
 import { ListAllCarsUseCase } from '@application/usecases/car/ListAll';
 
-import { carMock } from '../../../domain/entities';
+import { makeCarMock, makeErrorMock } from '../../../domain';
 import {
   FindAllCarsRepositorySpy,
-  listAllCarsUseCaseInputMock,
+  makeListAllCarsUseCaseDefaultLimitMock,
+  makeListAllCarsUseCaseDefaultOffsetMock,
+  makeListAllCarsUseCaseDefaultOrderByMock,
+  makeListAllCarsUseCaseDefaultSortByMock,
+  makeListAllCarsUseCaseInputMock,
 } from '../../mocks';
 
+let listAllCarsUseCaseDefaultSortByMock: IListAllCarsUseCase.SortBy;
+let listAllCarsUseCaseDefaultOrderByMock: IListAllCarsUseCase.OrderBy;
+let listAllCarsUseCaseDefaultLimitMock: IListAllCarsUseCase.Limit;
+let listAllCarsUseCaseDefaultOffsetMock: IListAllCarsUseCase.Offset;
 let findAllCarsRepositorySpy: FindAllCarsRepositorySpy;
 
 let listAllCarsUseCase: ListAllCarsUseCase;
 
 describe('ListAllCarsUseCase', () => {
   beforeEach(() => {
+    listAllCarsUseCaseDefaultSortByMock =
+      makeListAllCarsUseCaseDefaultSortByMock();
+    listAllCarsUseCaseDefaultOrderByMock =
+      makeListAllCarsUseCaseDefaultOrderByMock();
+    listAllCarsUseCaseDefaultLimitMock =
+      makeListAllCarsUseCaseDefaultLimitMock();
+    listAllCarsUseCaseDefaultOffsetMock =
+      makeListAllCarsUseCaseDefaultOffsetMock();
     findAllCarsRepositorySpy = new FindAllCarsRepositorySpy();
 
-    listAllCarsUseCase = new ListAllCarsUseCase(findAllCarsRepositorySpy);
+    listAllCarsUseCase = new ListAllCarsUseCase(
+      listAllCarsUseCaseDefaultSortByMock,
+      listAllCarsUseCaseDefaultOrderByMock,
+      listAllCarsUseCaseDefaultLimitMock,
+      listAllCarsUseCaseDefaultOffsetMock,
+      findAllCarsRepositorySpy
+    );
   });
 
   it('should call FindAllCarsRepository once with correct values', async () => {
     const findAllSpy = jest.spyOn(findAllCarsRepositorySpy, 'findAll');
 
-    await listAllCarsUseCase.execute(listAllCarsUseCaseInputMock);
+    const input = makeListAllCarsUseCaseInputMock();
+
+    await listAllCarsUseCase.execute(input);
 
     expect(findAllSpy).toHaveBeenCalledTimes(1);
     expect(findAllSpy).toHaveBeenCalledWith({
-      order_by: listAllCarsUseCaseInputMock.sort_by,
-      order: listAllCarsUseCaseInputMock.order_by,
-      take: listAllCarsUseCaseInputMock.limit,
-      skip:
-        listAllCarsUseCaseInputMock.limit *
-        (listAllCarsUseCaseInputMock.offset - 1),
-      relations: ['brand', 'category'],
+      sort_by: input.sort_by,
+      order_by: input.order_by,
+      take: input.limit,
+      skip: input.offset,
+      brand_id: input.brand_id,
+      category_id: input.category_id,
+      include: {
+        brand: true,
+        category: true,
+      },
+    });
+  });
+
+  it('should call FindAllCarsRepository with default values if no input', async () => {
+    const findAllSpy = jest.spyOn(findAllCarsRepositorySpy, 'findAll');
+
+    await listAllCarsUseCase.execute({});
+
+    expect(findAllSpy).toHaveBeenCalledTimes(1);
+    expect(findAllSpy).toHaveBeenCalledWith({
+      sort_by: listAllCarsUseCaseDefaultSortByMock,
+      order_by: listAllCarsUseCaseDefaultOrderByMock,
+      take: listAllCarsUseCaseDefaultLimitMock,
+      skip: listAllCarsUseCaseDefaultOffsetMock,
+      include: {
+        brand: true,
+        category: true,
+      },
     });
   });
 
   it('should throw if FindAllCarsRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(findAllCarsRepositorySpy, 'findAll')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = listAllCarsUseCase.execute(listAllCarsUseCaseInputMock);
+    const input = makeListAllCarsUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = listAllCarsUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should call FindAllCarsRepository with skip zero if provided page value is less than or equal to zero', async () => {
-    const findAllSpy = jest.spyOn(findAllCarsRepositorySpy, 'findAll');
+  it('should return Cars on success', async () => {
+    const carsMock = [makeCarMock(), makeCarMock(), makeCarMock()];
 
-    await listAllCarsUseCase.execute({
-      ...listAllCarsUseCaseInputMock,
-      offset: faker.datatype.number({ min: -100, max: 0 }),
-    });
+    jest
+      .spyOn(findAllCarsRepositorySpy, 'findAll')
+      .mockResolvedValueOnce(carsMock);
 
-    expect(findAllSpy).toHaveBeenCalledWith({
-      order_by: listAllCarsUseCaseInputMock.sort_by,
-      order: listAllCarsUseCaseInputMock.order_by,
-      take: listAllCarsUseCaseInputMock.limit,
-      skip: 0,
-      relations: ['brand', 'category'],
-    });
-  });
+    const input = makeListAllCarsUseCaseInputMock();
 
-  it('should return cars list', async () => {
-    const cars = [carMock, carMock, carMock, carMock];
+    const output = await listAllCarsUseCase.execute(input);
 
-    jest.spyOn(findAllCarsRepositorySpy, 'findAll').mockResolvedValueOnce(cars);
-
-    const response = await listAllCarsUseCase.execute(
-      listAllCarsUseCaseInputMock
-    );
-
-    expect(response).toEqual(cars);
+    expect(output).toEqual(carsMock);
   });
 });

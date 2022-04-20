@@ -16,6 +16,8 @@ namespace IListAllCarsUseCase {
   export type Input = {
     sort_by?: SortBy;
     order_by?: OrderBy;
+    brand_id?: string;
+    category_id?: string;
     limit?: Limit;
     offset?: Offset;
   };
