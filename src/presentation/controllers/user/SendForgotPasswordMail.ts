@@ -35,15 +35,11 @@ class SendForgotUserPasswordMailController implements IController {
 }
 
 namespace SendForgotUserPasswordMailController {
-  type SendForgotUserPasswordMailBodyRequest = {
+  type RequestBody = {
     email: string;
   };
 
-  export type Request = IHttpRequest<
-    SendForgotUserPasswordMailBodyRequest,
-    void,
-    void
-  >;
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }

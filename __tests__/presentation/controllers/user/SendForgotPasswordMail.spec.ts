@@ -3,9 +3,10 @@ import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 import { SendForgotUserPasswordMailController } from '@presentation/controllers/user/SendForgotPasswordMail';
 import { noContent } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../domain';
 import {
-  sendForgotUserPasswordMailControllerRequestMock,
   SendForgotUserPasswordMailUseCaseSpy,
+  makeSendForgotUserPasswordMailControllerRequestMock,
 } from '../../mocks';
 
 let sendForgotUserPasswordMailUseCaseSpy: SendForgotUserPasswordMailUseCaseSpy;
@@ -29,44 +30,44 @@ describe('SendForgotUserPasswordMailController', () => {
       'execute'
     );
 
-    await sendForgotUserPasswordMailController.handle(
-      sendForgotUserPasswordMailControllerRequestMock
-    );
+    const request = makeSendForgotUserPasswordMailControllerRequestMock();
+
+    await sendForgotUserPasswordMailController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
-    expect(executeSpy).toHaveBeenCalledWith({
-      email: sendForgotUserPasswordMailControllerRequestMock.body.email,
-    });
+    expect(executeSpy).toHaveBeenCalledWith({ email: request.body.email });
   });
 
   it('should throw if SendForgotUserPasswordMailUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(sendForgotUserPasswordMailUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = sendForgotUserPasswordMailController.handle(
-      sendForgotUserPasswordMailControllerRequestMock
-    );
+    const request = makeSendForgotUserPasswordMailControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = sendForgotUserPasswordMailController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return no content (204) if SendForgotUserPasswordMailUseCase throws UserNotFoundWithThisEmailError', async () => {
+  it('should return no content (204) if SendForgotUserPasswordMailUseCase throws UserNotFoundWithProvidedEmailError', async () => {
     jest
       .spyOn(sendForgotUserPasswordMailUseCaseSpy, 'execute')
       .mockRejectedValueOnce(new UserNotFoundWithProvidedEmailError());
 
-    const response = await sendForgotUserPasswordMailController.handle(
-      sendForgotUserPasswordMailControllerRequestMock
-    );
+    const request = makeSendForgotUserPasswordMailControllerRequestMock();
+
+    const response = await sendForgotUserPasswordMailController.handle(request);
 
     expect(response).toEqual(noContent());
   });
 
   it('should return no content (204) on success', async () => {
-    const response = await sendForgotUserPasswordMailController.handle(
-      sendForgotUserPasswordMailControllerRequestMock
-    );
+    const request = makeSendForgotUserPasswordMailControllerRequestMock();
+
+    const response = await sendForgotUserPasswordMailController.handle(request);
 
     expect(response).toEqual(noContent());
   });
