@@ -1,11 +1,12 @@
 import {
   RentNotFoundWithProvidedIdError,
   RentBelongsToAnotherUserError,
-  RentAlreadyClosedError,
   RentalIsNotInProgressError,
+  RentAlreadyClosedError,
 } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/Return';
 
+import { IGetDurationInDaysProvider } from '@application/protocols/providers/duration/GetInDays';
 import {
   IFindRentalByIdRepository,
   IUpdateRentRepository,
@@ -15,17 +16,10 @@ import { ICreateRentPaymentRepository } from '@application/protocols/repositorie
 export class ReturnRentUseCase implements IReturnRentUseCase {
   constructor(
     private readonly findRentalByIdRepository: IFindRentalByIdRepository,
+    private readonly getDurationInDaysProvider: IGetDurationInDaysProvider,
     private readonly createRentPaymentRepository: ICreateRentPaymentRepository,
     private readonly updateRentRepository: IUpdateRentRepository
   ) {}
-
-  private getDurationInDays(startDate: Date, endDate: Date): number {
-    const ONE_DAY_IN_MILLISSECONDS = 1 * 24 * 60 * 60 * 1000;
-
-    const durationInMillisseconds = endDate.getTime() - startDate.getTime();
-
-    return Math.ceil(durationInMillisseconds / ONE_DAY_IN_MILLISSECONDS);
-  }
 
   async execute(
     data: IReturnRentUseCase.Input
@@ -52,14 +46,17 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
       throw new RentAlreadyClosedError();
     }
 
-    const expectedRentDurationInDays = this.getDurationInDays(
-      rent.start_date,
-      rent.expected_return_date
-    );
+    const expectedRentDurationInDays =
+      this.getDurationInDaysProvider.getDurationInDays({
+        start_date: rent.start_date,
+        end_date: rent.expected_return_date,
+      });
 
-    const rentDurationInDays = this.getDurationInDays(
-      rent.start_date,
-      new Date(returnDateInMillisseconds)
+    const rentDurationInDays = this.getDurationInDaysProvider.getDurationInDays(
+      {
+        start_date: rent.start_date,
+        end_date: new Date(returnDateInMillisseconds),
+      }
     );
 
     let daysOfDelay = rentDurationInDays - expectedRentDurationInDays;
@@ -81,9 +78,12 @@ export class ReturnRentUseCase implements IReturnRentUseCase {
       total,
     });
 
-    rent.payment = rentPayment;
-    rent.return_date = new Date(returnDateInMillisseconds);
+    const updatedRent = this.updateRentRepository.update({
+      id: rent.id,
+      return_date: new Date(returnDateInMillisseconds),
+      payment_id: rentPayment.id,
+    });
 
-    return this.updateRentRepository.update(rent);
+    return updatedRent;
   }
 }

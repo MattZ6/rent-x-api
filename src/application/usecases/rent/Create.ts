@@ -103,7 +103,7 @@ export class CreateRentUseCase implements ICreateRentUseCase {
       throw new CarAlreadyBookedOnThisDateError();
     }
 
-    return this.createRentRepository.create({
+    const rent = await this.createRentRepository.create({
       car_id,
       user_id,
       start_date: startDate,
@@ -111,5 +111,7 @@ export class CreateRentUseCase implements ICreateRentUseCase {
       daily_late_fee: car.daily_late_fee,
       daily_rate: car.daily_rate,
     });
+
+    return rent;
   }
 }
