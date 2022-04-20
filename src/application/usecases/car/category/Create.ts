@@ -4,7 +4,7 @@ import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/Create'
 import {
   ICheckIfCarCategoryExistsByNameRepository,
   ICreateCarCategoryRepository,
-} from '@application/protocols/repositories/car/category';
+} from '@application/protocols/repositories/car';
 
 export class CreateCarCategoryUseCase implements ICreateCarCategoryUseCase {
   constructor(
@@ -26,6 +26,11 @@ export class CreateCarCategoryUseCase implements ICreateCarCategoryUseCase {
       throw new CarCategoryAlreadyExistsWithProvidedNameError();
     }
 
-    return this.createCarCategoryRepository.create({ name, description });
+    const carCategory = await this.createCarCategoryRepository.create({
+      name,
+      description,
+    });
+
+    return carCategory;
   }
 }
