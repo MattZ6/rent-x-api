@@ -1,10 +1,9 @@
-import { faker } from '@faker-js/faker';
-
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { UpdateUserAvatarController } from '@presentation/controllers/user/UpdateAvatar';
 import { noContent, notFound } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../domain';
 import {
   makeUpdateUserAvatarControllerRequestMock,
   UpdateUserAvatarUseCaseSpy,
@@ -44,31 +43,31 @@ describe('UpdateUserAvatarController', () => {
   });
 
   it('should throw if UpdateUserAvatarUseCase throws', async () => {
-    const error = new Error(faker.datatype.string());
+    const errorMock = makeErrorMock();
 
     jest
       .spyOn(updateUserAvatarUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
     const request = makeUpdateUserAvatarControllerRequestMock();
 
     const promise = updateUserAvatarController.handle(request);
 
-    await expect(promise).rejects.toThrowError(error);
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return not found (404) if UpdateUserAvatarUseCase throws UserNotFoundWithThisIdError', async () => {
-    const error = new UserNotFoundWithProvidedIdError();
+  it('should return not found (404) if UpdateUserAvatarUseCase throws UserNotFoundWithProvidedIdError', async () => {
+    const errorMock = new UserNotFoundWithProvidedIdError();
 
     jest
       .spyOn(updateUserAvatarUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
     const request = makeUpdateUserAvatarControllerRequestMock();
 
     const response = await updateUserAvatarController.handle(request);
 
-    expect(response).toEqual(notFound(error));
+    expect(response).toEqual(notFound(errorMock));
   });
 
   it('should return no content (204) on success', async () => {

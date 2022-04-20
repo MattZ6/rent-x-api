@@ -43,18 +43,18 @@ class UpdateUserAvatarController implements IController {
 }
 
 namespace UpdateUserAvatarController {
-  type File = {
+  type AvatarFile = {
     originalname: string;
     mimetype: string;
     size: number;
     buffer: Buffer;
   };
 
-  type UpdateUserAvatarBodyRequest = {
-    file: File;
+  type RequestBody = {
+    file: AvatarFile;
   };
 
-  export type Request = IHttpRequest<UpdateUserAvatarBodyRequest, void, void>;
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }
