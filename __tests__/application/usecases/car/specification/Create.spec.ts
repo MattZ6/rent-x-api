@@ -1,13 +1,12 @@
-import { faker } from '@faker-js/faker';
-
 import { CarSpecificationAlreadyExistsWithProvidedNameError } from '@domain/errors';
 
 import { CreateCarSpecificationUseCase } from '@application/usecases/car/specification/Create';
 
+import { makeCarSpecificationMock, makeErrorMock } from '../../../../domain';
 import {
   CheckIfCarSpecificationExistsByNameRepositorySpy,
   CreateCarSpecificationRepositorySpy,
-  createCarSpecificationUseCaseInputMock,
+  makeCreateCarSpecificationUseCaseInputMock,
 } from '../../../mocks';
 
 let checkIfCarSpecificationExistsByNameRepositorySpy: CheckIfCarSpecificationExistsByNameRepositorySpy;
@@ -34,33 +33,32 @@ describe('CreateCarSpecificationUseCase', () => {
       'checkIfExistsByName'
     );
 
-    const name = faker.datatype.string();
+    const input = makeCreateCarSpecificationUseCaseInputMock();
 
-    await createCarSpecificationUseCase.execute({
-      ...createCarSpecificationUseCaseInputMock,
-      name,
-    });
+    await createCarSpecificationUseCase.execute(input);
 
     expect(checkIfExistsByNameSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name });
+    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name: input.name });
   });
 
   it('should throw if CheckIfCarSpecificationExistsByNameRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(
         checkIfCarSpecificationExistsByNameRepositorySpy,
         'checkIfExistsByName'
       )
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createCarSpecificationUseCase.execute(
-      createCarSpecificationUseCaseInputMock
-    );
+    const input = makeCreateCarSpecificationUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createCarSpecificationUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarSpecificationAlreadyExistsWithThisNameError if already exists a car specification with same name', async () => {
+  it('should throw CarSpecificationAlreadyExistsWithProvidedNameError if CheckIfCarSpecificationExistsByNameRepository returns true', async () => {
     jest
       .spyOn(
         checkIfCarSpecificationExistsByNameRepositorySpy,
@@ -68,9 +66,9 @@ describe('CreateCarSpecificationUseCase', () => {
       )
       .mockResolvedValueOnce(true);
 
-    const promise = createCarSpecificationUseCase.execute(
-      createCarSpecificationUseCaseInputMock
-    );
+    const input = makeCreateCarSpecificationUseCaseInputMock();
+
+    const promise = createCarSpecificationUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarSpecificationAlreadyExistsWithProvidedNameError
@@ -80,48 +78,42 @@ describe('CreateCarSpecificationUseCase', () => {
   it('should call CreateCarSpecificationRepository once with correct values', async () => {
     const createSpy = jest.spyOn(createCarSpecificationRepositorySpy, 'create');
 
-    const name = faker.datatype.string();
-    const description = faker.datatype.string();
+    const input = makeCreateCarSpecificationUseCaseInputMock();
 
-    await createCarSpecificationUseCase.execute({
-      name,
-      description,
-    });
+    await createCarSpecificationUseCase.execute(input);
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({
-      name,
-      description,
+      name: input.name,
+      description: input.description,
     });
   });
 
   it('should throw if CreateCarSpecificationRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(createCarSpecificationRepositorySpy, 'create')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createCarSpecificationUseCase.execute(
-      createCarSpecificationUseCaseInputMock
-    );
+    const input = makeCreateCarSpecificationUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createCarSpecificationUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should create a car specification', async () => {
-    const specification = await createCarSpecificationUseCase.execute(
-      createCarSpecificationUseCaseInputMock
-    );
+  it('should return a new CarSpecification on success', async () => {
+    const carSpecificationMock = makeCarSpecificationMock();
 
-    expect(specification).toHaveProperty('id');
-    expect(specification).toHaveProperty(
-      'name',
-      createCarSpecificationUseCaseInputMock.name
-    );
-    expect(specification).toHaveProperty(
-      'description',
-      createCarSpecificationUseCaseInputMock.description
-    );
-    expect(specification).toHaveProperty('created_at');
-    expect(specification).toHaveProperty('updated_at');
+    jest
+      .spyOn(createCarSpecificationRepositorySpy, 'create')
+      .mockResolvedValueOnce(carSpecificationMock);
+
+    const input = makeCreateCarSpecificationUseCaseInputMock();
+
+    const output = await createCarSpecificationUseCase.execute(input);
+
+    expect(output).toEqual(carSpecificationMock);
   });
 });

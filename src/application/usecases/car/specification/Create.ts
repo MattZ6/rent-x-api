@@ -4,7 +4,7 @@ import { ICreateCarSpecificationUseCase } from '@domain/usecases/car/specificati
 import {
   ICheckIfCarSpecificationExistsByNameRepository,
   ICreateCarSpecificationRepository,
-} from '@application/protocols/repositories/car/specification';
+} from '@application/protocols/repositories/car';
 
 export class CreateCarSpecificationUseCase
   implements ICreateCarSpecificationUseCase
@@ -28,6 +28,10 @@ export class CreateCarSpecificationUseCase
       throw new CarSpecificationAlreadyExistsWithProvidedNameError();
     }
 
-    return this.createCarSpecificationRepository.create({ name, description });
+    const carSpecification = await this.createCarSpecificationRepository.create(
+      { name, description }
+    );
+
+    return carSpecification;
   }
 }

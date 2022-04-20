@@ -7,7 +7,7 @@ interface ICheckIfCarSpecificationExistsByNameRepository {
 }
 
 namespace ICheckIfCarSpecificationExistsByNameRepository {
-  export type Input = Pick<CarSpecification, 'id'>;
+  export type Input = Pick<CarSpecification, 'name'>;
 
   export type Output = boolean;
 }
