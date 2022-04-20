@@ -1,6 +1,5 @@
 import {
   UserTokenExpiredError,
-  UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithProvidedTokenError,
 } from '@domain/errors';
 
@@ -11,8 +10,9 @@ import {
   noContent,
 } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../domain';
 import {
-  resetUserPasswordControllerRequestMock,
+  makeResetUserPasswordControllerRequestMock,
   ResetUserPasswordUseCaseSpy,
 } from '../../mocks';
 
@@ -32,75 +32,63 @@ describe('ResetUserPasswordController', () => {
   it('should call RefreshUserAccessTokenUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(resetUserPasswordUseCaseSpy, 'execute');
 
-    await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequestMock
-    );
+    const request = makeResetUserPasswordControllerRequestMock();
+
+    await resetUserPasswordController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      token: resetUserPasswordControllerRequestMock.body.token,
-      new_password: resetUserPasswordControllerRequestMock.body.new_password,
+      token: request.body.token,
+      new_password: request.body.new_password,
     });
   });
 
   it('should throw if RefreshUserAccessTokenUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(resetUserPasswordUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = resetUserPasswordController.handle(
-      resetUserPasswordControllerRequestMock
-    );
+    const request = makeResetUserPasswordControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = resetUserPasswordController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return not found (404) if RefreshUserAccessTokenUseCase throws UserTokenNotFoundWithThisTokenError', async () => {
-    const error = new UserTokenNotFoundWithProvidedTokenError();
+  it('should return not found (404) if RefreshUserAccessTokenUseCase throws UserTokenNotFoundWithProvidedTokenError', async () => {
+    const errorMock = new UserTokenNotFoundWithProvidedTokenError();
 
     jest
       .spyOn(resetUserPasswordUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequestMock
-    );
+    const request = makeResetUserPasswordControllerRequestMock();
 
-    expect(response).toEqual(notFound(error));
+    const response = await resetUserPasswordController.handle(request);
+
+    expect(response).toEqual(notFound(errorMock));
   });
 
   it('should return unprocessable entity (422) if RefreshUserAccessTokenUseCase throws UserTokenExpiredError', async () => {
-    const error = new UserTokenExpiredError();
+    const errorMock = new UserTokenExpiredError();
 
     jest
       .spyOn(resetUserPasswordUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequestMock
-    );
+    const request = makeResetUserPasswordControllerRequestMock();
 
-    expect(response).toEqual(unprocessableEntity(error));
-  });
+    const response = await resetUserPasswordController.handle(request);
 
-  it('should return not found (404) if RefreshUserAccessTokenUseCase throws UserNotFoundWithThisIdError', async () => {
-    const error = new UserNotFoundWithProvidedIdError();
-
-    jest
-      .spyOn(resetUserPasswordUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
-
-    const response = await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequestMock
-    );
-
-    expect(response).toEqual(notFound(error));
+    expect(response).toEqual(unprocessableEntity(errorMock));
   });
 
   it('should return no content (204) on success', async () => {
-    const response = await resetUserPasswordController.handle(
-      resetUserPasswordControllerRequestMock
-    );
+    const request = makeResetUserPasswordControllerRequestMock();
+
+    const response = await resetUserPasswordController.handle(request);
 
     expect(response).toEqual(noContent());
   });

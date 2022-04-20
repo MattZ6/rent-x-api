@@ -1,13 +1,12 @@
 import {
-  UserTokenExpiredError,
-  UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithProvidedTokenError,
+  UserTokenExpiredError,
 } from '@domain/errors';
 import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetPassword';
 
 import {
-  notFound,
   noContent,
+  notFound,
   unprocessableEntity,
 } from '@presentation/helpers/http';
 import {
@@ -42,22 +41,18 @@ class ResetUserPasswordController implements IController {
         return unprocessableEntity(error);
       }
 
-      if (error instanceof UserNotFoundWithProvidedIdError) {
-        return notFound(error);
-      }
-
       throw error;
     }
   }
 }
 
 namespace ResetUserPasswordController {
-  type ResetUserPasswordBodyRequest = {
+  type RequestBody = {
     token: string;
     new_password: string;
   };
 
-  export type Request = IHttpRequest<ResetUserPasswordBodyRequest, void, void>;
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }
