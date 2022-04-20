@@ -42,15 +42,15 @@ class CreateAccountController implements IController {
   }
 }
 
-type CreateAccountBodyRequest = {
-  name: string;
-  email: string;
-  password: string;
-  driver_license: string;
-};
-
 namespace CreateAccountController {
-  export type Request = IHttpRequest<CreateAccountBodyRequest, void, void>;
+  type RequestBody = {
+    name: string;
+    email: string;
+    password: string;
+    driver_license: string;
+  };
+
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }
