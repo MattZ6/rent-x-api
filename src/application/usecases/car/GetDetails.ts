@@ -9,11 +9,15 @@ export class GetCarDetailsUseCase implements IGetCarDetailsUseCase {
   async execute(
     data: IGetCarDetailsUseCase.Input
   ): Promise<IGetCarDetailsUseCase.Output> {
-    const { id: car_id } = data;
+    const { id } = data;
 
     const car = await this.findCarByIdRepository.findById({
-      id: car_id,
-      relations: ['brand', 'category', 'specifications'],
+      id,
+      include: {
+        brand: true,
+        category: true,
+        specifications: true,
+      },
     });
 
     if (!car) {

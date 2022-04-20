@@ -1,13 +1,11 @@
-import { faker } from '@faker-js/faker';
-
 import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { GetCarDetailsUseCase } from '@application/usecases/car/GetDetails';
 
-import { carMock } from '../../../domain/entities';
+import { makeCarMock, makeErrorMock } from '../../../domain';
 import {
   FindCarByIdRepositorySpy,
-  getCarDetailsUseCaseInputMock,
+  makeGetCarDetailsUseCaseInputMock,
 } from '../../mocks';
 
 let findCarByIdRepositorySpy: FindCarByIdRepositorySpy;
@@ -24,33 +22,43 @@ describe('GetCarDetailsUseCase', () => {
   it('should call FindCarByIdRepository once with correct values', async () => {
     const findByIdSpy = jest.spyOn(findCarByIdRepositorySpy, 'findById');
 
-    const carId = faker.datatype.uuid();
+    const input = makeGetCarDetailsUseCaseInputMock();
 
-    await getCarDetailsUseCase.execute({ id: carId });
+    await getCarDetailsUseCase.execute(input);
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
     expect(findByIdSpy).toHaveBeenCalledWith({
-      id: carId,
-      relations: ['brand', 'category', 'specifications'],
+      id: input.id,
+      include: {
+        brand: true,
+        category: true,
+        specifications: true,
+      },
     });
   });
 
   it('should throw if FindCarByIdRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(findCarByIdRepositorySpy, 'findById')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = getCarDetailsUseCase.execute(getCarDetailsUseCaseInputMock);
+    const input = makeGetCarDetailsUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = getCarDetailsUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarNotFoundWithThisIdError if car not exists', async () => {
+  it('should throw CarNotFoundWithProvidedIdError if FindCarByIdRepository returns null', async () => {
     jest
       .spyOn(findCarByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(null);
 
-    const promise = getCarDetailsUseCase.execute(getCarDetailsUseCaseInputMock);
+    const input = makeGetCarDetailsUseCaseInputMock();
+
+    const promise = getCarDetailsUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarNotFoundWithProvidedIdError
@@ -58,14 +66,16 @@ describe('GetCarDetailsUseCase', () => {
   });
 
   it('should get car data', async () => {
+    const carMock = makeCarMock();
+
     jest
       .spyOn(findCarByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(carMock);
 
-    const response = await getCarDetailsUseCase.execute({
-      id: carMock.id,
-    });
+    const input = makeGetCarDetailsUseCaseInputMock();
 
-    expect(response).toEqual(carMock);
+    const output = await getCarDetailsUseCase.execute(input);
+
+    expect(output).toEqual(carMock);
   });
 });

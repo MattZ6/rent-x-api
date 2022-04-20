@@ -7,7 +7,13 @@ interface IFindCarByIdRepository {
 }
 
 namespace IFindCarByIdRepository {
-  export type Input = Pick<Car, 'id'>;
+  export type Input = Pick<Car, 'id'> & {
+    include?: {
+      brand?: boolean;
+      category?: boolean;
+      specifications?: boolean;
+    };
+  };
 
   export type Output = Car | null;
 }
