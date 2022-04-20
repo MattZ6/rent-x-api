@@ -42,15 +42,11 @@ class RefreshUserAccessTokenController implements IController {
 }
 
 namespace RefreshUserAccessTokenController {
-  type RefreshUserAccessTokenBodyRequest = {
+  type RequestBody = {
     refresh_token: string;
   };
 
-  export type Request = IHttpRequest<
-    RefreshUserAccessTokenBodyRequest,
-    void,
-    void
-  >;
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }
