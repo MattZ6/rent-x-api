@@ -204,8 +204,8 @@ describe('CreateUserUseCase', () => {
 
     const input = makeCreateUserUseCaseInputMock();
 
-    const response = await createUserUseCase.execute(input);
+    const output = await createUserUseCase.execute(input);
 
-    expect(response).toEqual(userMock);
+    expect(output).toEqual(userMock);
   });
 });

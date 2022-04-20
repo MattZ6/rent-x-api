@@ -1,23 +1,24 @@
+import { UserRole } from '@domain/entities/User';
 import {
-  UserTokenExpiredError,
   UserTokenNotFoundWithProvidedTokenError,
+  UserTokenExpiredError,
 } from '@domain/errors';
 import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshAccessToken';
 
-import { IEncryptProvider } from '@application/protocols/providers/cryptography/cryptography';
+import { IEncryptProvider } from '@application/protocols/providers/cryptography';
 import { IGenerateUuidProvider } from '@application/protocols/providers/uuid';
-import { ICreateUserTokenRepository } from '@application/protocols/repositories/user';
 import {
-  IDeleteUserTokenByIdRepository,
   IFindUserTokenByTokenRepository,
-} from '@application/protocols/repositories/user-token';
+  ICreateUserTokenRepository,
+  IDeleteUserTokenByIdRepository,
+} from '@application/protocols/repositories/user';
 
 export class RefreshUserAccessTokenUseCase
   implements IRefreshUserAccessTokenUseCase
 {
   constructor(
     private readonly findUserTokenByTokenRepository: IFindUserTokenByTokenRepository,
-    private readonly encryptProvider: IEncryptProvider,
+    private readonly encryptProvider: IEncryptProvider<{ role: UserRole }>,
     private readonly generateUuidProvider: IGenerateUuidProvider,
     private readonly refreshTokenExpiresTimeInMillisseconds: number,
     private readonly createUserTokenRepository: ICreateUserTokenRepository,
@@ -31,6 +32,9 @@ export class RefreshUserAccessTokenUseCase
 
     const userToken = await this.findUserTokenByTokenRepository.findByToken({
       token: refresh_token,
+      include: {
+        user: true,
+      },
     });
 
     if (!userToken) {
@@ -44,7 +48,10 @@ export class RefreshUserAccessTokenUseCase
     }
 
     const accessToken = await this.encryptProvider.encrypt({
-      value: userToken.user_id,
+      subject: userToken.user_id,
+      payload: {
+        role: userToken.user.role,
+      },
     });
 
     const refreshToken = await this.generateUuidProvider.generate();

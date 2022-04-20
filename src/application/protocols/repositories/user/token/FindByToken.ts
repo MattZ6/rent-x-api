@@ -7,7 +7,11 @@ interface IFindUserTokenByTokenRepository {
 }
 
 namespace IFindUserTokenByTokenRepository {
-  export type Input = Pick<UserToken, 'token'>;
+  export type Input = Pick<UserToken, 'token'> & {
+    include?: {
+      user?: boolean;
+    };
+  };
 
   export type Output = UserToken | null;
 }

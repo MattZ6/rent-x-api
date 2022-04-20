@@ -71,8 +71,8 @@ describe('GetUserProfileUseCase', () => {
 
     const input = makeGetUserProfileUseCaseInputMock();
 
-    const user = await getUserProfileUseCase.execute(input);
+    const output = await getUserProfileUseCase.execute(input);
 
-    expect(user).toEqual(userMock);
+    expect(output).toEqual(userMock);
   });
 });
