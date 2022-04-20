@@ -1,21 +1,43 @@
+import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAll';
+
 import { ListAllCarSpecificationsUseCase } from '@application/usecases/car/specification/ListAll';
 
-import { carSpecificationMock } from '../../../../domain/entities';
+import { makeCarSpecificationMock, makeErrorMock } from '../../../../domain';
 import {
   FindAllCarSpecificationsRepositorySpy,
-  listAllCarSpecificationsUseCaseInputMock,
+  makeListAllCarSpecificationsUseCaseDefaultLimitMock,
+  makeListAllCarSpecificationsUseCaseDefaultOffsetMock,
+  makeListAllCarSpecificationsUseCaseDefaultOrderByMock,
+  makeListAllCarSpecificationsUseCaseDefaultSortByMock,
+  makeListAllCarSpecificationsUseCaseInputMock,
 } from '../../../mocks';
 
+let listAllCarSpecificationsUseCaseDefaultSortByMock: IListAllCarSpecificationsUseCase.SortBy;
+let listAllCarSpecificationsUseCaseDefaultOrderByMock: IListAllCarSpecificationsUseCase.OrderBy;
+let listAllCarSpecificationsUseCaseDefaultLimitMock: IListAllCarSpecificationsUseCase.Limit;
+let listAllCarSpecificationsUseCaseDefaultOffsetMock: IListAllCarSpecificationsUseCase.Offset;
 let findAllCarSpecificationsRepositorySpy: FindAllCarSpecificationsRepositorySpy;
 
 let listAllCarSpecificationsUseCase: ListAllCarSpecificationsUseCase;
 
 describe('ListAllCarSpecificationsUseCase', () => {
   beforeEach(() => {
+    listAllCarSpecificationsUseCaseDefaultSortByMock =
+      makeListAllCarSpecificationsUseCaseDefaultSortByMock();
+    listAllCarSpecificationsUseCaseDefaultOrderByMock =
+      makeListAllCarSpecificationsUseCaseDefaultOrderByMock();
+    listAllCarSpecificationsUseCaseDefaultLimitMock =
+      makeListAllCarSpecificationsUseCaseDefaultLimitMock();
+    listAllCarSpecificationsUseCaseDefaultOffsetMock =
+      makeListAllCarSpecificationsUseCaseDefaultOffsetMock();
     findAllCarSpecificationsRepositorySpy =
       new FindAllCarSpecificationsRepositorySpy();
 
     listAllCarSpecificationsUseCase = new ListAllCarSpecificationsUseCase(
+      listAllCarSpecificationsUseCaseDefaultSortByMock,
+      listAllCarSpecificationsUseCaseDefaultOrderByMock,
+      listAllCarSpecificationsUseCaseDefaultLimitMock,
+      listAllCarSpecificationsUseCaseDefaultOffsetMock,
       findAllCarSpecificationsRepositorySpy
     );
   });
@@ -26,44 +48,65 @@ describe('ListAllCarSpecificationsUseCase', () => {
       'findAll'
     );
 
-    await listAllCarSpecificationsUseCase.execute(
-      listAllCarSpecificationsUseCaseInputMock
-    );
+    const input = makeListAllCarSpecificationsUseCaseInputMock();
+
+    await listAllCarSpecificationsUseCase.execute(input);
 
     expect(findAllSpy).toHaveBeenCalledTimes(1);
     expect(findAllSpy).toHaveBeenCalledWith({
-      order_by: listAllCarSpecificationsUseCaseInputMock.sort_by,
-      order: listAllCarSpecificationsUseCaseInputMock.order_by,
-      take: listAllCarSpecificationsUseCaseInputMock.limit,
-      skip:
-        (listAllCarSpecificationsUseCaseInputMock.offset - 1) *
-        listAllCarSpecificationsUseCaseInputMock.limit,
+      sort_by: input.sort_by,
+      order_by: input.order_by,
+      take: input.limit,
+      skip: input.offset,
+    });
+  });
+
+  it('should call FindAllCarSpecificationsRepository with default values if no input', async () => {
+    const findAllSpy = jest.spyOn(
+      findAllCarSpecificationsRepositorySpy,
+      'findAll'
+    );
+
+    await listAllCarSpecificationsUseCase.execute({});
+
+    expect(findAllSpy).toHaveBeenCalledTimes(1);
+    expect(findAllSpy).toHaveBeenCalledWith({
+      sort_by: listAllCarSpecificationsUseCaseDefaultSortByMock,
+      order_by: listAllCarSpecificationsUseCaseDefaultOrderByMock,
+      take: listAllCarSpecificationsUseCaseDefaultLimitMock,
+      skip: listAllCarSpecificationsUseCaseDefaultOffsetMock,
     });
   });
 
   it('should throw if FindAllCarSpecificationsRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(findAllCarSpecificationsRepositorySpy, 'findAll')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = listAllCarSpecificationsUseCase.execute(
-      listAllCarSpecificationsUseCaseInputMock
-    );
+    const input = makeListAllCarSpecificationsUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = listAllCarSpecificationsUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return car specifications', async () => {
-    const specificationsMock = [carSpecificationMock, carSpecificationMock];
+  it('should return CarSpecifications on success', async () => {
+    const carSpecificationsMock = [
+      makeCarSpecificationMock(),
+      makeCarSpecificationMock(),
+      makeCarSpecificationMock(),
+    ];
 
     jest
       .spyOn(findAllCarSpecificationsRepositorySpy, 'findAll')
-      .mockResolvedValueOnce(specificationsMock);
+      .mockResolvedValueOnce(carSpecificationsMock);
 
-    const specifications = await listAllCarSpecificationsUseCase.execute(
-      listAllCarSpecificationsUseCaseInputMock
-    );
+    const input = makeListAllCarSpecificationsUseCaseInputMock();
 
-    expect(specifications).toEqual(specificationsMock);
+    const output = await listAllCarSpecificationsUseCase.execute(input);
+
+    expect(output).toEqual(carSpecificationsMock);
   });
 });

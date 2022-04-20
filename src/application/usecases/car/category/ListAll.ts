@@ -21,13 +21,13 @@ export class ListAllCarCategoriesUseCase
     const limit = data.limit ?? this.defaultLimit;
     const offset = data.offset ?? this.defaultOffset;
 
-    const carBrands = await this.findAllCarCategoriesRepository.findAll({
+    const carCategories = await this.findAllCarCategoriesRepository.findAll({
       sort_by: sortBy as IFindAllCarCategoriesRepository.SortBy,
       order_by: orderBy as IFindAllCarCategoriesRepository.OrderBy,
       take: limit as IFindAllCarCategoriesRepository.Take,
       skip: offset as IFindAllCarCategoriesRepository.Skip,
     });
 
-    return carBrands;
+    return carCategories;
   }
 }
