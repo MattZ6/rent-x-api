@@ -1,17 +1,16 @@
-import { faker } from '@faker-js/faker';
-
 import {
-  WrongPasswordError,
   UserNotFoundWithProvidedEmailError,
+  WrongPasswordError,
 } from '@domain/errors';
-import { IAuthenticateUserUseCase } from '@domain/usecases/user/Authenticate';
 
 import { AuthenticateUserController } from '@presentation/controllers/user/Authenticate';
-import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
+import { notFound, unprocessableEntity, ok } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../domain';
 import {
-  authenticateUserControllerRequestMock,
   AuthenticateUserUseCaseSpy,
+  makeAuthenticateUserControllerRequestMock,
+  makeAuthenticateUserUseCaseOutputMock,
 } from '../../mocks';
 
 let authenticateUserUseCaseSpy: AuthenticateUserUseCaseSpy;
@@ -30,71 +29,70 @@ describe('AuthenticateUserController', () => {
   it('should call AuthenticateUserUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(authenticateUserUseCaseSpy, 'execute');
 
-    await authenticateUserController.handle(
-      authenticateUserControllerRequestMock
-    );
+    const request = makeAuthenticateUserControllerRequestMock();
+
+    await authenticateUserController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      email: authenticateUserControllerRequestMock.body.email,
-      password: authenticateUserControllerRequestMock.body.password,
+      email: request.body.email,
+      password: request.body.password,
     });
   });
 
   it('should throw if AuthenticateUserUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(authenticateUserUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = authenticateUserController.handle(
-      authenticateUserControllerRequestMock
-    );
+    const request = makeAuthenticateUserControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = authenticateUserController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return not found (404) if AuthenticateUserUseCase throws UserNotFoundWithThisEmailError', async () => {
-    const error = new UserNotFoundWithProvidedEmailError();
+  it('should return not found (404) if AuthenticateUserUseCase throws UserNotFoundWithProvidedEmailError', async () => {
+    const errorMock = new UserNotFoundWithProvidedEmailError();
 
     jest
       .spyOn(authenticateUserUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await authenticateUserController.handle(
-      authenticateUserControllerRequestMock
-    );
+    const request = makeAuthenticateUserControllerRequestMock();
 
-    expect(response).toEqual(notFound(error));
+    const response = await authenticateUserController.handle(request);
+
+    expect(response).toEqual(notFound(errorMock));
   });
 
-  it('should return unprocessable entity (422) if AuthenticateUserUseCase throws IncorrectPassword', async () => {
-    const error = new WrongPasswordError();
+  it('should return unprocessable entity (422) if AuthenticateUserUseCase throws WrongPasswordError', async () => {
+    const errorMock = new WrongPasswordError();
 
     jest
       .spyOn(authenticateUserUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await authenticateUserController.handle(
-      authenticateUserControllerRequestMock
-    );
+    const request = makeAuthenticateUserControllerRequestMock();
 
-    expect(response).toEqual(unprocessableEntity(error));
+    const response = await authenticateUserController.handle(request);
+
+    expect(response).toEqual(unprocessableEntity(errorMock));
   });
 
   it('should return ok (200) on success', async () => {
-    const authentication: IAuthenticateUserUseCase.Output = {
-      access_token: faker.datatype.string(),
-      refresh_token: faker.datatype.string(),
-    };
+    const outputMock = makeAuthenticateUserUseCaseOutputMock();
 
     jest
       .spyOn(authenticateUserUseCaseSpy, 'execute')
-      .mockResolvedValueOnce(authentication);
+      .mockResolvedValueOnce(outputMock);
 
-    const response = await authenticateUserController.handle(
-      authenticateUserControllerRequestMock
-    );
+    const request = makeAuthenticateUserControllerRequestMock();
 
-    expect(response).toEqual(ok(authentication));
+    const response = await authenticateUserController.handle(request);
+
+    expect(response).toEqual(ok(outputMock));
   });
 });
