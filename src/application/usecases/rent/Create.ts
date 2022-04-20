@@ -1,17 +1,17 @@
 import {
+  UserNotFoundWithProvidedIdError,
+  UserHasOutstandingRentPaymentsError,
   CarNotFoundWithProvidedIdError,
+  RentalStartDateIsInThePastError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
-  UserHasOutstandingRentPaymentsError,
-  UserNotFoundWithProvidedIdError,
-  RentalStartDateIsInThePastError,
 } from '@domain/errors';
 import { ICreateRentUseCase } from '@domain/usecases/rent/Create';
 
 import { IFindCarByIdRepository } from '@application/protocols/repositories/car';
 import {
-  ICheckIfRentExistsByOpenScheduleForCarRepository,
   ICheckIfRentExistsWithPendingPaymentByUserRepository,
+  ICheckIfRentExistsByOpenScheduleForCarRepository,
   ICreateRentRepository,
 } from '@application/protocols/repositories/rent';
 import { ICheckIfUserExistsByIdRepository } from '@application/protocols/repositories/user';
@@ -25,14 +25,6 @@ export class CreateRentUseCase implements ICreateRentUseCase {
     private readonly checkIfRentExistsByOpenScheduleForCarRepository: ICheckIfRentExistsByOpenScheduleForCarRepository,
     private readonly createRentRepository: ICreateRentRepository
   ) {}
-
-  private getDifferenceInDays(startDate: Date, endDate: Date): number {
-    const ONE_DAY_IN_MILLISSECONDS = 1 * 24 * 60 * 60 * 1000;
-
-    const durationInMillisseconds = endDate.getTime() - startDate.getTime();
-
-    return Math.ceil(durationInMillisseconds / ONE_DAY_IN_MILLISSECONDS);
-  }
 
   async execute(
     data: ICreateRentUseCase.Input
