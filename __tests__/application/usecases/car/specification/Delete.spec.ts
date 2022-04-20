@@ -1,13 +1,12 @@
-import { faker } from '@faker-js/faker';
-
 import { CarSpecificationNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { DeleteCarSpecificationUseCase } from '@application/usecases/car/specification/Delete';
 
+import { makeErrorMock } from '../../../../domain';
 import {
   CheckIfCarSpecificationExistsByIdRepositorySpy,
   DeleteCarSpecificationByIdRepositorySpy,
-  deleteCarSpecificationUseCaseInputMock,
+  makeDeleteCarSpecificationUseCaseInputMock,
 } from '../../../mocks';
 
 let checkIfCarSpecificationExistsByIdRepositorySpy: CheckIfCarSpecificationExistsByIdRepositorySpy;
@@ -34,30 +33,32 @@ describe('DeleteCarSpecificationUseCase', () => {
       'checkIfExistsById'
     );
 
-    const id = faker.datatype.uuid();
+    const input = makeDeleteCarSpecificationUseCaseInputMock();
 
-    await deleteCarSpecificationUseCase.execute({ id });
+    await deleteCarSpecificationUseCase.execute(input);
 
     expect(checkIfExistsByIdSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({ id });
+    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({ id: input.id });
   });
 
   it('should throw if CheckIfCarSpecificationExistsByIdRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(
         checkIfCarSpecificationExistsByIdRepositorySpy,
         'checkIfExistsById'
       )
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = deleteCarSpecificationUseCase.execute(
-      deleteCarSpecificationUseCaseInputMock
-    );
+    const input = makeDeleteCarSpecificationUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = deleteCarSpecificationUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarSpecificationNotFoundWithThisIdError if car specification not exist', async () => {
+  it('should throw CarSpecificationNotFoundWithProvidedIdError if CheckIfCarSpecificationExistsByIdRepository returns false', async () => {
     jest
       .spyOn(
         checkIfCarSpecificationExistsByIdRepositorySpy,
@@ -65,9 +66,9 @@ describe('DeleteCarSpecificationUseCase', () => {
       )
       .mockResolvedValueOnce(false);
 
-    const promise = deleteCarSpecificationUseCase.execute(
-      deleteCarSpecificationUseCaseInputMock
-    );
+    const input = makeDeleteCarSpecificationUseCaseInputMock();
+
+    const promise = deleteCarSpecificationUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarSpecificationNotFoundWithProvidedIdError
@@ -80,23 +81,25 @@ describe('DeleteCarSpecificationUseCase', () => {
       'deleteById'
     );
 
-    const id = faker.datatype.uuid();
+    const input = makeDeleteCarSpecificationUseCaseInputMock();
 
-    await deleteCarSpecificationUseCase.execute({ id });
+    await deleteCarSpecificationUseCase.execute(input);
 
     expect(deleteByIdSpy).toHaveBeenCalledTimes(1);
-    expect(deleteByIdSpy).toHaveBeenCalledWith({ id });
+    expect(deleteByIdSpy).toHaveBeenCalledWith({ id: input.id });
   });
 
   it('should throw if DeleteCarSpecificationByIdRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(deleteCarSpecificationByIdRepositorySpy, 'deleteById')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = deleteCarSpecificationUseCase.execute(
-      deleteCarSpecificationUseCaseInputMock
-    );
+    const input = makeDeleteCarSpecificationUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = deleteCarSpecificationUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 });
