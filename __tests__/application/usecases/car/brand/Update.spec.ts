@@ -1,18 +1,16 @@
-import { faker } from '@faker-js/faker';
-
 import {
-  CarBrandAlreadyExistsWithProvidedNameError,
   CarBrandNotFoundWithProvidedIdError,
+  CarBrandAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 
 import { UpdateCarBrandUseCase } from '@application/usecases/car/brand/Update';
 
-import { carBrandMock } from '../../../../domain/entities';
+import { makeCarBrandMock, makeErrorMock } from '../../../../domain';
 import {
-  CheckIfCarBrandExistsByNameRepositorySpy,
   FindCarBrandByIdRepositorySpy,
+  CheckIfCarBrandExistsByNameRepositorySpy,
   UpdateCarBrandRepositorySpy,
-  updateCarBrandUseCaseInputMock,
+  makeUpdateCarBrandUseCaseInputMock,
 } from '../../../mocks';
 
 let findCarBrandByIdRepositorySpy: FindCarBrandByIdRepositorySpy;
@@ -38,37 +36,36 @@ describe('UpdateCarBrandUseCase', () => {
   it('should call FindCarBrandByIdRepository with correct values', async () => {
     const findByIdSpy = jest.spyOn(findCarBrandByIdRepositorySpy, 'findById');
 
-    const id = faker.datatype.uuid();
+    const input = makeUpdateCarBrandUseCaseInputMock();
 
-    await updateCarBrandUseCase.execute({
-      ...updateCarBrandUseCaseInputMock,
-      id,
-    });
+    await updateCarBrandUseCase.execute(input);
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
-    expect(findByIdSpy).toHaveBeenCalledWith({ id });
+    expect(findByIdSpy).toHaveBeenCalledWith({ id: input.id });
   });
 
   it('should throw if FindCarBrandByIdRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(findCarBrandByIdRepositorySpy, 'findById')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = updateCarBrandUseCase.execute(
-      updateCarBrandUseCaseInputMock
-    );
+    const input = makeUpdateCarBrandUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = updateCarBrandUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarBrandNotFoundWithThisIdError if car brand not exists', async () => {
+  it('should throw CarBrandNotFoundWithProvidedIdError if FindCarBrandByIdRepository returns null', async () => {
     jest
       .spyOn(findCarBrandByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(null);
 
-    const promise = updateCarBrandUseCase.execute(
-      updateCarBrandUseCaseInputMock
-    );
+    const input = makeUpdateCarBrandUseCaseInputMock();
+
+    const promise = updateCarBrandUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarBrandNotFoundWithProvidedIdError
@@ -76,21 +73,22 @@ describe('UpdateCarBrandUseCase', () => {
   });
 
   it('should not call CheckIfCarBrandExistsByNameRepository if brand name not changed', async () => {
-    const name = faker.datatype.string();
+    const carBrandMock = makeCarBrandMock();
 
     jest
       .spyOn(findCarBrandByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce({ ...carBrandMock, name });
+      .mockResolvedValueOnce(carBrandMock);
 
     const checkIfExistsByNameSpy = jest.spyOn(
       checkIfCarBrandExistsByNameRepositorySpy,
       'checkIfExistsByName'
     );
 
-    await updateCarBrandUseCase.execute({
-      ...updateCarBrandUseCaseInputMock,
-      name: `       ${name.toUpperCase()} `,
-    });
+    const input = makeUpdateCarBrandUseCaseInputMock();
+
+    input.name = `    ${carBrandMock.name.toUpperCase()}   `;
+
+    await updateCarBrandUseCase.execute(input);
 
     expect(checkIfExistsByNameSpy).not.toHaveBeenCalled();
   });
@@ -101,7 +99,9 @@ describe('UpdateCarBrandUseCase', () => {
       'checkIfExistsByName'
     );
 
-    await updateCarBrandUseCase.execute(updateCarBrandUseCaseInputMock);
+    const input = makeUpdateCarBrandUseCaseInputMock();
+
+    await updateCarBrandUseCase.execute(input);
 
     expect(checkIfExistsByNameSpy).toHaveBeenCalledTimes(1);
   });
@@ -112,82 +112,104 @@ describe('UpdateCarBrandUseCase', () => {
       'checkIfExistsByName'
     );
 
-    const name = faker.datatype.string();
+    const input = makeUpdateCarBrandUseCaseInputMock();
 
-    await updateCarBrandUseCase.execute({
-      ...updateCarBrandUseCaseInputMock,
-      name,
-    });
+    await updateCarBrandUseCase.execute(input);
 
-    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name });
+    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name: input.name });
   });
 
   it('should throw if CheckIfCarBrandExistsByNameRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(checkIfCarBrandExistsByNameRepositorySpy, 'checkIfExistsByName')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = updateCarBrandUseCase.execute(
-      updateCarBrandUseCaseInputMock
-    );
+    const input = makeUpdateCarBrandUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = updateCarBrandUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarBrandAlreadyExistsWithThisNameError if already has a brand with same name', async () => {
+  it('should throw CarBrandAlreadyExistsWithProvidedNameError if CheckIfCarBrandExistsByNameRepository returns true', async () => {
     jest
       .spyOn(checkIfCarBrandExistsByNameRepositorySpy, 'checkIfExistsByName')
       .mockResolvedValueOnce(true);
 
-    const promise = updateCarBrandUseCase.execute(
-      updateCarBrandUseCaseInputMock
-    );
+    const input = makeUpdateCarBrandUseCaseInputMock();
+
+    const promise = updateCarBrandUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarBrandAlreadyExistsWithProvidedNameError
     );
   });
 
-  it('should call UpdateCarBrandRepository once with correct values', async () => {
+  it('should call UpdateCarBrandRepository once with correct values only if name has changed', async () => {
+    const carBrandMock = makeCarBrandMock();
+
     jest
       .spyOn(findCarBrandByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce({ ...carBrandMock });
+      .mockResolvedValueOnce(carBrandMock);
 
     const updateSpy = jest.spyOn(updateCarBrandRepositorySpy, 'update');
 
-    const name = faker.datatype.string();
+    const input = makeUpdateCarBrandUseCaseInputMock();
 
-    await updateCarBrandUseCase.execute({
-      ...updateCarBrandUseCaseInputMock,
-      name,
-    });
+    input.name = `  ${input.name}   `;
+
+    await updateCarBrandUseCase.execute(input);
 
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith({
-      ...carBrandMock,
-      name,
+      id: carBrandMock.id,
+      name: input.name.trim(),
     });
   });
 
   it('should throw if UpdateCarBrandRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(updateCarBrandRepositorySpy, 'update')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = updateCarBrandUseCase.execute({
-      id: faker.datatype.uuid(),
-      name: faker.datatype.string(),
-    });
+    const input = makeUpdateCarBrandUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = updateCarBrandUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should update car brand', async () => {
-    const brand = await updateCarBrandUseCase.execute(
-      updateCarBrandUseCaseInputMock
-    );
+  it('should return the update CarBrand if name has changed', async () => {
+    const carBrandMock = makeCarBrandMock();
 
-    expect(brand).toHaveProperty('id', updateCarBrandUseCaseInputMock.id);
-    expect(brand).toHaveProperty('name', updateCarBrandUseCaseInputMock.name);
+    jest
+      .spyOn(updateCarBrandRepositorySpy, 'update')
+      .mockResolvedValueOnce(carBrandMock);
+
+    const input = makeUpdateCarBrandUseCaseInputMock();
+
+    const output = await updateCarBrandUseCase.execute(input);
+
+    expect(output).toEqual(carBrandMock);
+  });
+
+  it('should return the existing CarBrand if name has not changed', async () => {
+    const carBrandMock = makeCarBrandMock();
+
+    jest
+      .spyOn(findCarBrandByIdRepositorySpy, 'findById')
+      .mockResolvedValueOnce(carBrandMock);
+
+    const input = makeUpdateCarBrandUseCaseInputMock();
+
+    input.name = `   ${carBrandMock.name.toUpperCase()}   `;
+
+    const output = await updateCarBrandUseCase.execute(input);
+
+    expect(output).toEqual(carBrandMock);
   });
 });

@@ -7,9 +7,7 @@ interface IUpdateCarBrandUseCase {
 }
 
 namespace IUpdateCarBrandUseCase {
-  export type Input = Pick<Partial<CarBrand>, 'name'> & {
-    id: string;
-  };
+  export type Input = Pick<CarBrand, 'id' | 'name'>;
 
   export type Output = CarBrand;
 }
