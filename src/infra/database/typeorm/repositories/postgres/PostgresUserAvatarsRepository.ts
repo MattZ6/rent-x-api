@@ -23,7 +23,7 @@ export class PostgresUserAvatarsRepository
   async findById(
     data: IFindUserAvatarByIdRepository.Input
   ): Promise<IFindUserAvatarByIdRepository.Output> {
-    const { id } = data;
+    const { user_id: id } = data;
 
     return this.repository.findOne(id);
   }
@@ -31,7 +31,13 @@ export class PostgresUserAvatarsRepository
   async create(
     data: ICreateUserAvatarRepository.Input
   ): Promise<ICreateUserAvatarRepository.Output> {
-    const { id, original_name, mime_type, extension, size_in_bytes } = data;
+    const {
+      user_id: id,
+      original_name,
+      mime_type,
+      extension,
+      size_in_bytes,
+    } = data;
 
     const userAvatar = this.repository.create({
       id,

@@ -1,5 +1,5 @@
 export type UserAvatar = {
-  id: string;
+  user_id: string;
   original_name: string;
   mime_type: string;
   extension: string;

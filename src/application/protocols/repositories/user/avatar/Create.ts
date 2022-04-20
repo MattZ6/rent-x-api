@@ -9,7 +9,7 @@ interface ICreateUserAvatarRepository {
 namespace ICreateUserAvatarRepository {
   export type Input = Pick<
     UserAvatar,
-    'id' | 'original_name' | 'extension' | 'mime_type' | 'size_in_bytes'
+    'user_id' | 'original_name' | 'extension' | 'mime_type' | 'size_in_bytes'
   >;
 
   export type Output = UserAvatar;

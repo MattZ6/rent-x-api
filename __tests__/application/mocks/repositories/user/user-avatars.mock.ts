@@ -12,11 +12,11 @@ export class FindUserAvatarByIdRepositorySpy
   async findById(
     data: IFindUserAvatarByIdRepository.Input
   ): Promise<IFindUserAvatarByIdRepository.Output> {
-    const { id } = data;
+    const { user_id } = data;
 
     const userAvatarMock = makeUserAvatarMock();
 
-    Object.assign(userAvatarMock, { id });
+    Object.assign(userAvatarMock, { user_id });
 
     return userAvatarMock;
   }
@@ -28,12 +28,13 @@ export class UpdateUserAvatarRepositorySpy
   async update(
     data: IUpdateUserAvatarRepository.Input
   ): Promise<IUpdateUserAvatarRepository.Output> {
-    const { id, extension, mime_type, original_name, size_in_bytes } = data;
+    const { user_id, extension, mime_type, original_name, size_in_bytes } =
+      data;
 
     const userAvatarMock = makeUserAvatarMock();
 
     Object.assign(userAvatarMock, {
-      id,
+      user_id,
       extension,
       mime_type,
       original_name,
@@ -50,12 +51,13 @@ export class CreateUserAvatarRepositorySpy
   async create(
     data: ICreateUserAvatarRepository.Input
   ): Promise<ICreateUserAvatarRepository.Output> {
-    const { id, mime_type, size_in_bytes, original_name, extension } = data;
+    const { user_id, mime_type, size_in_bytes, original_name, extension } =
+      data;
 
     const userAvatarMock = makeUserAvatarMock();
 
     Object.assign(userAvatarMock, {
-      id,
+      user_id,
       mime_type,
       size_in_bytes,
       original_name,

@@ -6,7 +6,7 @@ export function makeUserAvatarMock(): UserAvatar {
   const date = faker.datatype.datetime();
 
   return {
-    id: faker.datatype.uuid(),
+    user_id: faker.datatype.uuid(),
     original_name: faker.system.fileName(),
     extension: faker.system.fileExt(),
     mime_type: faker.system.mimeType(),

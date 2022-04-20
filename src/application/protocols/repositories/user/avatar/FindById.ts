@@ -7,7 +7,7 @@ interface IFindUserAvatarByIdRepository {
 }
 
 namespace IFindUserAvatarByIdRepository {
-  export type Input = Pick<UserAvatar, 'id'>;
+  export type Input = Pick<UserAvatar, 'user_id'>;
 
   export type Output = UserAvatar | undefined;
 }

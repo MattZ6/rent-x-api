@@ -1,18 +1,16 @@
-import { faker } from '@faker-js/faker';
-
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { UpdateUserAvatarUseCase } from '@application/usecases/user/UpdateAvatar';
 
-import { makeUserAvatarMock } from '../../../domain/entities';
+import { makeErrorMock, makeUserAvatarMock } from '../../../domain';
 import {
   CheckIfUserExistsByIdRepositorySpy,
-  CreateUserAvatarRepositorySpy,
   FindUserAvatarByIdRepositorySpy,
+  UpdateUserAvatarRepositorySpy,
+  CreateUserAvatarRepositorySpy,
+  StoreFileProviderSpy,
   makeUpdateUserAvatarUseCaseAvatarPathMock,
   makeUpdateUserAvatarUseCaseInputMock,
-  StoreFileProviderSpy,
-  UpdateUserAvatarRepositorySpy,
 } from '../../mocks';
 
 let checkIfUserExistsByIdRepositorySpy: CheckIfUserExistsByIdRepositorySpy;
@@ -58,23 +56,23 @@ describe('UpdateUserAvatarUseCase', () => {
   });
 
   it('should throw if CheckIfUserExistsByIdRepository throws', async () => {
-    const error = new Error(faker.datatype.string());
+    const errorMock = makeErrorMock();
 
     jest
       .spyOn(checkIfUserExistsByIdRepositorySpy, 'checkIfExistsById')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
     const input = makeUpdateUserAvatarUseCaseInputMock();
 
     const promise = updateUserAvatarUseCase.execute(input);
 
-    await expect(promise).rejects.toThrowError(error);
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw UserNotFoundWithThisIdError if user not exists', async () => {
+  it('should throw UserNotFoundWithProvidedIdError if CheckIfUserExistsByIdRepository returns false', async () => {
     jest
       .spyOn(checkIfUserExistsByIdRepositorySpy, 'checkIfExistsById')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(false);
 
     const input = makeUpdateUserAvatarUseCaseInputMock();
 
@@ -93,29 +91,27 @@ describe('UpdateUserAvatarUseCase', () => {
     await updateUserAvatarUseCase.execute(input);
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
-    expect(findByIdSpy).toHaveBeenCalledWith({ id: input.user_id });
+    expect(findByIdSpy).toHaveBeenCalledWith({ user_id: input.user_id });
   });
 
   it('should throw if FindUserAvatarByIdRepository throws', async () => {
-    const error = new Error(faker.datatype.string());
+    const errorMock = makeErrorMock();
 
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
     const input = makeUpdateUserAvatarUseCaseInputMock();
 
     const promise = updateUserAvatarUseCase.execute(input);
 
-    await expect(promise).rejects.toThrowError(error);
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should call UpdateUserAvatarRepository once with correct values once the avatar exists', async () => {
-    const userAvatar = makeUserAvatarMock();
-
+  it('should call UpdateUserAvatarRepository once with correct values once if FindUserAvatarByIdRepository returns a user avatar', async () => {
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(userAvatar);
+      .mockResolvedValueOnce(makeUserAvatarMock());
 
     const updateSpy = jest.spyOn(updateUserAvatarRepositorySpy, 'update');
 
@@ -125,7 +121,7 @@ describe('UpdateUserAvatarUseCase', () => {
 
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith({
-      ...userAvatar,
+      user_id: input.user_id,
       original_name: input.file.name,
       mime_type: input.file.type,
       extension: input.file.extension,
@@ -133,10 +129,10 @@ describe('UpdateUserAvatarUseCase', () => {
     });
   });
 
-  it('should not call UpdateUserAvatarRepository if the user avatar not exists', async () => {
+  it('should not call UpdateUserAvatarRepository if FindUserAvatarByIdRepository returns null', async () => {
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(null);
 
     const updateSpy = jest.spyOn(updateUserAvatarRepositorySpy, 'update');
 
@@ -152,23 +148,23 @@ describe('UpdateUserAvatarUseCase', () => {
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
       .mockResolvedValueOnce(makeUserAvatarMock());
 
-    const error = new Error(faker.datatype.string());
+    const errorMock = makeErrorMock();
 
     jest
       .spyOn(updateUserAvatarRepositorySpy, 'update')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
     const input = makeUpdateUserAvatarUseCaseInputMock();
 
     const promise = updateUserAvatarUseCase.execute(input);
 
-    await expect(promise).rejects.toThrowError(error);
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should call CreateUserAvatarRepository once with correct values once the avatar not exists', async () => {
+  it('should call CreateUserAvatarRepository once with correct values once if FindUserAvatarByIdRepository returns null', async () => {
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(null);
 
     const createSpy = jest.spyOn(createUserAvatarRepositorySpy, 'create');
 
@@ -178,7 +174,7 @@ describe('UpdateUserAvatarUseCase', () => {
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({
-      id: input.user_id,
+      user_id: input.user_id,
       original_name: input.file.name,
       mime_type: input.file.type,
       extension: input.file.extension,
@@ -186,12 +182,12 @@ describe('UpdateUserAvatarUseCase', () => {
     });
   });
 
-  it('should not call CreateUserAvatarRepository if the user avatar exists', async () => {
-    const userAvatar = makeUserAvatarMock();
+  it('should not call CreateUserAvatarRepository if FindUserAvatarByIdRepository returns a user avatar', async () => {
+    const userAvatarMock = makeUserAvatarMock();
 
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(userAvatar);
+      .mockResolvedValueOnce(userAvatarMock);
 
     const createSpy = jest.spyOn(createUserAvatarRepositorySpy, 'create');
 
@@ -205,19 +201,19 @@ describe('UpdateUserAvatarUseCase', () => {
   it('should throw if CreateUserAvatarRepository throws', async () => {
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(null);
 
-    const error = new Error(faker.datatype.string());
+    const errorMock = makeErrorMock();
 
     jest
       .spyOn(createUserAvatarRepositorySpy, 'create')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
     const input = makeUpdateUserAvatarUseCaseInputMock();
 
     const promise = updateUserAvatarUseCase.execute(input);
 
-    await expect(promise).rejects.toThrowError(error);
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should call StoreFileProvider once with correct values', async () => {
@@ -236,52 +232,50 @@ describe('UpdateUserAvatarUseCase', () => {
   });
 
   it('should throw if StoreFileProvider throws', async () => {
-    const error = new Error(faker.datatype.string());
+    const errorMock = makeErrorMock();
 
-    jest.spyOn(storeFileProviderSpy, 'store').mockRejectedValueOnce(error);
+    jest.spyOn(storeFileProviderSpy, 'store').mockRejectedValueOnce(errorMock);
 
     const input = makeUpdateUserAvatarUseCaseInputMock();
 
     const promise = updateUserAvatarUseCase.execute(input);
 
-    await expect(promise).rejects.toThrowError(error);
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it("should return a new avatar if the user doesn't have one previously", async () => {
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(null);
 
-    const userAvatar = makeUserAvatarMock();
+    const userAvatarMock = makeUserAvatarMock();
 
     jest
       .spyOn(createUserAvatarRepositorySpy, 'create')
-      .mockResolvedValueOnce(userAvatar);
+      .mockResolvedValueOnce(userAvatarMock);
 
     const input = makeUpdateUserAvatarUseCaseInputMock();
 
-    const response = await updateUserAvatarUseCase.execute(input);
+    const output = await updateUserAvatarUseCase.execute(input);
 
-    expect(response).toEqual(userAvatar);
+    expect(output).toEqual(userAvatarMock);
   });
 
-  it('should return a update avatar if the user have one previously', async () => {
-    const userAvatar = makeUserAvatarMock();
-
+  it('should return a updated avatar if the user have one previously', async () => {
     jest
       .spyOn(findUserAvatarByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(userAvatar);
+      .mockResolvedValueOnce(makeUserAvatarMock());
+
+    const userAvatarMock = makeUserAvatarMock();
+
+    jest
+      .spyOn(updateUserAvatarRepositorySpy, 'update')
+      .mockResolvedValueOnce(userAvatarMock);
 
     const input = makeUpdateUserAvatarUseCaseInputMock();
 
-    const response = await updateUserAvatarUseCase.execute(input);
+    const output = await updateUserAvatarUseCase.execute(input);
 
-    expect(response).toEqual({
-      ...userAvatar,
-      original_name: input.file.name,
-      extension: input.file.extension,
-      size_in_bytes: input.file.size,
-      mime_type: input.file.type,
-    });
+    expect(output).toEqual(userAvatarMock);
   });
 });

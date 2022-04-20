@@ -7,7 +7,7 @@ interface IUpdateUserAvatarRepository {
 }
 
 namespace IUpdateUserAvatarRepository {
-  export type Input = Pick<UserAvatar, 'id'> &
+  export type Input = Pick<UserAvatar, 'user_id'> &
     Pick<
       Partial<UserAvatar>,
       'extension' | 'mime_type' | 'original_name' | 'size_in_bytes'
