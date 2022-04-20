@@ -1,11 +1,15 @@
 import { IGetUserProfileUseCase } from '@domain/usecases/user/GetProfile';
 
-import { userMock } from '../../../../domain/entities';
+import { makeUserMock } from '../../../../domain';
+
+export function makeGetUserProfileUseCaseOutputMock(): IGetUserProfileUseCase.Output {
+  return makeUserMock();
+}
 
 export class GetUserProfileUseCaseSpy implements IGetUserProfileUseCase {
   async execute(
     _: IGetUserProfileUseCase.Input
   ): Promise<IGetUserProfileUseCase.Output> {
-    return userMock;
+    return makeGetUserProfileUseCaseOutputMock();
   }
 }

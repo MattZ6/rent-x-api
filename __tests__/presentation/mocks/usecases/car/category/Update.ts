@@ -1,11 +1,15 @@
 import { IUpdateCarCategoryUseCase } from '@domain/usecases/car/category/Update';
 
-import { carCategoryMock } from '../../../../../domain/entities';
+import { makeCarCategoryMock } from '../../../../../domain';
+
+export function makeUpdateCarCategoryUseCaseOutputMock(): IUpdateCarCategoryUseCase.Output {
+  return makeCarCategoryMock();
+}
 
 export class UpdateCarCategoryUseCaseSpy implements IUpdateCarCategoryUseCase {
   async execute(
     _: IUpdateCarCategoryUseCase.Input
   ): Promise<IUpdateCarCategoryUseCase.Output> {
-    return carCategoryMock;
+    return makeUpdateCarCategoryUseCaseOutputMock();
   }
 }

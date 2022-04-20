@@ -1,11 +1,15 @@
 import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetDetails';
 
-import { carMock } from '../../../../domain/entities';
+import { makeCarMock } from '../../../../domain';
+
+export function makeGetCarDetailsUseCaseOutputMock(): IGetCarDetailsUseCase.Output {
+  return makeCarMock();
+}
 
 export class GetCarDetailsUseCaseSpy implements IGetCarDetailsUseCase {
   async execute(
     _: IGetCarDetailsUseCase.Input
   ): Promise<IGetCarDetailsUseCase.Output> {
-    return carMock;
+    return makeGetCarDetailsUseCaseOutputMock();
   }
 }
