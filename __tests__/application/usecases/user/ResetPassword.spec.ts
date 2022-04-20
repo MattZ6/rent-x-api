@@ -1,25 +1,21 @@
-import { faker } from '@faker-js/faker';
-
 import {
-  UserTokenExpiredError,
-  UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithProvidedTokenError,
+  UserTokenExpiredError,
 } from '@domain/errors';
 
 import { ResetUserPasswordUseCase } from '@application/usecases/user/ResetPassword';
 
-import { userMock, userTokenMock } from '../../../domain/entities';
+import { makeErrorMock, makeUserTokenMock } from '../../../domain';
 import {
-  DeleteUserTokenByIdRepositorySpy,
-  FindUserByIdRepositorySpy,
   FindUserTokenByTokenRepositorySpy,
   GenerateHashProviderSpy,
-  resetUserPasswordUseCaseInputMock,
   UpdateUserRepositorySpy,
+  DeleteUserTokenByIdRepositorySpy,
+  makeResetUserPasswordUseCaseInputMock,
+  makeGenerateHashProviderOutputMock,
 } from '../../mocks';
 
 let findUserTokenByTokenRepositorySpy: FindUserTokenByTokenRepositorySpy;
-let findUserByIdRepositorySpy: FindUserByIdRepositorySpy;
 let generateHashProviderSpy: GenerateHashProviderSpy;
 let updateUserRepositorySpy: UpdateUserRepositorySpy;
 let deleteUserTokenByIdRepositorySpy: DeleteUserTokenByIdRepositorySpy;
@@ -29,14 +25,12 @@ let resetUserPasswordUseCase: ResetUserPasswordUseCase;
 describe('ResetUserPasswordUseCase', () => {
   beforeEach(() => {
     findUserTokenByTokenRepositorySpy = new FindUserTokenByTokenRepositorySpy();
-    findUserByIdRepositorySpy = new FindUserByIdRepositorySpy();
     generateHashProviderSpy = new GenerateHashProviderSpy();
     updateUserRepositorySpy = new UpdateUserRepositorySpy();
     deleteUserTokenByIdRepositorySpy = new DeleteUserTokenByIdRepositorySpy();
 
     resetUserPasswordUseCase = new ResetUserPasswordUseCase(
       findUserTokenByTokenRepositorySpy,
-      findUserByIdRepositorySpy,
       generateHashProviderSpy,
       updateUserRepositorySpy,
       deleteUserTokenByIdRepositorySpy
@@ -49,37 +43,36 @@ describe('ResetUserPasswordUseCase', () => {
       'findByToken'
     );
 
-    const token = faker.datatype.uuid();
+    const input = makeResetUserPasswordUseCaseInputMock();
 
-    await resetUserPasswordUseCase.execute({
-      ...resetUserPasswordUseCaseInputMock,
-      token,
-    });
+    await resetUserPasswordUseCase.execute(input);
 
     expect(findByTokenSpy).toHaveBeenCalledTimes(1);
-    expect(findByTokenSpy).toHaveBeenCalledWith({ token });
+    expect(findByTokenSpy).toHaveBeenCalledWith({ token: input.token });
   });
 
   it('should throw if FindUserTokenByTokenRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = resetUserPasswordUseCase.execute(
-      resetUserPasswordUseCaseInputMock
-    );
+    const input = makeResetUserPasswordUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = resetUserPasswordUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw UserTokenNotFoundWithThisTokenError if token not exists', async () => {
+  it('should throw UserTokenNotFoundWithProvidedTokenError if FindUserTokenByTokenRepository returns null', async () => {
     jest
       .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(null);
 
-    const promise = resetUserPasswordUseCase.execute(
-      resetUserPasswordUseCaseInputMock
-    );
+    const input = makeResetUserPasswordUseCaseInputMock();
+
+    const promise = resetUserPasswordUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       UserTokenNotFoundWithProvidedTokenError
@@ -87,170 +80,119 @@ describe('ResetUserPasswordUseCase', () => {
   });
 
   it('should throw UserTokenExpiredError if now is at least 1ms after token expiration date', async () => {
-    const tokenExpiresIn = faker.datatype.datetime();
+    const userTokenMock = makeUserTokenMock();
 
     jest
       .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce({ ...userTokenMock, expires_in: tokenExpiresIn });
+      .mockResolvedValueOnce(userTokenMock);
 
-    jest.spyOn(Date, 'now').mockReturnValueOnce(tokenExpiresIn.getTime() + 1);
+    jest
+      .spyOn(Date, 'now')
+      .mockReturnValueOnce(userTokenMock.expires_in.getTime() + 1);
 
-    const promise = resetUserPasswordUseCase.execute(
-      resetUserPasswordUseCaseInputMock
-    );
+    const input = makeResetUserPasswordUseCaseInputMock();
+
+    const promise = resetUserPasswordUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(UserTokenExpiredError);
-  });
-
-  it('should call FindUserByIdRepository once witch correct values', async () => {
-    const userId = faker.datatype.uuid();
-
-    jest
-      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce({
-        ...userTokenMock,
-        user_id: userId,
-      });
-
-    const findByIdSpy = jest.spyOn(findUserByIdRepositorySpy, 'findById');
-
-    await resetUserPasswordUseCase.execute(resetUserPasswordUseCaseInputMock);
-
-    expect(findByIdSpy).toHaveBeenCalledTimes(1);
-    expect(findByIdSpy).toHaveBeenCalledWith({ id: userId });
-  });
-
-  it('should throw if FindUserByIdRepository throws', async () => {
-    jest
-      .spyOn(findUserByIdRepositorySpy, 'findById')
-      .mockRejectedValueOnce(new Error());
-
-    const promise = resetUserPasswordUseCase.execute(
-      resetUserPasswordUseCaseInputMock
-    );
-
-    await expect(promise).rejects.toThrow();
-  });
-
-  it('should throw UserNotFoundWithThisIdError if user from token does not exists', async () => {
-    jest
-      .spyOn(findUserByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(undefined);
-
-    const promise = resetUserPasswordUseCase.execute(
-      resetUserPasswordUseCaseInputMock
-    );
-
-    await expect(promise).rejects.toBeInstanceOf(
-      UserNotFoundWithProvidedIdError
-    );
   });
 
   it('should call GenerateHashProvider once with correct values', async () => {
     const hashSpy = jest.spyOn(generateHashProviderSpy, 'hash');
 
-    const newPassword = faker.internet.password();
+    const input = makeResetUserPasswordUseCaseInputMock();
 
-    await resetUserPasswordUseCase.execute({
-      ...resetUserPasswordUseCaseInputMock,
-      new_password: newPassword,
-    });
+    await resetUserPasswordUseCase.execute(input);
 
     expect(hashSpy).toHaveBeenCalledTimes(1);
-    expect(hashSpy).toHaveBeenCalledWith({ value: newPassword });
+    expect(hashSpy).toHaveBeenCalledWith({ value: input.new_password });
   });
 
   it('should throw if GenerateHashProvider throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(generateHashProviderSpy, 'hash')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = resetUserPasswordUseCase.execute(
-      resetUserPasswordUseCaseInputMock
-    );
+    const input = makeResetUserPasswordUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = resetUserPasswordUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should call UpdateUserRepository once with correct values', async () => {
-    jest
-      .spyOn(findUserByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce({ ...userMock });
+    const userTokenMock = makeUserTokenMock();
 
-    const passwordHash = faker.internet.password();
+    jest
+      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
+      .mockResolvedValueOnce(userTokenMock);
+
+    const generateHashProviderOutputMock = makeGenerateHashProviderOutputMock();
 
     jest
       .spyOn(generateHashProviderSpy, 'hash')
-      .mockResolvedValueOnce(passwordHash);
+      .mockResolvedValueOnce(generateHashProviderOutputMock);
 
     const updateSpy = jest.spyOn(updateUserRepositorySpy, 'update');
 
-    await resetUserPasswordUseCase.execute(resetUserPasswordUseCaseInputMock);
+    const input = makeResetUserPasswordUseCaseInputMock();
+
+    await resetUserPasswordUseCase.execute(input);
 
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith({
-      ...userMock,
-      password_hash: passwordHash,
+      id: userTokenMock.user_id,
+      password_hash: generateHashProviderOutputMock,
     });
   });
 
   it('should throw if UpdateUserRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(updateUserRepositorySpy, 'update')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = resetUserPasswordUseCase.execute(
-      resetUserPasswordUseCaseInputMock
-    );
+    const input = makeResetUserPasswordUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = resetUserPasswordUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should call DeleteUserTokenByIdRepository once with correct values', async () => {
-    const userTokenId = faker.datatype.uuid();
+    const userTokenMock = makeUserTokenMock();
 
     jest
       .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce({ ...userTokenMock, id: userTokenId });
+      .mockResolvedValueOnce(userTokenMock);
 
     const deleteByIdSpy = jest.spyOn(
       deleteUserTokenByIdRepositorySpy,
       'deleteById'
     );
 
-    await resetUserPasswordUseCase.execute(resetUserPasswordUseCaseInputMock);
+    const input = makeResetUserPasswordUseCaseInputMock();
+
+    await resetUserPasswordUseCase.execute(input);
 
     expect(deleteByIdSpy).toHaveBeenCalledTimes(1);
-    expect(deleteByIdSpy).toHaveBeenCalledWith({ id: userTokenId });
+    expect(deleteByIdSpy).toHaveBeenCalledWith({ id: userTokenMock.id });
   });
 
   it('should throw if DeleteUserTokenByIdRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(deleteUserTokenByIdRepositorySpy, 'deleteById')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = resetUserPasswordUseCase.execute(
-      resetUserPasswordUseCaseInputMock
-    );
+    const input = makeResetUserPasswordUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
-  });
+    const promise = resetUserPasswordUseCase.execute(input);
 
-  it('should update user password', async () => {
-    const user = { ...userMock };
-
-    jest
-      .spyOn(findUserByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(user);
-
-    const newPasswordHash = faker.internet.password();
-
-    jest
-      .spyOn(generateHashProviderSpy, 'hash')
-      .mockResolvedValueOnce(newPasswordHash);
-
-    await resetUserPasswordUseCase.execute(resetUserPasswordUseCaseInputMock);
-
-    expect(user.password_hash).toBe(newPasswordHash);
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 });

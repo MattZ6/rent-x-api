@@ -1,24 +1,19 @@
 import {
-  UserTokenExpiredError,
-  UserNotFoundWithProvidedIdError,
   UserTokenNotFoundWithProvidedTokenError,
+  UserTokenExpiredError,
 } from '@domain/errors';
 import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetPassword';
 
-import { IGenerateHashProvider } from '@application/protocols/providers/cryptography/hash';
+import { IGenerateHashProvider } from '@application/protocols/providers/cryptography';
 import {
-  IFindUserByIdRepository,
-  IUpdateUserRepository,
-} from '@application/protocols/repositories/user';
-import {
-  IDeleteUserTokenByIdRepository,
   IFindUserTokenByTokenRepository,
-} from '@application/protocols/repositories/user-token';
+  IUpdateUserRepository,
+  IDeleteUserTokenByIdRepository,
+} from '@application/protocols/repositories/user';
 
 export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
   constructor(
     private readonly findUserTokenByToken: IFindUserTokenByTokenRepository,
-    private readonly findUserByIdRepository: IFindUserByIdRepository,
     private readonly generateHashProvider: IGenerateHashProvider,
     private readonly updateUserRepository: IUpdateUserRepository,
     private readonly deleteUserTokenByIdRepository: IDeleteUserTokenByIdRepository
@@ -29,7 +24,9 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
   ): Promise<IResetUserPasswordUseCase.Output> {
     const { token, new_password } = data;
 
-    const userToken = await this.findUserTokenByToken.findByToken({ token });
+    const userToken = await this.findUserTokenByToken.findByToken({
+      token,
+    });
 
     if (!userToken) {
       throw new UserTokenNotFoundWithProvidedTokenError();
@@ -41,19 +38,14 @@ export class ResetUserPasswordUseCase implements IResetUserPasswordUseCase {
       throw new UserTokenExpiredError();
     }
 
-    const user = await this.findUserByIdRepository.findById({
-      id: userToken.user_id,
-    });
-
-    if (!user) {
-      throw new UserNotFoundWithProvidedIdError();
-    }
-
-    user.password_hash = await this.generateHashProvider.hash({
+    const newPasswordHash = await this.generateHashProvider.hash({
       value: new_password,
     });
 
-    await this.updateUserRepository.update(user);
+    await this.updateUserRepository.update({
+      id: userToken.user_id,
+      password_hash: newPasswordHash,
+    });
 
     await this.deleteUserTokenByIdRepository.deleteById({ id: userToken.id });
   }
