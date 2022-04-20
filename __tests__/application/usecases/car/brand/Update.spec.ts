@@ -183,7 +183,7 @@ describe('UpdateCarBrandUseCase', () => {
     await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return the update CarBrand if name has changed', async () => {
+  it('should return the updated CarBrand if name has changed', async () => {
     const carBrandMock = makeCarBrandMock();
 
     jest

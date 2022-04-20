@@ -1,18 +1,16 @@
-import { faker } from '@faker-js/faker';
-
 import {
-  CarCategoryAlreadyExistsWithProvidedNameError,
   CarCategoryNotFoundWithProvidedIdError,
+  CarCategoryAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 
 import { UpdateCarCategoryUseCase } from '@application/usecases/car/category/Update';
 
-import { carCategoryMock } from '../../../../domain/entities';
+import { makeErrorMock, makeCarCategoryMock } from '../../../../domain';
 import {
-  CheckIfCarCategoryExistsByNameRepositorySpy,
   FindCarCategoryByIdRepositorySpy,
+  CheckIfCarCategoryExistsByNameRepositorySpy,
   UpdateCarCategoryRepositorySpy,
-  updateCarCategoryUseCaseInputMock,
+  makeUpdateCarCategoryUseCaseInputMock,
 } from '../../../mocks';
 
 let findCarCategoryByIdRepositorySpy: FindCarCategoryByIdRepositorySpy;
@@ -41,70 +39,72 @@ describe('UpdateCarCategoryUseCase', () => {
       'findById'
     );
 
-    const id = faker.datatype.uuid();
+    const input = makeUpdateCarCategoryUseCaseInputMock();
 
-    await updateCarCategoryUseCase.execute({
-      ...updateCarCategoryUseCaseInputMock,
-      id,
-    });
+    await updateCarCategoryUseCase.execute(input);
 
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
-    expect(findByIdSpy).toHaveBeenCalledWith({ id });
+    expect(findByIdSpy).toHaveBeenCalledWith({ id: input.id });
   });
 
   it('should throw if FindCarCategoryByIdRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(findCarCategoryByIdRepositorySpy, 'findById')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = updateCarCategoryUseCase.execute(
-      updateCarCategoryUseCaseInputMock
-    );
+    const input = makeUpdateCarCategoryUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = updateCarCategoryUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarCategoryNotFoundWithThisIdError if car category not exists', async () => {
+  it('should throw CarCategoryNotFoundWithProvidedIdError if FindCarCategoryByIdRepository returns null', async () => {
     jest
       .spyOn(findCarCategoryByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(null);
 
-    const promise = updateCarCategoryUseCase.execute(
-      updateCarCategoryUseCaseInputMock
-    );
+    const input = makeUpdateCarCategoryUseCaseInputMock();
+
+    const promise = updateCarCategoryUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarCategoryNotFoundWithProvidedIdError
     );
   });
 
-  it('should not call CheckIfCarCategoryExistsByNameRepository if category name not changed', async () => {
-    const name = faker.datatype.string();
+  it('should not call CheckIfCarCategoryExistsByNameRepository if Category name not changed', async () => {
+    const carCategoryMock = makeCarCategoryMock();
 
     jest
       .spyOn(findCarCategoryByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce({ ...carCategoryMock, name });
+      .mockResolvedValueOnce(carCategoryMock);
 
     const checkIfExistsByNameSpy = jest.spyOn(
       checkIfCarCategoryExistsByNameRepositorySpy,
       'checkIfExistsByName'
     );
 
-    await updateCarCategoryUseCase.execute({
-      ...updateCarCategoryUseCaseInputMock,
-      name: `       ${name.toUpperCase()} `,
-    });
+    const input = makeUpdateCarCategoryUseCaseInputMock();
+
+    input.name = `    ${carCategoryMock.name.toUpperCase()}   `;
+
+    await updateCarCategoryUseCase.execute(input);
 
     expect(checkIfExistsByNameSpy).not.toHaveBeenCalled();
   });
 
-  it('should call CheckIfCarCategoryExistsByNameRepository once only if category name has changed', async () => {
+  it('should call CheckIfCarCategoryExistsByNameRepository once only if Category name has changed', async () => {
     const checkIfExistsByNameSpy = jest.spyOn(
       checkIfCarCategoryExistsByNameRepositorySpy,
       'checkIfExistsByName'
     );
 
-    await updateCarCategoryUseCase.execute(updateCarCategoryUseCaseInputMock);
+    const input = makeUpdateCarCategoryUseCaseInputMock();
+
+    await updateCarCategoryUseCase.execute(input);
 
     expect(checkIfExistsByNameSpy).toHaveBeenCalledTimes(1);
   });
@@ -115,36 +115,35 @@ describe('UpdateCarCategoryUseCase', () => {
       'checkIfExistsByName'
     );
 
-    const name = faker.datatype.string();
+    const input = makeUpdateCarCategoryUseCaseInputMock();
 
-    await updateCarCategoryUseCase.execute({
-      ...updateCarCategoryUseCaseInputMock,
-      name,
-    });
+    await updateCarCategoryUseCase.execute(input);
 
-    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name });
+    expect(checkIfExistsByNameSpy).toHaveBeenCalledWith({ name: input.name });
   });
 
   it('should throw if CheckIfCarCategoryExistsByNameRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(checkIfCarCategoryExistsByNameRepositorySpy, 'checkIfExistsByName')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = updateCarCategoryUseCase.execute(
-      updateCarCategoryUseCaseInputMock
-    );
+    const input = makeUpdateCarCategoryUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = updateCarCategoryUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarCategoryAlreadyExistsWithThisNameError if already has a category with same name', async () => {
+  it('should throw CarCategoryAlreadyExistsWithProvidedNameError if CheckIfCarCategoryExistsByNameRepository returns true', async () => {
     jest
       .spyOn(checkIfCarCategoryExistsByNameRepositorySpy, 'checkIfExistsByName')
       .mockResolvedValueOnce(true);
 
-    const promise = updateCarCategoryUseCase.execute(
-      updateCarCategoryUseCaseInputMock
-    );
+    const input = makeUpdateCarCategoryUseCaseInputMock();
+
+    const promise = updateCarCategoryUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarCategoryAlreadyExistsWithProvidedNameError
@@ -152,54 +151,54 @@ describe('UpdateCarCategoryUseCase', () => {
   });
 
   it('should call UpdateCarCategoryRepository once with correct values', async () => {
+    const carCategoryMock = makeCarCategoryMock();
+
     jest
       .spyOn(findCarCategoryByIdRepositorySpy, 'findById')
-      .mockResolvedValueOnce({ ...carCategoryMock });
+      .mockResolvedValueOnce(carCategoryMock);
 
     const updateSpy = jest.spyOn(updateCarCategoryRepositorySpy, 'update');
 
-    const name = faker.datatype.string();
-    const description = faker.datatype.string();
+    const input = makeUpdateCarCategoryUseCaseInputMock();
 
-    await updateCarCategoryUseCase.execute({
-      ...updateCarCategoryUseCaseInputMock,
-      name,
-      description,
-    });
+    input.name = `  ${input.name}   `;
+    input.description = ` ${input.description}  `;
+
+    await updateCarCategoryUseCase.execute(input);
 
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith({
-      ...carCategoryMock,
-      name,
-      description,
+      id: carCategoryMock.id,
+      name: input.name.trim(),
+      description: input.description.trim(),
     });
   });
 
   it('should throw if UpdateCarCategoryRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(updateCarCategoryRepositorySpy, 'update')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = updateCarCategoryUseCase.execute(
-      updateCarCategoryUseCaseInputMock
-    );
+    const input = makeUpdateCarCategoryUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = updateCarCategoryUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should update car category', async () => {
-    const category = await updateCarCategoryUseCase.execute(
-      updateCarCategoryUseCaseInputMock
-    );
+  it('should return the updated CarCategory on success', async () => {
+    const carCategoryMock = makeCarCategoryMock();
 
-    expect(category).toHaveProperty('id', updateCarCategoryUseCaseInputMock.id);
-    expect(category).toHaveProperty(
-      'name',
-      updateCarCategoryUseCaseInputMock.name
-    );
-    expect(category).toHaveProperty(
-      'description',
-      updateCarCategoryUseCaseInputMock.description
-    );
+    jest
+      .spyOn(updateCarCategoryRepositorySpy, 'update')
+      .mockResolvedValueOnce(carCategoryMock);
+
+    const input = makeUpdateCarCategoryUseCaseInputMock();
+
+    const output = await updateCarCategoryUseCase.execute(input);
+
+    expect(output).toEqual(carCategoryMock);
   });
 });

@@ -7,7 +7,7 @@ interface IUpdateCarCategoryUseCase {
 }
 
 namespace IUpdateCarCategoryUseCase {
-  export type Input = Pick<Partial<CarCategory>, 'name' | 'description'> & {
+  export type Input = Pick<CarCategory, 'name' | 'description'> & {
     id: string;
   };
 

@@ -8,7 +8,7 @@ import {
   ICheckIfCarCategoryExistsByNameRepository,
   IFindCarCategoryByIdRepository,
   IUpdateCarCategoryRepository,
-} from '@application/protocols/repositories/car/category';
+} from '@application/protocols/repositories/car';
 
 export class UpdateCarCategoryUseCase implements IUpdateCarCategoryUseCase {
   constructor(
@@ -22,29 +22,32 @@ export class UpdateCarCategoryUseCase implements IUpdateCarCategoryUseCase {
   ): Promise<IUpdateCarCategoryUseCase.Output> {
     const { id, name, description } = data;
 
-    const category = await this.findCarCategoryByIdRepository.findById({ id });
+    let carCategory = await this.findCarCategoryByIdRepository.findById({ id });
 
-    if (!category) {
+    if (!carCategory) {
       throw new CarCategoryNotFoundWithProvidedIdError();
     }
 
     const areSameName =
-      name.toLowerCase().trim() === category.name.toLowerCase().trim();
+      name.toLowerCase().trim() === carCategory.name.toLowerCase().trim();
 
     if (!areSameName) {
-      const alreadyInUse =
+      const alreadyExists =
         await this.checkIfCarCategoryExistsByNameRepository.checkIfExistsByName(
           { name }
         );
 
-      if (alreadyInUse) {
+      if (alreadyExists) {
         throw new CarCategoryAlreadyExistsWithProvidedNameError();
       }
     }
 
-    category.name = name;
-    category.description = description;
+    carCategory = await this.updateCarCategoryRepository.update({
+      id: carCategory.id,
+      name: name.trim(),
+      description: description.trim(),
+    });
 
-    return this.updateCarCategoryRepository.update(category);
+    return carCategory;
   }
 }
