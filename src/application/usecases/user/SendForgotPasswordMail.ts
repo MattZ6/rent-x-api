@@ -1,10 +1,12 @@
 import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotPasssordMail';
 
-import { ISendMailProvider } from '@application/protocols/providers/mail/SendMailProvider';
+import { ISendMailProvider } from '@application/protocols/providers/mail';
 import { IGenerateUuidProvider } from '@application/protocols/providers/uuid';
-import { IFindUserByEmailRepository } from '@application/protocols/repositories/user';
-import { ICreateUserTokenRepository } from '@application/protocols/repositories/user-token';
+import {
+  IFindUserByEmailRepository,
+  ICreateUserTokenRepository,
+} from '@application/protocols/repositories/user';
 
 export class SendForgotUserPasswordMailUseCase
   implements ISendForgotUserPasswordMailUseCase

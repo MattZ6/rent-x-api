@@ -1,24 +1,29 @@
 import { faker } from '@faker-js/faker';
 
 import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
+import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotPasssordMail';
 
 import { SendForgotUserPasswordMailUseCase } from '@application/usecases/user/SendForgotPasswordMail';
 
-import { userMock } from '../../../domain/entities';
+import { makeErrorMock, makeUserMock } from '../../../domain';
 import {
-  CreateUserTokenRepositorySpy,
   FindUserByEmailRepositorySpy,
-  forgotEmailExpiresTimeInMillissecondsMock,
   GenerateUuidProviderSpy,
-  mailDataMock,
-  passwordResetLinkDataMock,
-  sendForgotUserPasswordMailUseCaseInputMock,
+  CreateUserTokenRepositorySpy,
   SendMailProviderSpy,
+  makeSendForgotUserPasswordMailUseCaseEmailExpiresTimeInMillisseconds,
+  makeSendForgotUserPasswordMailUseCaseEmailDataMock,
+  makeSendForgotUserPasswordMailUseCasePasswordResetLinkDataMock,
+  makeSendForgotUserPasswordMailUseCaseInputMock,
+  makeGenerateUuidProviderOutputMock,
 } from '../../mocks';
 
 let findUserByEmailRepositorySpy: FindUserByEmailRepositorySpy;
 let generateUuidProviderSpy: GenerateUuidProviderSpy;
+let sendForgotUserPasswordMailUseCaseEmailExpiresTimeInMillisseconds: number;
 let createUserTokenRepositorySpy: CreateUserTokenRepositorySpy;
+let sendForgotUserPasswordMailUseCaseEmailDataMock: ISendForgotUserPasswordMailUseCase.EmailData;
+let sendForgotUserPasswordMailUseCasePasswordResetLinkDataMock: ISendForgotUserPasswordMailUseCase.PasswordResetLinkData;
 let sendMailProviderSpy: SendMailProviderSpy;
 
 let sendForgotUserPasswordMailUseCase: SendForgotUserPasswordMailUseCase;
@@ -27,16 +32,22 @@ describe('SendForgotUserPasswordMailUseCase', () => {
   beforeEach(() => {
     findUserByEmailRepositorySpy = new FindUserByEmailRepositorySpy();
     generateUuidProviderSpy = new GenerateUuidProviderSpy();
+    sendForgotUserPasswordMailUseCaseEmailExpiresTimeInMillisseconds =
+      makeSendForgotUserPasswordMailUseCaseEmailExpiresTimeInMillisseconds();
     createUserTokenRepositorySpy = new CreateUserTokenRepositorySpy();
+    sendForgotUserPasswordMailUseCaseEmailDataMock =
+      makeSendForgotUserPasswordMailUseCaseEmailDataMock();
+    sendForgotUserPasswordMailUseCasePasswordResetLinkDataMock =
+      makeSendForgotUserPasswordMailUseCasePasswordResetLinkDataMock();
     sendMailProviderSpy = new SendMailProviderSpy();
 
     sendForgotUserPasswordMailUseCase = new SendForgotUserPasswordMailUseCase(
       findUserByEmailRepositorySpy,
       generateUuidProviderSpy,
-      forgotEmailExpiresTimeInMillissecondsMock,
+      sendForgotUserPasswordMailUseCaseEmailExpiresTimeInMillisseconds,
       createUserTokenRepositorySpy,
-      mailDataMock,
-      passwordResetLinkDataMock,
+      sendForgotUserPasswordMailUseCaseEmailDataMock,
+      sendForgotUserPasswordMailUseCasePasswordResetLinkDataMock,
       sendMailProviderSpy
     );
   });
@@ -47,36 +58,36 @@ describe('SendForgotUserPasswordMailUseCase', () => {
       'findByEmail'
     );
 
-    await sendForgotUserPasswordMailUseCase.execute(
-      sendForgotUserPasswordMailUseCaseInputMock
-    );
+    const input = makeSendForgotUserPasswordMailUseCaseInputMock();
+
+    await sendForgotUserPasswordMailUseCase.execute(input);
 
     expect(findByEmailSpy).toHaveBeenCalledTimes(1);
-    expect(findByEmailSpy).toHaveBeenCalledWith({
-      email: sendForgotUserPasswordMailUseCaseInputMock.email,
-    });
+    expect(findByEmailSpy).toHaveBeenCalledWith({ email: input.email });
   });
 
   it('should throw if FindUserByEmailRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(findUserByEmailRepositorySpy, 'findByEmail')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = sendForgotUserPasswordMailUseCase.execute(
-      sendForgotUserPasswordMailUseCaseInputMock
-    );
+    const input = makeSendForgotUserPasswordMailUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = sendForgotUserPasswordMailUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw UserNotFoundWithThisEmailError if user not exists', async () => {
+  it('should throw UserNotFoundWithProvidedEmailError if FindUserByEmailRepository returns null', async () => {
     jest
       .spyOn(findUserByEmailRepositorySpy, 'findByEmail')
-      .mockResolvedValueOnce(undefined);
+      .mockResolvedValueOnce(null);
 
-    const promise = sendForgotUserPasswordMailUseCase.execute(
-      sendForgotUserPasswordMailUseCaseInputMock
-    );
+    const input = makeSendForgotUserPasswordMailUseCaseInputMock();
+
+    const promise = sendForgotUserPasswordMailUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       UserNotFoundWithProvidedEmailError
@@ -86,77 +97,83 @@ describe('SendForgotUserPasswordMailUseCase', () => {
   it('should call GenerateUuidProvider once', async () => {
     const generateSpy = jest.spyOn(generateUuidProviderSpy, 'generate');
 
-    await sendForgotUserPasswordMailUseCase.execute(
-      sendForgotUserPasswordMailUseCaseInputMock
-    );
+    const input = makeSendForgotUserPasswordMailUseCaseInputMock();
+
+    await sendForgotUserPasswordMailUseCase.execute(input);
 
     expect(generateSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should throw if GenerateUuidProvider throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(generateUuidProviderSpy, 'generate')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = sendForgotUserPasswordMailUseCase.execute(
-      sendForgotUserPasswordMailUseCaseInputMock
-    );
+    const input = makeSendForgotUserPasswordMailUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = sendForgotUserPasswordMailUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should call CreateUserTokenRepositorySpy once with correct values', async () => {
-    const createSpy = jest.spyOn(createUserTokenRepositorySpy, 'create');
-
-    const userId = faker.datatype.uuid();
+    const userMock = makeUserMock();
 
     jest
       .spyOn(findUserByEmailRepositorySpy, 'findByEmail')
-      .mockResolvedValueOnce({ ...userMock, id: userId });
+      .mockResolvedValueOnce(userMock);
 
-    const token = faker.datatype.uuid();
+    const generateUuidProviderOutputMock = makeGenerateUuidProviderOutputMock();
 
     jest
       .spyOn(generateUuidProviderSpy, 'generate')
-      .mockResolvedValueOnce(token);
+      .mockResolvedValueOnce(generateUuidProviderOutputMock);
 
     const now = faker.datatype.datetime();
 
     jest.spyOn(Date, 'now').mockReturnValueOnce(now.getTime());
 
-    await sendForgotUserPasswordMailUseCase.execute(
-      sendForgotUserPasswordMailUseCaseInputMock
+    const expiresDate = new Date(
+      now.getTime() +
+        sendForgotUserPasswordMailUseCaseEmailExpiresTimeInMillisseconds
     );
+
+    const createSpy = jest.spyOn(createUserTokenRepositorySpy, 'create');
+
+    const input = makeSendForgotUserPasswordMailUseCaseInputMock();
+
+    await sendForgotUserPasswordMailUseCase.execute(input);
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({
-      token,
-      user_id: userId,
-      expires_in: new Date(
-        now.getTime() + forgotEmailExpiresTimeInMillissecondsMock
-      ),
+      token: generateUuidProviderOutputMock,
+      user_id: userMock.id,
+      expires_in: expiresDate,
     });
   });
 
   it('should throw if CreateUserTokenRepositorySpy throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(createUserTokenRepositorySpy, 'create')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = sendForgotUserPasswordMailUseCase.execute(
-      sendForgotUserPasswordMailUseCaseInputMock
-    );
+    const input = makeSendForgotUserPasswordMailUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = sendForgotUserPasswordMailUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should call SendMailProvider once with correct values', async () => {
-    const userName = faker.name.findName();
-    const userEmail = faker.internet.email();
+    const userMock = makeUserMock();
 
     jest
       .spyOn(findUserByEmailRepositorySpy, 'findByEmail')
-      .mockResolvedValueOnce({ ...userMock, name: userName, email: userEmail });
+      .mockResolvedValueOnce(userMock);
 
     const token = faker.datatype.uuid();
 
@@ -166,28 +183,30 @@ describe('SendForgotUserPasswordMailUseCase', () => {
 
     const sendSpy = jest.spyOn(sendMailProviderSpy, 'send');
 
-    await sendForgotUserPasswordMailUseCase.execute(
-      sendForgotUserPasswordMailUseCaseInputMock
-    );
+    const input = makeSendForgotUserPasswordMailUseCaseInputMock();
 
-    const [userFirstName] = userName.trim().split(' ');
-    const passwordResetLink = `${passwordResetLinkDataMock.base_url}?${passwordResetLinkDataMock.query_param_name}=${token}`;
+    await sendForgotUserPasswordMailUseCase.execute(input);
+
+    const [userFirstName] = userMock.name.trim().split(' ');
+    const passwordResetLink = `${sendForgotUserPasswordMailUseCasePasswordResetLinkDataMock.base_url}?${sendForgotUserPasswordMailUseCasePasswordResetLinkDataMock.query_param_name}=${token}`;
 
     expect(sendSpy).toHaveBeenCalledTimes(1);
     expect(sendSpy).toHaveBeenCalledWith({
       from: {
-        name: mailDataMock.from_email.name,
-        address: mailDataMock.from_email.address,
+        name: sendForgotUserPasswordMailUseCaseEmailDataMock.from_email.name,
+        address:
+          sendForgotUserPasswordMailUseCaseEmailDataMock.from_email.address,
       },
       to: {
-        name: userName,
-        address: userEmail,
+        name: userMock.name,
+        address: userMock.email,
       },
-      subject: mailDataMock.subject,
+      subject: sendForgotUserPasswordMailUseCaseEmailDataMock.subject,
       content: {
-        text: mailDataMock.text_content,
+        text: sendForgotUserPasswordMailUseCaseEmailDataMock.text_content,
         html: {
-          template_path: mailDataMock.html_template_path,
+          template_path:
+            sendForgotUserPasswordMailUseCaseEmailDataMock.html_template_path,
           template_variables: {
             user_first_name: userFirstName,
             password_reset_link: passwordResetLink,
@@ -198,12 +217,14 @@ describe('SendForgotUserPasswordMailUseCase', () => {
   });
 
   it('should throw if SendMailProvider throws', async () => {
-    jest.spyOn(sendMailProviderSpy, 'send').mockRejectedValueOnce(new Error());
+    const errorMock = makeErrorMock();
 
-    const promise = sendForgotUserPasswordMailUseCase.execute(
-      sendForgotUserPasswordMailUseCaseInputMock
-    );
+    jest.spyOn(sendMailProviderSpy, 'send').mockRejectedValueOnce(errorMock);
 
-    await expect(promise).rejects.toThrow();
+    const input = makeSendForgotUserPasswordMailUseCaseInputMock();
+
+    const promise = sendForgotUserPasswordMailUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 });
