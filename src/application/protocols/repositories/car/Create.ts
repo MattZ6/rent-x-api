@@ -22,7 +22,9 @@ namespace ICreateCarRepository {
     | 'transmission_type'
     | 'type_of_fuel'
     | 'zero_to_one_hundred_in_millisseconds'
-  >;
+  > & {
+    specifications_ids?: string[];
+  };
 
   export type Output = Car;
 }

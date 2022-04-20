@@ -1,5 +1,4 @@
-import { ICar } from '@domain/entities/Car';
-import { ICarSpecification } from '@domain/entities/CarSpecification';
+import { CarSpecification } from '@domain/entities/CarSpecification';
 import {
   CarAlreadyExistsWithProvidedLicensePlateError,
   CarBrandNotFoundWithProvidedIdError,
@@ -10,11 +9,11 @@ import { ICreateCarUseCase } from '@domain/usecases/car/Create';
 
 import {
   ICheckIfCarExistsByLicensePlateRepository,
+  ICheckIfCarBrandExistsByIdRepository,
+  ICheckIfCarCategoryExistsByIdRepository,
+  IFindAllSpecificationsByIdsRepository,
   ICreateCarRepository,
 } from '@application/protocols/repositories/car';
-import { ICheckIfCarBrandExistsByIdRepository } from '@application/protocols/repositories/car/brand';
-import { ICheckIfCarCategoryExistsByIdRepository } from '@application/protocols/repositories/car/category';
-import { IFindAllSpecificationsByIdsRepository } from '@application/protocols/repositories/car/specification';
 
 export class CreateCarUseCase implements ICreateCarUseCase {
   constructor(
@@ -25,7 +24,9 @@ export class CreateCarUseCase implements ICreateCarUseCase {
     private readonly createCarRepository: ICreateCarRepository
   ) {}
 
-  async execute(data: ICreateCarUseCase.Input): Promise<ICar> {
+  async execute(
+    data: ICreateCarUseCase.Input
+  ): Promise<ICreateCarUseCase.Output> {
     const {
       name,
       description,
@@ -43,38 +44,38 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       specifications_ids,
     } = data;
 
-    const alreadyExistsWithLicensePlate =
+    const carAlreadyExistsWithLicensePlate =
       await this.checkIfCarExistsByLicensePlateRepository.checkIfExistsByLicensePlate(
         {
           license_plate,
         }
       );
 
-    if (alreadyExistsWithLicensePlate) {
+    if (carAlreadyExistsWithLicensePlate) {
       throw new CarAlreadyExistsWithProvidedLicensePlateError();
     }
 
-    const brandExists =
+    const carBrandExists =
       await this.checkIfCarBrandExistsByIdRepository.checkIfExistsById({
         id: brand_id,
       });
 
-    if (!brandExists) {
+    if (!carBrandExists) {
       throw new CarBrandNotFoundWithProvidedIdError();
     }
 
-    const categoryExists =
+    const carCategoryExists =
       await this.checkIfCarCategoryExistsByIdRepository.checkIfExistsById({
         id: category_id,
       });
 
-    if (!categoryExists) {
+    if (!carCategoryExists) {
       throw new CarCategoryNotFoundWithProvidedIdError();
     }
 
     const specificationsIds = [...new Set(specifications_ids ?? [])];
 
-    let specifications: ICarSpecification[] = [];
+    let specifications: CarSpecification[] = [];
 
     if (specificationsIds.length > 0) {
       specifications =
@@ -87,21 +88,23 @@ export class CreateCarUseCase implements ICreateCarUseCase {
       }
     }
 
-    return this.createCarRepository.create({
-      brand_id,
-      category_id,
+    const car = await this.createCarRepository.create({
       name,
       description,
       license_plate,
+      brand_id,
+      category_id,
       daily_rate,
       daily_late_fee,
-      specifications,
       horse_power,
       max_speed,
       number_of_seats,
       zero_to_one_hundred_in_millisseconds,
       transmission_type,
       type_of_fuel,
+      specifications_ids: specificationsIds,
     });
+
+    return car;
   }
 }

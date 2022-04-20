@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import faker from '@faker-js/faker';
 
 import {
   CarAlreadyExistsWithProvidedLicensePlateError,
@@ -9,14 +9,18 @@ import {
 
 import { CreateCarUseCase } from '@application/usecases/car/Create';
 
-import { carSpecificationMock } from '../../../domain/entities';
 import {
+  makeCarMock,
+  makeCarSpecificationMock,
+  makeErrorMock,
+} from '../../../domain';
+import {
+  CheckIfCarExistsByLicensePlateRepositorySpy,
   CheckIfCarBrandExistsByIdRepositorySpy,
   CheckIfCarCategoryExistsByIdRepositorySpy,
-  CheckIfCarExistsByLicensePlateRepositorySpy,
-  CreateCarRepositorySpy,
-  createCarUseCaseInputMock,
   FindAllSpecificationsByIdsRepositorySpy,
+  CreateCarRepositorySpy,
+  makeCreateCarUseCaseInputMock,
 } from '../../mocks';
 
 let checkIfCarExistsByLicensePlateRepositorySpy: CheckIfCarExistsByLicensePlateRepositorySpy;
@@ -54,33 +58,34 @@ describe('CreateCarUseCase', () => {
       'checkIfExistsByLicensePlate'
     );
 
-    const licensePlate = faker.datatype.string();
+    const input = makeCreateCarUseCaseInputMock();
 
-    await createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      license_plate: licensePlate,
-    });
+    await createCarUseCase.execute(input);
 
     expect(checkIfExistsByLicensePlateSpy).toHaveBeenCalledTimes(1);
     expect(checkIfExistsByLicensePlateSpy).toHaveBeenCalledWith({
-      license_plate: licensePlate,
+      license_plate: input.license_plate,
     });
   });
 
   it('should throw if CheckIfCarExistsByLicensePlateRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(
         checkIfCarExistsByLicensePlateRepositorySpy,
         'checkIfExistsByLicensePlate'
       )
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createCarUseCase.execute(createCarUseCaseInputMock);
+    const input = makeCreateCarUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createCarUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarAlreadyExistsWithThisLicensePlateError if already exists a car with same license plate', async () => {
+  it('should throw CarAlreadyExistsWithProvidedLicensePlateError if CheckIfCarExistsByLicensePlateRepository returns true', async () => {
     jest
       .spyOn(
         checkIfCarExistsByLicensePlateRepositorySpy,
@@ -88,7 +93,9 @@ describe('CreateCarUseCase', () => {
       )
       .mockResolvedValueOnce(true);
 
-    const promise = createCarUseCase.execute(createCarUseCaseInputMock);
+    const input = makeCreateCarUseCaseInputMock();
+
+    const promise = createCarUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarAlreadyExistsWithProvidedLicensePlateError
@@ -101,33 +108,36 @@ describe('CreateCarUseCase', () => {
       'checkIfExistsById'
     );
 
-    const brandId = faker.datatype.uuid();
+    const input = makeCreateCarUseCaseInputMock();
 
-    await createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      brand_id: brandId,
-    });
+    await createCarUseCase.execute(input);
 
     expect(checkIfExistsByIdSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({ id: brandId });
+    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({ id: input.brand_id });
   });
 
   it('should throw if CheckIfCarBrandExistsByIdRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(checkIfCarBrandExistsByIdRepositorySpy, 'checkIfExistsById')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createCarUseCase.execute(createCarUseCaseInputMock);
+    const input = makeCreateCarUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createCarUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarBrandNotFoundWithThisIdError if car brand does not exists', async () => {
+  it('should throw CarBrandNotFoundWithProvidedIdError if CheckIfCarBrandExistsByIdRepository returns false', async () => {
     jest
       .spyOn(checkIfCarBrandExistsByIdRepositorySpy, 'checkIfExistsById')
       .mockResolvedValueOnce(false);
 
-    const promise = createCarUseCase.execute(createCarUseCaseInputMock);
+    const input = makeCreateCarUseCaseInputMock();
+
+    const promise = createCarUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarBrandNotFoundWithProvidedIdError
@@ -140,78 +150,58 @@ describe('CreateCarUseCase', () => {
       'checkIfExistsById'
     );
 
-    const categoryId = faker.datatype.uuid();
+    const input = makeCreateCarUseCaseInputMock();
 
-    await createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      category_id: categoryId,
-    });
+    await createCarUseCase.execute(input);
 
     expect(checkIfExistsByIdSpy).toHaveBeenCalledTimes(1);
-    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({ id: categoryId });
+    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({
+      id: input.category_id,
+    });
   });
 
   it('should throw if CheckIfCarCategoryExistsByIdRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(checkIfCarCategoryExistsByIdRepositorySpy, 'checkIfExistsById')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createCarUseCase.execute(createCarUseCaseInputMock);
+    const input = makeCreateCarUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createCarUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should throw CarCategoryNotFoundWithThisIdError if car brand does not exists', async () => {
+  it('should throw CarCategoryNotFoundWithProvidedIdError if CheckIfCarCategoryExistsByIdRepository returns false', async () => {
     jest
       .spyOn(checkIfCarCategoryExistsByIdRepositorySpy, 'checkIfExistsById')
       .mockResolvedValueOnce(false);
 
-    const promise = createCarUseCase.execute(createCarUseCaseInputMock);
+    const input = makeCreateCarUseCaseInputMock();
+
+    const promise = createCarUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       CarCategoryNotFoundWithProvidedIdError
     );
   });
 
-  it('should call FindAllSpecificationsByIdsRepository once with correct values', async () => {
+  it('should call FindAllSpecificationsByIdsRepository once with correct values only if input has specification ids', async () => {
     const findAllByIdsSpy = jest.spyOn(
       findAllSpecificationsByIdsRepositorySpy,
       'findAllByIds'
     );
 
-    const specificationsIds = [faker.datatype.uuid(), faker.datatype.uuid()];
+    const input = makeCreateCarUseCaseInputMock();
 
-    await createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      specifications_ids: specificationsIds,
-    });
+    await createCarUseCase.execute(input);
 
     expect(findAllByIdsSpy).toHaveBeenCalledTimes(1);
-    expect(findAllByIdsSpy).toHaveBeenCalledWith({ ids: specificationsIds });
-  });
-
-  it('should throw if FindAllSpecificationsByIdsRepository throws', async () => {
-    jest
-      .spyOn(findAllSpecificationsByIdsRepositorySpy, 'findAllByIds')
-      .mockRejectedValueOnce(new Error());
-
-    const promise = createCarUseCase.execute(createCarUseCaseInputMock);
-
-    await expect(promise).rejects.toThrow();
-  });
-
-  it('should call FindAllSpecificationsByIdsRepository only if specifications ids were provided', async () => {
-    const findAllByIdsSpy = jest.spyOn(
-      findAllSpecificationsByIdsRepositorySpy,
-      'findAllByIds'
-    );
-
-    await createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      specifications_ids: undefined,
+    expect(findAllByIdsSpy).toHaveBeenCalledWith({
+      ids: input.specifications_ids,
     });
-
-    expect(findAllByIdsSpy).not.toHaveBeenCalled();
   });
 
   it('should call FindAllSpecificationsByIdsRepository only if provided specifications ids length are more than zero', async () => {
@@ -220,10 +210,26 @@ describe('CreateCarUseCase', () => {
       'findAllByIds'
     );
 
-    await createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      specifications_ids: [],
-    });
+    const input = makeCreateCarUseCaseInputMock();
+
+    input.specifications_ids = [];
+
+    await createCarUseCase.execute(input);
+
+    expect(findAllByIdsSpy).not.toHaveBeenCalled();
+  });
+
+  it('should not call FindAllSpecificationsByIdsRepository if input has not specification ids', async () => {
+    const findAllByIdsSpy = jest.spyOn(
+      findAllSpecificationsByIdsRepositorySpy,
+      'findAllByIds'
+    );
+
+    const input = makeCreateCarUseCaseInputMock();
+
+    input.specifications_ids = undefined;
+
+    await createCarUseCase.execute(input);
 
     expect(findAllByIdsSpy).not.toHaveBeenCalled();
   });
@@ -234,31 +240,47 @@ describe('CreateCarUseCase', () => {
       'findAllByIds'
     );
 
+    const input = makeCreateCarUseCaseInputMock();
+
     const specificationIds = [faker.datatype.uuid(), faker.datatype.uuid()];
 
-    await createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      specifications_ids: [
-        ...specificationIds,
-        ...specificationIds,
-        ...specificationIds,
-      ],
-    });
+    input.specifications_ids = [
+      ...specificationIds,
+      ...specificationIds,
+      ...specificationIds,
+    ];
+
+    await createCarUseCase.execute(input);
 
     expect(findAllByIdsSpy).toHaveBeenCalledWith({ ids: specificationIds });
   });
 
-  it('should throw OneOrMoreCarSpecificationsNotFoundWithThisIdsError if specifications found count are different from provided specifications ids count', async () => {
+  it('should throw if FindAllSpecificationsByIdsRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(findAllSpecificationsByIdsRepositorySpy, 'findAllByIds')
-      .mockResolvedValueOnce([carSpecificationMock]);
+      .mockRejectedValueOnce(errorMock);
+
+    const input = makeCreateCarUseCaseInputMock();
+
+    const promise = createCarUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
+  });
+
+  it('should throw OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError if specifications found count are different from provided specifications ids count', async () => {
+    jest
+      .spyOn(findAllSpecificationsByIdsRepositorySpy, 'findAllByIds')
+      .mockResolvedValueOnce([makeCarSpecificationMock()]);
 
     const specificationIds = [faker.datatype.uuid(), faker.datatype.uuid()];
 
-    const promise = createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      specifications_ids: [...specificationIds, ...specificationIds],
-    });
+    const input = makeCreateCarUseCaseInputMock();
+
+    input.specifications_ids = [...specificationIds, ...specificationIds];
+
+    const promise = createCarUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       OneOrMoreCarSpecificationsNotFoundWithProvidedIdsError
@@ -266,132 +288,55 @@ describe('CreateCarUseCase', () => {
   });
 
   it('should call CreateCarRepository once with correct values', async () => {
-    const specifications = [carSpecificationMock, carSpecificationMock];
-
-    jest
-      .spyOn(findAllSpecificationsByIdsRepositorySpy, 'findAllByIds')
-      .mockResolvedValueOnce(specifications);
-
     const createSpy = jest.spyOn(createCarRepositorySpy, 'create');
 
-    await createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      specifications_ids: [faker.datatype.uuid(), faker.datatype.uuid()],
-    });
+    const input = makeCreateCarUseCaseInputMock();
+
+    await createCarUseCase.execute(input);
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(createSpy).toHaveBeenCalledWith({
-      name: createCarUseCaseInputMock.name,
-      description: createCarUseCaseInputMock.description,
-      license_plate: createCarUseCaseInputMock.license_plate,
-      daily_rate: createCarUseCaseInputMock.daily_rate,
-      daily_late_fee: createCarUseCaseInputMock.daily_late_fee,
-      brand_id: createCarUseCaseInputMock.brand_id,
-      category_id: createCarUseCaseInputMock.category_id,
-      horse_power: createCarUseCaseInputMock.horse_power,
-      max_speed: createCarUseCaseInputMock.max_speed,
-      number_of_seats: createCarUseCaseInputMock.number_of_seats,
+      name: input.name,
+      description: input.description,
+      license_plate: input.license_plate,
+      daily_rate: input.daily_rate,
+      daily_late_fee: input.daily_late_fee,
+      brand_id: input.brand_id,
+      category_id: input.category_id,
+      horse_power: input.horse_power,
+      max_speed: input.max_speed,
+      number_of_seats: input.number_of_seats,
       zero_to_one_hundred_in_millisseconds:
-        createCarUseCaseInputMock.zero_to_one_hundred_in_millisseconds,
-      transmission_type: createCarUseCaseInputMock.transmission_type,
-      type_of_fuel: createCarUseCaseInputMock.type_of_fuel,
-      specifications,
+        input.zero_to_one_hundred_in_millisseconds,
+      transmission_type: input.transmission_type,
+      type_of_fuel: input.type_of_fuel,
+      specifications_ids: input.specifications_ids,
     });
   });
 
-  it('should call CreateCarRepository without specifications if specifications ids were not provided', async () => {
-    const createSpy = jest.spyOn(createCarRepositorySpy, 'create');
+  it('should throw if CreateCarRepository throws', async () => {
+    const errorMock = makeErrorMock();
 
-    await createCarUseCase.execute({
-      ...createCarUseCaseInputMock,
-      specifications_ids: undefined,
-    });
-
-    expect(createSpy).toHaveBeenCalledTimes(1);
-    expect(createSpy).toHaveBeenCalledWith({
-      name: createCarUseCaseInputMock.name,
-      description: createCarUseCaseInputMock.description,
-      license_plate: createCarUseCaseInputMock.license_plate,
-      daily_rate: createCarUseCaseInputMock.daily_rate,
-      daily_late_fee: createCarUseCaseInputMock.daily_late_fee,
-      brand_id: createCarUseCaseInputMock.brand_id,
-      category_id: createCarUseCaseInputMock.category_id,
-      horse_power: createCarUseCaseInputMock.horse_power,
-      max_speed: createCarUseCaseInputMock.max_speed,
-      number_of_seats: createCarUseCaseInputMock.number_of_seats,
-      zero_to_one_hundred_in_millisseconds:
-        createCarUseCaseInputMock.zero_to_one_hundred_in_millisseconds,
-      transmission_type: createCarUseCaseInputMock.transmission_type,
-      type_of_fuel: createCarUseCaseInputMock.type_of_fuel,
-      specifications: [],
-    });
-  });
-
-  it('should throw if CheckIfCarExistsByLicensePlateRepository throws', async () => {
     jest
       .spyOn(createCarRepositorySpy, 'create')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createCarUseCase.execute(createCarUseCaseInputMock);
+    const input = makeCreateCarUseCaseInputMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createCarUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return a new car on success', async () => {
-    const response = await createCarUseCase.execute(createCarUseCaseInputMock);
+  it('should return a new Car on success', async () => {
+    const carMock = makeCarMock();
 
-    expect(response).toHaveProperty('id');
-    expect(response).toHaveProperty('name', createCarUseCaseInputMock.name);
-    expect(response).toHaveProperty(
-      'description',
-      createCarUseCaseInputMock.description
-    );
-    expect(response).toHaveProperty(
-      'daily_late_fee',
-      createCarUseCaseInputMock.daily_late_fee
-    );
-    expect(response).toHaveProperty(
-      'daily_rate',
-      createCarUseCaseInputMock.daily_rate
-    );
-    expect(response).toHaveProperty(
-      'license_plate',
-      createCarUseCaseInputMock.license_plate
-    );
-    expect(response).toHaveProperty(
-      'brand_id',
-      createCarUseCaseInputMock.brand_id
-    );
-    expect(response).toHaveProperty(
-      'category_id',
-      createCarUseCaseInputMock.category_id
-    );
-    expect(response).toHaveProperty(
-      'horse_power',
-      createCarUseCaseInputMock.horse_power
-    );
-    expect(response).toHaveProperty(
-      'max_speed',
-      createCarUseCaseInputMock.max_speed
-    );
-    expect(response).toHaveProperty(
-      'number_of_seats',
-      createCarUseCaseInputMock.number_of_seats
-    );
-    expect(response).toHaveProperty(
-      'zero_to_one_hundred_in_millisseconds',
-      createCarUseCaseInputMock.zero_to_one_hundred_in_millisseconds
-    );
-    expect(response).toHaveProperty(
-      'transmission_type',
-      createCarUseCaseInputMock.transmission_type
-    );
-    expect(response).toHaveProperty(
-      'type_of_fuel',
-      createCarUseCaseInputMock.type_of_fuel
-    );
-    expect(response).toHaveProperty('specifications');
-    expect(response).toHaveProperty('created_at');
-    expect(response).toHaveProperty('updated_at');
+    jest.spyOn(createCarRepositorySpy, 'create').mockResolvedValueOnce(carMock);
+
+    const input = makeCreateCarUseCaseInputMock();
+
+    const output = await createCarUseCase.execute(input);
+
+    expect(output).toEqual(carMock);
   });
 });

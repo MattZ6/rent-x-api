@@ -103,8 +103,14 @@ export class FindAllSpecificationsByIdsRepositorySpy
   implements IFindAllSpecificationsByIdsRepository
 {
   async findAllByIds(
-    _: IFindAllSpecificationsByIdsRepository.Input
+    data: IFindAllSpecificationsByIdsRepository.Input
   ): Promise<IFindAllSpecificationsByIdsRepository.Output> {
-    return [];
+    return data.ids.map(id => {
+      const carSpecificationMock = makeCarSpecificationMock();
+
+      Object.assign(carSpecificationMock, { id });
+
+      return carSpecificationMock;
+    });
   }
 }
