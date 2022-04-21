@@ -6,7 +6,7 @@ import {
 } from '@domain/errors';
 import { ICreateCarUseCase } from '@domain/usecases/car/Create';
 
-import { conflict, created, notFound } from '@presentation/helpers/http';
+import { created, conflict, notFound } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -82,7 +82,7 @@ class CreateCarController implements IController {
 namespace CreateCarController {
   type RequestBody = ICreateCarUseCase.Input;
 
-  export type Request = IHttpRequest<RequestBody, void, void>;
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }
