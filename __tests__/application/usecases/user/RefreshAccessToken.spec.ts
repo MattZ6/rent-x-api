@@ -29,6 +29,20 @@ let deleteUserTokenByIdRepositorySpy: DeleteUserTokenByIdRepositorySpy;
 
 let refreshUserAccessTokenUseCase: RefreshUserAccessTokenUseCase;
 
+function setValidTokenTimeMock() {
+  const userTokenMock = makeUserTokenMock();
+
+  const findByTokenSpy = jest
+    .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
+    .mockResolvedValueOnce(userTokenMock);
+
+  jest
+    .spyOn(Date, 'now')
+    .mockReturnValueOnce(userTokenMock.expires_in.getTime());
+
+  return { userTokenMock, findByTokenSpy };
+}
+
 describe('RefreshUserAccessTokenUseCase', () => {
   beforeEach(() => {
     findUserTokenByTokenRepositorySpy = new FindUserTokenByTokenRepositorySpy();
@@ -50,10 +64,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
   });
 
   it('should call FindUserTokenByTokenRepository once with correct values', async () => {
-    const findByTokenSpy = jest.spyOn(
-      findUserTokenByTokenRepositorySpy,
-      'findByToken'
-    );
+    const { findByTokenSpy } = setValidTokenTimeMock();
 
     const input = makeRefreshUserAccessTokenUseCaseInputMock();
 
@@ -115,15 +126,11 @@ describe('RefreshUserAccessTokenUseCase', () => {
   });
 
   it('should call EncryptProvider once with correct values', async () => {
-    const userTokenMock = makeUserTokenMock();
+    const { userTokenMock } = setValidTokenTimeMock();
 
     jest
       .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
       .mockResolvedValueOnce(userTokenMock);
-
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(userTokenMock.expires_in.getTime());
 
     const encryptSpy = jest.spyOn(encryptProviderSpy, 'encrypt');
 
@@ -141,15 +148,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
   });
 
   it('should throw if EncryptProvider throws', async () => {
-    const userTokenMock = makeUserTokenMock();
-
-    jest
-      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce(userTokenMock);
-
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(userTokenMock.expires_in.getTime());
+    setValidTokenTimeMock();
 
     const errorMock = makeErrorMock();
 
@@ -163,15 +162,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
   });
 
   it('should call GenerateUuidProvider once', async () => {
-    const userTokenMock = makeUserTokenMock();
-
-    jest
-      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce(userTokenMock);
-
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(userTokenMock.expires_in.getTime());
+    setValidTokenTimeMock();
 
     const generateSpy = jest.spyOn(generateUuidProviderSpy, 'generate');
 
@@ -183,15 +174,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
   });
 
   it('should throw if GenerateUuidProvider throws', async () => {
-    const userTokenMock = makeUserTokenMock();
-
-    jest
-      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce(userTokenMock);
-
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(userTokenMock.expires_in.getTime());
+    setValidTokenTimeMock();
 
     const errorMock = makeErrorMock();
 
@@ -207,18 +190,11 @@ describe('RefreshUserAccessTokenUseCase', () => {
   });
 
   it('should call CreateUserTokenRepository with correct values', async () => {
-    const userTokenMock = makeUserTokenMock();
-
-    jest
-      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce(userTokenMock);
+    const { userTokenMock } = setValidTokenTimeMock();
 
     const now = faker.datatype.datetime();
 
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(userTokenMock.expires_in.getTime())
-      .mockReturnValueOnce(now.getTime());
+    jest.spyOn(Date, 'now').mockReturnValueOnce(now.getTime());
 
     const token = makeGenerateUuidProviderOutputMock();
 
@@ -246,15 +222,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
   });
 
   it('should throw if CreateUserTokenRepository throws', async () => {
-    const userTokenMock = makeUserTokenMock();
-
-    jest
-      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce(userTokenMock);
-
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(userTokenMock.expires_in.getTime());
+    setValidTokenTimeMock();
 
     const errorMock = makeErrorMock();
 
@@ -270,15 +238,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
   });
 
   it('should call DeleteUserTokenByIdRepositorySpy with correct values', async () => {
-    const userTokenMock = makeUserTokenMock();
-
-    jest
-      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce(userTokenMock);
-
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(userTokenMock.expires_in.getTime());
+    const { userTokenMock } = setValidTokenTimeMock();
 
     const deleteByIdSpy = jest.spyOn(
       deleteUserTokenByIdRepositorySpy,
@@ -318,15 +278,7 @@ describe('RefreshUserAccessTokenUseCase', () => {
   });
 
   it('should return access token and refresh token on success', async () => {
-    const userTokenMock = makeUserTokenMock();
-
-    jest
-      .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
-      .mockResolvedValueOnce(userTokenMock);
-
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(userTokenMock.expires_in.getTime());
+    setValidTokenTimeMock();
 
     const accessToken = makeEncryptProviderOutputMock();
     const refreshToken = makeGenerateUuidProviderOutputMock();
