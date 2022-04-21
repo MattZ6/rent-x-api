@@ -57,11 +57,11 @@ class ReturnRentController implements IController {
 }
 
 namespace ReturnRentController {
-  type RequestBody = {
+  type RequestParams = {
     id: string;
   };
 
-  export type Request = IHttpRequest<void, RequestBody, void, void>;
+  export type Request = IHttpRequest<void, RequestParams, void, void>;
 
   export type Response = IHttpResponse;
 }

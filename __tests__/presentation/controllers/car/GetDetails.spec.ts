@@ -3,10 +3,11 @@ import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 import { GetCarDetailsController } from '@presentation/controllers/car/GetDetails';
 import { notFound, ok } from '@presentation/helpers/http';
 
-import { carMock } from '../../../domain/entities';
+import { makeErrorMock } from '../../../domain';
 import {
-  getCarDetailsControllerRequestMock,
   GetCarDetailsUseCaseSpy,
+  makeGetCarDetailsControllerRequestMock,
+  makeGetCarDetailsUseCaseOutputMock,
 } from '../../mocks';
 
 let getCarDetailsUseCaseSpy: GetCarDetailsUseCaseSpy;
@@ -25,47 +26,53 @@ describe('GetCarDetailsController', () => {
   it('should call GetCarDetailsUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(getCarDetailsUseCaseSpy, 'execute');
 
-    await getCarDetailsController.handle(getCarDetailsControllerRequestMock);
+    const request = makeGetCarDetailsControllerRequestMock();
+
+    await getCarDetailsController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
-    expect(executeSpy).toHaveBeenLastCalledWith({
-      car_id: getCarDetailsControllerRequestMock.params.id,
-    });
+    expect(executeSpy).toHaveBeenLastCalledWith({ id: request.params.id });
   });
 
   it('should throw if GetCarDetailsUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(getCarDetailsUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = getCarDetailsController.handle(
-      getCarDetailsControllerRequestMock
-    );
+    const request = makeGetCarDetailsControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = getCarDetailsController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return not found (404) if GetCarDetailsUseCase throws CarNotFoundWithThisIdError', async () => {
-    const error = new CarNotFoundWithProvidedIdError();
+  it('should return not found (404) if GetCarDetailsUseCase throws CarNotFoundWithProvidedIdError', async () => {
+    const errorMock = new CarNotFoundWithProvidedIdError();
 
-    jest.spyOn(getCarDetailsUseCaseSpy, 'execute').mockRejectedValueOnce(error);
+    jest
+      .spyOn(getCarDetailsUseCaseSpy, 'execute')
+      .mockRejectedValueOnce(errorMock);
 
-    const result = await getCarDetailsController.handle(
-      getCarDetailsControllerRequestMock
-    );
+    const request = makeGetCarDetailsControllerRequestMock();
 
-    expect(result).toEqual(notFound(error));
+    const result = await getCarDetailsController.handle(request);
+
+    expect(result).toEqual(notFound(errorMock));
   });
 
   it('should return ok (200) on success', async () => {
+    const outputMock = makeGetCarDetailsUseCaseOutputMock();
+
     jest
       .spyOn(getCarDetailsUseCaseSpy, 'execute')
-      .mockResolvedValueOnce(carMock);
+      .mockResolvedValueOnce(outputMock);
 
-    const result = await getCarDetailsController.handle(
-      getCarDetailsControllerRequestMock
-    );
+    const request = makeGetCarDetailsControllerRequestMock();
 
-    expect(result).toEqual(ok(carMock));
+    const result = await getCarDetailsController.handle(request);
+
+    expect(result).toEqual(ok(outputMock));
   });
 });

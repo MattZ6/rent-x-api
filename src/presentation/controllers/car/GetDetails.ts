@@ -1,7 +1,7 @@
 import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetDetails';
 
-import { notFound, ok } from '@presentation/helpers/http';
+import { ok, notFound } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -31,15 +31,11 @@ class GetCarDetailsController implements IController {
 }
 
 namespace GetCarDetailsController {
-  type GetCarDetailsControllerParamsRequest = {
+  type RequestParams = {
     id: string;
   };
 
-  export type Request = IHttpRequest<
-    void,
-    GetCarDetailsControllerParamsRequest,
-    void
-  >;
+  export type Request = IHttpRequest<void, RequestParams, void, void>;
 
   export type Response = IHttpResponse;
 }
