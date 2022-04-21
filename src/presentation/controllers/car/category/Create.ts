@@ -1,7 +1,7 @@
 import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/Create';
 
-import { conflict, created } from '@presentation/helpers/http';
+import { created, conflict } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -36,12 +36,12 @@ class CreateCarCategoryController implements IController {
 }
 
 namespace CreateCarCategoryController {
-  type CreateCarCategoryBodyRequest = {
+  type RequestBody = {
     name: string;
     description: string;
   };
 
-  export type Request = IHttpRequest<CreateCarCategoryBodyRequest, void, void>;
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }

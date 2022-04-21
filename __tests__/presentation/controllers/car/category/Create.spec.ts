@@ -3,9 +3,10 @@ import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { CreateCarCategoryController } from '@presentation/controllers/car/category/Create';
 import { conflict, created } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../../domain';
 import {
-  createCarCategoryControllerRequestMock,
   CreateCarCategoryUseCaseSpy,
+  makeCreateCarCategoryControllerRequestMock,
 } from '../../../mocks';
 
 let createCarCategoryUseCaseSpy: CreateCarCategoryUseCaseSpy;
@@ -24,47 +25,49 @@ describe('CreateCarCategoryController', () => {
   it('should call CreateCarCategoryUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(createCarCategoryUseCaseSpy, 'execute');
 
-    await createCarCategoryController.handle(
-      createCarCategoryControllerRequestMock
-    );
+    const request = makeCreateCarCategoryControllerRequestMock();
+
+    await createCarCategoryController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      name: createCarCategoryControllerRequestMock.body.name,
-      description: createCarCategoryControllerRequestMock.body.description,
+      name: request.body.name,
+      description: request.body.description,
     });
   });
 
   it('should throw if CreateCarCategoryUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(createCarCategoryUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createCarCategoryController.handle(
-      createCarCategoryControllerRequestMock
-    );
+    const request = makeCreateCarCategoryControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createCarCategoryController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return conflict (409) if CreateCarCategoryUseCase throws CarCategoryAlreadyExistsWithThisNameError', async () => {
-    const error = new CarCategoryAlreadyExistsWithProvidedNameError();
+  it('should return conflict (409) if CreateCarCategoryUseCase throws CarCategoryAlreadyExistsWithProvidedNameError', async () => {
+    const errorMock = new CarCategoryAlreadyExistsWithProvidedNameError();
 
     jest
       .spyOn(createCarCategoryUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await createCarCategoryController.handle(
-      createCarCategoryControllerRequestMock
-    );
+    const request = makeCreateCarCategoryControllerRequestMock();
 
-    expect(response).toEqual(conflict(error));
+    const response = await createCarCategoryController.handle(request);
+
+    expect(response).toEqual(conflict(errorMock));
   });
 
   it('should return created (201) on success', async () => {
-    const response = await createCarCategoryController.handle(
-      createCarCategoryControllerRequestMock
-    );
+    const request = makeCreateCarCategoryControllerRequestMock();
+
+    const response = await createCarCategoryController.handle(request);
 
     expect(response).toEqual(created<void>());
   });
