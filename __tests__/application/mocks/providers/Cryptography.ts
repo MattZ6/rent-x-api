@@ -1,6 +1,9 @@
 import { faker } from '@faker-js/faker';
 
-import { IEncryptProvider } from '@application/protocols/providers/cryptography/cryptography';
+import {
+  IEncryptProvider,
+  IVerifyCriptographyProvider,
+} from '@application/protocols/providers/cryptography/cryptography';
 import {
   ICompareHashProvider,
   IGenerateHashProvider,
@@ -34,5 +37,24 @@ export class EncryptProviderSpy implements IEncryptProvider<unknown> {
     _: IEncryptProvider.Input<unknown>
   ): Promise<IEncryptProvider.Output> {
     return makeEncryptProviderOutputMock();
+  }
+}
+
+export function makeVerifyCriptographyProviderOutputMock<
+  T = unknown
+>(): IVerifyCriptographyProvider.Output<T> {
+  return {
+    subject: faker.datatype.string(),
+    payload: {} as T,
+  };
+}
+
+export class VerifyCriptographyProviderSpy
+  implements IVerifyCriptographyProvider
+{
+  async verify<T = unknown>(
+    _: IVerifyCriptographyProvider.Input
+  ): Promise<IVerifyCriptographyProvider.Output<T>> {
+    return makeVerifyCriptographyProviderOutputMock<T>();
   }
 }
