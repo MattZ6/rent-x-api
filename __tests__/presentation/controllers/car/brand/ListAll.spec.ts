@@ -1,14 +1,11 @@
 import { ListAllCarBrandsController } from '@presentation/controllers/car/brand/ListAll';
 import { ok } from '@presentation/helpers/http';
 
-import { carCategoryMock } from '../../../../domain/entities';
+import { makeErrorMock } from '../../../../domain';
 import {
-  listAllCarBrandsControllerDefaultLimitMock,
-  listAllCarBrandsControllerDefaultOrderMock,
-  listAllCarBrandsControllerDefaultOrderByMock,
-  listAllCarBrandsControllerDefaultPageMock,
   ListAllCarBrandsUseCaseSpy,
-  listAllCarBrandsControllerRequestMock,
+  makeListAllCarBrandsControllerRequestMock,
+  makeListAllCarBrandsUseCaseOutputMock,
 } from '../../../mocks';
 
 let listAllCarBrandsUseCaseSpy: ListAllCarBrandsUseCaseSpy;
@@ -20,10 +17,6 @@ describe('ListAllCarBrandsController', () => {
     listAllCarBrandsUseCaseSpy = new ListAllCarBrandsUseCaseSpy();
 
     listAllCarBrandsController = new ListAllCarBrandsController(
-      listAllCarBrandsControllerDefaultOrderByMock,
-      listAllCarBrandsControllerDefaultOrderMock,
-      listAllCarBrandsControllerDefaultLimitMock,
-      listAllCarBrandsControllerDefaultPageMock,
       listAllCarBrandsUseCaseSpy
     );
   });
@@ -31,60 +24,44 @@ describe('ListAllCarBrandsController', () => {
   it('should call ListAllCarBrandsUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(listAllCarBrandsUseCaseSpy, 'execute');
 
-    await listAllCarBrandsController.handle(
-      listAllCarBrandsControllerRequestMock
-    );
-
-    expect(executeSpy).toHaveBeenCalledTimes(1);
-    expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listAllCarBrandsControllerRequestMock.query.order_by,
-      order: listAllCarBrandsControllerRequestMock.query.order,
-      limit: listAllCarBrandsControllerRequestMock.query.limit,
-      page: listAllCarBrandsControllerRequestMock.query.page,
-    });
-  });
-
-  it('should call ListAllCarBrandsUseCase with default values if query params not provided', async () => {
-    const executeSpy = jest.spyOn(listAllCarBrandsUseCaseSpy, 'execute');
-
-    const request = {
-      ...listAllCarBrandsControllerRequestMock,
-      query: undefined,
-    };
+    const request = makeListAllCarBrandsControllerRequestMock();
 
     await listAllCarBrandsController.handle(request);
 
+    expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listAllCarBrandsControllerDefaultOrderByMock,
-      order: listAllCarBrandsControllerDefaultOrderMock,
-      limit: listAllCarBrandsControllerDefaultLimitMock,
-      page: listAllCarBrandsControllerDefaultPageMock,
+      sort_by: request.query.sort_by,
+      order_by: request.query.order_by,
+      limit: request.query.limit,
+      offset: request.query.offset,
     });
   });
 
   it('should throw if ListAllCarBrandsUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(listAllCarBrandsUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = listAllCarBrandsController.handle(
-      listAllCarBrandsControllerRequestMock
-    );
+    const request = makeListAllCarBrandsControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = listAllCarBrandsController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should return ok (200) on success', async () => {
-    const categories = [carCategoryMock, carCategoryMock];
+    const outputMock = makeListAllCarBrandsUseCaseOutputMock();
 
     jest
       .spyOn(listAllCarBrandsUseCaseSpy, 'execute')
-      .mockResolvedValueOnce(categories);
+      .mockResolvedValueOnce(outputMock);
 
-    const response = await listAllCarBrandsController.handle(
-      listAllCarBrandsControllerRequestMock
-    );
+    const request = makeListAllCarBrandsControllerRequestMock();
 
-    expect(response).toEqual(ok(categories));
+    const response = await listAllCarBrandsController.handle(request);
+
+    expect(response).toEqual(ok(outputMock));
   });
 });

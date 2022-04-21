@@ -9,31 +9,22 @@ import {
 
 class ListAllCarBrandsController implements IController {
   constructor(
-    private readonly defaultOrderBy: IListAllCarBrandsUseCase.SortBy,
-    private readonly defaultOrder: IListAllCarBrandsUseCase.OrderBy,
-    private readonly defaultLimit: number,
-    private readonly defaultPage: number,
     private readonly listAllCarBrandsUseCase: IListAllCarBrandsUseCase
   ) {}
 
   async handle(
     request: ListAllCarBrandsController.Request
   ): Promise<ListAllCarBrandsController.Response> {
-    const {
-      sort_by: order_by = this.defaultOrderBy,
-      order_by: order = this.defaultOrder,
-      limit = this.defaultLimit,
-      offset: page = this.defaultPage,
-    } = request.query ?? {};
+    const { sort_by, order_by, limit, offset } = request.query;
 
-    const brands = await this.listAllCarBrandsUseCase.execute({
-      sort_by: order_by,
-      order_by: order,
+    const output = await this.listAllCarBrandsUseCase.execute({
+      sort_by,
+      order_by,
       limit,
-      offset: page,
+      offset,
     });
 
-    return ok(brands);
+    return ok(output);
   }
 }
 
