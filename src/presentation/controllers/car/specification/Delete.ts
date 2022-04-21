@@ -33,15 +33,11 @@ class DeleteCarSpecificationController implements IController {
 }
 
 namespace DeleteCarSpecificationController {
-  type DeleteCarSpecificationParamRequest = {
+  type RequestParams = {
     id: string;
   };
 
-  export type Request = IHttpRequest<
-    void,
-    DeleteCarSpecificationParamRequest,
-    void
-  >;
+  export type Request = IHttpRequest<void, RequestParams, void, void>;
 
   export type Response = IHttpResponse;
 }

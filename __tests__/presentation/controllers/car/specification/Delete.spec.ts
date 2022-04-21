@@ -1,11 +1,12 @@
 import { CarSpecificationNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { DeleteCarSpecificationController } from '@presentation/controllers/car/specification/Delete';
-import { noContent, notFound } from '@presentation/helpers/http';
+import { notFound, noContent } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../../domain';
 import {
-  deleteCarSpecificationControllerRequestMock,
   DeleteCarSpecificationUseCaseSpy,
+  makeDeleteCarSpecificationControllerRequestMock,
 } from '../../../mocks';
 
 let deleteCarSpecificationUseCaseSpy: DeleteCarSpecificationUseCaseSpy;
@@ -24,46 +25,46 @@ describe('DeleteCarSpecificationController', () => {
   it('should call DeleteCarSpecificationUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(deleteCarSpecificationUseCaseSpy, 'execute');
 
-    await deleteCarSpecificationController.handle(
-      deleteCarSpecificationControllerRequestMock
-    );
+    const request = makeDeleteCarSpecificationControllerRequestMock();
+
+    await deleteCarSpecificationController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
-    expect(executeSpy).toHaveBeenCalledWith({
-      id: deleteCarSpecificationControllerRequestMock.params.id,
-    });
+    expect(executeSpy).toHaveBeenCalledWith({ id: request.params.id });
   });
 
   it('should throw if DeleteCarSpecificationUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(deleteCarSpecificationUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = deleteCarSpecificationController.handle(
-      deleteCarSpecificationControllerRequestMock
-    );
+    const request = makeDeleteCarSpecificationControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = deleteCarSpecificationController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return conflict (409) if DeleteCarSpecificationUseCase throws CarSpecificationNotFoundWithThisIdError', async () => {
-    const error = new CarSpecificationNotFoundWithProvidedIdError();
+  it('should return conflict (409) if DeleteCarSpecificationUseCase throws CarSpecificationNotFoundWithProvidedIdError', async () => {
+    const errorMock = new CarSpecificationNotFoundWithProvidedIdError();
 
     jest
       .spyOn(deleteCarSpecificationUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await deleteCarSpecificationController.handle(
-      deleteCarSpecificationControllerRequestMock
-    );
+    const request = makeDeleteCarSpecificationControllerRequestMock();
 
-    expect(response).toEqual(notFound(error));
+    const response = await deleteCarSpecificationController.handle(request);
+
+    expect(response).toEqual(notFound(errorMock));
   });
 
   it('should return no content (204) on success', async () => {
-    const response = await deleteCarSpecificationController.handle(
-      deleteCarSpecificationControllerRequestMock
-    );
+    const request = makeDeleteCarSpecificationControllerRequestMock();
+
+    const response = await deleteCarSpecificationController.handle(request);
 
     expect(response).toEqual(noContent());
   });
