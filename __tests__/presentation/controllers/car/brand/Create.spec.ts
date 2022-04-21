@@ -3,9 +3,10 @@ import { CarBrandAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { CreateCarBrandController } from '@presentation/controllers/car/brand/Create';
 import { conflict, created } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../../domain';
 import {
-  createCarBrandControllerRequestMock,
   CreateCarBrandUseCaseSpy,
+  makeCreateCarBrandControllerRequestMock,
 } from '../../../mocks';
 
 let createCarBrandUseCaseSpy: CreateCarBrandUseCaseSpy;
@@ -24,44 +25,48 @@ describe('CreateCarBrandController', () => {
   it('should call CreateCarBrandUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(createCarBrandUseCaseSpy, 'execute');
 
-    await createCarBrandController.handle(createCarBrandControllerRequestMock);
+    const request = makeCreateCarBrandControllerRequestMock();
+
+    await createCarBrandController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      name: createCarBrandControllerRequestMock.body.name,
+      name: request.body.name,
     });
   });
 
   it('should throw if CreateCarBrandUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(createCarBrandUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createCarBrandController.handle(
-      createCarBrandControllerRequestMock
-    );
+    const request = makeCreateCarBrandControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createCarBrandController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return conflict (409) if CreateCarBrandUseCase throws CarBrandAlreadyExistsWithThisNameError', async () => {
-    const error = new CarBrandAlreadyExistsWithProvidedNameError();
+  it('should return conflict (409) if CreateCarBrandUseCase throws CarBrandAlreadyExistsWithProvidedNameError', async () => {
+    const errorMock = new CarBrandAlreadyExistsWithProvidedNameError();
 
     jest
       .spyOn(createCarBrandUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await createCarBrandController.handle(
-      createCarBrandControllerRequestMock
-    );
+    const request = makeCreateCarBrandControllerRequestMock();
 
-    expect(response).toEqual(conflict(error));
+    const response = await createCarBrandController.handle(request);
+
+    expect(response).toEqual(conflict(errorMock));
   });
 
   it('should return created (201) on success', async () => {
-    const response = await createCarBrandController.handle(
-      createCarBrandControllerRequestMock
-    );
+    const request = makeCreateCarBrandControllerRequestMock();
+
+    const response = await createCarBrandController.handle(request);
 
     expect(response).toEqual(created<void>());
   });

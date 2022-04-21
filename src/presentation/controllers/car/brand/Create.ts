@@ -1,7 +1,7 @@
 import { CarBrandAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { ICreateCarBrandUseCase } from '@domain/usecases/car/brand/Create';
 
-import { conflict, created } from '@presentation/helpers/http';
+import { created, conflict } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -33,11 +33,11 @@ class CreateCarBrandController implements IController {
 }
 
 namespace CreateCarBrandController {
-  type CreateCarBrandBodyRequest = {
+  type RequestBody = {
     name: string;
   };
 
-  export type Request = IHttpRequest<CreateCarBrandBodyRequest, void, void>;
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }
