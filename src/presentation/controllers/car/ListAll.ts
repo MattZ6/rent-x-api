@@ -8,32 +8,24 @@ import {
 } from '@presentation/protocols';
 
 class ListAllCarsController implements IController {
-  constructor(
-    private readonly defaultOrderBy: IListAllCarsUseCase.SortBy,
-    private readonly defaultOrder: IListAllCarsUseCase.OrderBy,
-    private readonly defaultLimit: number,
-    private readonly defaultPage: number,
-    private readonly listAllCarsUseCase: IListAllCarsUseCase
-  ) {}
+  constructor(private readonly listAllCarsUseCase: IListAllCarsUseCase) {}
 
   async handle(
     request: ListAllCarsController.Request
   ): Promise<ListAllCarsController.Response> {
-    const {
-      sort_by: order_by = this.defaultOrderBy,
-      order_by: order = this.defaultOrder,
-      limit = this.defaultLimit,
-      offset: page = this.defaultPage,
-    } = request.query ?? {};
+    const { sort_by, order_by, limit, offset, brand_id, category_id } =
+      request.query;
 
-    const cars = await this.listAllCarsUseCase.execute({
-      sort_by: order_by,
-      order_by: order,
+    const output = await this.listAllCarsUseCase.execute({
+      sort_by,
+      order_by,
       limit,
-      offset: page,
+      offset,
+      brand_id,
+      category_id,
     });
 
-    return ok(cars);
+    return ok(output);
   }
 }
 

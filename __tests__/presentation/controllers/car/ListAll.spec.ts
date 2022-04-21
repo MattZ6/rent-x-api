@@ -1,14 +1,11 @@
 import { ListAllCarsController } from '@presentation/controllers/car/ListAll';
 import { ok } from '@presentation/helpers/http';
 
-import { carMock } from '../../../domain/entities';
+import { makeErrorMock } from '../../../domain';
 import {
-  listAllCarsControllerDefaultLimit,
-  listAllCarsControllerDefaultOrder,
-  listAllCarsControllerDefaultOrderBy,
-  listAllCarsControllerDefaultPage,
   ListAllCarsUseCaseSpy,
-  listAllCarsControllerRequestMock,
+  makeListAllCarsControllerRequestMock,
+  makeListAllCarsUseCaseOutputMock,
 } from '../../mocks';
 
 let listAllCarsUseCaseSpy: ListAllCarsUseCaseSpy;
@@ -19,68 +16,52 @@ describe('ListAllCarsController', () => {
   beforeEach(() => {
     listAllCarsUseCaseSpy = new ListAllCarsUseCaseSpy();
 
-    listAllCarsController = new ListAllCarsController(
-      listAllCarsControllerDefaultOrderBy,
-      listAllCarsControllerDefaultOrder,
-      listAllCarsControllerDefaultLimit,
-      listAllCarsControllerDefaultPage,
-      listAllCarsUseCaseSpy
-    );
+    listAllCarsController = new ListAllCarsController(listAllCarsUseCaseSpy);
   });
 
   it('should call ListAllCarsUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(listAllCarsUseCaseSpy, 'execute');
 
-    await listAllCarsController.handle(listAllCarsControllerRequestMock);
-
-    expect(executeSpy).toHaveBeenCalledTimes(1);
-    expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listAllCarsControllerRequestMock.query.sort_by,
-      order: listAllCarsControllerRequestMock.query.order_by,
-      limit: listAllCarsControllerRequestMock.query.limit,
-      page: listAllCarsControllerRequestMock.query.offset,
-    });
-  });
-
-  it('should call ListAllCarsUseCase with default values if query params not provided', async () => {
-    const executeSpy = jest.spyOn(listAllCarsUseCaseSpy, 'execute');
-
-    const request = {
-      ...listAllCarsControllerRequestMock,
-      query: undefined,
-    };
+    const request = makeListAllCarsControllerRequestMock();
 
     await listAllCarsController.handle(request);
 
+    expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listAllCarsControllerDefaultOrderBy,
-      order: listAllCarsControllerDefaultOrder,
-      limit: listAllCarsControllerDefaultLimit,
-      page: listAllCarsControllerDefaultPage,
+      sort_by: request.query.sort_by,
+      order_by: request.query.order_by,
+      limit: request.query.limit,
+      offset: request.query.offset,
+      brand_id: request.query.brand_id,
+      category_id: request.query.category_id,
     });
   });
 
   it('should throw if ListAllCarsUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(listAllCarsUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = listAllCarsController.handle(
-      listAllCarsControllerRequestMock
-    );
+    const request = makeListAllCarsControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = listAllCarsController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should return ok (200) on success', async () => {
-    const cars = [carMock, carMock];
+    const outputMock = makeListAllCarsUseCaseOutputMock();
 
-    jest.spyOn(listAllCarsUseCaseSpy, 'execute').mockResolvedValueOnce(cars);
+    jest
+      .spyOn(listAllCarsUseCaseSpy, 'execute')
+      .mockResolvedValueOnce(outputMock);
 
-    const response = await listAllCarsController.handle(
-      listAllCarsControllerRequestMock
-    );
+    const request = makeListAllCarsControllerRequestMock();
 
-    expect(response).toEqual(ok(cars));
+    const response = await listAllCarsController.handle(request);
+
+    expect(response).toEqual(ok(outputMock));
   });
 });
