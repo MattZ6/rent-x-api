@@ -1,14 +1,11 @@
 import { ListAllCarSpecificationsController } from '@presentation/controllers/car/specification/ListAll';
 import { ok } from '@presentation/helpers/http';
 
-import { carSpecificationMock } from '../../../../domain/entities';
+import { makeErrorMock } from '../../../../domain';
 import {
-  listAllCarSpecificationsControllerDefaultLimit,
-  listAllCarSpecificationsControllerDefaultOrder,
-  listAllCarSpecificationsControllerDefaultOrderBy,
-  listAllCarSpecificationsControllerDefaultPage,
   ListAllCarSpecificationsUseCaseSpy,
-  listAllCarSpecificationsControllerRequestMock,
+  makeListAllCarSpecificationsControllerRequestMock,
+  makeListAllCarSpecificationsUseCaseOutputMock,
 } from '../../../mocks';
 
 let listAllCarSpecificationsUseCaseSpy: ListAllCarSpecificationsUseCaseSpy;
@@ -21,10 +18,6 @@ describe('ListAllCarSpecificationsController', () => {
       new ListAllCarSpecificationsUseCaseSpy();
 
     listAllCarSpecificationsController = new ListAllCarSpecificationsController(
-      listAllCarSpecificationsControllerDefaultOrderBy,
-      listAllCarSpecificationsControllerDefaultOrder,
-      listAllCarSpecificationsControllerDefaultLimit,
-      listAllCarSpecificationsControllerDefaultPage,
       listAllCarSpecificationsUseCaseSpy
     );
   });
@@ -35,63 +28,44 @@ describe('ListAllCarSpecificationsController', () => {
       'execute'
     );
 
-    await listAllCarSpecificationsController.handle(
-      listAllCarSpecificationsControllerRequestMock
-    );
-
-    expect(executeSpy).toHaveBeenCalledTimes(1);
-    expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listAllCarSpecificationsControllerRequestMock.query.order_by,
-      order: listAllCarSpecificationsControllerRequestMock.query.order,
-      limit: listAllCarSpecificationsControllerRequestMock.query.limit,
-      page: listAllCarSpecificationsControllerRequestMock.query.page,
-    });
-  });
-
-  it('should call ListAllCarSpecificationsUseCase with default values if query params not provided', async () => {
-    const executeSpy = jest.spyOn(
-      listAllCarSpecificationsUseCaseSpy,
-      'execute'
-    );
-
-    const request = {
-      ...listAllCarSpecificationsControllerRequestMock,
-      query: undefined,
-    };
+    const request = makeListAllCarSpecificationsControllerRequestMock();
 
     await listAllCarSpecificationsController.handle(request);
 
+    expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      order_by: listAllCarSpecificationsControllerDefaultOrderBy,
-      order: listAllCarSpecificationsControllerDefaultOrder,
-      limit: listAllCarSpecificationsControllerDefaultLimit,
-      page: listAllCarSpecificationsControllerDefaultPage,
+      sort_by: request.query.sort_by,
+      order_by: request.query.order_by,
+      limit: request.query.limit,
+      offset: request.query.offset,
     });
   });
 
   it('should throw if ListAllCarSpecificationsUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(listAllCarSpecificationsUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = listAllCarSpecificationsController.handle(
-      listAllCarSpecificationsControllerRequestMock
-    );
+    const request = makeListAllCarSpecificationsControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = listAllCarSpecificationsController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
   it('should return ok (200) on success', async () => {
-    const carSpecifications = [carSpecificationMock, carSpecificationMock];
+    const outputMock = makeListAllCarSpecificationsUseCaseOutputMock();
 
     jest
       .spyOn(listAllCarSpecificationsUseCaseSpy, 'execute')
-      .mockResolvedValueOnce(carSpecifications);
+      .mockResolvedValueOnce(outputMock);
 
-    const response = await listAllCarSpecificationsController.handle(
-      listAllCarSpecificationsControllerRequestMock
-    );
+    const request = makeListAllCarSpecificationsControllerRequestMock();
 
-    expect(response).toEqual(ok(carSpecifications));
+    const response = await listAllCarSpecificationsController.handle(request);
+
+    expect(response).toEqual(ok(outputMock));
   });
 });
