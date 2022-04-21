@@ -1,10 +1,10 @@
 import {
-  CarBrandAlreadyExistsWithProvidedNameError,
   CarBrandNotFoundWithProvidedIdError,
+  CarBrandAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/Update';
 
-import { conflict, noContent, notFound } from '@presentation/helpers/http';
+import { noContent, notFound, conflict } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -42,19 +42,15 @@ class UpdateCarBrandController implements IController {
 }
 
 namespace UpdateCarBrandController {
-  type UpdateCarBrandBodyRequest = {
+  type RequestBody = {
     name: string;
   };
 
-  type UpdateCarBrandParamsRequest = {
+  type RequestParams = {
     id: string;
   };
 
-  export type Request = IHttpRequest<
-    UpdateCarBrandBodyRequest,
-    UpdateCarBrandParamsRequest,
-    void
-  >;
+  export type Request = IHttpRequest<RequestBody, RequestParams, void, void>;
 
   export type Response = IHttpResponse;
 }
