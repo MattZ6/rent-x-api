@@ -1,10 +1,10 @@
 import {
-  CarCategoryAlreadyExistsWithProvidedNameError,
   CarCategoryNotFoundWithProvidedIdError,
+  CarCategoryAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 import { IUpdateCarCategoryUseCase } from '@domain/usecases/car/category/Update';
 
-import { conflict, noContent, notFound } from '@presentation/helpers/http';
+import { noContent, notFound, conflict } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -45,20 +45,16 @@ class UpdateCarCategoryController implements IController {
 }
 
 namespace UpdateCarCategoryController {
-  type UpdateCarCategoryBodyRequest = {
+  type RequestBody = {
     name: string;
     description: string;
   };
 
-  type UpdateCarCategoryParamsRequest = {
+  type RequestParams = {
     id: string;
   };
 
-  export type Request = IHttpRequest<
-    UpdateCarCategoryBodyRequest,
-    UpdateCarCategoryParamsRequest,
-    void
-  >;
+  export type Request = IHttpRequest<RequestBody, RequestParams, void, void>;
 
   export type Response = IHttpResponse;
 }
