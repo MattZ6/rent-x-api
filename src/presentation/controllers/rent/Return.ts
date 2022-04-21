@@ -1,16 +1,16 @@
 import {
-  RentAlreadyClosedError,
-  RentBelongsToAnotherUserError,
   RentNotFoundWithProvidedIdError,
+  RentBelongsToAnotherUserError,
   RentalIsNotInProgressError,
+  RentAlreadyClosedError,
 } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/Return';
 
 import {
-  conflict,
   noContent,
   notFound,
   unprocessableEntity,
+  conflict,
 } from '@presentation/helpers/http';
 import {
   IController,
@@ -57,11 +57,11 @@ class ReturnRentController implements IController {
 }
 
 namespace ReturnRentController {
-  type ReturnRentRequestParams = {
+  type RequestBody = {
     id: string;
   };
 
-  export type Request = IHttpRequest<void, ReturnRentRequestParams, void>;
+  export type Request = IHttpRequest<void, RequestBody, void, void>;
 
   export type Response = IHttpResponse;
 }
