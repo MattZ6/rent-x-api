@@ -1,23 +1,24 @@
 import {
+  UserNotFoundWithProvidedIdError,
+  UserHasOutstandingRentPaymentsError,
   CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
-  UserHasOutstandingRentPaymentsError,
-  UserNotFoundWithProvidedIdError,
 } from '@domain/errors';
 
 import { CreateRentController } from '@presentation/controllers/rent/Create';
 import {
-  conflict,
-  created,
   notFound,
   paymentRequired,
   unprocessableEntity,
+  conflict,
+  created,
 } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../domain';
 import {
-  createRentControllerRequestMock,
   CreateRentUseCaseSpy,
+  makeCreateRentControllerRequestMock,
 } from '../../mocks';
 
 let createRentUseCaseSpy: CreateRentUseCaseSpy;
@@ -34,93 +35,107 @@ describe('CreateRentController', () => {
   it('should call CreateRentUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(createRentUseCaseSpy, 'execute');
 
-    await createRentController.handle(createRentControllerRequestMock);
+    const request = makeCreateRentControllerRequestMock();
+
+    await createRentController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      user_id: createRentControllerRequestMock.user_id,
-      car_id: createRentControllerRequestMock.body.car_id,
-      start_date: createRentControllerRequestMock.body.start_date,
-      expected_return_date: createRentControllerRequestMock.body.end_date,
+      user_id: request.user_id,
+      car_id: request.body.car_id,
+      start_date: request.body.start_date,
+      expected_return_date: request.body.end_date,
     });
   });
 
   it('should throw if CreateRentUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(createRentUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = createRentController.handle(
-      createRentControllerRequestMock
-    );
+    const request = makeCreateRentControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = createRentController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return not found (404) if CreateRentUseCase throws UserNotFoundWithThisIdError', async () => {
-    const error = new UserNotFoundWithProvidedIdError();
+  it('should return not found (404) if CreateRentUseCase throws UserNotFoundWithProvidedIdError', async () => {
+    const errorMock = new UserNotFoundWithProvidedIdError();
 
-    jest.spyOn(createRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
+    jest
+      .spyOn(createRentUseCaseSpy, 'execute')
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await createRentController.handle(
-      createRentControllerRequestMock
-    );
+    const request = makeCreateRentControllerRequestMock();
 
-    expect(response).toEqual(notFound(error));
+    const response = await createRentController.handle(request);
+
+    expect(response).toEqual(notFound(errorMock));
   });
 
-  it('should return payment required (402) if CreateRentUseCase throws UserHasRentsWithPendingPaymentError', async () => {
-    const error = new UserHasOutstandingRentPaymentsError();
+  it('should return payment required (402) if CreateRentUseCase throws UserHasOutstandingRentPaymentsError', async () => {
+    const errorMock = new UserHasOutstandingRentPaymentsError();
 
-    jest.spyOn(createRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
+    jest
+      .spyOn(createRentUseCaseSpy, 'execute')
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await createRentController.handle(
-      createRentControllerRequestMock
-    );
+    const request = makeCreateRentControllerRequestMock();
 
-    expect(response).toEqual(paymentRequired(error));
+    const response = await createRentController.handle(request);
+
+    expect(response).toEqual(paymentRequired(errorMock));
   });
 
-  it('should return not found (404) if CreateRentUseCase throws CarNotFoundWithThisIdError', async () => {
-    const error = new CarNotFoundWithProvidedIdError();
+  it('should return not found (404) if CreateRentUseCase throws CarNotFoundWithProvidedIdError', async () => {
+    const errorMock = new CarNotFoundWithProvidedIdError();
 
-    jest.spyOn(createRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
+    jest
+      .spyOn(createRentUseCaseSpy, 'execute')
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await createRentController.handle(
-      createRentControllerRequestMock
-    );
+    const request = makeCreateRentControllerRequestMock();
 
-    expect(response).toEqual(notFound(error));
+    const response = await createRentController.handle(request);
+
+    expect(response).toEqual(notFound(errorMock));
   });
 
   it('should return unprocessable entity (422) if CreateRentUseCase throws InvalidRentDurationTimeError', async () => {
-    const error = new InvalidRentDurationTimeError();
+    const errorMock = new InvalidRentDurationTimeError();
 
-    jest.spyOn(createRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
+    jest
+      .spyOn(createRentUseCaseSpy, 'execute')
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await createRentController.handle(
-      createRentControllerRequestMock
-    );
+    const request = makeCreateRentControllerRequestMock();
 
-    expect(response).toEqual(unprocessableEntity(error));
+    const response = await createRentController.handle(request);
+
+    expect(response).toEqual(unprocessableEntity(errorMock));
   });
 
-  it('should return conflict (409) if CreateRentUseCase throws RentAlreadyExistsInThisDateForThisCarError', async () => {
-    const error = new CarAlreadyBookedOnThisDateError();
+  it('should return conflict (409) if CreateRentUseCase throws CarAlreadyBookedOnThisDateError', async () => {
+    const errorMock = new CarAlreadyBookedOnThisDateError();
 
-    jest.spyOn(createRentUseCaseSpy, 'execute').mockRejectedValueOnce(error);
+    jest
+      .spyOn(createRentUseCaseSpy, 'execute')
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await createRentController.handle(
-      createRentControllerRequestMock
-    );
+    const request = makeCreateRentControllerRequestMock();
 
-    expect(response).toEqual(conflict(error));
+    const response = await createRentController.handle(request);
+
+    expect(response).toEqual(conflict(errorMock));
   });
 
   it('should return created (201) on success', async () => {
-    const response = await createRentController.handle(
-      createRentControllerRequestMock
-    );
+    const request = makeCreateRentControllerRequestMock();
+
+    const response = await createRentController.handle(request);
 
     expect(response).toEqual(created<void>());
   });

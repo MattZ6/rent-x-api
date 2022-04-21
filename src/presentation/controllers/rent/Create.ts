@@ -1,18 +1,18 @@
 import {
+  UserNotFoundWithProvidedIdError,
+  UserHasOutstandingRentPaymentsError,
   CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
-  UserHasOutstandingRentPaymentsError,
-  UserNotFoundWithProvidedIdError,
 } from '@domain/errors';
 import { ICreateRentUseCase } from '@domain/usecases/rent/Create';
 
 import {
-  conflict,
   created,
   notFound,
   paymentRequired,
   unprocessableEntity,
+  conflict,
 } from '@presentation/helpers/http';
 import {
   IController,
@@ -65,13 +65,13 @@ class CreateRentController implements IController {
 }
 
 namespace CreateRentController {
-  type CreateRentBodyRequest = {
+  type RequestBody = {
     car_id: string;
     start_date: Date;
     end_date: Date;
   };
 
-  export type Request = IHttpRequest<CreateRentBodyRequest, void, void>;
+  export type Request = IHttpRequest<RequestBody, void, void, void>;
 
   export type Response = IHttpResponse;
 }
