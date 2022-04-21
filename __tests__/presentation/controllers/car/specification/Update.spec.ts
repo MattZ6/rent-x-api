@@ -1,14 +1,15 @@
 import {
-  CarSpecificationAlreadyExistsWithProvidedNameError,
   CarSpecificationNotFoundWithProvidedIdError,
+  CarSpecificationAlreadyExistsWithProvidedNameError,
 } from '@domain/errors';
 
 import { UpdateCarSpecificationController } from '@presentation/controllers/car/specification/Update';
-import { conflict, noContent, notFound } from '@presentation/helpers/http';
+import { notFound, conflict, noContent } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../../domain';
 import {
-  updateCarSpecificationControllerRequestMock,
   UpdateCarSpecificationUseCaseSpy,
+  makeUpdateCarSpecificationControllerRequestMock,
 } from '../../../mocks';
 
 let updateCarSpecificationUseCaseSpy: UpdateCarSpecificationUseCaseSpy;
@@ -27,62 +28,64 @@ describe('UpdateCarSpecificationController', () => {
   it('should call UpdateCarSpecificationUseCase once with correct values', async () => {
     const executeSpy = jest.spyOn(updateCarSpecificationUseCaseSpy, 'execute');
 
-    await updateCarSpecificationController.handle(
-      updateCarSpecificationControllerRequestMock
-    );
+    const request = makeUpdateCarSpecificationControllerRequestMock();
+
+    await updateCarSpecificationController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      id: updateCarSpecificationControllerRequestMock.params.id,
-      name: updateCarSpecificationControllerRequestMock.body.name,
-      description: updateCarSpecificationControllerRequestMock.body.description,
+      id: request.params.id,
+      name: request.body.name,
+      description: request.body.description,
     });
   });
 
   it('should throw if UpdateCarSpecificationUseCase throws', async () => {
+    const errorMock = makeErrorMock();
+
     jest
       .spyOn(updateCarSpecificationUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(new Error());
+      .mockRejectedValueOnce(errorMock);
 
-    const promise = updateCarSpecificationController.handle(
-      updateCarSpecificationControllerRequestMock
-    );
+    const request = makeUpdateCarSpecificationControllerRequestMock();
 
-    await expect(promise).rejects.toThrow();
+    const promise = updateCarSpecificationController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
   });
 
-  it('should return not found (404) if UpdateCarSpecificationUseCase throws CarSpecificationNotFoundWithThisIdError', async () => {
-    const error = new CarSpecificationNotFoundWithProvidedIdError();
+  it('should return not found (404) if UpdateCarSpecificationUseCase throws CarSpecificationNotFoundWithProvidedIdError', async () => {
+    const errorMock = new CarSpecificationNotFoundWithProvidedIdError();
 
     jest
       .spyOn(updateCarSpecificationUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await updateCarSpecificationController.handle(
-      updateCarSpecificationControllerRequestMock
-    );
+    const request = makeUpdateCarSpecificationControllerRequestMock();
 
-    expect(response).toEqual(notFound(error));
+    const response = await updateCarSpecificationController.handle(request);
+
+    expect(response).toEqual(notFound(errorMock));
   });
 
-  it('should return conflict (409) if UpdateCarSpecificationUseCase throws CarSpecificationAlreadyExistsWithThisNameError', async () => {
-    const error = new CarSpecificationAlreadyExistsWithProvidedNameError();
+  it('should return conflict (409) if UpdateCarSpecificationUseCase throws CarSpecificationAlreadyExistsWithProvidedNameError', async () => {
+    const errorMock = new CarSpecificationAlreadyExistsWithProvidedNameError();
 
     jest
       .spyOn(updateCarSpecificationUseCaseSpy, 'execute')
-      .mockRejectedValueOnce(error);
+      .mockRejectedValueOnce(errorMock);
 
-    const response = await updateCarSpecificationController.handle(
-      updateCarSpecificationControllerRequestMock
-    );
+    const request = makeUpdateCarSpecificationControllerRequestMock();
 
-    expect(response).toEqual(conflict(error));
+    const response = await updateCarSpecificationController.handle(request);
+
+    expect(response).toEqual(conflict(errorMock));
   });
 
   it('should return no content (204) on success', async () => {
-    const response = await updateCarSpecificationController.handle(
-      updateCarSpecificationControllerRequestMock
-    );
+    const request = makeUpdateCarSpecificationControllerRequestMock();
+
+    const response = await updateCarSpecificationController.handle(request);
 
     expect(response).toEqual(noContent());
   });
