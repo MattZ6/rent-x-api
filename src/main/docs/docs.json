@@ -53,6 +53,63 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "required",
+                        "value": null,
+                        "message": "The email field is required."
+                      }
+                    }
+                  },
+                  "Email invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The email is invalid."
+                      }
+                    }
+                  },
+                  "Password required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password",
+                        "type": "required",
+                        "value": null,
+                        "message": "The password field is required."
+                      }
+                    }
+                  },
+                  "Password min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The password must have at least 6 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not found",
             "content": {
