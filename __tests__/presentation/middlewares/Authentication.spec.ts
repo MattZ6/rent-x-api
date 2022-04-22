@@ -7,11 +7,11 @@ import { unauthorized, ok } from '@presentation/helpers/http';
 import { AuthenticationMiddleware } from '@presentation/middlewares/Authentication';
 
 import {
-  makeVerifyCriptographyProviderOutputMock,
   VerifyCriptographyProviderSpy,
+  makeVerifyCriptographyProviderOutputMock,
 } from '../../application/mocks';
 import { makeErrorMock } from '../../domain';
-import { makeAuthenticationMiddlewareRequestMock } from '../mocks/middlewares';
+import { makeAuthenticationMiddlewareRequestMock } from '../mocks';
 
 let verifyCriptographyProviderSpy: VerifyCriptographyProviderSpy;
 

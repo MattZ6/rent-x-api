@@ -4,15 +4,23 @@ import {
 } from '@domain/errors';
 import { IAuthenticateUserUseCase } from '@domain/usecases/user/Authenticate';
 
-import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
+import { ValidationError } from '@presentation/errors';
+import {
+  badRequest,
+  notFound,
+  ok,
+  unprocessableEntity,
+} from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class AuthenticateUserController implements IController {
   constructor(
+    private readonly validation: IValidation,
     private readonly authenticateUserUseCase: IAuthenticateUserUseCase
   ) {}
 
@@ -20,6 +28,12 @@ class AuthenticateUserController implements IController {
     request: AuthenticateUserController.Request
   ): Promise<AuthenticateUserController.Response> {
     try {
+      const validationError = this.validation.validate(request.body);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { email, password } = request.body;
 
       const authentication = await this.authenticateUserUseCase.execute({
@@ -29,6 +43,10 @@ class AuthenticateUserController implements IController {
 
       return ok(authentication);
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof UserNotFoundWithProvidedEmailError) {
         return notFound(error);
       }
