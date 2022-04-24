@@ -44,7 +44,7 @@
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-import-helpers": "1.2.1",
     "eslint-plugin-prettier": "4.0.0",
-    "git-commit-msg-linter": "4.1.1",
+    "git-commit-msg-linter": "4.1.2",
     "jest": "27.5.1",
     "prettier": "2.6.2",
     "supertest": "6.2.2",
