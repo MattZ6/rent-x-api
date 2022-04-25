@@ -10,12 +10,12 @@ import { makeSendForgotUserPasswordMailController } from '@main/factories/contro
 const authenticationRoutes = Router();
 
 authenticationRoutes.post(
-  '/account',
+  '/sign/up',
   adaptRoute(makeCreateAccountController())
 );
 
 authenticationRoutes.post(
-  '/login',
+  '/sign/in',
   adaptRoute(makeAuthenticateUserController())
 );
 
