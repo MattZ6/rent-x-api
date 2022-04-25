@@ -145,6 +145,209 @@
           }
         }
       }
+    },
+    "/v1/auth/sign/up": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a new driver",
+        "description": "Create a new driver",
+        "requestBody": {
+          "required": true,
+          "description": "Driver's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Jane Driver",
+                "driver_license": "47432729908",
+                "email": "jane.driver@rentx.com",
+                "password": "janedriverpassword",
+                "password_confirmation": "janedriverpassword"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateDriverData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Driver license required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "driver_license",
+                        "type": "required",
+                        "value": null,
+                        "message": "The driver_license field is required."
+                      }
+                    }
+                  },
+                  "Driver license invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "driver_license",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The driver_license is invalid."
+                      }
+                    }
+                  },
+                  "Email required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "required",
+                        "value": null,
+                        "message": "The email field is required."
+                      }
+                    }
+                  },
+                  "Email invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The email is invalid."
+                      }
+                    }
+                  },
+                  "Password required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password",
+                        "type": "required",
+                        "value": null,
+                        "message": "The password field is required."
+                      }
+                    }
+                  },
+                  "Password min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The password must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Password confirmation required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password_confirmation",
+                        "type": "required",
+                        "value": null,
+                        "message": "The password_confirmation field is required."
+                      }
+                    }
+                  },
+                  "Password confirmation min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password_confirmation",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The password_confirmation must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Passwords not match": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password_confirmation",
+                        "type": "divergent",
+                        "value": null,
+                        "message": "The value of the password_confirmation field is different from the value of the password field"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Driver license already in use": {
+                    "value": {
+                      "code": "user.driver_license.in_use",
+                      "message": "There is already a registered user with this driver license."
+                    }
+                  },
+                  "Email already in use": {
+                    "value": {
+                      "code": "user.email.in_use",
+                      "message": "There is already a registered user with this email."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -164,8 +367,27 @@
         "type": "object",
         "properties": {
           "refresh_token": {
-            "type": "string",
-            "example": "..."
+            "type": "string"
+          }
+        }
+      },
+      "CreateDriverData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "driver_license": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "password_confirmation": {
+            "type": "string"
           }
         }
       }
