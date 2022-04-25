@@ -20,7 +20,7 @@ authenticationRoutes.post(
 );
 
 authenticationRoutes.post(
-  '/refresh-token',
+  '/refresh',
   adaptRoute(makeRefreshUserAccessTokenController())
 );
 
