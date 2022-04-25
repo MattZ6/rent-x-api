@@ -348,6 +348,51 @@
           }
         }
       }
+    },
+    "/v1/profile": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Gets the profile data",
+        "description": "Gets the profile data of the authenticated user",
+        "security": [{ "userAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "...",
+                  "name": "John Driver",
+                  "driver_license": "26786579871",
+                  "email": "john.driver@rentx.com"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user.not.exists",
+                  "message": "No users found with the id provided."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
