@@ -449,6 +449,160 @@
         }
       }
     },
+    "/v1/auth/password/reset": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Reset a user's password",
+        "description": "Reset a user's password",
+        "requestBody": {
+          "required": true,
+          "description": "Password reset data",
+          "content": {
+            "application/json": {
+              "example": {
+                "token": "...",
+                "new_password": "newpassword",
+                "new_password_confirmation": "newpassword"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/PasswordReset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Token required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "token",
+                        "type": "required",
+                        "value": null,
+                        "message": "The token field is required."
+                      }
+                    }
+                  },
+                  "Token invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "token",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The token is not a valid UUID."
+                      }
+                    }
+                  },
+                  "New password required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password",
+                        "type": "required",
+                        "value": null,
+                        "message": "The new_password field is required."
+                      }
+                    }
+                  },
+                  "New password min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The new_password must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "New password confirmation required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password_confirmation",
+                        "type": "required",
+                        "value": null,
+                        "message": "The new_password_confirmation field is required."
+                      }
+                    }
+                  },
+                  "New password confirmation min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password_confirmation",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The new_password_confirmation must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Passwords not match": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password_confirmation",
+                        "type": "divergent",
+                        "value": null,
+                        "message": "The value of the new_password_confirmation field is different from the value of the new_password field"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user_token.not.exists",
+                  "message": "Token not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user_token.expired",
+                  "message": "Token has expired."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/profile": {
       "get": {
         "tags": ["User"],
@@ -512,6 +666,20 @@
         "type": "object",
         "properties": {
           "refresh_token": {
+            "type": "string"
+          }
+        }
+      },
+      "PasswordReset": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "new_password": {
+            "type": "string"
+          },
+          "new_password_confirmation": {
             "type": "string"
           }
         }
