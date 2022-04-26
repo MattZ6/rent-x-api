@@ -16,7 +16,7 @@
   - [x] It should be possible to list all car specifications **with paging**;
   - [x] It should be possible to list all car specifications sorted by **name** or **creation date**;
   - [x] By default it should list **10** car specifications sorted by **name** from **A to Z**;
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
   - [ ] Only administrators can list car specifications.
 
 - 📅 **Delete specification**
