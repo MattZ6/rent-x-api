@@ -1,15 +1,18 @@
 import { CarCategoryAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { ICreateCarCategoryUseCase } from '@domain/usecases/car/category/Create';
 
-import { created, conflict } from '@presentation/helpers/http';
+import { ValidationError } from '@presentation/errors';
+import { created, conflict, badRequest } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class CreateCarCategoryController implements IController {
   constructor(
+    private readonly validation: IValidation,
     private readonly createCarCategoryUseCase: ICreateCarCategoryUseCase
   ) {}
 
@@ -17,6 +20,12 @@ class CreateCarCategoryController implements IController {
     request: CreateCarCategoryController.Request
   ): Promise<CreateCarCategoryController.Response> {
     try {
+      const validationError = this.validation.validate(request.body);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { name, description } = request.body;
 
       await this.createCarCategoryUseCase.execute({
@@ -26,6 +35,10 @@ class CreateCarCategoryController implements IController {
 
       return created<void>();
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof CarCategoryAlreadyExistsWithProvidedNameError) {
         return conflict(error);
       }
@@ -36,7 +49,7 @@ class CreateCarCategoryController implements IController {
 }
 
 namespace CreateCarCategoryController {
-  type RequestBody = {
+  export type RequestBody = {
     name: string;
     description: string;
   };
