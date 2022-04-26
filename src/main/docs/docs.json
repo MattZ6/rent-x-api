@@ -24,6 +24,10 @@
       "description": "Endpoints related to the Car Brand's scope"
     },
     {
+      "name": "Category",
+      "description": "Endpoints related to the Car Category's scope"
+    },
+    {
       "name": "Admin",
       "description": "Private endpoints for administrative use"
     }
@@ -1191,6 +1195,116 @@
           }
         }
       }
+    },
+    "/v1/categories": {
+      "post": {
+        "tags": ["Category", "Admin"],
+        "summary": "Creates a new Car Category",
+        "description": "Performs the creation of a new Car Category",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Category's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "SUV",
+                "description": "Sport utility vehicle or sports utility vehicle: a large powerful car with an engine that supplies power to all four wheels."
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarCategoryData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 6 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.category.exists",
+                  "message": "There is already a registered car category with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1268,6 +1382,17 @@
         "type": "object",
         "properties": {
           "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateCarCategoryData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
             "type": "string"
           }
         }

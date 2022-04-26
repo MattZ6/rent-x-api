@@ -3,7 +3,7 @@
 - 📅 **Create category**
   - [x] It should be possible to create a car category with **name** and **description**;
   - [x] It must not be possible to create a car category with the **name** of another;
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
   - [ ] Only administrators can create car categories.
 
 - 📅 **Update category**
