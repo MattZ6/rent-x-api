@@ -22,5 +22,5 @@
 - 📅 **Delete specification**
   - [x] It must be possible to delete a car specification using the id;
   - [x] When deleting a specification, its relationship to a car must also be deleted;
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
   - [ ] Only administrators can delete car specifications.

@@ -1863,7 +1863,7 @@
             "content": {
               "application/json": {
                 "examples": {
-                  "Car category id required": {
+                  "Car specification id required": {
                     "value": {
                       "code": "validation",
                       "message": "Validation error",
@@ -1875,7 +1875,7 @@
                       }
                     }
                   },
-                  "Car category id invalid": {
+                  "Car specification id invalid": {
                     "value": {
                       "code": "validation",
                       "message": "Validation error",
@@ -1984,6 +1984,108 @@
                 "example": {
                   "code": "car.specification.exists",
                   "message": "There is already a registered car specification with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Specification", "Admin"],
+        "summary": "Deletes an existing Car Specification",
+        "description": "Performs a deletion of an existing Car Specification",
+        "security": [{ "userAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The id of the Car Specification to update."
+        }],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car specification id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car specification id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.specification.not.exists",
+                  "message": "No car specification found with the id provided."
                 }
               }
             }
