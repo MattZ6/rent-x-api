@@ -18,6 +18,14 @@
     {
       "name": "User",
       "description": "Endpoints related to the Users's scope"
+    },
+    {
+      "name": "Brand",
+      "description": "Endpoints related to the Car Brand's scope"
+    },
+    {
+      "name": "Admin",
+      "description": "Private endpoints for administrative use"
     }
   ],
   "paths": {
@@ -717,6 +725,88 @@
           }
         }
       }
+    },
+    "/v1/brands": {
+      "post": {
+        "tags": ["Brand", "Admin"],
+        "summary": "Creates a new car brand",
+        "description": "Performs the creation of a new car brand",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Brand's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Hyundai"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarBrandData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 6 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.brand.exists",
+                  "message": "There is already a registered car brand with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -778,6 +868,14 @@
             "type": "string"
           },
           "password_confirmation": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateCarBrandData": {
+        "type": "object",
+        "properties": {
+          "name": {
             "type": "string"
           }
         }
