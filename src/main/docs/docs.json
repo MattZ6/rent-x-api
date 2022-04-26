@@ -806,7 +806,7 @@
                         "field": "name",
                         "type": "minlength",
                         "value": 3,
-                        "message": "The name must have at least 6 characters"
+                        "message": "The name must have at least 3 characters"
                       }
                     }
                   }
@@ -1125,7 +1125,7 @@
                         "field": "name",
                         "type": "minlength",
                         "value": 3,
-                        "message": "The name must have at least 6 characters"
+                        "message": "The name must have at least 3 characters"
                       }
                     }
                   }
@@ -1246,7 +1246,31 @@
                         "field": "name",
                         "type": "minlength",
                         "value": 3,
-                        "message": "The name must have at least 6 characters"
+                        "message": "The name must have at least 3 characters"
+                      }
+                    }
+                  },
+                  "Description required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "required",
+                        "value": null,
+                        "message": "The description field is required."
+                      }
+                    }
+                  },
+                  "Description min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The description must have at least 3 characters"
                       }
                     }
                   }
@@ -1277,6 +1301,184 @@
                       "message": "The token is expired."
                     }
                   }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.category.exists",
+                  "message": "There is already a registered car category with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/categories/{id}": {
+      "put": {
+        "tags": ["Category", "Admin"],
+        "summary": "Updates an existing Car Category",
+        "description": "Performs an update of an existing Car Category",
+        "security": [{ "userAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The id of the Car Category to update."
+        }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Category's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Sedan",
+                "description": "A type of car with two or four doors and seats for at least four people"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCarCategoryData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car category id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car category id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Description required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "required",
+                        "value": null,
+                        "message": "The description field is required."
+                      }
+                    }
+                  },
+                  "Description min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The description must have at least 3 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.category.not.exists",
+                  "message": "No car category found with the id provided."
                 }
               }
             }
@@ -1387,6 +1589,17 @@
         }
       },
       "CreateCarCategoryData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateCarCategoryData": {
         "type": "object",
         "properties": {
           "name": {

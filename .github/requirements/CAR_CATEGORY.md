@@ -9,10 +9,10 @@
 - 📅 **Update category**
   - [x] It should be possible to update a car category (**name** and **description**);
   - [x] It must not be possible to update a car category with the **name** of another;
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
   - [ ] Only administrators can update car categories.
 
-- ✔ **List categories**
+- 📅 **List categories**
   - [x] It should be possible to list all car categories **with paging**;
   - [x] It should be possible to list all car categories sorted by **name** or **creation date**;
   - [x] By default it should list **10** car categories sorted by **name** from **A to Z**.
