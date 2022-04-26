@@ -24,6 +24,7 @@ class ListAllCarBrandsController implements IController {
       if (validationError) {
         throw validationError;
       }
+
       const { sort_by, order_by, limit, offset } = request.query;
 
       const output = await this.listAllCarBrandsUseCase.execute({
