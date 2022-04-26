@@ -9,7 +9,7 @@
 - 📅 **Update specification**
   - [x] It should be possible to update a car specification (**name** and **description**);
   - [x] It must not be possible to update a car specification with the **name** of another;
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
   - [ ] Only administrators can update car brands.
 
 - 📅 **List all specifications**
