@@ -603,6 +603,76 @@
         }
       }
     },
+    "/v1/auth/password/forgot": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Starts the user password reset flow",
+        "description": "Starts the user password reset flow",
+        "requestBody": {
+          "required": true,
+          "description": "The email from the user",
+          "content": {
+            "application/json": {
+              "example": {
+                "email": "jane.driver@rentx.com"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/PasswordForgot"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "required",
+                        "value": null,
+                        "message": "The email field is required."
+                      }
+                    }
+                  },
+                  "Email invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The email is invalid."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/profile": {
       "get": {
         "tags": ["User"],
@@ -680,6 +750,14 @@
             "type": "string"
           },
           "new_password_confirmation": {
+            "type": "string"
+          }
+        }
+      },
+      "PasswordForgot": {
+        "type": "object",
+        "properties": {
+          "email": {
             "type": "string"
           }
         }
