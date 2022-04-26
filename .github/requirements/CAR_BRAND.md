@@ -17,4 +17,4 @@
   - [x] It should be possible to list all car brands sorted by **name** or **creation date**;
   - [x] By default it should list **10** car brands sorted by **name** from **A to Z**.
   - [x] Non authenticated users can list the car brands;
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
