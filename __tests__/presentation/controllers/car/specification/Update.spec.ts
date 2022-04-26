@@ -4,25 +4,77 @@ import {
 } from '@domain/errors';
 
 import { UpdateCarSpecificationController } from '@presentation/controllers/car/specification/Update';
-import { notFound, conflict, noContent } from '@presentation/helpers/http';
+import {
+  notFound,
+  conflict,
+  noContent,
+  badRequest,
+} from '@presentation/helpers/http';
 
 import { makeErrorMock } from '../../../../domain';
 import {
   UpdateCarSpecificationUseCaseSpy,
   makeUpdateCarSpecificationControllerRequestMock,
+  ValidationSpy,
+  makeValidationErrorMock,
 } from '../../../mocks';
 
+let validationSpy: ValidationSpy;
 let updateCarSpecificationUseCaseSpy: UpdateCarSpecificationUseCaseSpy;
 
 let updateCarSpecificationController: UpdateCarSpecificationController;
 
 describe('UpdateCarSpecificationController', () => {
   beforeEach(() => {
+    validationSpy = new ValidationSpy();
     updateCarSpecificationUseCaseSpy = new UpdateCarSpecificationUseCaseSpy();
 
     updateCarSpecificationController = new UpdateCarSpecificationController(
+      validationSpy,
       updateCarSpecificationUseCaseSpy
     );
+  });
+
+  it('should call Validation once with correct values', async () => {
+    const validateSpy = jest.spyOn(validationSpy, 'validate');
+
+    const request = makeUpdateCarSpecificationControllerRequestMock();
+
+    await updateCarSpecificationController.handle(request);
+
+    expect(validateSpy).toHaveBeenCalledTimes(1);
+    expect(validateSpy).toHaveBeenCalledWith({
+      ...request.body,
+      ...request.params,
+    });
+  });
+
+  it('should throw if Validation throws', async () => {
+    const errorMock = makeErrorMock();
+
+    jest.spyOn(validationSpy, 'validate').mockImplementationOnce(() => {
+      throw errorMock;
+    });
+
+    const request = makeUpdateCarSpecificationControllerRequestMock();
+
+    const promise = updateCarSpecificationController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
+  });
+
+  it('should return bad request (400) if Validation returns a ValidationError', async () => {
+    const validationErrorMock = makeValidationErrorMock();
+
+    jest
+      .spyOn(validationSpy, 'validate')
+      .mockReturnValueOnce(validationErrorMock);
+
+    const request = makeUpdateCarSpecificationControllerRequestMock();
+
+    const response = await updateCarSpecificationController.handle(request);
+
+    expect(response).toEqual(badRequest(validationErrorMock));
   });
 
   it('should call UpdateCarSpecificationUseCase once with correct values', async () => {

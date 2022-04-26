@@ -1,4 +1,4 @@
-import { UpdateCarCategoryController } from '@presentation/controllers/car/category/Update';
+import { UpdateCarSpecificationController } from '@presentation/controllers/car/specification/Update';
 import {
   MinLengthFieldValidation,
   RequiredFieldValidation,
@@ -6,9 +6,9 @@ import {
   ValidationComposite,
 } from '@presentation/validations/validators';
 
-export function makeUpdateCarCategoryControllerValidation(): ValidationComposite {
-  type Input = UpdateCarCategoryController.RequestBody &
-    UpdateCarCategoryController.RequestParams;
+export function makeUpdateCarSpecificationControllerValidation(): ValidationComposite {
+  type Input = UpdateCarSpecificationController.RequestBody &
+    UpdateCarSpecificationController.RequestParams;
 
   return new ValidationComposite<Input>([
     new RequiredFieldValidation('id'),
