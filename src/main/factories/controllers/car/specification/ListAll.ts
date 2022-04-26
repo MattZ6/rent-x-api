@@ -2,15 +2,14 @@ import { ListAllCarSpecificationsController } from '@presentation/controllers/ca
 import { IController } from '@presentation/protocols';
 
 import { makeListAllCarSpecificationsUseCase } from '@main/factories/usecases/car/specifications/ListAll';
+import { makeListAllCarSpecificationsControllerValidation } from '@main/factories/validators/controllers/car/specification/ListAll';
 
 export function makeListAllCarSpecificationsController(): IController {
+  const validation = makeListAllCarSpecificationsControllerValidation();
   const listAllCarSpecificationsUseCase = makeListAllCarSpecificationsUseCase();
 
   return new ListAllCarSpecificationsController(
-    'name',
-    'ASC',
-    10,
-    1,
+    validation,
     listAllCarSpecificationsUseCase
   );
 }

@@ -1,30 +1,49 @@
 import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAll';
 
-import { ok } from '@presentation/helpers/http';
+import { ValidationError } from '@presentation/errors';
+import { badRequest, ok } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class ListAllCarSpecificationsController implements IController {
   constructor(
+    private readonly validation: IValidation,
     private readonly listAllCarSpecificationsUseCase: IListAllCarSpecificationsUseCase
   ) {}
 
   async handle(
     request: ListAllCarSpecificationsController.Request
   ): Promise<ListAllCarSpecificationsController.Response> {
-    const { sort_by, order_by, limit, offset } = request.query;
+    try {
+      const validationError = this.validation.validate(request.query);
 
-    const specifications = await this.listAllCarSpecificationsUseCase.execute({
-      sort_by,
-      order_by,
-      limit,
-      offset,
-    });
+      if (validationError) {
+        throw validationError;
+      }
 
-    return ok(specifications);
+      const { sort_by, order_by, limit, offset } = request.query;
+
+      const specifications = await this.listAllCarSpecificationsUseCase.execute(
+        {
+          sort_by,
+          order_by,
+          limit,
+          offset,
+        }
+      );
+
+      return ok(specifications);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
+      throw error;
+    }
   }
 }
 
@@ -34,7 +53,7 @@ namespace ListAllCarSpecificationsController {
   export type Limit = IListAllCarSpecificationsUseCase.Limit;
   export type Offset = IListAllCarSpecificationsUseCase.Offset;
 
-  type RequestQuery = {
+  export type RequestQuery = {
     sort_by?: SortBy;
     order_by?: OrderBy;
     limit?: Limit;
