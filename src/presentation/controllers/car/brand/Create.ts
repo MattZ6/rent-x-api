@@ -1,20 +1,31 @@
 import { CarBrandAlreadyExistsWithProvidedNameError } from '@domain/errors';
 import { ICreateCarBrandUseCase } from '@domain/usecases/car/brand/Create';
 
-import { created, conflict } from '@presentation/helpers/http';
+import { ValidationError } from '@presentation/errors';
+import { created, conflict, badRequest } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class CreateCarBrandController implements IController {
-  constructor(private readonly createCarBrandUseCase: ICreateCarBrandUseCase) {}
+  constructor(
+    private readonly validation: IValidation,
+    private readonly createCarBrandUseCase: ICreateCarBrandUseCase
+  ) {}
 
   async handle(
     request: CreateCarBrandController.Request
   ): Promise<CreateCarBrandController.Response> {
     try {
+      const validationError = this.validation.validate(request.body);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { name } = request.body;
 
       await this.createCarBrandUseCase.execute({
@@ -23,6 +34,10 @@ class CreateCarBrandController implements IController {
 
       return created<void>();
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof CarBrandAlreadyExistsWithProvidedNameError) {
         return conflict(error);
       }
@@ -33,7 +48,7 @@ class CreateCarBrandController implements IController {
 }
 
 namespace CreateCarBrandController {
-  type RequestBody = {
+  export type RequestBody = {
     name: string;
   };
 
