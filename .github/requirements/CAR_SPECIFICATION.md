@@ -3,7 +3,7 @@
 - 📅 **Create specification**
   - [x] It should be possible to create a car specification with **name** and **description**;
   - [x] It must not be possible to create a car specification with the **name** of another;
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
   - [ ] Only administrators can create car specifications.
 
 - 📅 **Update specification**
