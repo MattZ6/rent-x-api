@@ -729,8 +729,8 @@
     "/v1/brands": {
       "post": {
         "tags": ["Brand", "Admin"],
-        "summary": "Creates a new car brand",
-        "description": "Performs the creation of a new car brand",
+        "summary": "Creates a new Car Brand",
+        "description": "Performs the creation of a new Car Brand",
         "security": [{ "userAuth": [] }],
         "requestBody": {
           "required": true,
@@ -779,6 +779,132 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.brand.exists",
+                  "message": "There is already a registered car brand with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/brands/{id}": {
+      "put": {
+        "tags": ["Brand", "Admin"],
+        "summary": "Updates an existing Car Brand",
+        "description": "Performs an update of an existing Car Brand",
+        "security": [{ "userAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The id of the Car Brand to update."
+        }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Brand's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Ferrari"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCarBrandData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car brand id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car brand id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 6 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.brand.not.exists",
+                  "message": "No car brand found with the id provided."
                 }
               }
             }
@@ -873,6 +999,14 @@
         }
       },
       "CreateCarBrandData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateCarBrandData": {
         "type": "object",
         "properties": {
           "name": {
