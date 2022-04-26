@@ -4,7 +4,9 @@ import {
 } from '@domain/errors';
 import { IResetUserPasswordUseCase } from '@domain/usecases/user/ResetPassword';
 
+import { ValidationError } from '@presentation/errors';
 import {
+  badRequest,
   noContent,
   notFound,
   unprocessableEntity,
@@ -13,10 +15,12 @@ import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class ResetUserPasswordController implements IController {
   constructor(
+    private readonly validation: IValidation,
     private readonly resetUserPasswordUseCase: IResetUserPasswordUseCase
   ) {}
 
@@ -24,6 +28,12 @@ class ResetUserPasswordController implements IController {
     request: ResetUserPasswordController.Request
   ): Promise<ResetUserPasswordController.Response> {
     try {
+      const validationError = this.validation.validate(request.body);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { token, new_password } = request.body;
 
       await this.resetUserPasswordUseCase.execute({
@@ -33,6 +43,10 @@ class ResetUserPasswordController implements IController {
 
       return noContent();
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof UserTokenNotFoundWithProvidedTokenError) {
         return notFound(error);
       }
@@ -47,7 +61,7 @@ class ResetUserPasswordController implements IController {
 }
 
 namespace ResetUserPasswordController {
-  type RequestBody = {
+  export type RequestBody = {
     token: string;
     new_password: string;
   };
