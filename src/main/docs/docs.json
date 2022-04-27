@@ -32,6 +32,10 @@
       "description": "Endpoints related to the Car Specification's scope"
     },
     {
+      "name": "Car",
+      "description": "Endpoints related to the Car's scope"
+    },
+    {
       "name": "Admin",
       "description": "Private endpoints for administrative use"
     }
@@ -2284,6 +2288,455 @@
           }
         }
       }
+    },
+    "/v1/cars": {
+      "post": {
+        "tags": ["Car", "Admin"],
+        "summary": "Creates a new Car",
+        "description": "Performs the creation of a new Car",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "Car's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "A3",
+                "description": "Your gaze is immediately drawn to the striking Singleframe front grille, which has become wider and beehive-like. On the side, the continuous shoulder line extends to the tailgate, emphasizing the length of the new Audi A3 Sedan. To complete the striking look, the width of the model provides a sportier characteristic.",
+                "category_id": "...",
+                "brand_id": "...",
+                "daily_rate": 199.9824,
+                "license_plate": "XXX6661",
+                "daily_late_fee": 321.42,
+                "horse_power": 10000,
+                "max_speed": 310,
+                "number_of_seats": 5,
+                "transmission_type": "MANUAL",
+                "type_of_fuel": "GAS",
+                "zero_to_one_hundred_in_millisseconds": 7800,
+                "specifications_ids": []
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Brand id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "brand_id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The brand_id field is required."
+                      }
+                    }
+                  },
+                  "Brand id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "brand_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The brand_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Category id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "category_id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The category_id field is required."
+                      }
+                    }
+                  },
+                  "Category id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "category_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The category_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Daily late fee required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "daily_late_fee",
+                        "type": "required",
+                        "value": null,
+                        "message": "The daily_late_fee field is required."
+                      }
+                    }
+                  },
+                  "Daily late fee only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "daily_late_fee",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of daily_late_fee must contain only numbers"
+                      }
+                    }
+                  },
+                  "Daily rate required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "daily_rate",
+                        "type": "required",
+                        "value": null,
+                        "message": "The daily_rate field is required."
+                      }
+                    }
+                  },
+                  "Daily rate only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "daily_rate",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of daily_rate must contain only numbers"
+                      }
+                    }
+                  },
+                  "Description required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "required",
+                        "value": null,
+                        "message": "The description field is required."
+                      }
+                    }
+                  },
+                  "Description min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The description must have at least 3 characters"
+                      }
+                    }
+                  },
+                  "Horse power required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "horse_power",
+                        "type": "required",
+                        "value": null,
+                        "message": "The horse_power field is required."
+                      }
+                    }
+                  },
+                  "Horse power only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "horse_power",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of horse_power must contain only numbers"
+                      }
+                    }
+                  },
+                  "License plate required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "license_plate",
+                        "type": "required",
+                        "value": null,
+                        "message": "The license_plate field is required."
+                      }
+                    }
+                  },
+                  "License plate invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "license_plate",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The license_plate is invalid."
+                      }
+                    }
+                  },
+                  "Max speed required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "max_speed",
+                        "type": "required",
+                        "value": null,
+                        "message": "The max_speed field is required."
+                      }
+                    }
+                  },
+                  "Max speed only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "max_speed",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of max_speed must contain only numbers"
+                      }
+                    }
+                  },
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 3 characters"
+                      }
+                    }
+                  },
+                  "Number of seats required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "number_of_seats",
+                        "type": "required",
+                        "value": null,
+                        "message": "The number_of_seats field is required."
+                      }
+                    }
+                  },
+                  "Number of seats only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "number_of_seats",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of number_of_seats must contain only numbers"
+                      }
+                    }
+                  },
+                  "Specification ids uuids list invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "number_of_seats",
+                        "type": "number",
+                        "value": null,
+                        "message": "The number_of_seats is not a list of valid UUID's."
+                      }
+                    }
+                  },
+                  "Transmission type required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "transmission_type",
+                        "type": "required",
+                        "value": null,
+                        "message": "The transmission_type field is required."
+                      }
+                    }
+                  },
+                  "Transmission type invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "transmission_type",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The value of the transmission_type field is not one of AUTO, MANUAL values"
+                      }
+                    }
+                  },
+                  "Type of fuel required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "type_of_fuel",
+                        "type": "required",
+                        "value": null,
+                        "message": "The type_of_fuel field is required."
+                      }
+                    }
+                  },
+                  "Type of fuel invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "type_of_fuel",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The value of the type_of_fuel field is not one of ALCOHOL, ELETRICITY, GAS values"
+                      }
+                    }
+                  },
+                  "Zero to one hundred in millisseconds required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "zero_to_one_hundred_in_millisseconds",
+                        "type": "required",
+                        "value": null,
+                        "message": "The zero_to_one_hundred_in_millisseconds field is required."
+                      }
+                    }
+                  },
+                  "Zero to one hundred in millisseconds only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "zero_to_one_hundred_in_millisseconds",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of zero_to_one_hundred_in_millisseconds must contain only numbers"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car brand not exists": {
+                    "value": {
+                      "code": "No car brand found with the id provided.",
+                      "message": "car.brand.not.exists"
+                    }
+                  },
+                  "Car category not exists": {
+                    "value": {
+                      "code": "No car categories found with the id provided.",
+                      "message": "car.category.not.exists"
+                    }
+                  },
+                  "One or more car specifications not exists": {
+                    "value": {
+                      "code": "One or more car specificationss not found with the provided ids.",
+                      "message": "car.specification.not.exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.exists",
+                  "message": "There is already a registered car with this license plate."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2406,6 +2859,53 @@
           },
           "description": {
             "type": "string"
+          }
+        }
+      },
+      "CreateCarData": {
+        "type": "object",
+        "properties": {
+          "brand_id": {
+            "type": "string"
+          },
+          "category_id": {
+            "type": "string"
+          },
+          "daily_late_fee": {
+            "type": "number"
+          },
+          "daily_rate": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "horse_power": {
+            "type": "number"
+          },
+          "license_plate": {
+            "type": "string"
+          },
+          "max_speed": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "number_of_seats": {
+            "type": "integer"
+          },
+          "specifications_ids": {
+            "type": "array"
+          },
+          "transmission_type": {
+            "type": "string"
+          },
+          "type_of_fuel": {
+            "type": "string"
+          },
+          "zero_to_one_hundred_in_millisseconds": {
+            "type": "number"
           }
         }
       }

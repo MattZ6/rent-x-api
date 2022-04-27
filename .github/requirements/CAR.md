@@ -3,7 +3,7 @@
 - 📅 **Create car**
   - [x] It should be possible to create a car with a **name**, **description**, **brand**, **category**, **license plate**, **maximum speed**, **horse power**, **number of seats**, **type of fuel (eletricity, gas or alcohol)**, **type of transmission (auto or manual)**, **time to get 100kmph**, **daily rate**, **fine amount** and optionaly some **specifications**;
   - [x] It must not be possible to create a car with the **license plate** of another;
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
   - [ ] Only administrators can create cars.
 
 - 📅 **Car specifications**
