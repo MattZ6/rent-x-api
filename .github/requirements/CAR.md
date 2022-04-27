@@ -26,8 +26,8 @@
   - [x] It should be possible to list all cars **with paging**;
   - [x] It should be possible to list all cars sorted by **name**, **number of seats**, **maximum speed**, **horse power** or **creation date**;
   - [x] By default it should list **10** cars sorted by **name** from **A to Z**;
-  - [ ] It should be possible to filter cars by **brand** and **category**;
-  - [ ] Add API documentation;
+  - [x] It should be possible to filter cars by **brand** and **category**;
+  - [x] Add API documentation;
   - [ ] Only administrators can view all cars.
 
 - 📅 **List available cars**

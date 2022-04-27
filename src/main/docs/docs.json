@@ -2736,6 +2736,287 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": ["Car", "Admin"],
+        "summary": "Query all Cars",
+        "description": "Query all Cars",
+        "security": [{ "userAuth": [] }],
+        "parameters": [
+          {
+            "name": "sort_by",
+            "description": "The sort by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["created_at", "horse_power", "max_speed", "name", "number_of_seats"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "order_by",
+            "description": "The order by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "description": "The limit value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "offset",
+            "description": "The offset value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "brand_id",
+            "description": "The brand id value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "category_id",
+            "description": "The category id value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "...",
+                    "name": "A4",
+                    "description": "...",
+                    "license_plate": "XXX6661",
+                    "daily_rate": 120.8742,
+                    "brand": {
+                      "name": "Audi"
+                    },
+                    "category": {
+                      "name": "Sedan",
+                      "description": "..."
+                    },
+                    "type_of_fuel": "GAS",
+                    "transmission_type": "AUTO",
+                    "number_of_seats": 5,
+                    "horse_power": 10000,
+                    "max_speed": 320,
+                    "zero_to_one_hundred_in_millisseconds": 7800,
+                    "created_at": "2022-01-01T13:00:00.000"
+                  },
+                  {
+                    "id": "...",
+                    "name": "Veloster",
+                    "description": "...",
+                    "license_plate": "XXX6662",
+                    "daily_rate": 113.871,
+                    "brand": {
+                      "name": "Hyundai"
+                    },
+                    "category": {
+                      "name": "Hatch",
+                      "description": "..."
+                    },
+                    "type_of_fuel": "GAS",
+                    "transmission_type": "AUTO",
+                    "number_of_seats": 5,
+                    "horse_power": 11000,
+                    "max_speed": 315,
+                    "zero_to_one_hundred_in_millisseconds": 9100,
+                    "created_at": "2022-01-01T14:00:00.000"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sort by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "sort_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the sort_by field is not one of created_at, name values"
+                      }
+                    }
+                  },
+                  "Order by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "order_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the order_by field is not one of asc, desc values"
+                      }
+                    }
+                  },
+                  "Limit invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of limit must contain only numbers"
+                      }
+                    }
+                  },
+                  "Limit min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "min",
+                        "value": 1,
+                        "message": "The min value of limit field is 1"
+                      }
+                    }
+                  },
+                  "Limit max value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "max",
+                        "value": 100,
+                        "message": "The max value of limit field is 100"
+                      }
+                    }
+                  },
+                  "Offset invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of offset must contain only numbers"
+                      }
+                    }
+                  },
+                  "Offset min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "min",
+                        "value": 0,
+                        "message": "The min value of offset field is 0"
+                      }
+                    }
+                  },
+                  "Car brand id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "brand_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The brand_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Car category id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "category_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The category_id is not a valid UUID."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/cars/{id}": {
