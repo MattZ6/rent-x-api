@@ -20,7 +20,7 @@
 
 - ✔ **Get car details**
   - [x] It should be possible to get **all data** from a car.
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
 
 - 📅 **List all cars**
   - [x] It should be possible to list all cars **with paging**;
