@@ -6,20 +6,36 @@ import {
 } from '@domain/errors';
 import { ICreateCarUseCase } from '@domain/usecases/car/Create';
 
-import { created, conflict, notFound } from '@presentation/helpers/http';
+import { ValidationError } from '@presentation/errors';
+import {
+  created,
+  conflict,
+  notFound,
+  badRequest,
+} from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class CreateCarController implements IController {
-  constructor(private readonly createCarUseCase: ICreateCarUseCase) {}
+  constructor(
+    private readonly validation: IValidation,
+    private readonly createCarUseCase: ICreateCarUseCase
+  ) {}
 
   async handle(
     request: CreateCarController.Request
   ): Promise<CreateCarController.Response> {
     try {
+      const validationError = this.validation.validate(request.body);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const {
         name,
         description,
@@ -56,6 +72,10 @@ class CreateCarController implements IController {
 
       return created<void>();
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof CarAlreadyExistsWithProvidedLicensePlateError) {
         return conflict(error);
       }
@@ -80,7 +100,7 @@ class CreateCarController implements IController {
 }
 
 namespace CreateCarController {
-  type RequestBody = ICreateCarUseCase.Input;
+  export type RequestBody = ICreateCarUseCase.Input;
 
   export type Request = IHttpRequest<RequestBody, void, void, void>;
 
