@@ -36,7 +36,7 @@ describe('GetCarDetailsController', () => {
     await getCarDetailsController.handle(request);
 
     expect(validateSpy).toHaveBeenCalledTimes(1);
-    expect(validateSpy).toHaveBeenCalledWith(request.body);
+    expect(validateSpy).toHaveBeenCalledWith(request.params);
   });
 
   it('should throw if Validation throws', async () => {
