@@ -22,5 +22,19 @@ model User {
   created_at     DateTime @default(now())
   updated_at     DateTime @default(now()) @updatedAt
 
+  tokens UserToken[]
+
   @@map("users")
+}
+
+model UserToken {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id])
+  expires_in DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("user_tokens")
 }
