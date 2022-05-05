@@ -11,4 +11,4 @@ app.use(routes);
 
 setupSwagger(app);
 
-export default app;
+export { app };
