@@ -32,7 +32,7 @@ model UserToken {
   id         String   @id @default(uuid())
   token      String   @unique
   user_id    String
-  user       User     @relation(fields: [user_id], references: [id])
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   expires_in DateTime
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -42,7 +42,7 @@ model UserToken {
 
 model UserAvatar {
   user_id       String   @id
-  user          User     @relation(fields: [user_id], references: [id])
+  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   original_name String
   mime_type     String
   extension     String
