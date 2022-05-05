@@ -137,19 +137,32 @@ model CarsSpecifications {
 }
 
 model Rent {
-  id                   String    @id @default(uuid())
+  id                   String       @id @default(uuid())
   car_id               String
-  car                  Car       @relation(fields: [car_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  car                  Car          @relation(fields: [car_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   user_id              String
-  user                 User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user                 User         @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   daily_late_fee       Float
   daily_rate           Float
   start_date           DateTime
   expected_return_date DateTime
   return_date          DateTime?
   payment_id           String?
-  created_at           DateTime  @default(now())
-  updated_at           DateTime  @default(now()) @updatedAt
+  payment              RentPayment?
+  created_at           DateTime     @default(now())
+  updated_at           DateTime     @default(now()) @updatedAt
 
   @@map("rents")
+}
+
+model RentPayment {
+  id         String    @id @default(uuid())
+  rent_id    String    @unique
+  rent       Rent      @relation(fields: [rent_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  total      Float
+  paid_at    DateTime?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+
+  @@map("rent_payments")
 }
