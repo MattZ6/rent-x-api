@@ -52,3 +52,12 @@ model UserAvatar {
 
   @@map("user_avatars")
 }
+
+model CarBrand {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("car_brands")
+}
