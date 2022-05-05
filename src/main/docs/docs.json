@@ -36,6 +36,10 @@
       "description": "Endpoints related to the Car's scope"
     },
     {
+      "name": "Rent",
+      "description": "Endpoints related to the Rent's scope"
+    },
+    {
       "name": "Admin",
       "description": "Private endpoints for administrative use"
     }
@@ -2693,20 +2697,20 @@
                 "examples": {
                   "Car brand not exists": {
                     "value": {
-                      "code": "No car brand found with the id provided.",
-                      "message": "car.brand.not.exists"
+                      "code": "car.brand.not.exists",
+                      "message": "No car brand found with the id provided."
                     }
                   },
                   "Car category not exists": {
                     "value": {
-                      "code": "No car categories found with the id provided.",
-                      "message": "car.category.not.exists"
+                      "code": "car.category.not.exists",
+                      "message": "No car categories found with the id provided."
                     }
                   },
                   "One or more car specifications not exists": {
                     "value": {
-                      "code": "One or more car specificationss not found with the provided ids.",
-                      "message": "car.specification.not.exists"
+                      "code": "car.specification.not.exists",
+                      "message": "One or more car specificationss not found with the provided ids."
                     }
                   }
                 }
@@ -3119,6 +3123,220 @@
           }
         }
       }
+    },
+    "/v1/rents": {
+      "post": {
+        "tags": ["Rent"],
+        "summary": "Creates a new Rent",
+        "description": "Performs the creation of a new Rent",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "Rent's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "car_id": "...",
+                "start_date": "2022-05-05T13:00:00.000",
+                "end_date": "2022-05-08T20:00:00.000"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateRentData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "car_id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The car_id field is required."
+                      }
+                    }
+                  },
+                  "Car id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "car_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The car_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Start date required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "start_date",
+                        "type": "required",
+                        "value": null,
+                        "message": "The start_date field is required."
+                      }
+                    }
+                  },
+                  "Start date invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "start_date",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The start_date field is invalid."
+                      }
+                    }
+                  },
+                  "End date required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "end_date",
+                        "type": "required",
+                        "value": null,
+                        "message": "The end_date field is required."
+                      }
+                    }
+                  },
+                  "End date invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "end_date",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The end_date field is invalid."
+                      }
+                    }
+                  },
+                  "Invalid rent interval": {
+                    "value": {
+                      "code": "interval",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "end_date",
+                        "type": "interval",
+                        "value": null,
+                        "message": "The interval between start_date and end_date is invalid."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user.outstanding_payments",
+                  "message": "User has outstanding rent payments."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "User not exists": {
+                    "value": {
+                      "code": "user.not.exists",
+                      "message": "No users found with the id provided."
+                    }
+                  },
+                  "Car not exists": {
+                    "value": {
+                      "code": "car.not.exists",
+                      "message": "No car found with the id provided."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.booked",
+                  "message": "Car already booked on this date."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "rent.duration.invalid",
+                  "message": "Invalid rental duration time."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3288,6 +3506,20 @@
           },
           "zero_to_one_hundred_in_millisseconds": {
             "type": "number"
+          }
+        }
+      },
+      "CreateRentData": {
+        "type": "object",
+        "properties": {
+          "car_id": {
+            "type": "string"
+          },
+          "start_date": {
+            "type": "string"
+          },
+          "end_date": {
+            "type": "string"
           }
         }
       }

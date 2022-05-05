@@ -9,7 +9,7 @@
   - [x] If a rental car is returned within 24 hours, the **full daily rate** must be charged;
   - [x] If the rented car is returned after the deadline, a **fine** and **daily rate** must be charged proportional to the days of delay;
   - [x] If a car's **daily rate** and **fine** have been changed during a rental, the amounts **prior to the change** must be charged;
-  - [ ] Add API documentation;
+  - [x] Add API documentation;
 
 - 📅 **Car schedule**
   - [ ] It should be possible to list the car's schedule with all the periods the car will be rented starting from now.
