@@ -59,6 +59,8 @@ model CarBrand {
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
+  cars Car[]
+
   @@map("car_brands")
 }
 
@@ -68,6 +70,8 @@ model CarCategory {
   description String
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
+
+  cars Car[]
 
   @@map("car_categories")
 }
@@ -79,5 +83,53 @@ model CarSpecification {
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
 
+  cars_specifications CarsSpecifications[]
+
   @@map("car_specifications")
+}
+
+enum CarTypeOfFuel {
+  ALCOHOL
+  GAS
+  ELETRICITY
+}
+
+enum CarTransmissionType {
+  AUTO
+  MANUAL
+}
+
+model Car {
+  id                                   String              @id @default(uuid())
+  name                                 String
+  description                          String
+  license_plate                        String              @unique
+  daily_rate                           Float
+  daily_late_fee                       Float
+  brand_id                             String
+  brand                                CarBrand            @relation(fields: [brand_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  category_id                          String
+  category                             CarCategory         @relation(fields: [category_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  type_of_fuel                         CarTypeOfFuel
+  transmission_type                    CarTransmissionType
+  number_of_seats                      Int
+  horse_power                          Float
+  max_speed                            Float
+  zero_to_one_hundred_in_millisseconds Float
+  created_at                           DateTime            @default(now())
+  updated_at                           DateTime            @default(now()) @updatedAt
+
+  cars_specifications CarsSpecifications[]
+
+  @@map("cars")
+}
+
+model CarsSpecifications {
+  car_id           String
+  car              Car              @relation(fields: [car_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  specification_id String
+  specification    CarSpecification @relation(fields: [specification_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([car_id, specification_id])
+  @@map("cars_specifications")
 }
