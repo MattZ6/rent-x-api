@@ -6,25 +6,37 @@ import {
 } from '@domain/errors';
 import { IReturnRentUseCase } from '@domain/usecases/rent/Return';
 
+import { ValidationError } from '@presentation/errors';
 import {
   noContent,
   notFound,
   unprocessableEntity,
   conflict,
+  badRequest,
 } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class ReturnRentController implements IController {
-  constructor(private readonly returnRentUseCase: IReturnRentUseCase) {}
+  constructor(
+    private readonly validation: IValidation,
+    private readonly returnRentUseCase: IReturnRentUseCase
+  ) {}
 
   async handle(
     request: ReturnRentController.Request
   ): Promise<ReturnRentController.Response> {
     try {
+      const validationError = this.validation.validate(request.params);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { user_id } = request;
       const { id } = request.params;
 
@@ -35,6 +47,10 @@ class ReturnRentController implements IController {
 
       return noContent();
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof RentNotFoundWithProvidedIdError) {
         return notFound(error);
       }
@@ -57,7 +73,7 @@ class ReturnRentController implements IController {
 }
 
 namespace ReturnRentController {
-  type RequestParams = {
+  export type RequestParams = {
     id: string;
   };
 

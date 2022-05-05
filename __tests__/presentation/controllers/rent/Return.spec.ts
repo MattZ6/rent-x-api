@@ -9,26 +9,74 @@ import {
 
 import { ReturnRentController } from '@presentation/controllers/rent/Return';
 import {
+  badRequest,
   conflict,
   noContent,
   notFound,
   unprocessableEntity,
 } from '@presentation/helpers/http';
 
+import { makeErrorMock } from '../../../domain';
 import {
   makeReturnRentControllerRequestMock,
+  makeValidationErrorMock,
   ReturnRentUseCaseSpy,
+  ValidationSpy,
 } from '../../mocks';
 
+let validationSpy: ValidationSpy;
 let returnRentUseCaseSpy: ReturnRentUseCaseSpy;
 
 let returnRentController: ReturnRentController;
 
 describe('ReturnRentController', () => {
   beforeEach(() => {
+    validationSpy = new ValidationSpy();
     returnRentUseCaseSpy = new ReturnRentUseCaseSpy();
 
-    returnRentController = new ReturnRentController(returnRentUseCaseSpy);
+    returnRentController = new ReturnRentController(
+      validationSpy,
+      returnRentUseCaseSpy
+    );
+  });
+
+  it('should call Validation once with correct values', async () => {
+    const validateSpy = jest.spyOn(validationSpy, 'validate');
+
+    const request = makeReturnRentControllerRequestMock();
+
+    await returnRentController.handle(request);
+
+    expect(validateSpy).toHaveBeenCalledTimes(1);
+    expect(validateSpy).toHaveBeenCalledWith(request.params);
+  });
+
+  it('should throw if Validation throws', async () => {
+    const errorMock = makeErrorMock();
+
+    jest.spyOn(validationSpy, 'validate').mockImplementationOnce(() => {
+      throw errorMock;
+    });
+
+    const request = makeReturnRentControllerRequestMock();
+
+    const promise = returnRentController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
+  });
+
+  it('should return bad request (400) if Validation returns a ValidationError', async () => {
+    const validationErrorMock = makeValidationErrorMock();
+
+    jest
+      .spyOn(validationSpy, 'validate')
+      .mockReturnValueOnce(validationErrorMock);
+
+    const request = makeReturnRentControllerRequestMock();
+
+    const response = await returnRentController.handle(request);
+
+    expect(response).toEqual(badRequest(validationErrorMock));
   });
 
   it('should call ReturnRentUseCase once with correct values', async () => {
