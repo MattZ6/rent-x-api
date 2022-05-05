@@ -2,11 +2,11 @@ import { UpdateUserAvatarUseCase } from '@application/usecases/user/UpdateAvatar
 
 import { storageConfig } from '@main/config/environment/storage';
 import { makeDiskStorageProvider } from '@main/factories/providers/DiskStorageProviderFactory';
-import { makePostgresUsersRepository } from '@main/factories/repositories/User';
+import { makeUsersRepository } from '@main/factories/repositories/User';
 import { makePostgresUserAvatarsRepository } from '@main/factories/repositories/UserAvatar';
 
 export function makeUpdateUserAvatarUseCase() {
-  const postgresUsersRepository = makePostgresUsersRepository();
+  const postgresUsersRepository = makeUsersRepository();
   const postgresUserAvatarsRepository = makePostgresUserAvatarsRepository();
   const diskStorageProvider = makeDiskStorageProvider();
 

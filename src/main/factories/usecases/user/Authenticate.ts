@@ -4,11 +4,11 @@ import { authConfig } from '@main/config/environment/auth';
 import { makeBcryptjsHashProvider } from '@main/factories/providers/BcryptjsHashProviderFactory';
 import { makeJWTCryptographyProvider } from '@main/factories/providers/JWTCryptographyProviderFactory';
 import { makeUuidProvider } from '@main/factories/providers/UuidProviderFactory';
-import { makePostgresUsersRepository } from '@main/factories/repositories/User';
+import { makeUsersRepository } from '@main/factories/repositories/User';
 import { makePostgresUserTokensRepository } from '@main/factories/repositories/UserToken';
 
 export function makeAuthenticateUserUseCase() {
-  const usersRepository = makePostgresUsersRepository();
+  const usersRepository = makeUsersRepository();
   const bcryptjsHashProvider = makeBcryptjsHashProvider();
   const jwtCryptographyProvider = makeJWTCryptographyProvider();
   const uuidProvider = makeUuidProvider();

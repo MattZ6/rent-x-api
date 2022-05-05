@@ -3,10 +3,10 @@ import { CreateRentUseCase } from '@application/usecases/rent/Create';
 import { rentConfig } from '@main/config/environment/rent';
 import { makePostgresCarsRepository } from '@main/factories/repositories/Car';
 import { makePostgresRentsRepository } from '@main/factories/repositories/Rent';
-import { makePostgresUsersRepository } from '@main/factories/repositories/User';
+import { makeUsersRepository } from '@main/factories/repositories/User';
 
 export function makeCreateRentUseCase() {
-  const postgresUsersRepository = makePostgresUsersRepository();
+  const postgresUsersRepository = makeUsersRepository();
   const postgresRentsRepository = makePostgresRentsRepository();
   const postgresCarsRepository = makePostgresCarsRepository();
 

@@ -1,9 +1,9 @@
 import { GetUserProfileUseCase } from '@application/usecases/user/GetProfile';
 
-import { makePostgresUsersRepository } from '@main/factories/repositories/User';
+import { makeUsersRepository } from '@main/factories/repositories/User';
 
 export function makeGetUserProfileUseCase() {
-  const usersRepository = makePostgresUsersRepository();
+  const usersRepository = makeUsersRepository();
 
   return new GetUserProfileUseCase(usersRepository);
 }
