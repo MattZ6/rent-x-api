@@ -1,5 +1,5 @@
+import { ValidationError } from '@presentation/errors';
 import { IValidation } from '@presentation/protocols';
-import { ValidationError } from '@presentation/validations/errors';
 
 export * from './errors';
 
