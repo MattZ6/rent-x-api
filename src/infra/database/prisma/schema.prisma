@@ -23,6 +23,7 @@ model User {
   updated_at     DateTime @default(now()) @updatedAt
 
   tokens UserToken[]
+  avatar UserAvatar?
 
   @@map("users")
 }
@@ -37,4 +38,17 @@ model UserToken {
   updated_at DateTime @default(now()) @updatedAt
 
   @@map("user_tokens")
+}
+
+model UserAvatar {
+  user_id       String   @id
+  user          User     @relation(fields: [user_id], references: [id])
+  original_name String
+  mime_type     String
+  extension     String
+  size_in_bytes Float
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now()) @updatedAt
+
+  @@map("user_avatars")
 }
