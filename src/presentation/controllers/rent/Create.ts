@@ -7,26 +7,38 @@ import {
 } from '@domain/errors';
 import { ICreateRentUseCase } from '@domain/usecases/rent/Create';
 
+import { ValidationError } from '@presentation/errors';
 import {
   created,
   notFound,
   paymentRequired,
   unprocessableEntity,
   conflict,
+  badRequest,
 } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class CreateRentController implements IController {
-  constructor(private readonly createRentUseCase: ICreateRentUseCase) {}
+  constructor(
+    private readonly validation: IValidation,
+    private readonly createRentUseCase: ICreateRentUseCase
+  ) {}
 
   async handle(
     request: CreateRentController.Request
   ): Promise<CreateRentController.Response> {
     try {
+      const validationError = this.validation.validate(request.body);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { user_id } = request;
       const { start_date, end_date, car_id } = request.body;
 
@@ -39,6 +51,10 @@ class CreateRentController implements IController {
 
       return created<void>();
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof UserNotFoundWithProvidedIdError) {
         return notFound(error);
       }
@@ -65,7 +81,7 @@ class CreateRentController implements IController {
 }
 
 namespace CreateRentController {
-  type RequestBody = {
+  export type RequestBody = {
     car_id: string;
     start_date: Date;
     end_date: Date;

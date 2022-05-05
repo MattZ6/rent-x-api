@@ -4,20 +4,39 @@ import {
 } from '@domain/errors';
 import { IUpdateCarBrandUseCase } from '@domain/usecases/car/brand/Update';
 
-import { noContent, notFound, conflict } from '@presentation/helpers/http';
+import { ValidationError } from '@presentation/errors';
+import {
+  noContent,
+  notFound,
+  conflict,
+  badRequest,
+} from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class UpdateCarBrandController implements IController {
-  constructor(private readonly updateCarBrandUseCase: IUpdateCarBrandUseCase) {}
+  constructor(
+    private readonly validation: IValidation,
+    private readonly updateCarBrandUseCase: IUpdateCarBrandUseCase
+  ) {}
 
   async handle(
     request: UpdateCarBrandController.Request
   ): Promise<UpdateCarBrandController.Response> {
     try {
+      const validationError = this.validation.validate({
+        ...request.params,
+        ...request.body,
+      });
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { id } = request.params;
       const { name } = request.body;
 
@@ -28,6 +47,10 @@ class UpdateCarBrandController implements IController {
 
       return noContent();
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof CarBrandNotFoundWithProvidedIdError) {
         return notFound(error);
       }
@@ -42,11 +65,11 @@ class UpdateCarBrandController implements IController {
 }
 
 namespace UpdateCarBrandController {
-  type RequestBody = {
+  export type RequestBody = {
     name: string;
   };
 
-  type RequestParams = {
+  export type RequestParams = {
     id: string;
   };
 

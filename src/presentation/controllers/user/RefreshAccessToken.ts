@@ -4,15 +4,23 @@ import {
 } from '@domain/errors';
 import { IRefreshUserAccessTokenUseCase } from '@domain/usecases/user/RefreshAccessToken';
 
-import { notFound, ok, unprocessableEntity } from '@presentation/helpers/http';
+import { ValidationError } from '@presentation/errors';
+import {
+  badRequest,
+  notFound,
+  ok,
+  unprocessableEntity,
+} from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class RefreshUserAccessTokenController implements IController {
   constructor(
+    private readonly validation: IValidation,
     private readonly refreshUserAccessTokenUseCase: IRefreshUserAccessTokenUseCase
   ) {}
 
@@ -20,6 +28,12 @@ class RefreshUserAccessTokenController implements IController {
     request: RefreshUserAccessTokenController.Request
   ): Promise<RefreshUserAccessTokenController.Response> {
     try {
+      const validationError = this.validation.validate(request.body);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { refresh_token } = request.body;
 
       const authentication = await this.refreshUserAccessTokenUseCase.execute({
@@ -28,6 +42,10 @@ class RefreshUserAccessTokenController implements IController {
 
       return ok(authentication);
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof UserTokenNotFoundWithProvidedTokenError) {
         return notFound(error);
       }
@@ -42,7 +60,7 @@ class RefreshUserAccessTokenController implements IController {
 }
 
 namespace RefreshUserAccessTokenController {
-  type RequestBody = {
+  export type RequestBody = {
     refresh_token: string;
   };
 

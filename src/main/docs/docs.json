@@ -18,6 +18,30 @@
     {
       "name": "User",
       "description": "Endpoints related to the Users's scope"
+    },
+    {
+      "name": "Brand",
+      "description": "Endpoints related to the Car Brand's scope"
+    },
+    {
+      "name": "Category",
+      "description": "Endpoints related to the Car Category's scope"
+    },
+    {
+      "name": "Specification",
+      "description": "Endpoints related to the Car Specification's scope"
+    },
+    {
+      "name": "Car",
+      "description": "Endpoints related to the Car's scope"
+    },
+    {
+      "name": "Rent",
+      "description": "Endpoints related to the Rent's scope"
+    },
+    {
+      "name": "Admin",
+      "description": "Private endpoints for administrative use"
     }
   ],
   "paths": {
@@ -43,12 +67,69 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Ok",
             "content": {
               "application/json": {
                 "example": {
                   "access_token": "...",
                   "refresh_token": "..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "required",
+                        "value": null,
+                        "message": "The email field is required."
+                      }
+                    }
+                  },
+                  "Email invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The email is invalid."
+                      }
+                    }
+                  },
+                  "Password required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password",
+                        "type": "required",
+                        "value": null,
+                        "message": "The password field is required."
+                      }
+                    }
+                  },
+                  "Password min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The password must have at least 6 characters"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -88,6 +169,3309 @@
           }
         }
       }
+    },
+    "/v1/auth/sign/up": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a new driver",
+        "description": "Create a new driver",
+        "requestBody": {
+          "required": true,
+          "description": "Driver's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Jane Driver",
+                "driver_license": "47432729908",
+                "email": "jane.driver@rentx.com",
+                "password": "janedriverpassword",
+                "password_confirmation": "janedriverpassword"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateDriverData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Driver license required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "driver_license",
+                        "type": "required",
+                        "value": null,
+                        "message": "The driver_license field is required."
+                      }
+                    }
+                  },
+                  "Driver license invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "driver_license",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The driver_license is invalid."
+                      }
+                    }
+                  },
+                  "Email required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "required",
+                        "value": null,
+                        "message": "The email field is required."
+                      }
+                    }
+                  },
+                  "Email invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The email is invalid."
+                      }
+                    }
+                  },
+                  "Password required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password",
+                        "type": "required",
+                        "value": null,
+                        "message": "The password field is required."
+                      }
+                    }
+                  },
+                  "Password min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The password must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Password confirmation required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password_confirmation",
+                        "type": "required",
+                        "value": null,
+                        "message": "The password_confirmation field is required."
+                      }
+                    }
+                  },
+                  "Password confirmation min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password_confirmation",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The password_confirmation must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Passwords not match": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "password_confirmation",
+                        "type": "divergent",
+                        "value": null,
+                        "message": "The value of the password_confirmation field is different from the value of the password field"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Driver license already in use": {
+                    "value": {
+                      "code": "user.driver_license.in_use",
+                      "message": "There is already a registered user with this driver license."
+                    }
+                  },
+                  "Email already in use": {
+                    "value": {
+                      "code": "user.email.in_use",
+                      "message": "There is already a registered user with this email."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/refresh": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Refreshes user authentication",
+        "description": "Refreshes user authentication",
+        "requestBody": {
+          "required": true,
+          "description": "Refresh token data",
+          "content": {
+            "application/json": {
+              "example": {
+                "refresh_token": "..."
+              },
+              "schema": {
+                "$ref": "#/components/schemas/RefreshToken"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": {
+                  "access_token": "...",
+                  "refresh_token": "..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Refresh token required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "refresh_token",
+                        "type": "required",
+                        "value": null,
+                        "message": "The refresh_token field is required."
+                      }
+                    }
+                  },
+                  "Refresh token invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "refresh_token",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The refresh_token is not a valid UUID."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user_token.not.exists",
+                  "message": "Token not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user_token.expired",
+                  "message": "Token has expired."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/password/reset": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Reset a user's password",
+        "description": "Reset a user's password",
+        "requestBody": {
+          "required": true,
+          "description": "Password reset data",
+          "content": {
+            "application/json": {
+              "example": {
+                "token": "...",
+                "new_password": "newpassword",
+                "new_password_confirmation": "newpassword"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/PasswordReset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Token required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "token",
+                        "type": "required",
+                        "value": null,
+                        "message": "The token field is required."
+                      }
+                    }
+                  },
+                  "Token invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "token",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The token is not a valid UUID."
+                      }
+                    }
+                  },
+                  "New password required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password",
+                        "type": "required",
+                        "value": null,
+                        "message": "The new_password field is required."
+                      }
+                    }
+                  },
+                  "New password min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The new_password must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "New password confirmation required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password_confirmation",
+                        "type": "required",
+                        "value": null,
+                        "message": "The new_password_confirmation field is required."
+                      }
+                    }
+                  },
+                  "New password confirmation min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password_confirmation",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The new_password_confirmation must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Passwords not match": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password_confirmation",
+                        "type": "divergent",
+                        "value": null,
+                        "message": "The value of the new_password_confirmation field is different from the value of the new_password field"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user_token.not.exists",
+                  "message": "Token not found."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user_token.expired",
+                  "message": "Token has expired."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/password/forgot": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Starts the user password reset flow",
+        "description": "Starts the user password reset flow",
+        "requestBody": {
+          "required": true,
+          "description": "The email from the user",
+          "content": {
+            "application/json": {
+              "example": {
+                "email": "jane.driver@rentx.com"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/PasswordForgot"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "required",
+                        "value": null,
+                        "message": "The email field is required."
+                      }
+                    }
+                  },
+                  "Email invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The email is invalid."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profile": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Gets the profile data",
+        "description": "Gets the profile data of the authenticated user",
+        "security": [{ "userAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "...",
+                  "name": "John Driver",
+                  "driver_license": "26786579871",
+                  "email": "john.driver@rentx.com"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user.not.exists",
+                  "message": "No users found with the id provided."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/brands": {
+      "post": {
+        "tags": ["Brand", "Admin"],
+        "summary": "Creates a new Car Brand",
+        "description": "Performs the creation of a new Car Brand",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Brand's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Hyundai"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarBrandData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 3 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.brand.exists",
+                  "message": "There is already a registered car brand with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Brand"],
+        "summary": "Query all Car Brands",
+        "description": "Query all Car Brands",
+        "parameters": [
+          {
+            "name": "sort_by",
+            "description": "The sort by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["created_at", "name"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "order_by",
+            "description": "The order by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "description": "The limit value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "offset",
+            "description": "The offset value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "...",
+                    "name": "Ferrari",
+                    "created_at": "2022-01-01T13:00:00.000"
+                  },
+                  {
+                    "id": "...",
+                    "name": "Hyundai",
+                    "created_at": "2022-01-02T13:00:00.000"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sort by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "sort_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the sort_by field is not one of created_at, name values"
+                      }
+                    }
+                  },
+                  "Order by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "order_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the order_by field is not one of asc, desc values"
+                      }
+                    }
+                  },
+                  "Limit invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of limit must contain only numbers"
+                      }
+                    }
+                  },
+                  "Limit min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "min",
+                        "value": 1,
+                        "message": "The min value of limit field is 1"
+                      }
+                    }
+                  },
+                  "Limit max value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "max",
+                        "value": 100,
+                        "message": "The max value of limit field is 100"
+                      }
+                    }
+                  },
+                  "Offset invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of offset must contain only numbers"
+                      }
+                    }
+                  },
+                  "Offset min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "min",
+                        "value": 0,
+                        "message": "The min value of offset field is 0"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/brands/{id}": {
+      "put": {
+        "tags": ["Brand", "Admin"],
+        "summary": "Updates an existing Car Brand",
+        "description": "Performs an update of an existing Car Brand",
+        "security": [{ "userAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The id of the Car Brand to update."
+        }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Brand's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Ferrari"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCarBrandData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car brand id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car brand id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 3 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.brand.not.exists",
+                  "message": "No car brand found with the id provided."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.brand.exists",
+                  "message": "There is already a registered car brand with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/categories": {
+      "post": {
+        "tags": ["Category", "Admin"],
+        "summary": "Creates a new Car Category",
+        "description": "Performs the creation of a new Car Category",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Category's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "SUV",
+                "description": "Sport utility vehicle or sports utility vehicle: a large powerful car with an engine that supplies power to all four wheels."
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarCategoryData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 3 characters"
+                      }
+                    }
+                  },
+                  "Description required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "required",
+                        "value": null,
+                        "message": "The description field is required."
+                      }
+                    }
+                  },
+                  "Description min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The description must have at least 3 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.category.exists",
+                  "message": "There is already a registered car category with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Category"],
+        "summary": "Query all Car Categories",
+        "description": "Query all Car Categories",
+        "parameters": [
+          {
+            "name": "sort_by",
+            "description": "The sort by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["created_at", "name"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "order_by",
+            "description": "The order by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "description": "The limit value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "offset",
+            "description": "The offset value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "...",
+                    "name": "SUV",
+                    "description": "Sport utility vehicle or sports utility vehicle: a large powerful car with an engine that supplies power to all four wheels.",
+                    "created_at": "2022-01-01T13:00:00.000"
+                  },
+                  {
+                    "id": "...",
+                    "name": "Sedan",
+                    "description": "A type of car with two or four doors and seats for at least four people",
+                    "created_at": "2022-01-02T13:00:00.000"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sort by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "sort_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the sort_by field is not one of created_at, name values"
+                      }
+                    }
+                  },
+                  "Order by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "order_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the order_by field is not one of asc, desc values"
+                      }
+                    }
+                  },
+                  "Limit invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of limit must contain only numbers"
+                      }
+                    }
+                  },
+                  "Limit min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "min",
+                        "value": 1,
+                        "message": "The min value of limit field is 1"
+                      }
+                    }
+                  },
+                  "Limit max value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "max",
+                        "value": 100,
+                        "message": "The max value of limit field is 100"
+                      }
+                    }
+                  },
+                  "Offset invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of offset must contain only numbers"
+                      }
+                    }
+                  },
+                  "Offset min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "min",
+                        "value": 0,
+                        "message": "The min value of offset field is 0"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/categories/{id}": {
+      "put": {
+        "tags": ["Category", "Admin"],
+        "summary": "Updates an existing Car Category",
+        "description": "Performs an update of an existing Car Category",
+        "security": [{ "userAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The id of the Car Category to update."
+        }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Category's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Sedan",
+                "description": "A type of car with two or four doors and seats for at least four people"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCarCategoryData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car category id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car category id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Description required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "required",
+                        "value": null,
+                        "message": "The description field is required."
+                      }
+                    }
+                  },
+                  "Description min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The description must have at least 3 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.category.not.exists",
+                  "message": "No car category found with the id provided."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.category.exists",
+                  "message": "There is already a registered car category with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/specifications": {
+      "post": {
+        "tags": ["Specification", "Admin"],
+        "summary": "Creates a new Car Specification",
+        "description": "Performs the creation of a new Car Specification",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Specification's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Three doors",
+                "description": "A vehicle with three doors"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarSpecificationData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 3 characters"
+                      }
+                    }
+                  },
+                  "Description required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "required",
+                        "value": null,
+                        "message": "The description field is required."
+                      }
+                    }
+                  },
+                  "Description min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The description must have at least 3 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.specification.exists",
+                  "message": "There is already a registered car specification with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Specification", "Admin"],
+        "summary": "Query all Car Specifications",
+        "description": "Query all Car Specifications",
+        "security": [{ "userAuth": [] }],
+        "parameters": [
+          {
+            "name": "sort_by",
+            "description": "The sort by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["created_at", "name"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "order_by",
+            "description": "The order by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "description": "The limit value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "offset",
+            "description": "The offset value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "...",
+                    "name": "Three doors",
+                    "description": "A vehicle with three doors",
+                    "created_at": "2022-01-01T13:00:00.000"
+                  },
+                  {
+                    "id": "...",
+                    "name": "Two doors",
+                    "description": "A vehicle with two doors",
+                    "created_at": "2022-01-02T13:00:00.000"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sort by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "sort_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the sort_by field is not one of created_at, name values"
+                      }
+                    }
+                  },
+                  "Order by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "order_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the order_by field is not one of asc, desc values"
+                      }
+                    }
+                  },
+                  "Limit invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of limit must contain only numbers"
+                      }
+                    }
+                  },
+                  "Limit min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "min",
+                        "value": 1,
+                        "message": "The min value of limit field is 1"
+                      }
+                    }
+                  },
+                  "Limit max value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "max",
+                        "value": 100,
+                        "message": "The max value of limit field is 100"
+                      }
+                    }
+                  },
+                  "Offset invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of offset must contain only numbers"
+                      }
+                    }
+                  },
+                  "Offset min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "min",
+                        "value": 0,
+                        "message": "The min value of offset field is 0"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/specifications/{id}": {
+      "put": {
+        "tags": ["Specification", "Admin"],
+        "summary": "Updates an existing Car Specification",
+        "description": "Performs an update of an existing Car Specification",
+        "security": [{ "userAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The id of the Car Specification to update."
+        }],
+        "requestBody": {
+          "required": true,
+          "description": "Car Specification's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Two doors",
+                "description": "A vehicle with two doors"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCarSpecificationData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car specification id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car specification id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Description required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "required",
+                        "value": null,
+                        "message": "The description field is required."
+                      }
+                    }
+                  },
+                  "Description min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The description must have at least 3 characters"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.specification.not.exists",
+                  "message": "No car specification found with the id provided."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.specification.exists",
+                  "message": "There is already a registered car specification with this name."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Specification", "Admin"],
+        "summary": "Deletes an existing Car Specification",
+        "description": "Performs a deletion of an existing Car Specification",
+        "security": [{ "userAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The id of the Car Specification to update."
+        }],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car specification id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car specification id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.specification.not.exists",
+                  "message": "No car specification found with the id provided."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cars": {
+      "post": {
+        "tags": ["Car", "Admin"],
+        "summary": "Creates a new Car",
+        "description": "Performs the creation of a new Car",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "Car's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "A3",
+                "description": "Your gaze is immediately drawn to the striking Singleframe front grille, which has become wider and beehive-like. On the side, the continuous shoulder line extends to the tailgate, emphasizing the length of the new Audi A3 Sedan. To complete the striking look, the width of the model provides a sportier characteristic.",
+                "category_id": "...",
+                "brand_id": "...",
+                "daily_rate": 199.9824,
+                "license_plate": "XXX6661",
+                "daily_late_fee": 321.42,
+                "horse_power": 10000,
+                "max_speed": 310,
+                "number_of_seats": 5,
+                "transmission_type": "MANUAL",
+                "type_of_fuel": "GAS",
+                "zero_to_one_hundred_in_millisseconds": 7800,
+                "specifications_ids": []
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Brand id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "brand_id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The brand_id field is required."
+                      }
+                    }
+                  },
+                  "Brand id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "brand_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The brand_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Category id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "category_id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The category_id field is required."
+                      }
+                    }
+                  },
+                  "Category id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "category_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The category_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Daily late fee required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "daily_late_fee",
+                        "type": "required",
+                        "value": null,
+                        "message": "The daily_late_fee field is required."
+                      }
+                    }
+                  },
+                  "Daily late fee only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "daily_late_fee",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of daily_late_fee must contain only numbers"
+                      }
+                    }
+                  },
+                  "Daily rate required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "daily_rate",
+                        "type": "required",
+                        "value": null,
+                        "message": "The daily_rate field is required."
+                      }
+                    }
+                  },
+                  "Daily rate only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "daily_rate",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of daily_rate must contain only numbers"
+                      }
+                    }
+                  },
+                  "Description required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "required",
+                        "value": null,
+                        "message": "The description field is required."
+                      }
+                    }
+                  },
+                  "Description min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "description",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The description must have at least 3 characters"
+                      }
+                    }
+                  },
+                  "Horse power required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "horse_power",
+                        "type": "required",
+                        "value": null,
+                        "message": "The horse_power field is required."
+                      }
+                    }
+                  },
+                  "Horse power only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "horse_power",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of horse_power must contain only numbers"
+                      }
+                    }
+                  },
+                  "License plate required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "license_plate",
+                        "type": "required",
+                        "value": null,
+                        "message": "The license_plate field is required."
+                      }
+                    }
+                  },
+                  "License plate invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "license_plate",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The license_plate is invalid."
+                      }
+                    }
+                  },
+                  "Max speed required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "max_speed",
+                        "type": "required",
+                        "value": null,
+                        "message": "The max_speed field is required."
+                      }
+                    }
+                  },
+                  "Max speed only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "max_speed",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of max_speed must contain only numbers"
+                      }
+                    }
+                  },
+                  "Name required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "required",
+                        "value": null,
+                        "message": "The name field is required."
+                      }
+                    }
+                  },
+                  "Name min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "name",
+                        "type": "minlength",
+                        "value": 3,
+                        "message": "The name must have at least 3 characters"
+                      }
+                    }
+                  },
+                  "Number of seats required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "number_of_seats",
+                        "type": "required",
+                        "value": null,
+                        "message": "The number_of_seats field is required."
+                      }
+                    }
+                  },
+                  "Number of seats only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "number_of_seats",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of number_of_seats must contain only numbers"
+                      }
+                    }
+                  },
+                  "Specification ids uuids list invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "number_of_seats",
+                        "type": "number",
+                        "value": null,
+                        "message": "The number_of_seats is not a list of valid UUID's."
+                      }
+                    }
+                  },
+                  "Transmission type required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "transmission_type",
+                        "type": "required",
+                        "value": null,
+                        "message": "The transmission_type field is required."
+                      }
+                    }
+                  },
+                  "Transmission type invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "transmission_type",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The value of the transmission_type field is not one of AUTO, MANUAL values"
+                      }
+                    }
+                  },
+                  "Type of fuel required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "type_of_fuel",
+                        "type": "required",
+                        "value": null,
+                        "message": "The type_of_fuel field is required."
+                      }
+                    }
+                  },
+                  "Type of fuel invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "type_of_fuel",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The value of the type_of_fuel field is not one of ALCOHOL, ELETRICITY, GAS values"
+                      }
+                    }
+                  },
+                  "Zero to one hundred in millisseconds required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "zero_to_one_hundred_in_millisseconds",
+                        "type": "required",
+                        "value": null,
+                        "message": "The zero_to_one_hundred_in_millisseconds field is required."
+                      }
+                    }
+                  },
+                  "Zero to one hundred in millisseconds only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "zero_to_one_hundred_in_millisseconds",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of zero_to_one_hundred_in_millisseconds must contain only numbers"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car brand not exists": {
+                    "value": {
+                      "code": "car.brand.not.exists",
+                      "message": "No car brand found with the id provided."
+                    }
+                  },
+                  "Car category not exists": {
+                    "value": {
+                      "code": "car.category.not.exists",
+                      "message": "No car categories found with the id provided."
+                    }
+                  },
+                  "One or more car specifications not exists": {
+                    "value": {
+                      "code": "car.specification.not.exists",
+                      "message": "One or more car specificationss not found with the provided ids."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.exists",
+                  "message": "There is already a registered car with this license plate."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Car", "Admin"],
+        "summary": "Query all Cars",
+        "description": "Query all Cars",
+        "security": [{ "userAuth": [] }],
+        "parameters": [
+          {
+            "name": "sort_by",
+            "description": "The sort by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["created_at", "horse_power", "max_speed", "name", "number_of_seats"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "order_by",
+            "description": "The order by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "description": "The limit value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "offset",
+            "description": "The offset value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "brand_id",
+            "description": "The brand id value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "category_id",
+            "description": "The category id value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "...",
+                    "name": "A4",
+                    "description": "...",
+                    "license_plate": "XXX6661",
+                    "daily_rate": 120.8742,
+                    "brand": {
+                      "name": "Audi"
+                    },
+                    "category": {
+                      "name": "Sedan",
+                      "description": "..."
+                    },
+                    "type_of_fuel": "GAS",
+                    "transmission_type": "AUTO",
+                    "number_of_seats": 5,
+                    "horse_power": 10000,
+                    "max_speed": 320,
+                    "zero_to_one_hundred_in_millisseconds": 7800,
+                    "created_at": "2022-01-01T13:00:00.000"
+                  },
+                  {
+                    "id": "...",
+                    "name": "Veloster",
+                    "description": "...",
+                    "license_plate": "XXX6662",
+                    "daily_rate": 113.871,
+                    "brand": {
+                      "name": "Hyundai"
+                    },
+                    "category": {
+                      "name": "Hatch",
+                      "description": "..."
+                    },
+                    "type_of_fuel": "GAS",
+                    "transmission_type": "AUTO",
+                    "number_of_seats": 5,
+                    "horse_power": 11000,
+                    "max_speed": 315,
+                    "zero_to_one_hundred_in_millisseconds": 9100,
+                    "created_at": "2022-01-01T14:00:00.000"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sort by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "sort_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the sort_by field is not one of created_at, name values"
+                      }
+                    }
+                  },
+                  "Order by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "order_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the order_by field is not one of asc, desc values"
+                      }
+                    }
+                  },
+                  "Limit invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of limit must contain only numbers"
+                      }
+                    }
+                  },
+                  "Limit min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "min",
+                        "value": 1,
+                        "message": "The min value of limit field is 1"
+                      }
+                    }
+                  },
+                  "Limit max value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "max",
+                        "value": 100,
+                        "message": "The max value of limit field is 100"
+                      }
+                    }
+                  },
+                  "Offset invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of offset must contain only numbers"
+                      }
+                    }
+                  },
+                  "Offset min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "min",
+                        "value": 0,
+                        "message": "The min value of offset field is 0"
+                      }
+                    }
+                  },
+                  "Car brand id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "brand_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The brand_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Car category id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "category_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The category_id is not a valid UUID."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cars/{id}": {
+      "get": {
+        "tags": ["Car"],
+        "summary": "Get the details of a car",
+        "description": "Get the details of a car",
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The id of the Car to get."
+        }],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "...",
+                  "name": "A4",
+                  "description": "...",
+                  "license_plate": "XXX6661",
+                  "daily_rate": 120.8742,
+                  "brand": {
+                    "name": "Audi"
+                  },
+                  "category": {
+                    "name": "Sedan",
+                    "description": "..."
+                  },
+                  "type_of_fuel": "GAS",
+                  "transmission_type": "AUTO",
+                  "number_of_seats": 5,
+                  "horse_power": 10000,
+                  "max_speed": 320,
+                  "zero_to_one_hundred_in_millisseconds": 7800,
+                  "created_at": "2022-01-01T13:00:00.000"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.not.exists",
+                  "message": "No car found with the id provided."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/rents": {
+      "post": {
+        "tags": ["Rent"],
+        "summary": "Creates a new Rent",
+        "description": "Performs the creation of a new Rent",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "Rent's data",
+          "content": {
+            "application/json": {
+              "example": {
+                "car_id": "...",
+                "start_date": "2022-05-05T13:00:00.000",
+                "end_date": "2022-05-08T20:00:00.000"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/CreateRentData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "car_id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The car_id field is required."
+                      }
+                    }
+                  },
+                  "Car id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "car_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The car_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Start date required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "start_date",
+                        "type": "required",
+                        "value": null,
+                        "message": "The start_date field is required."
+                      }
+                    }
+                  },
+                  "Start date invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "start_date",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The start_date field is invalid."
+                      }
+                    }
+                  },
+                  "End date required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "end_date",
+                        "type": "required",
+                        "value": null,
+                        "message": "The end_date field is required."
+                      }
+                    }
+                  },
+                  "End date invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "end_date",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The end_date field is invalid."
+                      }
+                    }
+                  },
+                  "Invalid rent interval": {
+                    "value": {
+                      "code": "interval",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "end_date",
+                        "type": "interval",
+                        "value": null,
+                        "message": "The interval between start_date and end_date is invalid."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user.outstanding_payments",
+                  "message": "User has outstanding rent payments."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "User not exists": {
+                    "value": {
+                      "code": "user.not.exists",
+                      "message": "No users found with the id provided."
+                    }
+                  },
+                  "Car not exists": {
+                    "value": {
+                      "code": "car.not.exists",
+                      "message": "No car found with the id provided."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.booked",
+                  "message": "Car already booked on this date."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "rent.duration.invalid",
+                  "message": "Invalid rental duration time."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/rents/{id}/return": {
+      "post": {
+        "tags": ["Rent"],
+        "summary": "Returns a rent",
+        "description": "Returns a rent",
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The id of the Rent to return."
+        }],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Rent id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Rent id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Rent not exists": {
+                    "value": {
+                      "code": "rent.not.exists",
+                      "message": "Rent not found with provided id."
+                    }
+                  },
+                  "Rent is from another driver": {
+                    "value": {
+                      "code": "rent.from_another_user",
+                      "message": "The rent belongs to another user."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "rent.closed",
+                  "message": "The rent is already closed."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "rent.not.in_progress",
+                  "message": "Unable to return a rental that is not in progress."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -107,8 +3491,170 @@
         "type": "object",
         "properties": {
           "refresh_token": {
-            "type": "string",
-            "example": "..."
+            "type": "string"
+          }
+        }
+      },
+      "PasswordReset": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "new_password": {
+            "type": "string"
+          },
+          "new_password_confirmation": {
+            "type": "string"
+          }
+        }
+      },
+      "PasswordForgot": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateDriverData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "driver_license": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "password_confirmation": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateCarBrandData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateCarBrandData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateCarCategoryData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateCarCategoryData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateCarSpecificationData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateCarSpecificationData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateCarData": {
+        "type": "object",
+        "properties": {
+          "brand_id": {
+            "type": "string"
+          },
+          "category_id": {
+            "type": "string"
+          },
+          "daily_late_fee": {
+            "type": "number"
+          },
+          "daily_rate": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "horse_power": {
+            "type": "number"
+          },
+          "license_plate": {
+            "type": "string"
+          },
+          "max_speed": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "number_of_seats": {
+            "type": "integer"
+          },
+          "specifications_ids": {
+            "type": "array"
+          },
+          "transmission_type": {
+            "type": "string"
+          },
+          "type_of_fuel": {
+            "type": "string"
+          },
+          "zero_to_one_hundred_in_millisseconds": {
+            "type": "number"
+          }
+        }
+      },
+      "CreateRentData": {
+        "type": "object",
+        "properties": {
+          "car_id": {
+            "type": "string"
+          },
+          "start_date": {
+            "type": "string"
+          },
+          "end_date": {
+            "type": "string"
           }
         }
       }

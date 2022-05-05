@@ -2,9 +2,14 @@ import { RefreshUserAccessTokenController } from '@presentation/controllers/user
 import { IController } from '@presentation/protocols';
 
 import { makeRefreshUserAccessTokenUseCase } from '@main/factories/usecases/user/RefreshAccessToken';
+import { makeRefreshUserAccessTokenControllerValidation } from '@main/factories/validators/controllers/user/RefreshAccessToken';
 
 export function makeRefreshUserAccessTokenController(): IController {
+  const validation = makeRefreshUserAccessTokenControllerValidation();
   const refreshUserAccessTokenUseCase = makeRefreshUserAccessTokenUseCase();
 
-  return new RefreshUserAccessTokenController(refreshUserAccessTokenUseCase);
+  return new RefreshUserAccessTokenController(
+    validation,
+    refreshUserAccessTokenUseCase
+  );
 }

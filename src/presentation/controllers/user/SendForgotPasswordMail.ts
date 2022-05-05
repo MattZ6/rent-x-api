@@ -1,15 +1,18 @@
 import { UserNotFoundWithProvidedEmailError } from '@domain/errors';
 import { ISendForgotUserPasswordMailUseCase } from '@domain/usecases/user/SendForgotPasssordMail';
 
-import { noContent } from '@presentation/helpers/http';
+import { ValidationError } from '@presentation/errors';
+import { badRequest, noContent } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class SendForgotUserPasswordMailController implements IController {
   constructor(
+    private readonly validation: IValidation,
     private readonly sendForgotUserPasswordMailUseCase: ISendForgotUserPasswordMailUseCase
   ) {}
 
@@ -17,6 +20,12 @@ class SendForgotUserPasswordMailController implements IController {
     request: SendForgotUserPasswordMailController.Request
   ): Promise<SendForgotUserPasswordMailController.Response> {
     try {
+      const validationError = this.validation.validate(request.body);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { email } = request.body;
 
       await this.sendForgotUserPasswordMailUseCase.execute({
@@ -25,6 +34,10 @@ class SendForgotUserPasswordMailController implements IController {
 
       return noContent();
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof UserNotFoundWithProvidedEmailError) {
         return noContent();
       }
@@ -35,7 +48,7 @@ class SendForgotUserPasswordMailController implements IController {
 }
 
 namespace SendForgotUserPasswordMailController {
-  type RequestBody = {
+  export type RequestBody = {
     email: string;
   };
 

@@ -1,7 +1,7 @@
 export const mailConfig = {
   /** Default email from */
 
-  TEAM_EMAIL_NAME: 'RentX Team',
+  TEAM_EMAIL_NAME: 'Rent-X Team',
   TEAM_EMAIL_ADDRESS: 'noreply@rentx.com.br',
 
   /** Pasword reset */
