@@ -3,10 +3,10 @@ import { RefreshUserAccessTokenUseCase } from '@application/usecases/user/Refres
 import { authConfig } from '@main/config/environment/auth';
 import { makeJWTCryptographyProvider } from '@main/factories/providers/JWTCryptographyProviderFactory';
 import { makeUuidProvider } from '@main/factories/providers/UuidProviderFactory';
-import { makePostgresUserTokensRepository } from '@main/factories/repositories/UserToken';
+import { makeUserTokensRepository } from '@main/factories/repositories/UserToken';
 
 export function makeRefreshUserAccessTokenUseCase() {
-  const postgresUserTokensRepository = makePostgresUserTokensRepository();
+  const postgresUserTokensRepository = makeUserTokensRepository();
   const jwtCryptographyProvider = makeJWTCryptographyProvider();
   const uuidProvider = makeUuidProvider();
 

@@ -8,12 +8,12 @@ import { mailConfig } from '@main/config/environment/mail';
 import { makeEtherealMailProvider } from '@main/factories/providers/EtherealMailProviderFactory';
 import { makeUuidProvider } from '@main/factories/providers/UuidProviderFactory';
 import { makeUsersRepository } from '@main/factories/repositories/User';
-import { makePostgresUserTokensRepository } from '@main/factories/repositories/UserToken';
+import { makeUserTokensRepository } from '@main/factories/repositories/UserToken';
 
 export function makeSendForgotUserPasswordMailUseCase() {
   const postgresUsersRepository = makeUsersRepository();
   const uuidProvider = makeUuidProvider();
-  const postgresUserTokensRepository = makePostgresUserTokensRepository();
+  const postgresUserTokensRepository = makeUserTokensRepository();
   const etherealMailProvider = makeEtherealMailProvider();
 
   const passwordResetLinkExpiresInMillisseconds =

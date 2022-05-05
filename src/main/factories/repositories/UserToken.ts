@@ -1,11 +1,5 @@
-import { PostgresUserTokensRepository } from '@infra/database/typeorm/repositories/postgres/PostgresUserTokensRepository';
+import { PrismaUserTokensRepository } from '@infra/database/prisma/repositories/UserToken';
 
-let postgresUserTokensRepository: PostgresUserTokensRepository;
-
-export function makePostgresUserTokensRepository() {
-  if (!postgresUserTokensRepository) {
-    postgresUserTokensRepository = new PostgresUserTokensRepository();
-  }
-
-  return postgresUserTokensRepository;
+export function makeUserTokensRepository() {
+  return new PrismaUserTokensRepository();
 }

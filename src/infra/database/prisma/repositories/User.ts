@@ -10,7 +10,7 @@ import {
 
 import { prisma } from '..';
 
-export class PrismaUsersRepostory
+export class PrismaUsersRepository
   implements
     ICheckIfUserExistsByEmailRepository,
     ICreateUserRepository,

@@ -2,10 +2,10 @@ import { ResetUserPasswordUseCase } from '@application/usecases/user/ResetPasswo
 
 import { makeBcryptjsHashProvider } from '@main/factories/providers/BcryptjsHashProviderFactory';
 import { makeUsersRepository } from '@main/factories/repositories/User';
-import { makePostgresUserTokensRepository } from '@main/factories/repositories/UserToken';
+import { makeUserTokensRepository } from '@main/factories/repositories/UserToken';
 
 export function makeResetUserPasswordUseCase() {
-  const postgresUserTokensRepository = makePostgresUserTokensRepository();
+  const postgresUserTokensRepository = makeUserTokensRepository();
   const postgresUsersRepository = makeUsersRepository();
   const bcryptjsHashProvider = makeBcryptjsHashProvider();
 
