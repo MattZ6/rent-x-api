@@ -1,16 +1,16 @@
 import { ListAllCarBrandsUseCase } from '@application/usecases/car/brand/ListAll';
 
 import { carBrandConfig } from '@main/config/environment/carBrand';
-import { makePostgresCarBrandsRepository } from '@main/factories/repositories/CarBrand';
+import { makeCarBrandsRepository } from '@main/factories/repositories/CarBrand';
 
 export function makeListAllCarBrandsUseCase() {
-  const postgresCarBrandsRepository = makePostgresCarBrandsRepository();
+  const carBrandsRepository = makeCarBrandsRepository();
 
   return new ListAllCarBrandsUseCase(
     carBrandConfig.DEFAULT_SORT_BY,
     carBrandConfig.DEFAULT_ORDER_BY,
     carBrandConfig.DEFAULT_LIMIT,
     carBrandConfig.DEFAULT_OFFSET,
-    postgresCarBrandsRepository
+    carBrandsRepository
   );
 }
