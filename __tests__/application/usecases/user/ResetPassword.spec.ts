@@ -22,6 +22,20 @@ let deleteUserTokenByIdRepositorySpy: DeleteUserTokenByIdRepositorySpy;
 
 let resetUserPasswordUseCase: ResetUserPasswordUseCase;
 
+function setValidTokenTimeMock() {
+  const userTokenMock = makeUserTokenMock();
+
+  const findByTokenSpy = jest
+    .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
+    .mockResolvedValueOnce(userTokenMock);
+
+  jest
+    .spyOn(Date, 'now')
+    .mockReturnValueOnce(userTokenMock.expires_in.getTime());
+
+  return { userTokenMock, findByTokenSpy };
+}
+
 describe('ResetUserPasswordUseCase', () => {
   beforeEach(() => {
     findUserTokenByTokenRepositorySpy = new FindUserTokenByTokenRepositorySpy();
@@ -38,10 +52,7 @@ describe('ResetUserPasswordUseCase', () => {
   });
 
   it('should call FindUserTokenByTokenRepository once with correct values', async () => {
-    const findByTokenSpy = jest.spyOn(
-      findUserTokenByTokenRepositorySpy,
-      'findByToken'
-    );
+    const { findByTokenSpy } = setValidTokenTimeMock();
 
     const input = makeResetUserPasswordUseCaseInputMock();
 
@@ -98,6 +109,8 @@ describe('ResetUserPasswordUseCase', () => {
   });
 
   it('should call GenerateHashProvider once with correct values', async () => {
+    setValidTokenTimeMock();
+
     const hashSpy = jest.spyOn(generateHashProviderSpy, 'hash');
 
     const input = makeResetUserPasswordUseCaseInputMock();
@@ -109,6 +122,8 @@ describe('ResetUserPasswordUseCase', () => {
   });
 
   it('should throw if GenerateHashProvider throws', async () => {
+    setValidTokenTimeMock();
+
     const errorMock = makeErrorMock();
 
     jest
@@ -123,7 +138,7 @@ describe('ResetUserPasswordUseCase', () => {
   });
 
   it('should call UpdateUserRepository once with correct values', async () => {
-    const userTokenMock = makeUserTokenMock();
+    const { userTokenMock } = setValidTokenTimeMock();
 
     jest
       .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
@@ -149,6 +164,8 @@ describe('ResetUserPasswordUseCase', () => {
   });
 
   it('should throw if UpdateUserRepository throws', async () => {
+    setValidTokenTimeMock();
+
     const errorMock = makeErrorMock();
 
     jest
@@ -163,7 +180,7 @@ describe('ResetUserPasswordUseCase', () => {
   });
 
   it('should call DeleteUserTokenByIdRepository once with correct values', async () => {
-    const userTokenMock = makeUserTokenMock();
+    const { userTokenMock } = setValidTokenTimeMock();
 
     jest
       .spyOn(findUserTokenByTokenRepositorySpy, 'findByToken')
@@ -183,6 +200,8 @@ describe('ResetUserPasswordUseCase', () => {
   });
 
   it('should throw if DeleteUserTokenByIdRepository throws', async () => {
+    setValidTokenTimeMock();
+
     const errorMock = makeErrorMock();
 
     jest
