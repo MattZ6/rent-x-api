@@ -61,3 +61,13 @@ model CarBrand {
 
   @@map("car_brands")
 }
+
+model CarCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+
+  @@map("car_categories")
+}
