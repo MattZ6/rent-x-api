@@ -1,6 +1,7 @@
 export * from './ArrayOfUuidsField';
 export * from './CompareFields';
 export * from './Composite';
+export * from './DateField';
 export * from './DriverLicenseField';
 export * from './EmailField';
 export * from './LicensePlateField';
@@ -11,3 +12,4 @@ export * from './OneOfValuesField';
 export * from './OnlyNumbersField';
 export * from './RequiredField';
 export * from './UuidField';
+export * from './ValidDateIntervalField';

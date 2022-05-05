@@ -1,6 +1,6 @@
 import { ListAllCarCategoriesUseCase } from '@application/usecases/car/category/ListAll';
 
-import { carCategoryConfig } from '@main/config/environment/carCategoryConfig';
+import { carCategoryConfig } from '@main/config/environment/carCategory';
 import { makePostgresCarCategoriesRepository } from '@main/factories/repositories/CarCategory';
 
 export function makeListAllCarCategoriesUseCase() {

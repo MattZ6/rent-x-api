@@ -1,4 +1,6 @@
 export * from './DivergentFieldsValues';
+export * from './InvalidDateField';
+export * from './InvalidDateIntervalField';
 export * from './InvalidDriverLicenseField';
 export * from './InvalidEmailField';
 export * from './InvalidLicensePlateField';

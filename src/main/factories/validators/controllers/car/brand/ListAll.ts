@@ -7,7 +7,7 @@ import {
   ValidationComposite,
 } from '@presentation/validations/validators';
 
-import { carBrandConfig } from '@main/config/environment/carBrandConfig';
+import { carBrandConfig } from '@main/config/environment/carBrand';
 
 export function makeListAllCarBrandsControllerValidation(): ValidationComposite {
   type Input = ListAllCarBrandsController.RequestQuery;

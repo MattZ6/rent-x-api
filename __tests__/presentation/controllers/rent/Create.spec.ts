@@ -13,23 +13,70 @@ import {
   unprocessableEntity,
   conflict,
   created,
+  badRequest,
 } from '@presentation/helpers/http';
 
 import { makeErrorMock } from '../../../domain';
 import {
   CreateRentUseCaseSpy,
   makeCreateRentControllerRequestMock,
+  makeValidationErrorMock,
+  ValidationSpy,
 } from '../../mocks';
 
+let validationSpy: ValidationSpy;
 let createRentUseCaseSpy: CreateRentUseCaseSpy;
 
 let createRentController: CreateRentController;
 
 describe('CreateRentController', () => {
   beforeEach(() => {
+    validationSpy = new ValidationSpy();
     createRentUseCaseSpy = new CreateRentUseCaseSpy();
 
-    createRentController = new CreateRentController(createRentUseCaseSpy);
+    createRentController = new CreateRentController(
+      validationSpy,
+      createRentUseCaseSpy
+    );
+  });
+
+  it('should call Validation once with correct values', async () => {
+    const validateSpy = jest.spyOn(validationSpy, 'validate');
+
+    const request = makeCreateRentControllerRequestMock();
+
+    await createRentController.handle(request);
+
+    expect(validateSpy).toHaveBeenCalledTimes(1);
+    expect(validateSpy).toHaveBeenCalledWith(request.body);
+  });
+
+  it('should throw if Validation throws', async () => {
+    const errorMock = makeErrorMock();
+
+    jest.spyOn(validationSpy, 'validate').mockImplementationOnce(() => {
+      throw errorMock;
+    });
+
+    const request = makeCreateRentControllerRequestMock();
+
+    const promise = createRentController.handle(request);
+
+    await expect(promise).rejects.toThrowError(errorMock);
+  });
+
+  it('should return bad request (400) if Validation returns a ValidationError', async () => {
+    const validationErrorMock = makeValidationErrorMock();
+
+    jest
+      .spyOn(validationSpy, 'validate')
+      .mockReturnValueOnce(validationErrorMock);
+
+    const request = makeCreateRentControllerRequestMock();
+
+    const response = await createRentController.handle(request);
+
+    expect(response).toEqual(badRequest(validationErrorMock));
   });
 
   it('should call CreateRentUseCase once with correct values', async () => {
