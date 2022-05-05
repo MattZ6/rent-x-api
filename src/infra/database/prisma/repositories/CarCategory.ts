@@ -81,7 +81,7 @@ export class PrismaCarCategoriesRepository
     const { order_by, sort_by, take, skip } = data;
 
     const carCategories = await prisma.carCategory.findMany({
-      orderBy: { [order_by]: sort_by },
+      orderBy: { [sort_by]: order_by },
       take,
       skip,
     });

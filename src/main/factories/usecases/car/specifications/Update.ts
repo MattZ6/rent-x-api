@@ -1,14 +1,13 @@
 import { UpdateCarSpecificationUseCase } from '@application/usecases/car/specification/Update';
 
-import { makePostgresCarSpecificationsRepository } from '@main/factories/repositories/CarSpecification';
+import { makeCarSpecificationsRepository } from '@main/factories/repositories/CarSpecification';
 
 export function makeUpdateCarSpecificationUseCase() {
-  const postgresCarSpecificationsRepository =
-    makePostgresCarSpecificationsRepository();
+  const carSpecificationsRepository = makeCarSpecificationsRepository();
 
   return new UpdateCarSpecificationUseCase(
-    postgresCarSpecificationsRepository,
-    postgresCarSpecificationsRepository,
-    postgresCarSpecificationsRepository
+    carSpecificationsRepository,
+    carSpecificationsRepository,
+    carSpecificationsRepository
   );
 }
