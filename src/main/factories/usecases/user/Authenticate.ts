@@ -12,7 +12,7 @@ export function makeAuthenticateUserUseCase() {
   const bcryptjsHashProvider = makeBcryptjsHashProvider();
   const jwtCryptographyProvider = makeJWTCryptographyProvider();
   const uuidProvider = makeUuidProvider();
-  const postgresUserTokensRepository = makeUserTokensRepository();
+  const userTokensRepository = makeUserTokensRepository();
 
   const refreshTokenExpiresInMillisseconds =
     authConfig.REFRESH_TOKEN_EXPIRES_IN_MILLISSECONDS;
@@ -23,6 +23,6 @@ export function makeAuthenticateUserUseCase() {
     jwtCryptographyProvider,
     uuidProvider,
     refreshTokenExpiresInMillisseconds,
-    postgresUserTokensRepository
+    userTokensRepository
   );
 }

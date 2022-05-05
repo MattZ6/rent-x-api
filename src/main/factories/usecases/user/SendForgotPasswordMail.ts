@@ -11,9 +11,9 @@ import { makeUsersRepository } from '@main/factories/repositories/User';
 import { makeUserTokensRepository } from '@main/factories/repositories/UserToken';
 
 export function makeSendForgotUserPasswordMailUseCase() {
-  const postgresUsersRepository = makeUsersRepository();
+  const usersRepository = makeUsersRepository();
   const uuidProvider = makeUuidProvider();
-  const postgresUserTokensRepository = makeUserTokensRepository();
+  const userTokensRepository = makeUserTokensRepository();
   const etherealMailProvider = makeEtherealMailProvider();
 
   const passwordResetLinkExpiresInMillisseconds =
@@ -48,10 +48,10 @@ export function makeSendForgotUserPasswordMailUseCase() {
     };
 
   return new SendForgotUserPasswordMailUseCase(
-    postgresUsersRepository,
+    usersRepository,
     uuidProvider,
     passwordResetLinkExpiresInMillisseconds,
-    postgresUserTokensRepository,
+    userTokensRepository,
     emailData,
     passwordResetLinkData,
     etherealMailProvider

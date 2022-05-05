@@ -6,16 +6,16 @@ import { makePostgresRentsRepository } from '@main/factories/repositories/Rent';
 import { makeUsersRepository } from '@main/factories/repositories/User';
 
 export function makeCreateRentUseCase() {
-  const postgresUsersRepository = makeUsersRepository();
-  const postgresRentsRepository = makePostgresRentsRepository();
-  const postgresCarsRepository = makePostgresCarsRepository();
+  const usersRepository = makeUsersRepository();
+  const rentsRepository = makePostgresRentsRepository();
+  const carsRepository = makePostgresCarsRepository();
 
   return new CreateRentUseCase(
-    postgresUsersRepository,
-    postgresRentsRepository,
-    postgresCarsRepository,
+    usersRepository,
+    rentsRepository,
+    carsRepository,
     rentConfig.RENT_MIN_DURATION_IN_MILLISSECONDS,
-    postgresRentsRepository,
-    postgresRentsRepository
+    rentsRepository,
+    rentsRepository
   );
 }

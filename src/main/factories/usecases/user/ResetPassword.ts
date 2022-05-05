@@ -5,14 +5,14 @@ import { makeUsersRepository } from '@main/factories/repositories/User';
 import { makeUserTokensRepository } from '@main/factories/repositories/UserToken';
 
 export function makeResetUserPasswordUseCase() {
-  const postgresUserTokensRepository = makeUserTokensRepository();
-  const postgresUsersRepository = makeUsersRepository();
+  const userTokensRepository = makeUserTokensRepository();
+  const usersRepository = makeUsersRepository();
   const bcryptjsHashProvider = makeBcryptjsHashProvider();
 
   return new ResetUserPasswordUseCase(
-    postgresUserTokensRepository,
+    userTokensRepository,
     bcryptjsHashProvider,
-    postgresUsersRepository,
-    postgresUserTokensRepository
+    usersRepository,
+    userTokensRepository
   );
 }

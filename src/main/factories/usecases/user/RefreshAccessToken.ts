@@ -6,7 +6,7 @@ import { makeUuidProvider } from '@main/factories/providers/UuidProviderFactory'
 import { makeUserTokensRepository } from '@main/factories/repositories/UserToken';
 
 export function makeRefreshUserAccessTokenUseCase() {
-  const postgresUserTokensRepository = makeUserTokensRepository();
+  const userTokensRepository = makeUserTokensRepository();
   const jwtCryptographyProvider = makeJWTCryptographyProvider();
   const uuidProvider = makeUuidProvider();
 
@@ -14,11 +14,11 @@ export function makeRefreshUserAccessTokenUseCase() {
     authConfig.REFRESH_TOKEN_EXPIRES_IN_MILLISSECONDS;
 
   return new RefreshUserAccessTokenUseCase(
-    postgresUserTokensRepository,
+    userTokensRepository,
     jwtCryptographyProvider,
     uuidProvider,
     refreshTokenExpiresInMillisseconds,
-    postgresUserTokensRepository,
-    postgresUserTokensRepository
+    userTokensRepository,
+    userTokensRepository
   );
 }
