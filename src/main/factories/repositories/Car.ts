@@ -1,11 +1,5 @@
-import { PostgresCarsRepository } from '@infra/database/typeorm/repositories/postgres/PostgresCarsRepository';
+import { PrismaCarsRepository } from '@infra/database/prisma/repositories/Car';
 
-let postgresCarsRepository: PostgresCarsRepository;
-
-export function makePostgresCarsRepository() {
-  if (!postgresCarsRepository) {
-    postgresCarsRepository = new PostgresCarsRepository();
-  }
-
-  return postgresCarsRepository;
+export function makeCarsRepository() {
+  return new PrismaCarsRepository();
 }

@@ -1,9 +1,9 @@
 import { GetCarDetailsUseCase } from '@application/usecases/car/GetDetails';
 
-import { makePostgresCarsRepository } from '@main/factories/repositories/Car';
+import { makeCarsRepository } from '@main/factories/repositories/Car';
 
 export function makeGetCarDetailsUseCase() {
-  const postgresCarsRepository = makePostgresCarsRepository();
+  const carsRepository = makeCarsRepository();
 
-  return new GetCarDetailsUseCase(postgresCarsRepository);
+  return new GetCarDetailsUseCase(carsRepository);
 }
