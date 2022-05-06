@@ -6,7 +6,7 @@ export class DriverLicenseFieldValidation<I = unknown>
 {
   constructor(private readonly fieldName: keyof I) {}
 
-  validate(input: I): void {
+  validate(input: I) {
     const driverLicense = String(input[this.fieldName] ?? '')
       .trim()
       .replace(/[^\d]/g, '');
@@ -16,5 +16,7 @@ export class DriverLicenseFieldValidation<I = unknown>
     if (!isValid) {
       throw new InvalidDriverLicenseFieldError(String(this.fieldName));
     }
+
+    return null;
   }
 }
