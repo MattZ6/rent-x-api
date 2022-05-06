@@ -37,7 +37,7 @@
     "@swc/jest": "0.2.20",
     "@types/bcryptjs": "2.4.2",
     "@types/express": "4.17.13",
-    "@types/jest": "27.4.1",
+    "@types/jest": "27.5.0",
     "@types/jsonwebtoken": "8.5.8",
     "@types/mime": "2.0.3",
     "@types/multer": "1.4.7",
