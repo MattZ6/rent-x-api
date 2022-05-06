@@ -22,12 +22,12 @@ export class JWTCryptographyProvider
   ) {}
 
   async encrypt(
-    data: IEncryptProvider.Input
+    data: IEncryptProvider.Input<any>
   ): Promise<IEncryptProvider.Output> {
-    const { value } = data;
+    const { subject, payload } = data;
 
-    return sign({}, this.secret, {
-      subject: value,
+    return sign(payload, this.secret, {
+      subject,
       expiresIn: this.expiresInSeconds,
     });
   }

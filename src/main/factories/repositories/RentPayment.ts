@@ -1,11 +1,5 @@
-import { PostgresRentPaymentsRepository } from '@infra/database/typeorm/repositories/postgres/PostgresRentPaymentsRepository';
+import { PrismaRentPaymentsRepository } from '@infra/database/prisma/repositories/RentPayment';
 
-let postgresRentPaymentsRepository: PostgresRentPaymentsRepository;
-
-export function makePostgresRentPaymentsRepository() {
-  if (!postgresRentPaymentsRepository) {
-    postgresRentPaymentsRepository = new PostgresRentPaymentsRepository();
-  }
-
-  return postgresRentPaymentsRepository;
+export function makeRentPaymentsRepository() {
+  return new PrismaRentPaymentsRepository();
 }

@@ -3,9 +3,9 @@ version: "3.9"
 services:
 
   # Database
-  database:
+  rentx_database:
     image: postgres
-    container_name: database
+    container_name: rentx_database
     restart: always
     ports:
       - ${DATABASE_PORT}:5432
@@ -19,9 +19,9 @@ services:
       - net
 
   # Application
-  api:
+  rentx_api:
     build: .
-    container_name: api
+    container_name: rentx_api
     restart: always
     env_file:
       - .env
@@ -30,9 +30,9 @@ services:
     volumes:
       - .:/usr/app
     depends_on:
-      - database
+      - rentx_database
     links:
-      - database
+      - rentx_database
     networks:
       - net
 

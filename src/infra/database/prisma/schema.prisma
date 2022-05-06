@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  DRIVER
+}
+
+model User {
+  id             String   @id @default(uuid())
+  name           String
+  driver_license String   @unique
+  email          String   @unique
+  password_hash  String
+  role           UserRole
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now()) @updatedAt
+
+  tokens UserToken[]
+  avatar UserAvatar?
+  rents  Rent[]
+
+  @@map("users")
+}
+
+model UserToken {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  expires_in DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("user_tokens")
+}
+
+model UserAvatar {
+  user_id       String   @id
+  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  original_name String
+  mime_type     String
+  extension     String
+  size_in_bytes Float
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now()) @updatedAt
+
+  @@map("user_avatars")
+}
+
+model CarBrand {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  cars Car[]
+
+  @@map("car_brands")
+}
+
+model CarCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+
+  cars Car[]
+
+  @@map("car_categories")
+}
+
+model CarSpecification {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+
+  cars_specifications CarsSpecifications[]
+
+  @@map("car_specifications")
+}
+
+enum CarTypeOfFuel {
+  ALCOHOL
+  GAS
+  ELETRICITY
+}
+
+enum CarTransmissionType {
+  AUTO
+  MANUAL
+}
+
+model Car {
+  id                                   String              @id @default(uuid())
+  name                                 String
+  description                          String
+  license_plate                        String              @unique
+  daily_rate                           Float
+  daily_late_fee                       Float
+  brand_id                             String
+  brand                                CarBrand            @relation(fields: [brand_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  category_id                          String
+  category                             CarCategory         @relation(fields: [category_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  type_of_fuel                         CarTypeOfFuel
+  transmission_type                    CarTransmissionType
+  number_of_seats                      Int
+  horse_power                          Float
+  max_speed                            Float
+  zero_to_one_hundred_in_millisseconds Float
+  created_at                           DateTime            @default(now())
+  updated_at                           DateTime            @default(now()) @updatedAt
+
+  cars_specifications CarsSpecifications[]
+  rents               Rent[]
+
+  @@map("cars")
+}
+
+model CarsSpecifications {
+  car_id           String
+  car              Car              @relation(fields: [car_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  specification_id String
+  specification    CarSpecification @relation(fields: [specification_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([car_id, specification_id])
+  @@map("cars_specifications")
+}
+
+model Rent {
+  id                   String       @id @default(uuid())
+  car_id               String
+  car                  Car          @relation(fields: [car_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id              String
+  user                 User         @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  daily_late_fee       Float
+  daily_rate           Float
+  start_date           DateTime
+  expected_return_date DateTime
+  return_date          DateTime?
+  payment_id           String?
+  payment              RentPayment?
+  created_at           DateTime     @default(now())
+  updated_at           DateTime     @default(now()) @updatedAt
+
+  @@map("rents")
+}
+
+model RentPayment {
+  id         String    @id @default(uuid())
+  rent_id    String    @unique
+  rent       Rent      @relation(fields: [rent_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  total      Float
+  paid_at    DateTime?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+
+  @@map("rent_payments")
+}

@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import express from 'express';
 
 import setupSwagger from '@main/config/swagger';
@@ -11,4 +10,4 @@ app.use(routes);
 
 setupSwagger(app);
 
-export default app;
+export { app };

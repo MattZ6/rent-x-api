@@ -1,18 +1,18 @@
 import { ReturnRentUseCase } from '@application/usecases/rent/Return';
 
 import { makeDurationProvider } from '@main/factories/providers/DurationProviderFactory';
-import { makePostgresRentsRepository } from '@main/factories/repositories/Rent';
-import { makePostgresRentPaymentsRepository } from '@main/factories/repositories/RentPayment';
+import { makeRentsRepository } from '@main/factories/repositories/Rent';
+import { makeRentPaymentsRepository } from '@main/factories/repositories/RentPayment';
 
 export function makeReturnRentUseCase() {
-  const postgresRentsRepository = makePostgresRentsRepository();
+  const rentsRepository = makeRentsRepository();
   const durationProvider = makeDurationProvider();
-  const postgresRentPaymentsRepository = makePostgresRentPaymentsRepository();
+  const rentPaymentsRepository = makeRentPaymentsRepository();
 
   return new ReturnRentUseCase(
-    postgresRentsRepository,
+    rentsRepository,
     durationProvider,
-    postgresRentPaymentsRepository,
-    postgresRentsRepository
+    rentPaymentsRepository,
+    rentsRepository
   );
 }

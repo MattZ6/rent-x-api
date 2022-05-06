@@ -1,13 +1,13 @@
 import { UpdateCarCategoryUseCase } from '@application/usecases/car/category/Update';
 
-import { makePostgresCarCategoriesRepository } from '@main/factories/repositories/CarCategory';
+import { makeCarCategoriesRepository } from '@main/factories/repositories/CarCategory';
 
 export function makeUpdateCarCategoryUseCase() {
-  const postgresCarCategoriesRepository = makePostgresCarCategoriesRepository();
+  const carCategoriesRepository = makeCarCategoriesRepository();
 
   return new UpdateCarCategoryUseCase(
-    postgresCarCategoriesRepository,
-    postgresCarCategoriesRepository,
-    postgresCarCategoriesRepository
+    carCategoriesRepository,
+    carCategoriesRepository,
+    carCategoriesRepository
   );
 }

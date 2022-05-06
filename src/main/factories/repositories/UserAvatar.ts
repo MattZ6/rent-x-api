@@ -1,11 +1,5 @@
-import { PostgresUserAvatarsRepository } from '@infra/database/typeorm/repositories/postgres/PostgresUserAvatarsRepository';
+import { PrismaUserAvatarsRepository } from '@infra/database/prisma/repositories/UserAvatar';
 
-let postgresUserAvatarsRepository: PostgresUserAvatarsRepository;
-
-export function makePostgresUserAvatarsRepository() {
-  if (!postgresUserAvatarsRepository) {
-    postgresUserAvatarsRepository = new PostgresUserAvatarsRepository();
-  }
-
-  return postgresUserAvatarsRepository;
+export function makeUserAvatarsRepository() {
+  return new PrismaUserAvatarsRepository();
 }

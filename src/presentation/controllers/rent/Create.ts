@@ -4,6 +4,7 @@ import {
   CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
+  RentalStartDateIsInThePastError,
 } from '@domain/errors';
 import { ICreateRentUseCase } from '@domain/usecases/rent/Create';
 
@@ -68,6 +69,10 @@ class CreateRentController implements IController {
       }
 
       if (error instanceof InvalidRentDurationTimeError) {
+        return unprocessableEntity(error);
+      }
+
+      if (error instanceof RentalStartDateIsInThePastError) {
         return unprocessableEntity(error);
       }
 

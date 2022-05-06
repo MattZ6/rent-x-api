@@ -14,11 +14,22 @@
   },
   "bugs": "https://github.com/mattz6/rent-x-api/issues",
   "scripts": {
-    "dev": "tsnd -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/main/server.ts",
-    "typeorm": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli",
+    "dev": "cross-env DATABASE_PORT=5432 tsnd -r tsconfig-paths/register --exit-child --transpile-only --ignore-watch node_modules src/main/server.ts",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "prisma": "cross-env DATABASE_HOST=localhost prisma",
     "test": "jest",
     "test:cov": "yarn test --coverage",
-    "seed:admin": "tsnd src/shared/infra/typeorm/seeders/admin-user.ts"
+    "db:config": "yarn db:migrate && yarn db:seed",
+    "db:migrate": "yarn prisma migrate deploy",
+    "db:seed": "yarn db:seed:admin && yarn db:seed:brands && yarn db:seed:categories && yarn db:seed:specifications",
+    "db:seed:admin": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createAdminUser.ts",
+    "db:seed:brands": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarBrands.ts",
+    "db:seed:categories": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarCategories.ts",
+    "db:seed:specifications": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarSpecifications.ts"
+  },
+  "prisma": {
+    "schema": "src/infra/database/prisma/schema.prisma"
   },
   "devDependencies": {
     "@faker-js/faker": "6.2.0",
@@ -33,7 +44,6 @@
     "@types/nodemailer": "6.4.4",
     "@types/supertest": "2.0.12",
     "@types/swagger-ui-express": "4.1.3",
-    "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.22.0",
     "@typescript-eslint/parser": "5.22.0",
     "cross-env": "7.0.3",
@@ -47,6 +57,7 @@
     "git-commit-msg-linter": "4.1.2",
     "jest": "27.5.1",
     "prettier": "2.6.2",
+    "prisma": "3.13.0",
     "supertest": "6.2.3",
     "ts-jest": "27.1.4",
     "ts-node-dev": "1.1.8",
@@ -54,6 +65,7 @@
     "typescript": "4.6.4"
   },
   "dependencies": {
+    "@prisma/client": "3.13.0",
     "aws-sdk": "2.1116.0",
     "bcryptjs": "2.4.3",
     "csv-parse": "5.0.4",
@@ -64,10 +76,6 @@
     "mime": "3.0.0",
     "multer": "1.4.4",
     "nodemailer": "6.7.3",
-    "pg": "8.7.3",
-    "reflect-metadata": "0.1.13",
-    "swagger-ui-express": "4.3.0",
-    "typeorm": "0.3.6",
-    "uuid": "8.3.2"
+    "swagger-ui-express": "4.3.0"
   }
 }
