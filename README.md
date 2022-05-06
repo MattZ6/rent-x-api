@@ -53,22 +53,20 @@ cp .env.example .env
 Para rodar a aplicação em ambiente de desenvolvimento, execute o comando:
 
 ```bash
-docker-compose up
-
-# ou passando a flag -d ao final para executar em modo detached;
+yarn docker:up
 ```
 
-Rode as migrations:
+Rode as migrations e os seeders:
 
 ```bash
-yarn typeorm migration:run
+yarn db:config
 ```
 ### Parar
 
 Por fim, para parar a execução dos seviços, execute:
 
 ```bash
-docker-compose stop
+yarn docker:down
 ```
 
 ## 🧪 Testes
