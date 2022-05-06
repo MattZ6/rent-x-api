@@ -17,7 +17,7 @@ export function makeCreateCarControllerRequestMock(): CreateCarController.Reques
     query: undefined,
     user: {
       id: faker.datatype.uuid(),
-      role: faker.random.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
+      role: faker.helpers.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
     },
     body: {
       name: faker.datatype.string(),
@@ -34,11 +34,11 @@ export function makeCreateCarControllerRequestMock(): CreateCarController.Reques
         min: 1.5,
         max: 15.9,
       }),
-      transmission_type: faker.random.arrayElement<CarTransmissionTypeEnum>([
+      transmission_type: faker.helpers.arrayElement<CarTransmissionTypeEnum>([
         'AUTO',
         'MANUAL',
       ]),
-      type_of_fuel: faker.random.arrayElement<CarTypeOfFuelEnum>([
+      type_of_fuel: faker.helpers.arrayElement<CarTypeOfFuelEnum>([
         'ALCOHOL',
         'ELETRICITY',
         'GAS',

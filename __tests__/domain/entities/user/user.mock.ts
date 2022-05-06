@@ -8,7 +8,7 @@ export function makeUserMock(): User {
   return {
     id: faker.datatype.uuid(),
     name: faker.name.findName(),
-    role: faker.random.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
+    role: faker.helpers.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
     email: faker.internet.email(),
     password_hash: faker.internet.password(),
     driver_license: faker.datatype.string(),

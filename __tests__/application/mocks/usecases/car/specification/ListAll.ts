@@ -3,14 +3,14 @@ import { faker } from '@faker-js/faker';
 import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAll';
 
 export function makeListAllCarSpecificationsUseCaseDefaultSortByMock(): IListAllCarSpecificationsUseCase.SortBy {
-  return faker.random.arrayElement<IListAllCarSpecificationsUseCase.SortBy>([
+  return faker.helpers.arrayElement<IListAllCarSpecificationsUseCase.SortBy>([
     'name',
     'created_at',
   ]);
 }
 
 export function makeListAllCarSpecificationsUseCaseDefaultOrderByMock(): IListAllCarSpecificationsUseCase.OrderBy {
-  return faker.random.arrayElement<IListAllCarSpecificationsUseCase.OrderBy>([
+  return faker.helpers.arrayElement<IListAllCarSpecificationsUseCase.OrderBy>([
     'asc',
     'desc',
   ]);

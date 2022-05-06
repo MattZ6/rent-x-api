@@ -10,14 +10,14 @@ export function makeListAllCarsControllerRequestMock(): ListAllCarsController.Re
     method: faker.internet.httpMethod(),
     original_url: faker.internet.url(),
     query: {
-      sort_by: faker.random.arrayElement<ListAllCarsController.SortBy>([
+      sort_by: faker.helpers.arrayElement<ListAllCarsController.SortBy>([
         'name',
         'created_at',
         'horse_power',
         'number_of_seats',
         'max_speed',
       ]),
-      order_by: faker.random.arrayElement<ListAllCarsController.OrderBy>([
+      order_by: faker.helpers.arrayElement<ListAllCarsController.OrderBy>([
         'asc',
         'desc',
       ]),

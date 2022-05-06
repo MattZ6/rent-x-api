@@ -10,13 +10,13 @@ export function makeListAllCarBrandsControllerRequestMock(): ListAllCarBrandsCon
     params: undefined,
     body: undefined,
     query: {
-      sort_by: faker.random.arrayElement<ListAllCarBrandsController.SortBy>([
+      sort_by: faker.helpers.arrayElement<ListAllCarBrandsController.SortBy>([
         'name',
         'created_at',
         undefined,
         null,
       ]),
-      order_by: faker.random.arrayElement<ListAllCarBrandsController.OrderBy>([
+      order_by: faker.helpers.arrayElement<ListAllCarBrandsController.OrderBy>([
         'asc',
         'desc',
         undefined,

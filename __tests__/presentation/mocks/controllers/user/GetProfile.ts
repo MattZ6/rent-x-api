@@ -14,7 +14,7 @@ export function makeGetUserProfileControllerRequestMock(): GetUserProfileControl
     original_url: faker.internet.url(),
     user: {
       id: faker.datatype.uuid(),
-      role: faker.random.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
+      role: faker.helpers.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
     },
   };
 }

@@ -23,11 +23,11 @@ export function makeCreateCarUseCaseInputMock(): ICreateCarUseCase.Input {
       min: 2,
       max: 15,
     }),
-    transmission_type: faker.random.arrayElement<CarTransmissionTypeEnum>([
+    transmission_type: faker.helpers.arrayElement<CarTransmissionTypeEnum>([
       'AUTO',
       'MANUAL',
     ]),
-    type_of_fuel: faker.random.arrayElement<CarTypeOfFuelEnum>([
+    type_of_fuel: faker.helpers.arrayElement<CarTypeOfFuelEnum>([
       'ALCOHOL',
       'ELETRICITY',
       'GAS',

@@ -11,14 +11,14 @@ export function makeListAllCarSpecificationsControllerRequestMock(): ListAllCarS
     body: undefined,
     query: {
       sort_by:
-        faker.random.arrayElement<ListAllCarSpecificationsController.SortBy>([
+        faker.helpers.arrayElement<ListAllCarSpecificationsController.SortBy>([
           'name',
           'created_at',
           undefined,
           null,
         ]),
       order_by:
-        faker.random.arrayElement<ListAllCarSpecificationsController.OrderBy>([
+        faker.helpers.arrayElement<ListAllCarSpecificationsController.OrderBy>([
           'asc',
           'desc',
           undefined,
