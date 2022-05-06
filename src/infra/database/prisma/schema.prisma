@@ -166,3 +166,14 @@ model RentPayment {
 
   @@map("rent_payments")
 }
+
+model Error {
+  id           String   @id @default(uuid())
+  stack        String
+  resource_uri String
+  http_method  String
+  thrown_at    String
+  created_at   DateTime @default(now())
+
+  @@map("errors")
+}
