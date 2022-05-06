@@ -112,7 +112,11 @@ export class PrismaCarsRepository
 
     const car = await prisma.car.findUnique({
       where: { id },
-      include,
+      include: {
+        brand: include?.brand,
+        category: include?.category,
+        cars_specifications: include?.specifications,
+      },
     });
 
     return car;
