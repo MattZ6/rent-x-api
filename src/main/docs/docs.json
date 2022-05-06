@@ -962,6 +962,17 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
+                }
+              }
+            }
+          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -1281,6 +1292,17 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not found",
             "content": {
@@ -1422,6 +1444,17 @@
                       "message": "The token is expired."
                     }
                   }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
                 }
               }
             }
@@ -1772,6 +1805,17 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not found",
             "content": {
@@ -1913,6 +1957,17 @@
                       "message": "The token is expired."
                     }
                   }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
                 }
               }
             }
@@ -2108,6 +2163,17 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal server error",
             "content": {
@@ -2264,6 +2330,17 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not found",
             "content": {
@@ -2373,6 +2450,17 @@
                       "message": "The token is expired."
                     }
                   }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
                 }
               }
             }
@@ -2799,6 +2887,17 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not found",
             "content": {
@@ -3114,6 +3213,17 @@
                       "message": "The token is expired."
                     }
                   }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
                 }
               }
             }
