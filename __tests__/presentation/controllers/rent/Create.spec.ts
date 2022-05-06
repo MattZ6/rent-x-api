@@ -4,6 +4,7 @@ import {
   CarNotFoundWithProvidedIdError,
   InvalidRentDurationTimeError,
   CarAlreadyBookedOnThisDateError,
+  RentalStartDateIsInThePastError,
 } from '@domain/errors';
 
 import { CreateRentController } from '@presentation/controllers/rent/Create';
@@ -153,6 +154,20 @@ describe('CreateRentController', () => {
 
   it('should return unprocessable entity (422) if CreateRentUseCase throws InvalidRentDurationTimeError', async () => {
     const errorMock = new InvalidRentDurationTimeError();
+
+    jest
+      .spyOn(createRentUseCaseSpy, 'execute')
+      .mockRejectedValueOnce(errorMock);
+
+    const request = makeCreateRentControllerRequestMock();
+
+    const response = await createRentController.handle(request);
+
+    expect(response).toEqual(unprocessableEntity(errorMock));
+  });
+
+  it('should return unprocessable entity (422) if CreateRentUseCase throws RentalStartDateIsInThePastError', async () => {
+    const errorMock = new RentalStartDateIsInThePastError();
 
     jest
       .spyOn(createRentUseCaseSpy, 'execute')
