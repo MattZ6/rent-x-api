@@ -20,9 +20,12 @@
     "prisma": "cross-env DATABASE_HOST=localhost prisma",
     "test": "jest",
     "test:cov": "yarn test --coverage",
-    "seed:admin": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createAdminUser.ts",
-    "seed:brands": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarBrands.ts",
-    "seed:categories": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarCategories.ts"
+    "db:config": "yarn db:migrate && yarn db:seed",
+    "db:migrate": "yarn prisma migrate deploy",
+    "db:seed": "yarn db:seed:admin && yarn db:seed:brands && yarn db:seed:categories",
+    "db:seed:admin": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createAdminUser.ts",
+    "db:seed:brands": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarBrands.ts",
+    "db:seed:categories": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarCategories.ts"
   },
   "prisma": {
     "schema": "src/infra/database/prisma/schema.prisma"
