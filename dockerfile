@@ -6,16 +6,13 @@ EXPOSE ${API_PORT}
 
 WORKDIR /home/node/app
 
-COPY --chown=node:node package.json yarn.lock tsconfig.json ./
+COPY --chown=node:node package.json yarn.lock ./
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
 
-COPY --chown=node:node src ./src/
+COPY --chown=node:node . .
 
 RUN yarn prisma generate
-
-# Run migrations and seeders
-RUN yarn db:config
 
 CMD [ "yarn", "dev" ]
