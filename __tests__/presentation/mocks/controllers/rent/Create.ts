@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { UserRole } from '@domain/entities/User';
+
 import { CreateRentController } from '@presentation/controllers/rent/Create';
 
 export function makeCreateRentControllerRequestMock(): CreateRentController.Request {
@@ -14,6 +16,9 @@ export function makeCreateRentControllerRequestMock(): CreateRentController.Requ
       start_date: faker.datatype.datetime(),
       end_date: faker.datatype.datetime(),
     },
-    user_id: faker.datatype.uuid(),
+    user: {
+      id: faker.datatype.uuid(),
+      role: faker.random.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
+    },
   };
 }

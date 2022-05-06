@@ -1,3 +1,5 @@
+import { UserRole } from '@domain/entities/User';
+
 export interface IHttpResponse<B = unknown> {
   statusCode: number;
   body?: B;
@@ -16,7 +18,10 @@ export interface IHttpRequest<
   Q = unknown,
   H = unknown
 > {
-  user_id?: string;
+  user?: {
+    id: string;
+    role: UserRole;
+  };
   body: B;
   params: P;
   query: Q;

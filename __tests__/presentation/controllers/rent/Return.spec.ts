@@ -89,7 +89,7 @@ describe('ReturnRentController', () => {
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
       rent_id: request.params.id,
-      user_id: request.user_id,
+      user_id: request.user.id,
     });
   });
 

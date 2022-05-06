@@ -89,7 +89,7 @@ describe('CreateRentController', () => {
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      user_id: request.user_id,
+      user_id: request.user.id,
       car_id: request.body.car_id,
       start_date: request.body.start_date,
       expected_return_date: request.body.end_date,

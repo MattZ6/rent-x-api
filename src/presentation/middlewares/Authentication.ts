@@ -1,3 +1,5 @@
+import { UserRole } from '@domain/entities/User';
+
 import { IVerifyCriptographyProvider } from '@application/protocols/providers/cryptography';
 
 import {
@@ -27,12 +29,16 @@ class AuthenticationMiddleware implements IMiddleware {
         throw new AccessTokenNotProvidedError();
       }
 
-      const { subject } = await this.verifyCriptographyProvider.verify({
-        value: accessToken,
-      });
+      const { subject, payload } =
+        await this.verifyCriptographyProvider.verify<AuthenticationMiddleware.TokenPayload>(
+          {
+            value: accessToken,
+          }
+        );
 
       return ok<AuthenticationMiddleware.ResponseBody>({
-        user_id: subject,
+        id: subject,
+        role: payload.role,
       });
     } catch (error) {
       if (error instanceof AccessTokenNotProvidedError) {
@@ -57,12 +63,17 @@ namespace AuthenticationMiddleware {
     ['x-access-token']: string;
   };
 
+  export type TokenPayload = {
+    role: UserRole;
+  };
+
   export type Request = IHttpRequest<unknown, unknown, unknown, RequestHeaders>;
 
   export type Response = IHttpResponse;
 
   export type ResponseBody = {
-    user_id: string;
+    id: string;
+    role: UserRole;
   };
 }
 

@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { UserRole } from '@domain/entities/User';
+
 import { GetUserProfileController } from '@presentation/controllers/user/GetProfile';
 
 export function makeGetUserProfileControllerRequestMock(): GetUserProfileController.Request {
@@ -10,6 +12,9 @@ export function makeGetUserProfileControllerRequestMock(): GetUserProfileControl
     body: undefined,
     method: faker.internet.httpMethod(),
     original_url: faker.internet.url(),
-    user_id: faker.datatype.uuid(),
+    user: {
+      id: faker.datatype.uuid(),
+      role: faker.random.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
+    },
   };
 }

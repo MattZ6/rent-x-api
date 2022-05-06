@@ -31,7 +31,7 @@ describe('UpdateUserAvatarController', () => {
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      user_id: request.user_id,
+      user_id: request.user.id,
       file: {
         name: request.body.file.originalname,
         type: request.body.file.mimetype,

@@ -1,16 +1,16 @@
 ## Car category features requirements
 
-- 📅 **Create category**
+- ✔ **Create category**
   - [x] It should be possible to create a car category with **name** and **description**;
   - [x] It must not be possible to create a car category with the **name** of another;
   - [x] Add API documentation;
-  - [ ] Only administrators can create car categories.
+  - [x] Only administrators can create car categories.
 
-- 📅 **Update category**
+- ✔ **Update category**
   - [x] It should be possible to update a car category (**name** and **description**);
   - [x] It must not be possible to update a car category with the **name** of another;
   - [x] Add API documentation;
-  - [ ] Only administrators can update car categories.
+  - [x] Only administrators can update car categories.
 
 - ✔ **List categories**
   - [x] It should be possible to list all car categories **with paging**;

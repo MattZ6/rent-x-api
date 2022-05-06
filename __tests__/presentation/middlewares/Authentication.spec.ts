@@ -92,7 +92,8 @@ describe('AuthenticationMiddleware', () => {
   });
 
   it('should return ok (200) on success', async () => {
-    const outputMock = makeVerifyCriptographyProviderOutputMock();
+    const outputMock =
+      makeVerifyCriptographyProviderOutputMock<AuthenticationMiddleware.TokenPayload>();
 
     jest
       .spyOn(verifyCriptographyProviderSpy, 'verify')
@@ -102,6 +103,8 @@ describe('AuthenticationMiddleware', () => {
 
     const response = await authenticationMiddleware.handle(request);
 
-    expect(response).toEqual(ok({ user_id: outputMock.subject }));
+    expect(response).toEqual(
+      ok({ id: outputMock.subject, role: outputMock.payload.role })
+    );
   });
 });

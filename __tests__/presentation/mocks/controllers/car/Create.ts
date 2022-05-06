@@ -4,6 +4,7 @@ import {
   CarTransmissionTypeEnum,
   CarTypeOfFuelEnum,
 } from '@domain/entities/Car';
+import { UserRole } from '@domain/entities/User';
 
 import { CreateCarController } from '@presentation/controllers/car/Create';
 
@@ -14,7 +15,10 @@ export function makeCreateCarControllerRequestMock(): CreateCarController.Reques
     headers: undefined,
     params: undefined,
     query: undefined,
-    user_id: faker.datatype.uuid(),
+    user: {
+      id: faker.datatype.uuid(),
+      role: faker.random.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
+    },
     body: {
       name: faker.datatype.string(),
       description: faker.datatype.string(),

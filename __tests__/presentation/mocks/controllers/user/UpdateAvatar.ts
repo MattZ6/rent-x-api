@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { UserRole } from '@domain/entities/User';
+
 import { UpdateUserAvatarController } from '@presentation/controllers/user/UpdateAvatar';
 
 export function makeUpdateUserAvatarControllerRequestMock(): UpdateUserAvatarController.Request {
@@ -9,7 +11,10 @@ export function makeUpdateUserAvatarControllerRequestMock(): UpdateUserAvatarCon
     query: undefined,
     method: faker.internet.httpMethod(),
     original_url: faker.internet.url(),
-    user_id: faker.datatype.uuid(),
+    user: {
+      id: faker.datatype.uuid(),
+      role: faker.random.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
+    },
     body: {
       file: {
         originalname: faker.system.fileName(),

@@ -31,7 +31,7 @@ describe('GetUserProfileController', () => {
     await getUserProfileController.handle(request);
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
-    expect(executeSpy).toHaveBeenCalledWith({ id: request.user_id });
+    expect(executeSpy).toHaveBeenCalledWith({ id: request.user.id });
   });
 
   it('should throw if GetUserProfileUseCase throws', async () => {
