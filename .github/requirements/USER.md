@@ -21,8 +21,8 @@
 - 📅 **Profile**
   - [x] It should be possible to get user profile data;
     - [x] Add API documentation;
-  - [ ] It should be possible to update user **name**;
-    - [ ] Add API documentation;
+  - [x] It should be possible to update user **name**;
+    - [x] Add API documentation;
   - [ ] It should be possible to update user **email**;
     - [ ] Add API documentation;
   - [ ] It should be possible to update user **password**;
