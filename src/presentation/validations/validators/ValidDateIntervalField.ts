@@ -9,7 +9,7 @@ export class ValidDateIntervalFieldValidation<I = unknown>
     private readonly fieldNameToCompare: keyof I
   ) {}
 
-  validate(input: I): void {
+  validate(input: I) {
     const end = new Date(String(input[this.fieldName] ?? '').trim());
     const start = new Date(String(input[this.fieldNameToCompare] ?? '').trim());
 
@@ -21,5 +21,7 @@ export class ValidDateIntervalFieldValidation<I = unknown>
         String(this.fieldNameToCompare)
       );
     }
+
+    return null;
   }
 }

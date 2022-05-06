@@ -4,7 +4,7 @@ import { IValidation } from '@presentation/protocols';
 export class DateFieldValidation<I = unknown> implements IValidation<I> {
   constructor(private readonly fieldName: keyof I) {}
 
-  validate(input: I): void {
+  validate(input: I) {
     const value = String(input[this.fieldName] ?? '').trim();
     const date = new Date(value);
 
@@ -13,5 +13,7 @@ export class DateFieldValidation<I = unknown> implements IValidation<I> {
     if (!isValid) {
       throw new InvalidDateFieldError(String(this.fieldName));
     }
+
+    return null;
   }
 }

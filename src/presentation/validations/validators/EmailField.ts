@@ -7,7 +7,7 @@ export class EmailFieldValidation<I = unknown> implements IValidation<I> {
 
   constructor(private readonly fieldName: keyof I) {}
 
-  validate(input: I): void {
+  validate(input: I) {
     const email = String(input[this.fieldName] ?? '').trim();
 
     const isValid = this.emailRegex.test(email);
@@ -15,5 +15,7 @@ export class EmailFieldValidation<I = unknown> implements IValidation<I> {
     if (!isValid) {
       throw new InvalidEmailFieldError(String(this.fieldName));
     }
+
+    return null;
   }
 }
