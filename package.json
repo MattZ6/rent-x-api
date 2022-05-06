@@ -19,7 +19,10 @@
     "docker:down": "docker-compose down",
     "prisma": "cross-env DATABASE_HOST=localhost prisma",
     "test": "jest",
-    "test:cov": "yarn test --coverage"
+    "test:cov": "yarn test --coverage",
+    "seed:admin": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createAdminUser.ts",
+    "seed:brands": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarBrands.ts",
+    "seed:categories": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarCategories.ts"
   },
   "prisma": {
     "schema": "src/infra/database/prisma/schema.prisma"
