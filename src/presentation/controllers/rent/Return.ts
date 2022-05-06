@@ -37,11 +37,11 @@ class ReturnRentController implements IController {
         throw validationError;
       }
 
-      const { user_id } = request;
+      const { id: userId } = request.user;
       const { id } = request.params;
 
       await this.returnRentUseCase.execute({
-        user_id,
+        user_id: userId,
         rent_id: id,
       });
 

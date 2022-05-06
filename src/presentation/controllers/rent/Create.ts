@@ -40,12 +40,12 @@ class CreateRentController implements IController {
         throw validationError;
       }
 
-      const { user_id } = request;
+      const { id: userId } = request.user;
       const { start_date, end_date, car_id } = request.body;
 
       await this.createRentUseCase.execute({
         car_id,
-        user_id,
+        user_id: userId,
         start_date,
         expected_return_date: end_date,
       });

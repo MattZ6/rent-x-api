@@ -17,11 +17,11 @@ class UpdateUserAvatarController implements IController {
     request: UpdateUserAvatarController.Request
   ): Promise<UpdateUserAvatarController.Response> {
     try {
-      const { user_id } = request;
+      const { id: userId } = request.user;
       const { file } = request.body;
 
       await this.updateUserAvatarUseCase.execute({
-        user_id,
+        user_id: userId,
         file: {
           name: file.originalname,
           type: file.mimetype,
