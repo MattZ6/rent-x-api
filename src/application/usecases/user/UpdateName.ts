@@ -17,12 +17,13 @@ export class UpdateUserNameUseCase implements IUpdateUserNameUseCase {
   ): Promise<IUpdateUserNameUseCase.Output> {
     const { id, name } = data;
 
-    const alreadyExists =
-      await this.checkIfUserExistsByIdRepository.checkIfExistsById({
+    const exists = await this.checkIfUserExistsByIdRepository.checkIfExistsById(
+      {
         id,
-      });
+      }
+    );
 
-    if (!alreadyExists) {
+    if (!exists) {
       throw new UserNotFoundWithProvidedIdError();
     }
 
