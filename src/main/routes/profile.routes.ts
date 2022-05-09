@@ -5,6 +5,7 @@ import { adaptMiddleware } from '@main/adapters/express/middleware';
 import { adaptRoute } from '@main/adapters/express/route';
 import { makeGetUserProfileController } from '@main/factories/controllers/user/GetProfile';
 import { makeUpdateUserAvatarController } from '@main/factories/controllers/user/UpdateAvatar';
+import { makeUpdateUserEmailController } from '@main/factories/controllers/user/UpdateEmail';
 import { makeUpdateUserNameController } from '@main/factories/controllers/user/UpdateName';
 import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
@@ -29,6 +30,12 @@ profileRoutes.patch(
   '/name',
   adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeUpdateUserNameController())
+);
+
+profileRoutes.patch(
+  '/email',
+  adaptMiddleware(makeAuthenticationMiddleware()),
+  adaptRoute(makeUpdateUserEmailController())
 );
 
 export default profileRoutes;
