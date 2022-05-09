@@ -5,4 +5,5 @@ export * from './RefreshAccessToken';
 export * from './ResetPassword';
 export * from './SendForgotPasswordMail';
 export * from './UpdateAvatar';
+export * from './UpdateEmail';
 export * from './UpdateName';

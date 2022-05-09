@@ -1,6 +1,7 @@
 import {
   ICheckIfUserExistsByDriverLicenseRepository,
   ICheckIfUserExistsByEmailRepository,
+  ICheckIfUserExistsByEmailWithDifferentIdRepository,
   ICheckIfUserExistsByIdRepository,
   ICreateUserRepository,
   IFindUserByEmailRepository,
@@ -18,7 +19,8 @@ export class PrismaUsersRepository
     IFindUserByEmailRepository,
     IUpdateUserRepository,
     ICheckIfUserExistsByIdRepository,
-    ICheckIfUserExistsByDriverLicenseRepository
+    ICheckIfUserExistsByDriverLicenseRepository,
+    ICheckIfUserExistsByEmailWithDifferentIdRepository
 {
   async checkIfExistsByEmail(
     data: ICheckIfUserExistsByEmailRepository.Input
@@ -113,6 +115,26 @@ export class PrismaUsersRepository
 
     const count = await prisma.user.count({
       where: { driver_license },
+    });
+
+    return count >= 1;
+  }
+
+  async checkIfExistsByEmailWithDifferentId(
+    data: ICheckIfUserExistsByEmailWithDifferentIdRepository.Input
+  ): Promise<ICheckIfUserExistsByEmailWithDifferentIdRepository.Output> {
+    const { id, email } = data;
+
+    const count = await prisma.user.count({
+      where: {
+        id: {
+          not: { equals: id },
+        },
+        email: {
+          equals: email,
+          mode: 'insensitive',
+        },
+      },
     });
 
     return count >= 1;
