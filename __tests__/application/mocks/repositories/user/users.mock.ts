@@ -1,6 +1,7 @@
 import {
   ICheckIfUserExistsByDriverLicenseRepository,
   ICheckIfUserExistsByEmailRepository,
+  ICheckIfUserExistsByEmailWithDifferentIdRepository,
   ICheckIfUserExistsByIdRepository,
   ICreateUserRepository,
   IFindUserByEmailRepository,
@@ -108,5 +109,15 @@ export class CheckIfUserExistsByIdRepositorySpy
     _: ICheckIfUserExistsByIdRepository.Input
   ): Promise<ICheckIfUserExistsByIdRepository.Output> {
     return true;
+  }
+}
+
+export class CheckIfUserExistsByEmailWithDifferentIdRepositorySpy
+  implements ICheckIfUserExistsByEmailWithDifferentIdRepository
+{
+  async checkIfExistsByEmailWithDifferentId(
+    _: ICheckIfUserExistsByEmailWithDifferentIdRepository.Input
+  ): Promise<ICheckIfUserExistsByEmailWithDifferentIdRepository.Output> {
+    return false;
   }
 }
