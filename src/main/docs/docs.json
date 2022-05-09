@@ -878,6 +878,115 @@
         }
       }
     },
+    "/v1/profile/email": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update email",
+        "description": "Update email of the authenticated user",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "User's email data",
+          "content": {
+            "application/json": {
+              "example": {
+                "email": "jane.doe@rentx.com.br"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/UserEmailData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "required",
+                        "value": null,
+                        "message": "The email field is required."
+                      }
+                    }
+                  },
+                  "Email invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "email",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The email is invalid."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user.email.in_use",
+                  "message": "There is already a registered user with this email."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/brands": {
       "post": {
         "tags": ["Brand", "Admin"],
@@ -3707,6 +3816,14 @@
         }
       },
       "UserNameData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UserEmailData": {
         "type": "object",
         "properties": {
           "name": {
