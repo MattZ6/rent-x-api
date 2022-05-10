@@ -17,7 +17,7 @@ export class DriverLicenseFieldValidation<I = unknown>
     const isValid = this.driverLicenseValidator.isValid({ driver_license });
 
     if (!isValid) {
-      throw new InvalidDriverLicenseFieldError(String(this.fieldName));
+      return new InvalidDriverLicenseFieldError(String(this.fieldName));
     }
 
     return null;
