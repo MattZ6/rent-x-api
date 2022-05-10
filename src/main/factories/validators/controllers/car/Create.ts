@@ -11,18 +11,19 @@ import {
   OneOfValuesFieldValidation,
   OnlyNumbersFieldValidation,
   RequiredFieldValidation,
-  UuidFieldValidation,
   ValidationComposite,
 } from '@presentation/validations/validators';
+
+import { makeUuidFieldValidation } from '../../validators/UuidField';
 
 export function makeCreateCarControllerValidation(): ValidationComposite {
   type Input = CreateCarController.RequestBody;
 
   return new ValidationComposite<Input>([
     new RequiredFieldValidation('brand_id'),
-    new UuidFieldValidation('brand_id'),
+    makeUuidFieldValidation('brand_id'),
     new RequiredFieldValidation('category_id'),
-    new UuidFieldValidation('category_id'),
+    makeUuidFieldValidation('category_id'),
     new RequiredFieldValidation('daily_late_fee'),
     new OnlyNumbersFieldValidation('daily_late_fee', true),
     new RequiredFieldValidation('daily_rate'),
