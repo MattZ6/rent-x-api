@@ -6,7 +6,6 @@ import {
 import { CreateCarController } from '@presentation/controllers/car/Create';
 import {
   ArrayOfUuidsFieldValidation,
-  LicensePlateFieldValidation,
   MinLengthFieldValidation,
   OneOfValuesFieldValidation,
   OnlyNumbersFieldValidation,
@@ -14,6 +13,7 @@ import {
   ValidationComposite,
 } from '@presentation/validations/validators';
 
+import { makeCarLicensePlateFieldValidation } from '../../validators/CarLicensePlateField';
 import { makeUuidFieldValidation } from '../../validators/UuidField';
 
 export function makeCreateCarControllerValidation(): ValidationComposite {
@@ -33,7 +33,7 @@ export function makeCreateCarControllerValidation(): ValidationComposite {
     new RequiredFieldValidation('horse_power'),
     new OnlyNumbersFieldValidation('horse_power', true),
     new RequiredFieldValidation('license_plate'),
-    new LicensePlateFieldValidation('license_plate'),
+    makeCarLicensePlateFieldValidation('license_plate'),
     new RequiredFieldValidation('max_speed'),
     new OnlyNumbersFieldValidation('max_speed', true),
     new RequiredFieldValidation('name'),
