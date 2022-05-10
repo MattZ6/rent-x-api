@@ -1,12 +1,12 @@
 import type { CreateAccountController } from '@presentation/controllers/user/Create';
 import {
   CompareFieldsValidation,
-  DriverLicenseFieldValidation,
   MinLengthFieldValidation,
   RequiredFieldValidation,
   ValidationComposite,
 } from '@presentation/validations/validators';
 
+import { makeDriverLicenseFieldValidation } from '../../validators/DriverLicenseField';
 import { makeEmailFieldValidation } from '../../validators/EmailField';
 
 export function makeCreateAccountControllerValidation(): ValidationComposite {
@@ -18,7 +18,7 @@ export function makeCreateAccountControllerValidation(): ValidationComposite {
     new RequiredFieldValidation('name'),
     new MinLengthFieldValidation('name', 3, true),
     new RequiredFieldValidation('driver_license'),
-    new DriverLicenseFieldValidation('driver_license'),
+    makeDriverLicenseFieldValidation('driver_license'),
     new RequiredFieldValidation('email'),
     makeEmailFieldValidation('email'),
     new RequiredFieldValidation('password'),
