@@ -23,7 +23,9 @@ describe('RequiredFieldValidation', () => {
   it('should return RequiredFieldError if validation fails', async () => {
     const output = requiredFieldValidation.validate({});
 
-    expect(output).toBeInstanceOf(RequiredFieldError);
+    expect(output).toEqual(
+      new RequiredFieldError(requiredFieldValidationFieldName)
+    );
   });
 
   it('should return null if validation succeeds', async () => {

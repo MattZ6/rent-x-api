@@ -45,7 +45,12 @@ describe('MinValueFieldValidation', () => {
       ),
     });
 
-    expect(output).toBeInstanceOf(MinValueFieldError);
+    expect(output).toEqual(
+      new MinValueFieldError(
+        minValueFieldValidationFieldName,
+        minValueFieldValidationMinValue
+      )
+    );
   });
 
   it('should return null if validation succeeds', async () => {

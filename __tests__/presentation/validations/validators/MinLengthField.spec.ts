@@ -30,7 +30,12 @@ describe('MinLengthFieldValidation', () => {
   it('should return MinLengthFieldError if input is empty', async () => {
     const output = minLengthFieldValidation.validate({});
 
-    expect(output).toBeInstanceOf(MinLengthFieldError);
+    expect(output).toEqual(
+      new MinLengthFieldError(
+        minLengthFieldValidationFieldName,
+        minLengthFieldValidationMinLength
+      )
+    );
   });
 
   it('should return MinLengthFieldError if validation fails', async () => {
@@ -40,7 +45,12 @@ describe('MinLengthFieldValidation', () => {
       ),
     });
 
-    expect(output).toBeInstanceOf(MinLengthFieldError);
+    expect(output).toEqual(
+      new MinLengthFieldError(
+        minLengthFieldValidationFieldName,
+        minLengthFieldValidationMinLength
+      )
+    );
   });
 
   it('should trim value if trim flag is passed', async () => {

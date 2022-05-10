@@ -45,7 +45,12 @@ describe('MaxValueFieldValidation', () => {
       ),
     });
 
-    expect(output).toBeInstanceOf(MaxValueFieldError);
+    expect(output).toEqual(
+      new MaxValueFieldError(
+        maxValueFieldValidationFieldName,
+        maxValueFieldValidationMaxValue
+      )
+    );
   });
 
   it('should return null if validation succeeds', async () => {
