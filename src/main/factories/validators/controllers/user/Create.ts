@@ -2,11 +2,12 @@ import type { CreateAccountController } from '@presentation/controllers/user/Cre
 import {
   CompareFieldsValidation,
   DriverLicenseFieldValidation,
-  EmailFieldValidation,
   MinLengthFieldValidation,
   RequiredFieldValidation,
   ValidationComposite,
 } from '@presentation/validations/validators';
+
+import { makeEmailFieldValidation } from '../../validators/EmailField';
 
 export function makeCreateAccountControllerValidation(): ValidationComposite {
   type Input = CreateAccountController.RequestBody & {
@@ -19,7 +20,7 @@ export function makeCreateAccountControllerValidation(): ValidationComposite {
     new RequiredFieldValidation('driver_license'),
     new DriverLicenseFieldValidation('driver_license'),
     new RequiredFieldValidation('email'),
-    new EmailFieldValidation('email'),
+    makeEmailFieldValidation('email'),
     new RequiredFieldValidation('password'),
     new MinLengthFieldValidation('password', 6),
     new RequiredFieldValidation('password_confirmation'),

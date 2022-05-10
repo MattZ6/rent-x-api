@@ -1,19 +1,21 @@
 import { InvalidEmailFieldError } from '@presentation/errors/validation';
 import { IValidation } from '@presentation/protocols';
 
-export class EmailFieldValidation<I = unknown> implements IValidation<I> {
-  private readonly emailRegex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import { IEmailValidator } from '../protocols';
 
-  constructor(private readonly fieldName: keyof I) {}
+export class EmailFieldValidation<I = unknown> implements IValidation<I> {
+  constructor(
+    private readonly emailValidator: IEmailValidator,
+    private readonly fieldName: keyof I
+  ) {}
 
   validate(input: I) {
     const email = String(input[this.fieldName] ?? '').trim();
 
-    const isValid = this.emailRegex.test(email);
+    const isValid = this.emailValidator.isValid({ email });
 
     if (!isValid) {
-      throw new InvalidEmailFieldError(String(this.fieldName));
+      return new InvalidEmailFieldError(String(this.fieldName));
     }
 
     return null;
