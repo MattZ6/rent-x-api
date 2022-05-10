@@ -1,3 +1,4 @@
+export * from './CarLicensePlateField';
 export * from './EmailField';
 export * from './MaxValueField';
 export * from './MinLengthField';
