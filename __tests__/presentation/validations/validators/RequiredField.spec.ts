@@ -15,9 +15,9 @@ describe('RequiredFieldValidation', () => {
   beforeEach(() => {
     requiredFieldValidationFieldName = makeRequiredFieldValidationFieldName();
 
-    requiredFieldValidation = new RequiredFieldValidation<{
-      [key: string]: string;
-    }>(requiredFieldValidationFieldName);
+    requiredFieldValidation = new RequiredFieldValidation(
+      requiredFieldValidationFieldName
+    );
   });
 
   it('should return RequiredFieldError if validation fails', async () => {
