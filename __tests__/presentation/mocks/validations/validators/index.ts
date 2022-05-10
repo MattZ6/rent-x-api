@@ -1,4 +1,5 @@
 export * from './CarLicensePlateField';
+export * from './CompareFields';
 export * from './DriverLicenseField';
 export * from './EmailField';
 export * from './MaxValueField';
