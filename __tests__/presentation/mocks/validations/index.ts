@@ -2,6 +2,7 @@ import { ValidationError } from '@presentation/errors';
 import { IValidation } from '@presentation/protocols';
 
 export * from './errors';
+export * from './protocols';
 export * from './validators';
 
 export class ValidationSpy implements IValidation {

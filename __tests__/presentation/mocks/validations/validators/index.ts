@@ -1,3 +1,4 @@
+export * from './ArrayOfUuidsField';
 export * from './CarLicensePlateField';
 export * from './CompareFields';
 export * from './DriverLicenseField';
