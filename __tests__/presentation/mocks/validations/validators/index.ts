@@ -1,6 +1,7 @@
 export * from './ArrayOfUuidsField';
 export * from './CarLicensePlateField';
 export * from './CompareFields';
+export * from './DateField';
 export * from './DriverLicenseField';
 export * from './EmailField';
 export * from './MaxValueField';
