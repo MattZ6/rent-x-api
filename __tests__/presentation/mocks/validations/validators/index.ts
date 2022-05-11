@@ -7,5 +7,6 @@ export * from './MaxValueField';
 export * from './MinLengthField';
 export * from './MinValueField';
 export * from './OneOfValuesField';
+export * from './OnlyNumbersField';
 export * from './RequiredField';
 export * from './UuidField';
