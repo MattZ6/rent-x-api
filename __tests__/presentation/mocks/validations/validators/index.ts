@@ -11,3 +11,4 @@ export * from './OneOfValuesField';
 export * from './OnlyNumbersField';
 export * from './RequiredField';
 export * from './UuidField';
+export * from './ValidDateIntervalField';
