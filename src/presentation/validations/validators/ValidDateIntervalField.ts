@@ -10,13 +10,13 @@ export class ValidDateIntervalFieldValidation<I = unknown>
   ) {}
 
   validate(input: I) {
-    const end = new Date(String(input[this.fieldName] ?? '').trim());
-    const start = new Date(String(input[this.fieldNameToCompare] ?? '').trim());
+    const end = new Date(String(input[this.fieldName]));
+    const start = new Date(String(input[this.fieldNameToCompare]));
 
     const isValid = end.getTime() > start.getTime();
 
     if (!isValid) {
-      throw new InvalidDateIntervalFieldError(
+      return new InvalidDateIntervalFieldError(
         String(this.fieldName),
         String(this.fieldNameToCompare)
       );
