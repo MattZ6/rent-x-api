@@ -10,21 +10,13 @@ class AdminMiddleware implements IMiddleware {
   async handle(
     request: AdminMiddleware.Request
   ): Promise<AdminMiddleware.Response> {
-    try {
-      const { role } = request.user ?? {};
+    const { role } = request.user ?? {};
 
-      if (role !== 'ADMIN') {
-        throw new PermissionDeniedError();
-      }
-
-      return noContent();
-    } catch (error) {
-      if (error instanceof PermissionDeniedError) {
-        return forbidden(error);
-      }
-
-      throw error;
+    if (role !== 'ADMIN') {
+      return forbidden(new PermissionDeniedError());
     }
+
+    return noContent();
   }
 }
 
