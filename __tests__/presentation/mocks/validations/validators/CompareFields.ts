@@ -5,5 +5,5 @@ export function makeCompareFieldsValidationFieldName() {
 }
 
 export function makeCompareFieldsValidationFieldToCompareName() {
-  return faker.database.column();
+  return faker.git.branch();
 }
