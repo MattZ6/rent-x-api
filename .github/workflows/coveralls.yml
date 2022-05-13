@@ -22,7 +22,7 @@ jobs:
       run: yarn
 
     - name: Collect coverage
-      run: yarn jest --passWithNoTests --coverage
+      run: yarn test:ci
 
     - name: Coveralls
       uses: coverallsapp/github-action@1.1.3

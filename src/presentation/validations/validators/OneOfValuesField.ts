@@ -21,7 +21,7 @@ export class OneOfValuesFieldValidation<I = unknown, O = unknown>
     );
 
     if (isOneOf) {
-      throw new IsNotOneOfValuesFieldError(
+      return new IsNotOneOfValuesFieldError(
         String(this.fieldName),
         this.possibleValues
       );

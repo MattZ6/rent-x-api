@@ -2,9 +2,10 @@ import { UpdateCarBrandController } from '@presentation/controllers/car/brand/Up
 import {
   MinLengthFieldValidation,
   RequiredFieldValidation,
-  UuidFieldValidation,
   ValidationComposite,
 } from '@presentation/validations/validators';
+
+import { makeUuidFieldValidation } from '@main/factories/validators/validators/UuidField';
 
 export function makeUpdateCarBrandControllerValidation(): ValidationComposite {
   type Input = UpdateCarBrandController.RequestBody &
@@ -12,7 +13,7 @@ export function makeUpdateCarBrandControllerValidation(): ValidationComposite {
 
   return new ValidationComposite<Input>([
     new RequiredFieldValidation('id'),
-    new UuidFieldValidation('id'),
+    makeUuidFieldValidation('id'),
     new RequiredFieldValidation('name'),
     new MinLengthFieldValidation('name', 3, true),
   ]);

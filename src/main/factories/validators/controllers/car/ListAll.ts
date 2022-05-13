@@ -4,11 +4,12 @@ import {
   MinValueFieldValidation,
   OneOfValuesFieldValidation,
   OnlyNumbersFieldValidation,
-  UuidFieldValidation,
   ValidationComposite,
 } from '@presentation/validations/validators';
 
 import { carConfig } from '@main/config/environment/car';
+
+import { makeUuidFieldValidation } from '../../validators/UuidField';
 
 export function makeListAllCarsControllerValidation(): ValidationComposite {
   type Input = ListAllCarsController.RequestQuery;
@@ -29,7 +30,7 @@ export function makeListAllCarsControllerValidation(): ValidationComposite {
     new MaxValueFieldValidation('limit', carConfig.MAX_LIMIT),
     new OnlyNumbersFieldValidation('offset'),
     new MinValueFieldValidation('offset', carConfig.MIN_OFFSET),
-    new UuidFieldValidation('brand_id'),
-    new UuidFieldValidation('category_id'),
+    makeUuidFieldValidation('brand_id'),
+    makeUuidFieldValidation('category_id'),
   ]);
 }

@@ -3,9 +3,10 @@ import {
   CompareFieldsValidation,
   MinLengthFieldValidation,
   RequiredFieldValidation,
-  UuidFieldValidation,
   ValidationComposite,
 } from '@presentation/validations/validators';
+
+import { makeUuidFieldValidation } from '../../validators/UuidField';
 
 export function makeResetUserPasswordControllerValidation(): ValidationComposite {
   type Input = ResetUserPasswordController.RequestBody & {
@@ -14,7 +15,7 @@ export function makeResetUserPasswordControllerValidation(): ValidationComposite
 
   return new ValidationComposite<Input>([
     new RequiredFieldValidation('token'),
-    new UuidFieldValidation('token'),
+    makeUuidFieldValidation('token'),
     new RequiredFieldValidation('new_password'),
     new MinLengthFieldValidation('new_password', 6),
     new RequiredFieldValidation('new_password_confirmation'),

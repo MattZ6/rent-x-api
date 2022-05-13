@@ -23,7 +23,8 @@ export default {
     '<rootDir>/src/application/usecases/**/*.ts',
     '<rootDir>/src/presentation/controllers/**/*.ts',
     '<rootDir>/src/presentation/middlewares/**/*.ts',
-    '<rootDir>/src/presentation/validations/**/*.ts',
+    '<rootDir>/src/presentation/validations/validators/**/*.ts',
+    '!<rootDir>/src/presentation/validations/validators/**/*index.ts',
     '<rootDir>/src/main/decorators/**/*.ts',
   ],
 
@@ -101,7 +102,7 @@ export default {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: 'ts-jest',
+  // preset: 'ts-jest',
 
   // Run tests from one or more projects
   // projects: undefined,

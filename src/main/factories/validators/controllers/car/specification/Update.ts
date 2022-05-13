@@ -2,9 +2,10 @@ import { UpdateCarSpecificationController } from '@presentation/controllers/car/
 import {
   MinLengthFieldValidation,
   RequiredFieldValidation,
-  UuidFieldValidation,
   ValidationComposite,
 } from '@presentation/validations/validators';
+
+import { makeUuidFieldValidation } from '@main/factories/validators/validators/UuidField';
 
 export function makeUpdateCarSpecificationControllerValidation(): ValidationComposite {
   type Input = UpdateCarSpecificationController.RequestBody &
@@ -12,7 +13,7 @@ export function makeUpdateCarSpecificationControllerValidation(): ValidationComp
 
   return new ValidationComposite<Input>([
     new RequiredFieldValidation('id'),
-    new UuidFieldValidation('id'),
+    makeUuidFieldValidation('id'),
     new RequiredFieldValidation('name'),
     new MinLengthFieldValidation('name', 3, true),
     new RequiredFieldValidation('description'),

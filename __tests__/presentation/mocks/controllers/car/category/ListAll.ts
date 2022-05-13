@@ -10,9 +10,13 @@ export function makeListAllCarCategoriesControllerRequestMock(): ListAllCarCateg
     params: undefined,
     body: undefined,
     query: {
-      sort_by: faker.helpers.arrayElement<ListAllCarCategoriesController.SortBy>(
-        ['name', 'created_at', undefined, null]
-      ),
+      sort_by:
+        faker.helpers.arrayElement<ListAllCarCategoriesController.SortBy>([
+          'name',
+          'created_at',
+          undefined,
+          null,
+        ]),
       order_by:
         faker.helpers.arrayElement<ListAllCarCategoriesController.OrderBy>([
           'asc',
