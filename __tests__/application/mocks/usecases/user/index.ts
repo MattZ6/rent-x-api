@@ -7,3 +7,4 @@ export * from './SendForgotPasswordMail';
 export * from './UpdateAvatar';
 export * from './UpdateEmail';
 export * from './UpdateName';
+export * from './UpdatePassword';

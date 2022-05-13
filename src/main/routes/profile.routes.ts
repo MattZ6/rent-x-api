@@ -7,6 +7,7 @@ import { makeGetUserProfileController } from '@main/factories/controllers/user/G
 import { makeUpdateUserAvatarController } from '@main/factories/controllers/user/UpdateAvatar';
 import { makeUpdateUserEmailController } from '@main/factories/controllers/user/UpdateEmail';
 import { makeUpdateUserNameController } from '@main/factories/controllers/user/UpdateName';
+import { makeUpdateUserPasswordController } from '@main/factories/controllers/user/UpdatePassword';
 import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
 const profileRoutes = Router();
@@ -36,6 +37,12 @@ profileRoutes.patch(
   '/email',
   adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeUpdateUserEmailController())
+);
+
+profileRoutes.patch(
+  '/password',
+  adaptMiddleware(makeAuthenticationMiddleware()),
+  adaptRoute(makeUpdateUserPasswordController())
 );
 
 export default profileRoutes;
