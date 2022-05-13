@@ -5,7 +5,6 @@ import {
 
 import { CreateCarController } from '@presentation/controllers/car/Create';
 import {
-  ArrayOfUuidsFieldValidation,
   MinLengthFieldValidation,
   OneOfValuesFieldValidation,
   OnlyNumbersFieldValidation,
@@ -13,6 +12,7 @@ import {
   ValidationComposite,
 } from '@presentation/validations/validators';
 
+import { makeArrayOfUuidsFieldValidation } from '../../validators/ArrayOfUuidsField';
 import { makeCarLicensePlateFieldValidation } from '../../validators/CarLicensePlateField';
 import { makeUuidFieldValidation } from '../../validators/UuidField';
 
@@ -40,7 +40,7 @@ export function makeCreateCarControllerValidation(): ValidationComposite {
     new MinLengthFieldValidation('name', 3, true),
     new RequiredFieldValidation('number_of_seats'),
     new OnlyNumbersFieldValidation('number_of_seats'),
-    new ArrayOfUuidsFieldValidation('specifications_ids'),
+    makeArrayOfUuidsFieldValidation('specifications_ids'),
     new RequiredFieldValidation('transmission_type'),
     new OneOfValuesFieldValidation<Input, CarTransmissionTypeEnum>(
       'transmission_type',
