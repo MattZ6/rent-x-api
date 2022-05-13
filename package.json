@@ -16,6 +16,8 @@
   "scripts": {
     "dev": "cross-env DATABASE_PORT=5432 tsnd -r tsconfig-paths/register --exit-child --transpile-only --ignore-watch node_modules src/main/server.ts",
     "type-check": "tsc",
+    "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js)\"",
+    "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js)\" --write",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "prisma": "cross-env DATABASE_HOST=localhost prisma",
