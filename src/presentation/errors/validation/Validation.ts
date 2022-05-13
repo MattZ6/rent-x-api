@@ -1,13 +1,13 @@
 export class ValidationError extends Error {
   public field: string;
   public type: string;
-  public value?: any;
+  public value?: string | number;
 
   constructor(
     field: string,
     type: string,
     message: string,
-    value: any = undefined
+    value: string | number = undefined
   ) {
     super(message);
 

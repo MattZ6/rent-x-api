@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   JsonWebTokenError,
   JwtPayload,
@@ -32,7 +33,7 @@ export class JWTCryptographyProvider
     });
   }
 
-  async verify<T = any>(
+  async verify<T = unknown>(
     data: IVerifyCriptographyProvider.Input
   ): Promise<IVerifyCriptographyProvider.Output<T>> {
     const { value } = data;

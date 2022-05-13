@@ -32,7 +32,7 @@ export function adaptRoute(controller: IController) {
       params: request.params ?? {},
       query: request.query ?? {},
       headers: request.headers ?? {},
-      user_id: request.user_id,
+      user: request.user,
       original_url: request.originalUrl,
       method: request.method,
       file,
