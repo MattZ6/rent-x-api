@@ -26,7 +26,7 @@
   - [x] It should be possible to update user **email**;
     - [x] Add API documentation;
   - [x] It should be possible to update user **password**;
-    - [ ] Add API documentation;
+    - [x] Add API documentation;
   - [x] It should be possible to update user **avatar picture**;
     - [ ] Add API documentation;
   - [ ] It should be possible to remove user **avatar picture**.

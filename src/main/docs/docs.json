@@ -987,6 +987,177 @@
         }
       }
     },
+    "/v1/profile/password": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update password",
+        "description": "Update password of the authenticated user",
+        "security": [{ "userAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "description": "User's password data",
+          "content": {
+            "application/json": {
+              "example": {
+                "old_password": "123456",
+                "new_password": "654321",
+                "new_password_confirmation": "654321"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/UserPasswordData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Old password required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "old_password",
+                        "type": "required",
+                        "value": null,
+                        "message": "The old_password field is required."
+                      }
+                    }
+                  },
+                  "Old password min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "old_password",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The old_password must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "New password required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password",
+                        "type": "required",
+                        "value": null,
+                        "message": "The new_password field is required."
+                      }
+                    }
+                  },
+                  "New password min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The new_password must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "New password confirmation required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password_confirmation",
+                        "type": "required",
+                        "value": null,
+                        "message": "The new_password_confirmation field is required."
+                      }
+                    }
+                  },
+                  "New password confirmation min length": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password_confirmation",
+                        "type": "minlength",
+                        "value": 6,
+                        "message": "The new_password_confirmation must have at least 6 characters"
+                      }
+                    }
+                  },
+                  "Passwords not match": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "new_password_confirmation",
+                        "type": "divergent",
+                        "value": null,
+                        "message": "The value of the new_password_confirmation field is different from the value of the new_password field"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "password.wrong",
+                  "message": "Wrong password."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/brands": {
       "post": {
         "tags": ["Brand", "Admin"],
@@ -3826,7 +3997,21 @@
       "UserEmailData": {
         "type": "object",
         "properties": {
-          "name": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "UserPasswordData": {
+        "type": "object",
+        "properties": {
+          "old_password": {
+            "type": "string"
+          },
+          "new_password": {
+            "type": "string"
+          },
+          "new_password_confirmation": {
             "type": "string"
           }
         }
