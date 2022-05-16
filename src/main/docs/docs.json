@@ -1158,6 +1158,78 @@
         }
       }
     },
+    "/v1/profile/avatar": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete avatar",
+        "description": "Delete avatar of the authenticated user",
+        "security": [{ "userAuth": [] }],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "User not exists": {
+                    "value": {
+                      "code": "user.not.exists",
+                      "message": "No users found with the id provided."
+                    }
+                  },
+                  "User avatar not exists": {
+                    "value": {
+                      "code": "user_avatar.not.exists",
+                      "message": "This user does not have an avatar."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/brands": {
       "post": {
         "tags": ["Brand", "Admin"],
