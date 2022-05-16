@@ -70,7 +70,7 @@ export class PrismaUserAvatarsRepository
       where: { user_id: { equals: user_id } },
     });
 
-    return count >= 0;
+    return count > 0;
   }
 
   async deleteByUserId(
