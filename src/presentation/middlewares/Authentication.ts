@@ -37,8 +37,7 @@ class AuthenticationMiddleware implements IMiddleware {
         );
 
       return ok<AuthenticationMiddleware.ResponseBody>({
-        id: subject,
-        role: payload.role,
+        user: { id: subject, role: payload.role },
       });
     } catch (error) {
       if (error instanceof AccessTokenNotProvidedError) {
@@ -72,8 +71,10 @@ namespace AuthenticationMiddleware {
   export type Response = IHttpResponse;
 
   export type ResponseBody = {
-    id: string;
-    role: UserRole;
+    user: {
+      id: string;
+      role: UserRole;
+    };
   };
 }
 

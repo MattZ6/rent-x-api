@@ -104,7 +104,7 @@ describe('AuthenticationMiddleware', () => {
     const response = await authenticationMiddleware.handle(request);
 
     expect(response).toEqual(
-      ok({ id: outputMock.subject, role: outputMock.payload.role })
+      ok({ user: { id: outputMock.subject, role: outputMock.payload.role } })
     );
   });
 });
