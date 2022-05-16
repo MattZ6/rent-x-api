@@ -2,6 +2,7 @@ export * from './Authenticate';
 export * from './Create';
 export * from './GetProfile';
 export * from './RefreshAccessToken';
+export * from './RemoveAvatar';
 export * from './ResetPassword';
 export * from './SendForgotPasswordMail';
 export * from './UpdateAvatar';

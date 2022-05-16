@@ -1,9 +1,14 @@
-import { access, mkdir, writeFile } from 'fs/promises';
+import { access, mkdir, writeFile, rm } from 'fs/promises';
 import { resolve } from 'path';
 
-import { IStoreFileProvider } from '@application/protocols/providers/storage';
+import {
+  IDeleteFileProvider,
+  IStoreFileProvider,
+} from '@application/protocols/providers/storage';
 
-export class DiskStorageProvider implements IStoreFileProvider {
+export class DiskStorageProvider
+  implements IStoreFileProvider, IDeleteFileProvider
+{
   constructor(private readonly rootFolder: string) {}
 
   private async checkIfFolderExists(path: string) {
@@ -38,5 +43,21 @@ export class DiskStorageProvider implements IStoreFileProvider {
     }
 
     await this.saveFile(`${path}/${file_name}`, content);
+  }
+
+  async delete(
+    data: IDeleteFileProvider.Input
+  ): Promise<IDeleteFileProvider.Output> {
+    const { file_name, folder_path } = data;
+
+    const path = `${this.rootFolder}/${folder_path}`;
+
+    const exists = await this.checkIfFolderExists(path);
+
+    if (!exists) {
+      return;
+    }
+
+    await rm(`${path}/${file_name}`);
   }
 }

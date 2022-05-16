@@ -1,5 +1,7 @@
 import {
+  ICheckIfUserAvatarExistsByUserIdRepository,
   ICreateUserAvatarRepository,
+  IDeleteUserAvatarByUserIdRepository,
   IFindUserAvatarByIdRepository,
   IUpdateUserAvatarRepository,
 } from '@application/protocols/repositories/user';
@@ -10,7 +12,9 @@ export class PrismaUserAvatarsRepository
   implements
     IFindUserAvatarByIdRepository,
     ICreateUserAvatarRepository,
-    IUpdateUserAvatarRepository
+    IUpdateUserAvatarRepository,
+    ICheckIfUserAvatarExistsByUserIdRepository,
+    IDeleteUserAvatarByUserIdRepository
 {
   async findById(
     data: IFindUserAvatarByIdRepository.Input
@@ -55,5 +59,27 @@ export class PrismaUserAvatarsRepository
     });
 
     return userAvatar;
+  }
+
+  async checkIfExistsByUserId(
+    data: ICheckIfUserAvatarExistsByUserIdRepository.Input
+  ): Promise<ICheckIfUserAvatarExistsByUserIdRepository.Output> {
+    const { user_id } = data;
+
+    const count = await prisma.userAvatar.count({
+      where: { user_id: { equals: user_id } },
+    });
+
+    return count > 0;
+  }
+
+  async deleteByUserId(
+    data: IDeleteUserAvatarByUserIdRepository.Input
+  ): Promise<IDeleteUserAvatarByUserIdRepository.Output> {
+    const { user_id } = data;
+
+    await prisma.userAvatar.delete({
+      where: { user_id },
+    });
   }
 }
