@@ -18,7 +18,7 @@
   - [x] The password recovery link must have a **duration** of 3 hours.
   - [x] Add API documentation;
 
-- 📅 **Profile**
+- ✔ **Profile**
   - [x] It should be possible to get user profile data;
     - [x] Add API documentation;
   - [x] It should be possible to update user **name**;
@@ -28,6 +28,6 @@
   - [x] It should be possible to update user **password**;
     - [x] Add API documentation;
   - [x] It should be possible to update user **avatar picture**;
-    - [ ] Add API documentation;
+    - [x] Add API documentation;
   - [x] It should be possible to remove user **avatar picture**.
     - [x] Add API documentation;
