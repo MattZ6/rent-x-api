@@ -1,5 +1,5 @@
 interface IRemoveUserAvatarUseCase {
-  handle(
+  execute(
     data: IRemoveUserAvatarUseCase.Input
   ): Promise<IRemoveUserAvatarUseCase.Output>;
 }

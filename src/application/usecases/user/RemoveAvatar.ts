@@ -20,7 +20,7 @@ export class RemoveUserAvatarUseCase implements IRemoveUserAvatarUseCase {
     private readonly deleteUserAvatarByUserIdRepository: IDeleteUserAvatarByUserIdRepository
   ) {}
 
-  async handle(
+  async execute(
     data: IRemoveUserAvatarUseCase.Input
   ): Promise<IRemoveUserAvatarUseCase.Output> {
     const { user_id } = data;
