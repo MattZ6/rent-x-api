@@ -16,8 +16,7 @@ describe('ValidDateIntervalFieldValidation', () => {
   beforeEach(() => {
     validDateIntervalFieldValidationFieldName =
       makeValidDateIntervalFieldValidationFieldName();
-    validDateIntervalFieldValidationFieldToCompareName =
-      makeValidDateIntervalFieldValidationFieldName();
+    validDateIntervalFieldValidationFieldToCompareName = `${makeValidDateIntervalFieldValidationFieldName()}_x`;
 
     validDateIntervalFieldValidation = new ValidDateIntervalFieldValidation(
       validDateIntervalFieldValidationFieldName,
