@@ -1,5 +1,7 @@
 import {
+  ICheckIfUserAvatarExistsByUserIdRepository,
   ICreateUserAvatarRepository,
+  IDeleteUserAvatarByUserIdRepository,
   IFindUserAvatarByIdRepository,
   IUpdateUserAvatarRepository,
 } from '@application/protocols/repositories/user/avatar';
@@ -65,5 +67,25 @@ export class CreateUserAvatarRepositorySpy
     });
 
     return userAvatarMock;
+  }
+}
+
+export class CheckIfUserAvatarExistsByUserIdRepositorySpy
+  implements ICheckIfUserAvatarExistsByUserIdRepository
+{
+  async checkIfExistsByUserId(
+    _: ICheckIfUserAvatarExistsByUserIdRepository.Input
+  ): Promise<ICheckIfUserAvatarExistsByUserIdRepository.Output> {
+    return true;
+  }
+}
+
+export class DeleteUserAvatarByUserIdRepositorySpy
+  implements IDeleteUserAvatarByUserIdRepository
+{
+  async deleteByUserId(
+    _: IDeleteUserAvatarByUserIdRepository.Input
+  ): Promise<IDeleteUserAvatarByUserIdRepository.Output> {
+    // That's all folks 🥕
   }
 }
