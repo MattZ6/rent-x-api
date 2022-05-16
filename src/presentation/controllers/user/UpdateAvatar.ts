@@ -1,15 +1,18 @@
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 import { IUpdateUserAvatarUseCase } from '@domain/usecases/user/UpdateAvatar';
 
-import { noContent, notFound } from '@presentation/helpers/http';
+import { ValidationError } from '@presentation/errors';
+import { badRequest, noContent, notFound } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
+  IValidation,
 } from '@presentation/protocols';
 
 class UpdateUserAvatarController implements IController {
   constructor(
+    private readonly validation: IValidation,
     private readonly updateUserAvatarUseCase: IUpdateUserAvatarUseCase
   ) {}
 
@@ -17,6 +20,12 @@ class UpdateUserAvatarController implements IController {
     request: UpdateUserAvatarController.Request
   ): Promise<UpdateUserAvatarController.Response> {
     try {
+      const validationError = this.validation.validate(request);
+
+      if (validationError) {
+        throw validationError;
+      }
+
       const { id: userId } = request.user;
       const { file } = request;
 
@@ -33,6 +42,10 @@ class UpdateUserAvatarController implements IController {
 
       return noContent();
     } catch (error) {
+      if (error instanceof ValidationError) {
+        return badRequest(error);
+      }
+
       if (error instanceof UserNotFoundWithProvidedIdError) {
         return notFound(error);
       }
