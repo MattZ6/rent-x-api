@@ -33,11 +33,11 @@ describe('UpdateUserAvatarController', () => {
     expect(executeSpy).toHaveBeenCalledWith({
       user_id: request.user.id,
       file: {
-        name: request.body.file.originalname,
-        type: request.body.file.mimetype,
-        extension: String(request.body.file.originalname.split('.').pop()),
-        size: request.body.file.size,
-        content: request.body.file.buffer,
+        name: request.file.name,
+        type: request.file.mimetype,
+        extension: String(request.file.name.split('.').pop()),
+        size: request.file.size,
+        content: request.file.buffer,
       },
     });
   });

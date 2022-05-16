@@ -11,17 +11,16 @@ export function makeUpdateUserAvatarControllerRequestMock(): UpdateUserAvatarCon
     query: undefined,
     method: faker.internet.httpMethod(),
     original_url: faker.internet.url(),
+    body: undefined,
     user: {
       id: faker.datatype.uuid(),
       role: faker.helpers.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
     },
-    body: {
-      file: {
-        originalname: faker.system.fileName(),
-        mimetype: faker.system.mimeType(),
-        size: faker.datatype.number(),
-        buffer: Buffer.from(faker.datatype.string()),
-      },
+    file: {
+      name: faker.system.fileName(),
+      mimetype: faker.system.mimeType(),
+      size: faker.datatype.number(),
+      buffer: Buffer.from(faker.datatype.string()),
     },
   };
 }

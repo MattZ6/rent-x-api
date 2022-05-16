@@ -18,14 +18,14 @@ class UpdateUserAvatarController implements IController {
   ): Promise<UpdateUserAvatarController.Response> {
     try {
       const { id: userId } = request.user;
-      const { file } = request.body;
+      const { file } = request;
 
       await this.updateUserAvatarUseCase.execute({
         user_id: userId,
         file: {
-          name: file.originalname,
+          name: file.name,
           type: file.mimetype,
-          extension: String(file.originalname.split('.').pop()),
+          extension: String(file.name.split('.').pop()),
           size: file.size,
           content: file.buffer,
         },
@@ -43,18 +43,7 @@ class UpdateUserAvatarController implements IController {
 }
 
 namespace UpdateUserAvatarController {
-  type AvatarFile = {
-    originalname: string;
-    mimetype: string;
-    size: number;
-    buffer: Buffer;
-  };
-
-  type RequestBody = {
-    file: AvatarFile;
-  };
-
-  export type Request = IHttpRequest<RequestBody, void, void, void>;
+  export type Request = IHttpRequest<void, void, void, void>;
 
   export type Response = IHttpResponse;
 }
