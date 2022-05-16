@@ -4,6 +4,7 @@ import multer from 'multer';
 import { adaptMiddleware } from '@main/adapters/express/middleware';
 import { adaptRoute } from '@main/adapters/express/route';
 import { makeGetUserProfileController } from '@main/factories/controllers/user/GetProfile';
+import { makeRemoveUserAvatarController } from '@main/factories/controllers/user/RemoveAvatar';
 import { makeUpdateUserAvatarController } from '@main/factories/controllers/user/UpdateAvatar';
 import { makeUpdateUserEmailController } from '@main/factories/controllers/user/UpdateEmail';
 import { makeUpdateUserNameController } from '@main/factories/controllers/user/UpdateName';
@@ -25,6 +26,12 @@ profileRoutes.patch(
   adaptMiddleware(makeAuthenticationMiddleware()),
   upload.single('file'),
   adaptRoute(makeUpdateUserAvatarController())
+);
+
+profileRoutes.delete(
+  '/avatar',
+  adaptMiddleware(makeAuthenticationMiddleware()),
+  adaptRoute(makeRemoveUserAvatarController())
 );
 
 profileRoutes.patch(
