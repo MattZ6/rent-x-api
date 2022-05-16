@@ -53,7 +53,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    await removeUserAvatarUseCase.handle(input);
+    await removeUserAvatarUseCase.execute(input);
 
     expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({ id: input.user_id });
     expect(checkIfExistsByIdSpy).toHaveBeenCalledTimes(1);
@@ -68,7 +68,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    const promise = removeUserAvatarUseCase.handle(input);
+    const promise = removeUserAvatarUseCase.execute(input);
 
     await expect(promise).rejects.toThrowError(errorMock);
   });
@@ -80,7 +80,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    const promise = removeUserAvatarUseCase.handle(input);
+    const promise = removeUserAvatarUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       UserNotFoundWithProvidedIdError
@@ -95,7 +95,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    await removeUserAvatarUseCase.handle(input);
+    await removeUserAvatarUseCase.execute(input);
 
     expect(checkIfExistsByUserIdSpy).toHaveBeenCalledWith({
       user_id: input.user_id,
@@ -115,7 +115,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    const promise = removeUserAvatarUseCase.handle(input);
+    const promise = removeUserAvatarUseCase.execute(input);
 
     await expect(promise).rejects.toThrowError(errorMock);
   });
@@ -130,7 +130,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    const promise = removeUserAvatarUseCase.handle(input);
+    const promise = removeUserAvatarUseCase.execute(input);
 
     await expect(promise).rejects.toBeInstanceOf(
       UserAvatarNotFoundWithProvidedUserIdError
@@ -142,7 +142,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    await removeUserAvatarUseCase.handle(input);
+    await removeUserAvatarUseCase.execute(input);
 
     expect(deleteSpy).toHaveBeenCalledWith({
       file_name: input.user_id,
@@ -160,7 +160,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    const promise = removeUserAvatarUseCase.handle(input);
+    const promise = removeUserAvatarUseCase.execute(input);
 
     await expect(promise).rejects.toThrowError(errorMock);
   });
@@ -173,7 +173,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    await removeUserAvatarUseCase.handle(input);
+    await removeUserAvatarUseCase.execute(input);
 
     expect(deleteByUserIdSpy).toHaveBeenCalledWith({
       user_id: input.user_id,
@@ -190,7 +190,7 @@ describe('RemoveUserAvatarUseCase', () => {
 
     const input = makeRemoveUserAvatarUseCaseInputMock();
 
-    const promise = removeUserAvatarUseCase.handle(input);
+    const promise = removeUserAvatarUseCase.execute(input);
 
     await expect(promise).rejects.toThrowError(errorMock);
   });
