@@ -1,13 +1,13 @@
 import express from 'express';
 
-import setupSwagger from '@main/config/swagger';
-import routes from '@main/routes';
+import { setupSwagger } from '@main/config/swagger';
+import { setupRoutes } from '@main/routes';
 
 const app = express();
 
 app.use(express.json());
-app.use(routes);
 
+setupRoutes(app);
 setupSwagger(app);
 
 export { app };

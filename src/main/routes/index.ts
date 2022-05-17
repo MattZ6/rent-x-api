@@ -1,4 +1,9 @@
-import { Router } from 'express';
+import { Express, Router, static as expressStatic } from 'express';
+import { resolve } from 'node:path';
+
+import { adaptMiddleware } from '@main/adapters/express/middleware';
+import { storageConfig } from '@main/config/environment/storage';
+import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
 import authenticationRoutes from './authentication.routes';
 import carBrandsRoutes from './car-brand.routes';
@@ -18,4 +23,23 @@ routes.use('/v1/categories', carCategoriesRoutes);
 routes.use('/v1/cars', carsRoutes);
 routes.use('/v1/rents', rentRoutes);
 
-export default routes;
+// TODO: Verificar uma forma de deixar o storage dinâmico
+
+const path = resolve(
+  storageConfig.DISK_STORAGE_ROOT_FOLDER,
+  storageConfig.AVATAR_FOLDER_PATH
+);
+
+routes.use(
+  '/avatar',
+  adaptMiddleware(makeAuthenticationMiddleware()),
+  expressStatic(path, {
+    setHeaders: res => {
+      res.setHeader('Content-Type', 'image/jpeg');
+    },
+  })
+);
+
+export function setupRoutes(app: Express) {
+  app.use(routes);
+}

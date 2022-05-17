@@ -31,6 +31,9 @@ describe('GetUserProfileUseCase', () => {
     expect(findByIdSpy).toHaveBeenCalledTimes(1);
     expect(findByIdSpy).toHaveBeenCalledWith({
       id: input.id,
+      include: {
+        avatar: true,
+      },
     });
   });
 

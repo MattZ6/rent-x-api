@@ -15,6 +15,9 @@ export class GetUserProfileUseCase implements IGetUserProfileUseCase {
 
     const user = await this.findUserByIdRepository.findById({
       id: user_id,
+      include: {
+        avatar: true,
+      },
     });
 
     if (!user) {

@@ -60,11 +60,14 @@ export class PrismaUsersRepository
   async findById(
     data: IFindUserByIdRepository.Input
   ): Promise<IFindUserByIdRepository.Output> {
-    const { id } = data;
+    const { id, include } = data;
 
     const user = await prisma.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        avatar: include?.avatar ?? false,
       },
     });
 
