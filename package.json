@@ -33,7 +33,7 @@
     "db:seed:specifications": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarSpecifications.ts"
   },
   "engines": {
-    "node": "14.19.1"
+    "node": "14.19.2"
   },
   "prisma": {
     "schema": "src/infra/database/prisma/schema.prisma"
