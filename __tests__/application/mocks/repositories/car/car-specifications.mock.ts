@@ -1,5 +1,6 @@
 import {
   ICheckIfAllCarSpecificationsExistsByIdsRepository,
+  ICheckIfCarSpecificationExistsByIdFromCarRepository,
   ICheckIfCarSpecificationExistsByIdRepository,
   ICheckIfCarSpecificationExistsByNameRepository,
   ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository,
@@ -9,6 +10,7 @@ import {
   IFindAllSpecificationsByIdsRepository,
   IFindCarSpecificationByIdRepository,
   IRelateCarSpecificationsToCarRepository,
+  IRemoveCarSpecificationsFromCarRepository,
   IUpdateCarSpecificationRepository,
 } from '@application/protocols/repositories/car/specification';
 
@@ -145,5 +147,25 @@ export class RelateCarSpecificationsToCarRepositorySpy
     _: IRelateCarSpecificationsToCarRepository.Input
   ): Promise<IRelateCarSpecificationsToCarRepository.Output> {
     // That's all folks 🐰
+  }
+}
+
+export class CheckIfCarSpecificationExistsByIdFromCarRepositorySpy
+  implements ICheckIfCarSpecificationExistsByIdFromCarRepository
+{
+  async checkIfExistsByIdFromCar(
+    _: ICheckIfCarSpecificationExistsByIdFromCarRepository.Input
+  ): Promise<ICheckIfCarSpecificationExistsByIdFromCarRepository.Output> {
+    return true;
+  }
+}
+
+export class RemoveCarSpecificationsFromCarRepositorySpy
+  implements IRemoveCarSpecificationsFromCarRepository
+{
+  async removeFromCar(
+    _: IRemoveCarSpecificationsFromCarRepository.Input
+  ): Promise<IRemoveCarSpecificationsFromCarRepository.Output> {
+    // That's all
   }
 }
