@@ -3792,6 +3792,167 @@
         }
       }
     },
+    "/v1/cars/{id}/specifications": {
+      "post": {
+        "tags": ["Car", "Specification", "Admin"],
+        "summary": "Add some specifications to a car",
+        "description": "Add some specifications to a car",
+        "security": [{ "userAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "required": true,
+          "name": "id",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The id of the Car."
+        }],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Specifications ids required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "specifications_ids",
+                        "type": "required",
+                        "value": null,
+                        "message": "The specifications_ids field is required."
+                      }
+                    }
+                  },
+                  "Specifications ids invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "specifications_ids",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The specifications_ids is not a list of valid UUID's."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access token missing": {
+                    "value": {
+                      "code": "token.not.provided",
+                      "message": "Missing access token."
+                    }
+                  },
+                  "Access token invalid": {
+                    "value": {
+                      "code": "token.invalid",
+                      "message": "Invalid access token."
+                    }
+                  },
+                  "Access token expired": {
+                    "value": {
+                      "code": "token.expired",
+                      "message": "The token is expired."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "permission.denied",
+                  "message": "You don't have permission to perform this action."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car not found": {
+                    "value": {
+                      "code": "car.not.exists",
+                      "message": "No car found with the id provided."
+                    }
+                  },
+                  "One or more specifications not found": {
+                    "value": {
+                      "code": "car.specification.not.exists",
+                      "message": "One or more car specificationss not found with the provided ids."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "cars_specification.exists",
+                  "message": "One or more specifications are already related to the car."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/rents": {
       "post": {
         "tags": ["Rent"],
