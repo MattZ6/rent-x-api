@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "v0.7.1-beta",
+    "version": "v0.8.0-beta",
     "title": "🏎 Rent-X API Docs",
     "description": "API docs for cars rent application",
     "license": {
