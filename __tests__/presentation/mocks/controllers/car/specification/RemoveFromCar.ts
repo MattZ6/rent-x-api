@@ -9,10 +9,9 @@ export function makeRemoveSpecificationFromCarControllerRequestMock(): RemoveSpe
     headers: undefined,
     params: {
       id: faker.datatype.string(),
-    },
-    query: undefined,
-    body: {
       specification_id: faker.datatype.string(),
     },
+    query: undefined,
+    body: undefined,
   };
 }

@@ -41,10 +41,7 @@ describe('RemoveSpecificationFromCarController', () => {
     await removeSpecificationFromCarController.handle(request);
 
     expect(validateSpy).toHaveBeenCalledTimes(1);
-    expect(validateSpy).toHaveBeenCalledWith({
-      ...request.params,
-      ...request.body,
-    });
+    expect(validateSpy).toHaveBeenCalledWith(request.params);
   });
 
   it('should throw if Validation throws', async () => {
@@ -87,7 +84,7 @@ describe('RemoveSpecificationFromCarController', () => {
 
     expect(executeSpy).toHaveBeenCalledWith({
       car_id: request.params.id,
-      specification_id: request.body.specification_id,
+      specification_id: request.params.specification_id,
     });
     expect(executeSpy).toHaveBeenCalledTimes(1);
   });
