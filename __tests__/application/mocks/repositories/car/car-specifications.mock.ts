@@ -1,11 +1,14 @@
 import {
+  ICheckIfAllCarSpecificationsExistsByIdsRepository,
   ICheckIfCarSpecificationExistsByIdRepository,
   ICheckIfCarSpecificationExistsByNameRepository,
+  ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository,
   ICreateCarSpecificationRepository,
   IDeleteCarSpecificationByIdRepository,
   IFindAllCarSpecificationsRepository,
   IFindAllSpecificationsByIdsRepository,
   IFindCarSpecificationByIdRepository,
+  IRelateCarSpecificationsToCarRepository,
   IUpdateCarSpecificationRepository,
 } from '@application/protocols/repositories/car/specification';
 
@@ -112,5 +115,35 @@ export class FindAllSpecificationsByIdsRepositorySpy
 
       return carSpecificationMock;
     });
+  }
+}
+
+export class CheckIfAllCarSpecificationsExistsByIdsRepositorySpy
+  implements ICheckIfAllCarSpecificationsExistsByIdsRepository
+{
+  async checkIfAllExistsByIds(
+    _: ICheckIfAllCarSpecificationsExistsByIdsRepository.Input
+  ): Promise<ICheckIfAllCarSpecificationsExistsByIdsRepository.Output> {
+    return true;
+  }
+}
+
+export class CheckIfSomeCarSpecificationExistsByIdsFromCarRepositorySpy
+  implements ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository
+{
+  async checkIfSomeExistsByIdsFromCar(
+    _: ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository.Input
+  ): Promise<ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository.Output> {
+    return false;
+  }
+}
+
+export class RelateCarSpecificationsToCarRepositorySpy
+  implements IRelateCarSpecificationsToCarRepository
+{
+  async relateToCar(
+    _: IRelateCarSpecificationsToCarRepository.Input
+  ): Promise<IRelateCarSpecificationsToCarRepository.Output> {
+    // That's all folks 🐰
   }
 }
