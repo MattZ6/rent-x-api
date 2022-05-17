@@ -11,6 +11,7 @@ export function adaptMiddleware(middleware: IMiddleware) {
       headers: request?.headers ?? {},
       original_url: request.originalUrl,
       method: request.method,
+      user: request.user,
     });
 
     const isSuccessful = statusCode >= 200 && statusCode <= 299;
