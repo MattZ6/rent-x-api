@@ -66,13 +66,12 @@ export class PrismaCarsRepository
         transmission_type,
         type_of_fuel,
         zero_to_one_hundred_in_millisseconds,
-      },
-      include: {
         cars_specifications: {
-          where: {
-            specification_id: {
-              in: specifications_ids,
-            },
+          createMany: {
+            skipDuplicates: true,
+            data: specifications_ids.map(specification_id => ({
+              specification_id,
+            })),
           },
         },
       },
