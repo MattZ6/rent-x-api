@@ -7,5 +7,7 @@ export * from './DeleteById';
 export * from './FindAll';
 export * from './FindAllByIds';
 export * from './FindById';
+export * from './CheckIfExistsByIdFromCar';
 export * from './RelateToCar';
+export * from './RemoveFromCar';
 export * from './Update';
