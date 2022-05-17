@@ -5,6 +5,7 @@ import { adaptRoute } from '@main/adapters/express/route';
 import { makeCreateCarController } from '@main/factories/controllers/car/Create';
 import { makeGetCarDetailsController } from '@main/factories/controllers/car/GetDetails';
 import { makeListCarsController } from '@main/factories/controllers/car/ListAll';
+import { makeAddSpecificationsToCarController } from '@main/factories/controllers/car/specification/AddToCar';
 import { makeAdminMiddleware } from '@main/factories/middlewares/Admin';
 import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
@@ -28,6 +29,13 @@ carsRoutes.get(
   '/:id',
   adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeGetCarDetailsController())
+);
+
+carsRoutes.post(
+  '/:id/specifications',
+  adaptMiddleware(makeAuthenticationMiddleware()),
+  adaptMiddleware(makeAdminMiddleware()),
+  adaptRoute(makeAddSpecificationsToCarController())
 );
 
 export default carsRoutes;

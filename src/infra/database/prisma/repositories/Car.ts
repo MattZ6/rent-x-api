@@ -1,4 +1,5 @@
 import {
+  ICheckIfCarExistsByIdRepository,
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
   IFindAllCarsRepository,
@@ -12,7 +13,8 @@ export class PrismaCarsRepository
     ICheckIfCarExistsByLicensePlateRepository,
     ICreateCarRepository,
     IFindAllCarsRepository,
-    IFindCarByIdRepository
+    IFindCarByIdRepository,
+    ICheckIfCarExistsByIdRepository
 {
   async checkIfExistsByLicensePlate(
     data: ICheckIfCarExistsByLicensePlateRepository.Input
@@ -119,5 +121,21 @@ export class PrismaCarsRepository
     });
 
     return car;
+  }
+
+  async checkIfExistsById(
+    data: ICheckIfCarExistsByIdRepository.Input
+  ): Promise<ICheckIfCarExistsByIdRepository.Output> {
+    const { id } = data;
+
+    const count = await prisma.car.count({
+      where: {
+        id: {
+          equals: id,
+        },
+      },
+    });
+
+    return count > 0;
   }
 }
