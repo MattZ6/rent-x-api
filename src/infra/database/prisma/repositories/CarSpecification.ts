@@ -1,5 +1,6 @@
 import {
   ICheckIfAllCarSpecificationsExistsByIdsRepository,
+  ICheckIfCarSpecificationExistsByIdFromCarRepository,
   ICheckIfCarSpecificationExistsByIdRepository,
   ICheckIfCarSpecificationExistsByNameRepository,
   ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository,
@@ -9,6 +10,7 @@ import {
   IFindAllSpecificationsByIdsRepository,
   IFindCarSpecificationByIdRepository,
   IRelateCarSpecificationsToCarRepository,
+  IRemoveCarSpecificationsFromCarRepository,
   IUpdateCarSpecificationRepository,
 } from '@application/protocols/repositories/car';
 
@@ -26,7 +28,9 @@ export class PrismaCarSpecificationsRepository
     IFindAllSpecificationsByIdsRepository,
     ICheckIfAllCarSpecificationsExistsByIdsRepository,
     ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository,
-    IRelateCarSpecificationsToCarRepository
+    IRelateCarSpecificationsToCarRepository,
+    ICheckIfCarSpecificationExistsByIdFromCarRepository,
+    IRemoveCarSpecificationsFromCarRepository
 {
   async checkIfExistsByName(
     data: ICheckIfCarSpecificationExistsByNameRepository.Input
@@ -109,7 +113,7 @@ export class PrismaCarSpecificationsRepository
       },
     });
 
-    return count >= 1;
+    return count > 0;
   }
 
   async deleteById(
@@ -184,6 +188,40 @@ export class PrismaCarSpecificationsRepository
         car_id,
         specification_id,
       })),
+    });
+  }
+
+  async checkIfExistsByIdFromCar(
+    data: ICheckIfCarSpecificationExistsByIdFromCarRepository.Input
+  ): Promise<ICheckIfCarSpecificationExistsByIdFromCarRepository.Output> {
+    const { car_id, specification_id } = data;
+
+    const count = await prisma.carsSpecifications.count({
+      where: {
+        car_id: {
+          equals: car_id,
+        },
+        specification_id: {
+          equals: specification_id,
+        },
+      },
+    });
+
+    return count > 0;
+  }
+
+  async removeFromCar(
+    data: IRemoveCarSpecificationsFromCarRepository.Input
+  ): Promise<IRemoveCarSpecificationsFromCarRepository.Output> {
+    const { car_id, specification_id } = data;
+
+    await prisma.carsSpecifications.delete({
+      where: {
+        car_id_specification_id: {
+          car_id,
+          specification_id,
+        },
+      },
     });
   }
 }

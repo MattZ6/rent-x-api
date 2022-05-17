@@ -6,12 +6,12 @@
   - [x] Add API documentation;
   - [x] Only administrators can create cars.
 
-- 📅 **Car specifications**
+- ✔ **Car specifications**
   - [x] It should be possible to add **specifications** to a car;
   - [x] It must not be possible to add same **specification** to a car;
-  - [ ] It should be possible to remove **specifications** from a car;
-  - [ ] Add API documentation;
-  - [ ] Only administrators can update car specifications.
+  - [x] It should be possible to remove **specifications** from a car;
+  - [x] Add API documentation;
+  - [x] Only administrators can update car specifications.
 
 - 📅 **Car images**
   - [ ] It should be possible to add **images** to a car;
