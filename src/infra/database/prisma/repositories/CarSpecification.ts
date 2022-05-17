@@ -83,8 +83,8 @@ export class PrismaCarSpecificationsRepository
 
     const carSpecifications = await prisma.carSpecification.findMany({
       orderBy: { [sort_by]: order_by },
-      take,
-      skip,
+      take: Number(take),
+      skip: Number(skip),
     });
 
     return carSpecifications;

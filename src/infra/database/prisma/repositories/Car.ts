@@ -89,8 +89,8 @@ export class PrismaCarsRepository
 
     const cars = await prisma.car.findMany({
       orderBy: { [sort_by]: order_by },
-      take,
-      skip,
+      take: Number(take),
+      skip: Number(skip),
       where: {
         brand_id: {
           equals: brand_id,
