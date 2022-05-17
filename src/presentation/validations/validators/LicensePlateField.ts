@@ -12,7 +12,11 @@ export class LicensePlateFieldValidation<I = unknown>
   ) {}
 
   validate(input: I) {
-    const licensePlate = String(input[this.fieldName] ?? '').trim();
+    if (input[this.fieldName] === undefined || input[this.fieldName] === null) {
+      return null;
+    }
+
+    const licensePlate = String(input[this.fieldName]).trim();
 
     const isValid = this.carLicensePlateValidator.isValid({
       license_plate: licensePlate,

@@ -40,12 +40,30 @@ describe('LicensePlateFieldValidation', () => {
     expect(isValidSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('should return null if input value is undefined', async () => {
+    const output = carLicensePlateFieldValidation.validate({
+      [carLicensePlateFieldValidationFieldName]: undefined,
+    });
+
+    expect(output).toEqual(null);
+  });
+
+  it('should return null if input value is null', async () => {
+    const output = carLicensePlateFieldValidation.validate({
+      [carLicensePlateFieldValidationFieldName]: null,
+    });
+
+    expect(output).toEqual(null);
+  });
+
   it('should return InvalidLicensePlateFieldError if CarLicensePlateValidator returns false', async () => {
     jest
       .spyOn(carLicensePlateValidatorSpy, 'isValid')
       .mockReturnValueOnce(false);
 
-    const output = carLicensePlateFieldValidation.validate({});
+    const output = carLicensePlateFieldValidation.validate({
+      [carLicensePlateFieldValidationFieldName]: faker.datatype.string(),
+    });
 
     expect(output).toEqual(
       new InvalidLicensePlateFieldError(carLicensePlateFieldValidationFieldName)

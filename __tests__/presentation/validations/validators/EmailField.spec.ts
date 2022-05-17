@@ -39,10 +39,28 @@ describe('EmailFieldValidation', () => {
     expect(isValidSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('should return null if input value is undefined', async () => {
+    const output = emailFieldValidation.validate({
+      [emailFieldValidationFieldName]: undefined,
+    });
+
+    expect(output).toEqual(null);
+  });
+
+  it('should return null if input value is null', async () => {
+    const output = emailFieldValidation.validate({
+      [emailFieldValidationFieldName]: null,
+    });
+
+    expect(output).toEqual(null);
+  });
+
   it('should return InvalidEmailFieldError if EmailValidator returns false', async () => {
     jest.spyOn(emailValidatorSpy, 'isValid').mockReturnValueOnce(false);
 
-    const output = emailFieldValidation.validate({});
+    const output = emailFieldValidation.validate({
+      [emailFieldValidationFieldName]: faker.internet.email(),
+    });
 
     expect(output).toEqual(
       new InvalidEmailFieldError(emailFieldValidationFieldName)

@@ -10,7 +10,11 @@ export class EmailFieldValidation<I = unknown> implements IValidation<I> {
   ) {}
 
   validate(input: I) {
-    const email = String(input[this.fieldName] ?? '').trim();
+    if (input[this.fieldName] === undefined || input[this.fieldName] === null) {
+      return null;
+    }
+
+    const email = String(input[this.fieldName]).trim();
 
     const isValid = this.emailValidator.isValid({ email });
 

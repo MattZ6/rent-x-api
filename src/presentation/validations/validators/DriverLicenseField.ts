@@ -12,9 +12,15 @@ export class DriverLicenseFieldValidation<I = unknown>
   ) {}
 
   validate(input: I) {
-    const driver_license = String(input[this.fieldName] ?? '').trim();
+    if (input[this.fieldName] === undefined || input[this.fieldName] === null) {
+      return null;
+    }
 
-    const isValid = this.driverLicenseValidator.isValid({ driver_license });
+    const driverLicense = String(input[this.fieldName]).trim();
+
+    const isValid = this.driverLicenseValidator.isValid({
+      driver_license: driverLicense,
+    });
 
     if (!isValid) {
       return new InvalidDriverLicenseFieldError(String(this.fieldName));

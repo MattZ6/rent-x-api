@@ -11,6 +11,10 @@ export class OnlyNumbersFieldValidation<I = unknown> implements IValidation<I> {
   ) {}
 
   validate(input: I) {
+    if (input[this.fieldName] === undefined || input[this.fieldName] === null) {
+      return null;
+    }
+
     const value = String(input[this.fieldName]);
 
     let isValid = this.ONLY_NUMBERS_REGEX.test(value);

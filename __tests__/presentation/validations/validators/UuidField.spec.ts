@@ -39,10 +39,28 @@ describe('UuidFieldValidation', () => {
     expect(isValidSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('should return null if input value is undefined', async () => {
+    const output = uuidFieldValidation.validate({
+      [uuidFieldValidationFieldName]: undefined,
+    });
+
+    expect(output).toEqual(null);
+  });
+
+  it('should return null if input value is null', async () => {
+    const output = uuidFieldValidation.validate({
+      [uuidFieldValidationFieldName]: null,
+    });
+
+    expect(output).toEqual(null);
+  });
+
   it('should return InvalidUuidFieldError if UuidValidator returns false', async () => {
     jest.spyOn(uuidValidatorSpy, 'isValid').mockReturnValueOnce(false);
 
-    const output = uuidFieldValidation.validate({});
+    const output = uuidFieldValidation.validate({
+      [uuidFieldValidationFieldName]: faker.datatype.uuid(),
+    });
 
     expect(output).toEqual(
       new InvalidUuidFieldError(uuidFieldValidationFieldName)

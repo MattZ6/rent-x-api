@@ -20,6 +20,22 @@ describe('OnlyNumbersFieldValidation', () => {
     false
   );
 
+  it('should return null if input value is undefined', async () => {
+    const output = onlyNumbersFieldValidation.validate({
+      [onlyNumbersFieldValidationFieldName]: undefined,
+    });
+
+    expect(output).toEqual(null);
+  });
+
+  it('should return null if input value is null', async () => {
+    const output = onlyNumbersFieldValidation.validate({
+      [onlyNumbersFieldValidationFieldName]: null,
+    });
+
+    expect(output).toEqual(null);
+  });
+
   it('should return OnlyNumbersFieldError if validation fails', async () => {
     const output = onlyNumbersFieldValidation.validate({
       [onlyNumbersFieldValidationFieldName]: faker.datatype.string(),

@@ -10,7 +10,11 @@ export class UuidFieldValidation<I = unknown> implements IValidation<I> {
   ) {}
 
   validate(input: I) {
-    const uuid = String(input[this.fieldName] ?? '').trim();
+    if (input[this.fieldName] === undefined || input[this.fieldName] === null) {
+      return null;
+    }
+
+    const uuid = String(input[this.fieldName]).trim();
 
     const isValidUuid = this.uuidValidator.isValid({ uuid });
 

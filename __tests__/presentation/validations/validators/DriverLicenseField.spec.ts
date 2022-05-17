@@ -40,10 +40,28 @@ describe('DriverLicenseFieldValidation', () => {
     expect(isValidSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('should return null if input value is undefined', async () => {
+    const output = driverLicenseFieldValidation.validate({
+      [driverLicenseFieldValidationFieldName]: undefined,
+    });
+
+    expect(output).toEqual(null);
+  });
+
+  it('should return null if input value is null', async () => {
+    const output = driverLicenseFieldValidation.validate({
+      [driverLicenseFieldValidationFieldName]: null,
+    });
+
+    expect(output).toEqual(null);
+  });
+
   it('should return InvalidDriverLicenseFieldError if DriverLicenseValidator returns false', async () => {
     jest.spyOn(driverLicenseValidatorSpy, 'isValid').mockReturnValueOnce(false);
 
-    const output = driverLicenseFieldValidation.validate({});
+    const output = driverLicenseFieldValidation.validate({
+      [driverLicenseFieldValidationFieldName]: faker.datatype.string(),
+    });
 
     expect(output).toEqual(
       new InvalidDriverLicenseFieldError(driverLicenseFieldValidationFieldName)
