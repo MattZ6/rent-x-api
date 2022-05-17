@@ -24,10 +24,6 @@ carCategoriesRoutes.put(
   adaptRoute(makeUpdateCarCategoryController())
 );
 
-carCategoriesRoutes.get(
-  '/',
-  adaptMiddleware(makeAuthenticationMiddleware()),
-  adaptRoute(makeListAllCarCategoriesController())
-);
+carCategoriesRoutes.get('/', adaptRoute(makeListAllCarCategoriesController()));
 
 export default carCategoriesRoutes;

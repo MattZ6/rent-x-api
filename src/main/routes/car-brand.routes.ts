@@ -10,17 +10,15 @@ import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authen
 
 const carBrandsRoutes = Router();
 
-carBrandsRoutes.get(
-  '/',
-  adaptMiddleware(makeAuthenticationMiddleware()),
-  adaptRoute(makeListAllCarBrandsController())
-);
+carBrandsRoutes.get('/', adaptRoute(makeListAllCarBrandsController()));
+
 carBrandsRoutes.post(
   '/',
   adaptMiddleware(makeAuthenticationMiddleware()),
   adaptMiddleware(makeAdminMiddleware()),
   adaptRoute(makeCreateCarBrandController())
 );
+
 carBrandsRoutes.put(
   '/:id',
   adaptMiddleware(makeAuthenticationMiddleware()),
