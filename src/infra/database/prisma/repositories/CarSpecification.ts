@@ -1,11 +1,14 @@
 import {
+  ICheckIfAllCarSpecificationsExistsByIdsRepository,
   ICheckIfCarSpecificationExistsByIdRepository,
   ICheckIfCarSpecificationExistsByNameRepository,
+  ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository,
   ICreateCarSpecificationRepository,
   IDeleteCarSpecificationByIdRepository,
   IFindAllCarSpecificationsRepository,
   IFindAllSpecificationsByIdsRepository,
   IFindCarSpecificationByIdRepository,
+  IRelateCarSpecificationsToCarRepository,
   IUpdateCarSpecificationRepository,
 } from '@application/protocols/repositories/car';
 
@@ -20,7 +23,10 @@ export class PrismaCarSpecificationsRepository
     IFindAllCarSpecificationsRepository,
     ICheckIfCarSpecificationExistsByIdRepository,
     IDeleteCarSpecificationByIdRepository,
-    IFindAllSpecificationsByIdsRepository
+    IFindAllSpecificationsByIdsRepository,
+    ICheckIfAllCarSpecificationsExistsByIdsRepository,
+    ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository,
+    IRelateCarSpecificationsToCarRepository
 {
   async checkIfExistsByName(
     data: ICheckIfCarSpecificationExistsByNameRepository.Input
@@ -130,5 +136,54 @@ export class PrismaCarSpecificationsRepository
     });
 
     return carSpecifications;
+  }
+
+  async checkIfAllExistsByIds(
+    data: ICheckIfAllCarSpecificationsExistsByIdsRepository.Input
+  ): Promise<ICheckIfAllCarSpecificationsExistsByIdsRepository.Output> {
+    const { ids } = data;
+
+    const count = await prisma.carSpecification.count({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+
+    return count === ids.length;
+  }
+
+  async checkIfSomeExistsByIdsFromCar(
+    data: ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository.Input
+  ): Promise<ICheckIfSomeCarSpecificationExistsByIdsFromCarRepository.Output> {
+    const { car_id, specifications_ids } = data;
+
+    const count = await prisma.carsSpecifications.count({
+      where: {
+        car_id: {
+          equals: car_id,
+        },
+        specification_id: {
+          in: specifications_ids,
+        },
+      },
+    });
+
+    return count > 0;
+  }
+
+  async relateToCar(
+    data: IRelateCarSpecificationsToCarRepository.Input
+  ): Promise<IRelateCarSpecificationsToCarRepository.Output> {
+    const { car_id, specifications_ids } = data;
+
+    await prisma.carsSpecifications.createMany({
+      skipDuplicates: true,
+      data: specifications_ids.map(specification_id => ({
+        car_id,
+        specification_id,
+      })),
+    });
   }
 }
