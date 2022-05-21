@@ -1,4 +1,8 @@
-import { Car } from '@domain/entities/Car';
+import {
+  Car,
+  CarTransmissionTypeEnum,
+  CarTypeOfFuelEnum,
+} from '@domain/entities/Car';
 
 interface IFindAllCarsRepository {
   findAll(
@@ -18,6 +22,13 @@ namespace IFindAllCarsRepository {
   export type Input = {
     brand_id?: string;
     category_id?: string;
+    type_of_fuel?: CarTypeOfFuelEnum;
+    transmission_type?: CarTransmissionTypeEnum;
+    min_daily_rate?: number;
+    max_daily_rate?: number;
+    search?: string;
+    start_date?: Date;
+    end_date?: Date;
     include?: {
       brand?: boolean;
       category?: boolean;
