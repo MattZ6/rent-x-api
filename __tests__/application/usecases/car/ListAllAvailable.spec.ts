@@ -4,7 +4,7 @@ import { ListAllAvailableCarsUseCase } from '@application/usecases/car/ListAllAv
 
 import { makeCarMock, makeErrorMock } from '../../../domain';
 import {
-  FindAllCarsRepositorySpy,
+  FindAllAvailableCarsRepositorySpy,
   makeListAllAvailableCarsUseCaseDefaultLimitMock,
   makeListAllAvailableCarsUseCaseDefaultOffsetMock,
   makeListAllAvailableCarsUseCaseDefaultOrderByMock,
@@ -16,7 +16,7 @@ let listAllAvailableCarsUseCaseDefaultSortByMock: IListAllAvailableCarsUseCase.S
 let listAllAvailableCarsUseCaseDefaultOrderByMock: IListAllAvailableCarsUseCase.OrderBy;
 let listAllAvailableCarsUseCaseDefaultLimitMock: IListAllAvailableCarsUseCase.Limit;
 let listAllAvailableCarsUseCaseDefaultOffsetMock: IListAllAvailableCarsUseCase.Offset;
-let findAllCarsRepositorySpy: FindAllCarsRepositorySpy;
+let findAllAvailableCarsRepositorySpy: FindAllAvailableCarsRepositorySpy;
 
 let listAllAvailableCarsUseCase: ListAllAvailableCarsUseCase;
 
@@ -30,19 +30,22 @@ describe('ListAllAvailableCarsUseCase', () => {
       makeListAllAvailableCarsUseCaseDefaultLimitMock();
     listAllAvailableCarsUseCaseDefaultOffsetMock =
       makeListAllAvailableCarsUseCaseDefaultOffsetMock();
-    findAllCarsRepositorySpy = new FindAllCarsRepositorySpy();
+    findAllAvailableCarsRepositorySpy = new FindAllAvailableCarsRepositorySpy();
 
     listAllAvailableCarsUseCase = new ListAllAvailableCarsUseCase(
       listAllAvailableCarsUseCaseDefaultSortByMock,
       listAllAvailableCarsUseCaseDefaultOrderByMock,
       listAllAvailableCarsUseCaseDefaultLimitMock,
       listAllAvailableCarsUseCaseDefaultOffsetMock,
-      findAllCarsRepositorySpy
+      findAllAvailableCarsRepositorySpy
     );
   });
 
   it('should call FindAllCarsRepository once with correct values', async () => {
-    const findAllSpy = jest.spyOn(findAllCarsRepositorySpy, 'findAll');
+    const findAllSpy = jest.spyOn(
+      findAllAvailableCarsRepositorySpy,
+      'findAllAvailable'
+    );
 
     const input = makeListAllAvailableCarsUseCaseInputMock();
 
@@ -71,7 +74,10 @@ describe('ListAllAvailableCarsUseCase', () => {
   });
 
   it('should call FindAllCarsRepository with default values if no input', async () => {
-    const findAllSpy = jest.spyOn(findAllCarsRepositorySpy, 'findAll');
+    const findAllSpy = jest.spyOn(
+      findAllAvailableCarsRepositorySpy,
+      'findAllAvailable'
+    );
 
     await listAllAvailableCarsUseCase.execute({});
 
@@ -88,11 +94,11 @@ describe('ListAllAvailableCarsUseCase', () => {
     });
   });
 
-  it('should throw if FindAllCarsRepository throws', async () => {
+  it('should throw if FindAllAvailableCarsRepository throws', async () => {
     const errorMock = makeErrorMock();
 
     jest
-      .spyOn(findAllCarsRepositorySpy, 'findAll')
+      .spyOn(findAllAvailableCarsRepositorySpy, 'findAllAvailable')
       .mockRejectedValueOnce(errorMock);
 
     const input = makeListAllAvailableCarsUseCaseInputMock();
@@ -106,7 +112,7 @@ describe('ListAllAvailableCarsUseCase', () => {
     const carsMock = [makeCarMock(), makeCarMock(), makeCarMock()];
 
     jest
-      .spyOn(findAllCarsRepositorySpy, 'findAll')
+      .spyOn(findAllAvailableCarsRepositorySpy, 'findAllAvailable')
       .mockResolvedValueOnce(carsMock);
 
     const input = makeListAllAvailableCarsUseCaseInputMock();

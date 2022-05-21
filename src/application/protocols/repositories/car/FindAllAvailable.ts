@@ -4,13 +4,13 @@ import {
   CarTypeOfFuelEnum,
 } from '@domain/entities/Car';
 
-interface IFindAllCarsRepository {
-  findAll(
-    data: IFindAllCarsRepository.Input
-  ): Promise<IFindAllCarsRepository.Output>;
+interface IFindAllAvailableCarsRepository {
+  findAllAvailable(
+    data: IFindAllAvailableCarsRepository.Input
+  ): Promise<IFindAllAvailableCarsRepository.Output>;
 }
 
-namespace IFindAllCarsRepository {
+namespace IFindAllAvailableCarsRepository {
   export type SortBy = keyof Pick<
     Car,
     'name' | 'created_at' | 'horse_power' | 'number_of_seats' | 'max_speed'
@@ -27,6 +27,8 @@ namespace IFindAllCarsRepository {
     min_daily_rate?: number;
     max_daily_rate?: number;
     search?: string;
+    start_date?: Date;
+    end_date?: Date;
     include?: {
       brand?: boolean;
       category?: boolean;
@@ -40,4 +42,4 @@ namespace IFindAllCarsRepository {
   export type Output = Car[];
 }
 
-export { IFindAllCarsRepository };
+export { IFindAllAvailableCarsRepository };

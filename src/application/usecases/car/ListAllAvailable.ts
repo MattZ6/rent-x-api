@@ -1,6 +1,6 @@
 import { IListAllAvailableCarsUseCase } from '@domain/usecases/car/ListAllAvailable';
 
-import { IFindAllCarsRepository } from '@application/protocols/repositories/car';
+import { IFindAllAvailableCarsRepository } from '@application/protocols/repositories/car';
 
 export class ListAllAvailableCarsUseCase
   implements IListAllAvailableCarsUseCase
@@ -10,7 +10,7 @@ export class ListAllAvailableCarsUseCase
     private readonly defaultOrderBy: IListAllAvailableCarsUseCase.OrderBy,
     private readonly defaultLimit: IListAllAvailableCarsUseCase.Limit,
     private readonly defaultOffset: IListAllAvailableCarsUseCase.Offset,
-    private readonly findAllCarsRepository: IFindAllCarsRepository
+    private readonly findAllAvailableCarsRepository: IFindAllAvailableCarsRepository
   ) {}
 
   async execute(
@@ -21,11 +21,11 @@ export class ListAllAvailableCarsUseCase
     const limit = data.limit ?? this.defaultLimit;
     const offset = data.offset ?? this.defaultOffset;
 
-    const cars = await this.findAllCarsRepository.findAll({
-      sort_by: sortBy as IFindAllCarsRepository.SortBy,
-      order_by: orderBy as IFindAllCarsRepository.OrderBy,
-      take: limit as IFindAllCarsRepository.Take,
-      skip: offset as IFindAllCarsRepository.Skip,
+    const cars = await this.findAllAvailableCarsRepository.findAllAvailable({
+      sort_by: sortBy as IFindAllAvailableCarsRepository.SortBy,
+      order_by: orderBy as IFindAllAvailableCarsRepository.OrderBy,
+      take: limit as IFindAllAvailableCarsRepository.Take,
+      skip: offset as IFindAllAvailableCarsRepository.Skip,
       brand_id: data.brand_id,
       category_id: data.category_id,
       transmission_type: data.transmission_type,
