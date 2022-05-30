@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 import { MinLengthFieldError, RequiredFieldError } from '@presentation/errors';
 import { ValidationComposite } from '@presentation/validations/validators';
