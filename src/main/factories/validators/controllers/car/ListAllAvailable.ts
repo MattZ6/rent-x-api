@@ -40,6 +40,8 @@ export function makeListAllAvailableCarsControllerValidation(): ValidationCompos
     new MinValueFieldValidation('offset', carConfig.MIN_OFFSET),
     makeUuidFieldValidation('brand_id'),
     makeUuidFieldValidation('category_id'),
+    new OnlyNumbersFieldValidation('min_daily_rate', true),
+    new OnlyNumbersFieldValidation('max_daily_rate', true),
     new OneOfValuesFieldValidation<Input, CarTransmissionTypeEnum>(
       'transmission_type',
       ['AUTO', 'MANUAL']
