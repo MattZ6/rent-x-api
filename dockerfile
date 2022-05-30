@@ -1,4 +1,4 @@
-FROM node:14.19.1-alpine
+FROM node:14.19.3-alpine
 
 # Set non-root user and expose port
 USER node
