@@ -2,6 +2,7 @@ import {
   ICheckIfCarExistsByIdRepository,
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
+  IFindAllAvailableCarsRepository,
   IFindAllCarsRepository,
   IFindCarByIdRepository,
 } from '@application/protocols/repositories/car';
@@ -14,7 +15,8 @@ export class PrismaCarsRepository
     ICreateCarRepository,
     IFindAllCarsRepository,
     IFindCarByIdRepository,
-    ICheckIfCarExistsByIdRepository
+    ICheckIfCarExistsByIdRepository,
+    IFindAllAvailableCarsRepository
 {
   async checkIfExistsByLicensePlate(
     data: ICheckIfCarExistsByLicensePlateRepository.Input
@@ -85,19 +87,40 @@ export class PrismaCarsRepository
   async findAll(
     data: IFindAllCarsRepository.Input
   ): Promise<IFindAllCarsRepository.Output> {
-    const { sort_by, order_by, take, skip, brand_id, category_id, include } =
-      data;
+    const {
+      sort_by,
+      order_by,
+      take,
+      skip,
+      brand_id,
+      category_id,
+      include,
+      min_daily_rate,
+      max_daily_rate,
+      transmission_type,
+      type_of_fuel,
+    } = data;
 
     const cars = await prisma.car.findMany({
       orderBy: { [sort_by]: order_by },
       take: Number(take),
       skip: Number(skip),
       where: {
+        transmission_type: {
+          equals: transmission_type,
+        },
+        type_of_fuel: {
+          equals: type_of_fuel,
+        },
         brand_id: {
           equals: brand_id,
         },
         category_id: {
           equals: category_id,
+        },
+        daily_rate: {
+          gte: min_daily_rate ? Number(min_daily_rate) : undefined,
+          lte: max_daily_rate ? Number(max_daily_rate) : undefined,
         },
       },
       include,
@@ -137,5 +160,68 @@ export class PrismaCarsRepository
     });
 
     return count > 0;
+  }
+
+  async findAllAvailable(
+    data: IFindAllAvailableCarsRepository.Input
+  ): Promise<IFindAllAvailableCarsRepository.Output> {
+    const {
+      sort_by,
+      order_by,
+      take,
+      skip,
+      brand_id,
+      category_id,
+      include,
+      min_daily_rate,
+      max_daily_rate,
+      transmission_type,
+      type_of_fuel,
+      start_date,
+      end_date,
+      search,
+    } = data;
+
+    const start = start_date ? new Date(start_date) : undefined;
+    const end = end_date ? new Date(end_date) : undefined;
+
+    const cars = await prisma.car.findMany({
+      orderBy: { [sort_by]: order_by },
+      take: Number(take),
+      skip: Number(skip),
+      where: {
+        transmission_type: {
+          equals: transmission_type,
+        },
+        type_of_fuel: {
+          equals: type_of_fuel,
+        },
+        brand_id: {
+          equals: brand_id,
+        },
+        category_id: {
+          equals: category_id,
+        },
+        daily_rate: {
+          gte: min_daily_rate ? Number(min_daily_rate) : undefined,
+          lte: max_daily_rate ? Number(max_daily_rate) : undefined,
+        },
+        rents: {
+          none: {
+            start_date: {
+              gte: start,
+              lte: end,
+            },
+            expected_return_date: {
+              gte: start,
+              lte: end,
+            },
+          },
+        },
+      },
+      include,
+    });
+
+    return cars;
   }
 }
