@@ -50,6 +50,7 @@ describe('OnlyNumbersFieldValidation', () => {
     const output = onlyNumbersFieldValidation.validate({
       [onlyNumbersFieldValidationFieldName]: String(
         faker.datatype.number({
+          min: 1,
           precision: 0.01,
         })
       ),
@@ -92,6 +93,7 @@ describe('OnlyNumbersFieldValidation', () => {
     const output = onlyNumbersFieldValidation.validate({
       [onlyNumbersFieldValidationFieldName]: String(
         faker.datatype.number({
+          min: 1,
           precision: 0.01,
         })
       ),
