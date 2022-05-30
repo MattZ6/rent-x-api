@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 import { InvalidDateIntervalFieldError } from '@presentation/errors';
 import { ValidDateIntervalFieldValidation } from '@presentation/validations/validators';
