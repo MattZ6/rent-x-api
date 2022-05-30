@@ -190,6 +190,10 @@ export class PrismaCarsRepository
       take: Number(take),
       skip: Number(skip),
       where: {
+        name: {
+          contains: search,
+          mode: 'insensitive',
+        },
         transmission_type: {
           equals: transmission_type,
         },
