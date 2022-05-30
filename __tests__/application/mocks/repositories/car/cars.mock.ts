@@ -2,6 +2,7 @@ import {
   ICheckIfCarExistsByIdRepository,
   ICheckIfCarExistsByLicensePlateRepository,
   ICreateCarRepository,
+  IFindAllAvailableCarsRepository,
   IFindAllCarsRepository,
   IFindCarByIdRepository,
 } from '@application/protocols/repositories/car';
@@ -62,6 +63,16 @@ export class CreateCarRepositorySpy implements ICreateCarRepository {
 
 export class FindAllCarsRepositorySpy implements IFindAllCarsRepository {
   async findAll(
+    _: IFindAllCarsRepository.Input
+  ): Promise<IFindAllCarsRepository.Output> {
+    return [];
+  }
+}
+
+export class FindAllAvailableCarsRepositorySpy
+  implements IFindAllAvailableCarsRepository
+{
+  async findAllAvailable(
     _: IFindAllCarsRepository.Input
   ): Promise<IFindAllCarsRepository.Output> {
     return [];

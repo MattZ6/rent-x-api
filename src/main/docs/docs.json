@@ -3691,6 +3691,407 @@
         }
       }
     },
+    "/v1/cars/available": {
+      "get": {
+        "tags": ["Car"],
+        "summary": "Query all available Cars",
+        "description": "Query all available Cars",
+        "parameters": [
+          {
+            "name": "sort_by",
+            "description": "The sort by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["created_at", "horse_power", "max_speed", "name", "number_of_seats"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "order_by",
+            "description": "The order by value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "description": "The limit value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "offset",
+            "description": "The offset value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "brand_id",
+            "description": "The brand id value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "category_id",
+            "description": "The category id value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "type_of_fuel",
+            "description": "The type of fuel for filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": ["ALCOHOL", "GAS", "ELETRICITY"]
+            }
+          },
+          {
+            "name": "transmission_type",
+            "description": "The transmission type for filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": ["MANUAL", "AUTO"]
+            }
+          },
+          {
+            "name": "min_daily_rate",
+            "description": "The min value for daily rate for filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true
+            }
+          },
+          {
+            "name": "max_daily_rate",
+            "description": "The max value for daily rate for filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true
+            }
+          },
+          {
+            "name": "start_date",
+            "description": "The start date for the filter",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "end_date",
+            "description": "The end date for the filter",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "...",
+                    "name": "A4",
+                    "description": "...",
+                    "license_plate": "XXX6661",
+                    "daily_rate": 120.8742,
+                    "brand": {
+                      "name": "Audi"
+                    },
+                    "category": {
+                      "name": "Sedan",
+                      "description": "..."
+                    },
+                    "type_of_fuel": "GAS",
+                    "transmission_type": "AUTO",
+                    "number_of_seats": 5,
+                    "horse_power": 10000,
+                    "max_speed": 320,
+                    "zero_to_one_hundred_in_millisseconds": 7800,
+                    "created_at": "2022-01-01T13:00:00.000"
+                  },
+                  {
+                    "id": "...",
+                    "name": "Veloster",
+                    "description": "...",
+                    "license_plate": "XXX6662",
+                    "daily_rate": 113.871,
+                    "brand": {
+                      "name": "Hyundai"
+                    },
+                    "category": {
+                      "name": "Hatch",
+                      "description": "..."
+                    },
+                    "type_of_fuel": "GAS",
+                    "transmission_type": "AUTO",
+                    "number_of_seats": 5,
+                    "horse_power": 11000,
+                    "max_speed": 315,
+                    "zero_to_one_hundred_in_millisseconds": 9100,
+                    "created_at": "2022-01-01T14:00:00.000"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sort by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "sort_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the sort_by field is not one of created_at, name values"
+                      }
+                    }
+                  },
+                  "Order by invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "order_by",
+                        "type": "required",
+                        "value": null,
+                        "message": "The value of the order_by field is not one of asc, desc values"
+                      }
+                    }
+                  },
+                  "Limit invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of limit must contain only numbers"
+                      }
+                    }
+                  },
+                  "Limit min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "min",
+                        "value": 1,
+                        "message": "The min value of limit field is 1"
+                      }
+                    }
+                  },
+                  "Limit max value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "max",
+                        "value": 100,
+                        "message": "The max value of limit field is 100"
+                      }
+                    }
+                  },
+                  "Offset invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of offset must contain only numbers"
+                      }
+                    }
+                  },
+                  "Offset min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "min",
+                        "value": 0,
+                        "message": "The min value of offset field is 0"
+                      }
+                    }
+                  },
+                  "Car brand id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "brand_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The brand_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Car category id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "category_id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The category_id is not a valid UUID."
+                      }
+                    }
+                  },
+                  "Transmission type invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "transmission_type",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The value of the transmission_type field is not one of AUTO, MANUAL values"
+                      }
+                    }
+                  },
+                  "Type of fuel invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "type_of_fuel",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The value of the type_of_fuel field is not one of ALCOHOL, ELETRICITY, GAS values"
+                      }
+                    }
+                  },
+                  "Min daily rate only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "min_daily_rate",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of min_daily_rate must contain only numbers"
+                      }
+                    }
+                  },
+                  "Max daily rate only numbers": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "max_daily_rate",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of max_daily_rate must contain only numbers"
+                      }
+                    }
+                  },
+                  "Start date invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "start_date",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The start_date field is invalid."
+                      }
+                    }
+                  },
+                  "End date invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "end_date",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The end_date field is invalid."
+                      }
+                    }
+                  },
+                  "Invalid interval": {
+                    "value": {
+                      "code": "interval",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "end_date",
+                        "type": "interval",
+                        "value": null,
+                        "message": "The interval between start_date and end_date is invalid."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/cars/{id}": {
       "get": {
         "tags": ["Car"],

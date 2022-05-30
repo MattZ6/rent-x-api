@@ -5,3 +5,4 @@ export * from './specification';
 export * from './Create';
 export * from './GetDetails';
 export * from './ListAll';
+export * from './ListAllAvailable';

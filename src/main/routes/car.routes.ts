@@ -5,6 +5,7 @@ import { adaptRoute } from '@main/adapters/express/route';
 import { makeCreateCarController } from '@main/factories/controllers/car/Create';
 import { makeGetCarDetailsController } from '@main/factories/controllers/car/GetDetails';
 import { makeListCarsController } from '@main/factories/controllers/car/ListAll';
+import { makeListAllAvailableCarsController } from '@main/factories/controllers/car/ListAllAvailable';
 import { makeAddSpecificationsToCarController } from '@main/factories/controllers/car/specification/AddToCar';
 import { makeRemoveSpecificationFromCarController } from '@main/factories/controllers/car/specification/RemoveFromCar';
 import { makeAdminMiddleware } from '@main/factories/middlewares/Admin';
@@ -25,6 +26,8 @@ carsRoutes.get(
   adaptMiddleware(makeAdminMiddleware()),
   adaptRoute(makeListCarsController())
 );
+
+carsRoutes.get('/available', adaptRoute(makeListAllAvailableCarsController()));
 
 carsRoutes.get(
   '/:id',
