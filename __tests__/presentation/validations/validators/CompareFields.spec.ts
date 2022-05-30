@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 import { DivergentFieldsValuesError } from '@presentation/errors';
 import { CompareFieldsValidation } from '@presentation/validations/validators';
