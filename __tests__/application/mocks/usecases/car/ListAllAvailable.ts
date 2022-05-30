@@ -68,12 +68,11 @@ export function makeListAllAvailableCarsUseCaseInputMock(): IListAllAvailableCar
       null,
       faker.datatype.number(),
     ]),
-    start_date: faker.helpers.arrayElement([undefined, null, startDate]),
-    end_date: faker.helpers.arrayElement([
-      undefined,
-      null,
-      faker.date.soon(faker.datatype.number({ min: 1, max: 30 }), startDate),
-    ]),
+    start_date: startDate,
+    end_date: faker.date.soon(
+      faker.datatype.number({ min: 1, max: 30 }),
+      startDate
+    ),
     search: faker.helpers.arrayElement([
       undefined,
       null,

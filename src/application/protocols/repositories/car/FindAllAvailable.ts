@@ -27,8 +27,8 @@ namespace IFindAllAvailableCarsRepository {
     min_daily_rate?: number;
     max_daily_rate?: number;
     search?: string;
-    start_date?: Date;
-    end_date?: Date;
+    start_date: Date;
+    end_date: Date;
     include?: {
       brand?: boolean;
       category?: boolean;

@@ -79,10 +79,17 @@ describe('ListAllAvailableCarsUseCase', () => {
       'findAllAvailable'
     );
 
-    await listAllAvailableCarsUseCase.execute({});
+    const input = makeListAllAvailableCarsUseCaseInputMock();
+
+    await listAllAvailableCarsUseCase.execute({
+      start_date: input.start_date,
+      end_date: input.end_date,
+    });
 
     expect(findAllSpy).toHaveBeenCalledTimes(1);
     expect(findAllSpy).toHaveBeenCalledWith({
+      start_date: input.start_date,
+      end_date: input.end_date,
       sort_by: listAllAvailableCarsUseCaseDefaultSortByMock,
       order_by: listAllAvailableCarsUseCaseDefaultOrderByMock,
       take: listAllAvailableCarsUseCaseDefaultLimitMock,
