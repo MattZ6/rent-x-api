@@ -7,4 +7,5 @@ export * from './FindById';
 
 export * from './brand';
 export * from './category';
+export * from './image';
 export * from './specification';
