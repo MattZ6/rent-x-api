@@ -2,7 +2,7 @@ FROM node:14.19.3-alpine
 
 # Set non-root user and expose port
 USER node
-EXPOSE ${API_PORT}
+EXPOSE ${PORT}
 
 WORKDIR /home/node/app
 

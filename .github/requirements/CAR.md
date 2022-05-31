@@ -13,10 +13,10 @@
   - [x] Add API documentation;
   - [x] Only administrators can update car specifications.
 
-- 📅 **Car images**
-  - [ ] It should be possible to add **images** to a car;
-  - [ ] Add API documentation;
-  - [ ] Only administrators can update car **images**.
+- ✔ **Car images**
+  - [x] It should be possible to add **images** to a car;
+  - [x] Add API documentation;
+  - [x] Only administrators can update car **images**.
 
 - ✔ **Get car details**
   - [x] It should be possible to get **all data** from a car.

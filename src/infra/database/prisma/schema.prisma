@@ -122,8 +122,23 @@ model Car {
 
   cars_specifications CarsSpecifications[]
   rents               Rent[]
+  images              CarImage[]
 
   @@map("cars")
+}
+
+model CarImage {
+  id            String   @id @default(uuid())
+  car_id        String
+  car           Car      @relation(fields: [car_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  original_name String
+  mime_type     String
+  extension     String
+  size_in_bytes Float
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now()) @updatedAt
+
+  @@map("car_images")
 }
 
 model CarsSpecifications {

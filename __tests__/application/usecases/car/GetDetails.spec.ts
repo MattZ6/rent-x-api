@@ -33,6 +33,7 @@ describe('GetCarDetailsUseCase', () => {
         brand: true,
         category: true,
         specifications: true,
+        images: true,
       },
     });
   });

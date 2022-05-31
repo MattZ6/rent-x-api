@@ -17,6 +17,7 @@ export class GetCarDetailsUseCase implements IGetCarDetailsUseCase {
         brand: true,
         category: true,
         specifications: true,
+        images: true,
       },
     });
 

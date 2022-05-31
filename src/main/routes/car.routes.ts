@@ -1,9 +1,11 @@
 import { Router } from 'express';
+import multer from 'multer';
 
 import { adaptMiddleware } from '@main/adapters/express/middleware';
 import { adaptRoute } from '@main/adapters/express/route';
 import { makeCreateCarController } from '@main/factories/controllers/car/Create';
 import { makeGetCarDetailsController } from '@main/factories/controllers/car/GetDetails';
+import { makeAddImagesToCarController } from '@main/factories/controllers/car/image/Add';
 import { makeListCarsController } from '@main/factories/controllers/car/ListAll';
 import { makeListAllAvailableCarsController } from '@main/factories/controllers/car/ListAllAvailable';
 import { makeAddSpecificationsToCarController } from '@main/factories/controllers/car/specification/AddToCar';
@@ -47,6 +49,16 @@ carsRoutes.delete(
   adaptMiddleware(makeAuthenticationMiddleware()),
   adaptMiddleware(makeAdminMiddleware()),
   adaptRoute(makeRemoveSpecificationFromCarController())
+);
+
+const upload = multer();
+
+carsRoutes.post(
+  '/:id/images',
+  adaptMiddleware(makeAuthenticationMiddleware()),
+  adaptMiddleware(makeAdminMiddleware()),
+  upload.array('files'),
+  adaptRoute(makeAddImagesToCarController())
 );
 
 export default carsRoutes;
