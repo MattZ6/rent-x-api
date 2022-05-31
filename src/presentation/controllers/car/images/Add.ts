@@ -2,7 +2,7 @@ import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 import { IAddImagesToCarUseCase } from '@domain/usecases/car/image/Add';
 
 import { ValidationError } from '@presentation/errors';
-import { badRequest, noContent, notFound } from '@presentation/helpers/http';
+import { badRequest, created, notFound } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -20,7 +20,10 @@ class AddImagesToCarController implements IController {
     request: AddImagesToCarController.Request
   ): Promise<AddImagesToCarController.Response> {
     try {
-      const validationError = this.validation.validate(request);
+      const validationError = this.validation.validate({
+        ...request.params,
+        files: request.files,
+      });
 
       if (validationError) {
         throw validationError;
@@ -40,7 +43,7 @@ class AddImagesToCarController implements IController {
         })),
       });
 
-      return noContent();
+      return created<void>();
     } catch (error) {
       if (error instanceof ValidationError) {
         return badRequest(error);
