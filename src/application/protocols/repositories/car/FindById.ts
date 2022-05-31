@@ -12,6 +12,7 @@ namespace IFindCarByIdRepository {
       brand?: boolean;
       category?: boolean;
       specifications?: boolean;
+      images?: boolean;
     };
   };
 

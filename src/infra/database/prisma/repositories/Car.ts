@@ -140,6 +140,7 @@ export class PrismaCarsRepository
         brand: include?.brand,
         category: include?.category,
         cars_specifications: include?.specifications,
+        images: include?.images,
       },
     });
 
