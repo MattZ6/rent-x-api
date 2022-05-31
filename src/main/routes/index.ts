@@ -25,7 +25,7 @@ routes.use('/v1/rents', rentRoutes);
 
 // TODO: Verificar uma forma de deixar o storage dinâmico
 
-const path = resolve(
+const avatarPath = resolve(
   storageConfig.DISK_STORAGE_ROOT_FOLDER,
   storageConfig.AVATAR_FOLDER_PATH
 );
@@ -33,7 +33,21 @@ const path = resolve(
 routes.use(
   '/avatar',
   adaptMiddleware(makeAuthenticationMiddleware()),
-  expressStatic(path, {
+  expressStatic(avatarPath, {
+    setHeaders: res => {
+      res.setHeader('Content-Type', 'image/jpeg');
+    },
+  })
+);
+
+const carImagesPath = resolve(
+  storageConfig.DISK_STORAGE_ROOT_FOLDER,
+  storageConfig.CAR_IMAGES_FOLDER_PATH
+);
+
+routes.use(
+  '/cars',
+  expressStatic(carImagesPath, {
     setHeaders: res => {
       res.setHeader('Content-Type', 'image/jpeg');
     },

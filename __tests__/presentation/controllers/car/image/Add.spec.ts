@@ -78,7 +78,7 @@ describe('AddImagesToCarController', () => {
 
     expect(executeSpy).toHaveBeenCalledTimes(1);
     expect(executeSpy).toHaveBeenCalledWith({
-      car_id: request.params.car_id,
+      car_id: request.params.id,
       files: request.files.map(file => ({
         name: file.name,
         type: file.mimetype,

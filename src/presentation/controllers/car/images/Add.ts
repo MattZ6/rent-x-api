@@ -29,11 +29,11 @@ class AddImagesToCarController implements IController {
         throw validationError;
       }
 
-      const { car_id } = request.params;
+      const { id } = request.params;
       const { files } = request;
 
       await this.addImagesToCarUseCase.execute({
-        car_id,
+        car_id: id,
         files: files.map(file => ({
           name: file.name,
           type: file.mimetype,
@@ -60,7 +60,7 @@ class AddImagesToCarController implements IController {
 
 namespace AddImagesToCarController {
   export type RequestParams = {
-    car_id: string;
+    id: string;
   };
 
   export type Request = IHttpRequest<void, RequestParams, void, void>;

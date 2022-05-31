@@ -8,7 +8,7 @@ export function makeAddImagesToCarControllerRequestMock(): AddImagesToCarControl
   return {
     headers: undefined,
     params: {
-      car_id: faker.datatype.uuid(),
+      id: faker.datatype.uuid(),
     },
     query: undefined,
     method: faker.internet.httpMethod(),
