@@ -15,6 +15,6 @@
   - [ ] It should be possible to list the car's schedule with all the periods the car will be rented starting from now.
   - [ ] Add API documentation;
 
-- 📅 **User's rentals**
-  - [ ] It should be possible to list all car rentals from a user.
-  - [ ] Add API documentation;
+- ✔ **User's rentals**
+  - [x] It should be possible to list all car rentals from a user.
+  - [x] Add API documentation;

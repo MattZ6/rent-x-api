@@ -4,6 +4,7 @@ import {
   ICheckIfRentExistsWithPendingPaymentByUserRepository,
   IFindRentalByIdRepository,
   IUpdateRentRepository,
+  IFindAllRentsFromUserRepository,
 } from '@application/protocols/repositories/rent';
 
 import { makeRentMock } from '../../../../domain';
@@ -97,5 +98,15 @@ export class UpdateRentRepositorySpy implements IUpdateRentRepository {
     });
 
     return rentMock;
+  }
+}
+
+export class FindAllRentsFromUserRepositorySpy
+  implements IFindAllRentsFromUserRepository
+{
+  async findAllFromUser(
+    _: IFindAllRentsFromUserRepository.Input
+  ): Promise<IFindAllRentsFromUserRepository.Output> {
+    return [];
   }
 }

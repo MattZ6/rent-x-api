@@ -5004,6 +5004,158 @@
           }
         }
       }
+    },
+    "/v1/users/me/rents": {
+      "get": {
+        "tags": ["User", "Rent"],
+        "summary": "Query all Rents from User",
+        "description": "Query all Rents from authenticated User",
+        "security": [{ "userAuth": [] }],
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "The limit value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "offset",
+            "description": "The offset value",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "...",
+                    "start_date": "2022-06-18T13:00:00.000",
+                    "expected_return_date": "2022-07-01T13:00:00.000",
+                    "daily_date": 1200,
+                    "car": {
+                      "name": "Corvete Z06",
+                      "brand": {
+                        "id": "...",
+                        "name": "Chevrolet"
+                      },
+                      "type_of_fuel": "GAS"
+                    }
+                  },
+                  {
+                    "id": "...",
+                    "start_date": "2022-01-01T13:00:00.000",
+                    "expected_return_date": "2022-01-01T13:00:00.000",
+                    "daily_date": 340,
+                    "car": {
+                      "name": "RS 5 Coupé",
+                      "brand": {
+                        "id": "...",
+                        "name": "Audi"
+                      },
+                      "type_of_fuel": "ELETRICITY"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Limit invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of limit must contain only numbers"
+                      }
+                    }
+                  },
+                  "Limit min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "min",
+                        "value": 1,
+                        "message": "The min value of limit field is 1"
+                      }
+                    }
+                  },
+                  "Limit max value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "limit",
+                        "type": "max",
+                        "value": 100,
+                        "message": "The max value of limit field is 100"
+                      }
+                    }
+                  },
+                  "Offset invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "number",
+                        "value": null,
+                        "message": "The value of offset must contain only numbers"
+                      }
+                    }
+                  },
+                  "Offset min value": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "offset",
+                        "type": "min",
+                        "value": 0,
+                        "message": "The min value of offset field is 0"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

@@ -2,6 +2,7 @@ import {
   ICheckIfRentExistsByOpenScheduleForCarRepository,
   ICheckIfRentExistsWithPendingPaymentByUserRepository,
   ICreateRentRepository,
+  IFindAllRentsFromUserRepository,
   IFindRentalByIdRepository,
   IUpdateRentRepository,
 } from '@application/protocols/repositories/rent';
@@ -10,12 +11,32 @@ import { prisma } from '..';
 
 export class PrismaRentsRepository
   implements
+    IFindAllRentsFromUserRepository,
     ICheckIfRentExistsWithPendingPaymentByUserRepository,
     ICheckIfRentExistsByOpenScheduleForCarRepository,
     ICreateRentRepository,
     IFindRentalByIdRepository,
     IUpdateRentRepository
 {
+  async findAllFromUser(
+    data: IFindAllRentsFromUserRepository.Input
+  ): Promise<IFindAllRentsFromUserRepository.Output> {
+    const { user_id, skip, take, include } = data;
+
+    const rents = await prisma.rent.findMany({
+      where: {
+        user_id,
+      },
+      take: Number(take),
+      skip: Number(skip),
+      include: {
+        car: include.cars,
+      },
+    });
+
+    return rents;
+  }
+
   async checkIfExistsWithPendingPaymentByUser(
     data: ICheckIfRentExistsWithPendingPaymentByUserRepository.Input
   ): Promise<ICheckIfRentExistsWithPendingPaymentByUserRepository.Output> {
