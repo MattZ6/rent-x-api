@@ -25,6 +25,8 @@ export default {
     '<rootDir>/src/presentation/middlewares/**/*.ts',
     '<rootDir>/src/presentation/validations/validators/**/*.ts',
     '!<rootDir>/src/presentation/validations/validators/**/*index.ts',
+    '<rootDir>/src/presentation/dtos/**/*.ts',
+    '!<rootDir>/src/presentation/dtos/**/*index.ts',
     '<rootDir>/src/main/decorators/**/*.ts',
   ],
 

@@ -13,7 +13,7 @@ export namespace CarSpecificationMapper {
     data: Input
   ): CarSpecificationMapper.SpecificationDTO {
     if (!data) {
-      return undefined;
+      return null;
     }
 
     return {

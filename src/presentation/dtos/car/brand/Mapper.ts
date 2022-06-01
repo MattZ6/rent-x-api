@@ -10,7 +10,7 @@ export namespace CarBrandMapper {
 
   export function toBrandDTO(data: Input): CarBrandMapper.BrandDTO {
     if (!data) {
-      return undefined;
+      return null;
     }
 
     return {

@@ -33,7 +33,7 @@ export namespace RentMapper {
     id: string;
     start_date: Date;
     expected_return_date: Date;
-    daily_date: number;
+    daily_rate: number;
     car: CarMapper.CarListItemDTO;
   };
 
@@ -42,7 +42,7 @@ export namespace RentMapper {
       id: data.id,
       start_date: data.start_date,
       expected_return_date: data.expected_return_date,
-      daily_date: data.daily_rate,
+      daily_rate: data.daily_rate,
       car: CarMapper.toListItemDTO(data.car),
     };
   }

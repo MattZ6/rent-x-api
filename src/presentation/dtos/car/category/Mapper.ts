@@ -11,7 +11,7 @@ export namespace CarCategoryMapper {
 
   export function toCategoryDTO(data: Input): CarCategoryMapper.CategoryDTO {
     if (!data) {
-      return undefined;
+      return null;
     }
 
     return {
