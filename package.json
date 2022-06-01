@@ -2,7 +2,7 @@
   "private": true,
   "name": "rent-x-api",
   "description": "🔥 API para a aplicação de aluguéis de automóveis Rent-X, construída na trilha de NodeJS — Ignite",
-  "version": "0.10.0-beta",
+  "version": "1.0.0",
   "license": "MIT",
   "author": {
     "name": "Matheus Felipe Zanin",
