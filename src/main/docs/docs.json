@@ -5143,6 +5143,17 @@
               }
             }
           },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "user.not.exists",
+                  "message": "No users found with the id provided."
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal server error",
             "content": {
