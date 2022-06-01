@@ -1,5 +1,5 @@
 import { ListAllCarSpecificationsController } from '@presentation/controllers/car/specification/ListAll';
-import { CarSpecificationMapper } from '@presentation/dtos/car/specification';
+import { CarSpecificationMapper } from '@presentation/dtos';
 import { badRequest, ok } from '@presentation/helpers/http';
 
 import { makeErrorMock } from '../../../../domain';

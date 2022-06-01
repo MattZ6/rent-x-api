@@ -1,6 +1,6 @@
 import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAll';
 
-import { CarSpecificationMapper } from '@presentation/dtos/car/specification';
+import { CarSpecificationMapper } from '@presentation/dtos';
 import { ValidationError } from '@presentation/errors';
 import { badRequest, ok } from '@presentation/helpers/http';
 import {

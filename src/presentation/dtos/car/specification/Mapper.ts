@@ -12,6 +12,10 @@ export namespace CarSpecificationMapper {
   export function toSpecificationDTO(
     data: Input
   ): CarSpecificationMapper.Brand {
+    if (!data) {
+      return undefined;
+    }
+
     return {
       id: data.id,
       name: data.name,

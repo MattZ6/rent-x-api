@@ -4,6 +4,7 @@ import {
 } from '@domain/entities/Car';
 import { IListAllAvailableCarsUseCase } from '@domain/usecases/car/ListAllAvailable';
 
+import { CarMapper } from '@presentation/dtos';
 import { ValidationError } from '@presentation/errors';
 import { badRequest, ok } from '@presentation/helpers/http';
 import {
@@ -61,7 +62,7 @@ class ListAllAvailableCarsController implements IController {
         transmission_type,
       });
 
-      return ok(output);
+      return ok(CarMapper.toListItemsDTO(output));
     } catch (error) {
       if (error instanceof ValidationError) {
         return badRequest(error);

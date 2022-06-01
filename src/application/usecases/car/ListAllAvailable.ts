@@ -37,7 +37,6 @@ export class ListAllAvailableCarsUseCase
       search: data.search,
       include: {
         brand: true,
-        category: true,
       },
     });
 

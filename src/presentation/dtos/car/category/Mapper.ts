@@ -10,6 +10,10 @@ export namespace CarCategoryMapper {
   };
 
   export function toCategoryDTO(data: Input): CarCategoryMapper.Brand {
+    if (!data) {
+      return undefined;
+    }
+
     return {
       id: data.id,
       name: data.name,
