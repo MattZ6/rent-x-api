@@ -12,6 +12,7 @@ import carSpecificationsRoutes from './car-specification.routes';
 import carsRoutes from './car.routes';
 import profileRoutes from './profile.routes';
 import rentRoutes from './rent.routes';
+import userRentRoutes from './user-rent.routes';
 
 const routes = Router();
 
@@ -22,6 +23,7 @@ routes.use('/v1/specifications', carSpecificationsRoutes);
 routes.use('/v1/categories', carCategoriesRoutes);
 routes.use('/v1/cars', carsRoutes);
 routes.use('/v1/rents', rentRoutes);
+routes.use('/v1/users/me/rents', userRentRoutes);
 
 // TODO: Verificar uma forma de deixar o storage dinâmico
 
