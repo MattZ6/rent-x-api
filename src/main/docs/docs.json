@@ -712,7 +712,8 @@
                   "id": "...",
                   "name": "John Driver",
                   "driver_license": "26786579871",
-                  "email": "john.driver@rentx.com"
+                  "email": "john.driver@rentx.com",
+                  "avatar_url": "..."
                 }
               }
             }
