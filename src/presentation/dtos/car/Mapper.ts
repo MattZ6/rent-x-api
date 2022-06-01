@@ -36,6 +36,10 @@ export namespace CarMapper {
   };
 
   export function toListItemDTO(data: Input): CarMapper.CarListItemDTO {
+    if (!data) {
+      return undefined;
+    }
+
     // TODO: add cover image
 
     return {

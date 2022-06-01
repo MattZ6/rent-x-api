@@ -5086,11 +5086,11 @@
                     "daily_date": 1200,
                     "car": {
                       "name": "Corvete Z06",
+                      "type_of_fuel": "GAS",
                       "brand": {
                         "id": "...",
                         "name": "Chevrolet"
-                      },
-                      "type_of_fuel": "GAS"
+                      }
                     }
                   },
                   {
@@ -5100,11 +5100,11 @@
                     "daily_date": 340,
                     "car": {
                       "name": "RS 5 Coupé",
+                      "type_of_fuel": "ELETRICITY",
                       "brand": {
                         "id": "...",
                         "name": "Audi"
-                      },
-                      "type_of_fuel": "ELETRICITY"
+                      }
                     }
                   }
                 ]
