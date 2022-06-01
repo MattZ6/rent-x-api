@@ -5,6 +5,7 @@ import {
   IFindRentalByIdRepository,
   IUpdateRentRepository,
   IFindAllRentsFromUserRepository,
+  IFindAllRentsFromCarRepository,
 } from '@application/protocols/repositories/rent';
 
 import { makeRentMock } from '../../../../domain';
@@ -107,6 +108,16 @@ export class FindAllRentsFromUserRepositorySpy
   async findAllFromUser(
     _: IFindAllRentsFromUserRepository.Input
   ): Promise<IFindAllRentsFromUserRepository.Output> {
+    return [];
+  }
+}
+
+export class FindAllRentsFromCarRepositorySpy
+  implements IFindAllRentsFromCarRepository
+{
+  async findAllFromCar(
+    _: IFindAllRentsFromCarRepository.Input
+  ): Promise<IFindAllRentsFromCarRepository.Output> {
     return [];
   }
 }
