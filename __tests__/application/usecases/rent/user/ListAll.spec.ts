@@ -1,15 +1,18 @@
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 import { IListAllUserRentalsUseCase } from '@domain/usecases/rent/user/ListAll';
 
 import { ListAllUserRentalsUseCase } from '@application/usecases/rent/user/ListAll';
 
 import { makeErrorMock, makeRentMock } from '../../../../domain';
 import {
+  CheckIfUserExistsByIdRepositorySpy,
   FindAllRentsFromUserRepositorySpy,
   makeListAllUserRentalsUseCaseDefaultLimitMock,
   makeListAllUserRentalsUseCaseDefaultOffsetMock,
   makeListAllUserRentalsUseCaseInputMock,
 } from '../../../mocks';
 
+let checkIfUserExistsByIdRepositorySpy: CheckIfUserExistsByIdRepositorySpy;
 let listAllUserRentalsUseCaseDefaultLimitMock: IListAllUserRentalsUseCase.Limit;
 let listAllUserRentalsUseCaseDefaultOffsetMock: IListAllUserRentalsUseCase.Offset;
 let findAllRentsFromUserRepositorySpy: FindAllRentsFromUserRepositorySpy;
@@ -18,6 +21,8 @@ let listAllUserRentalsUseCase: ListAllUserRentalsUseCase;
 
 describe('ListAllUserRentalsUseCase', () => {
   beforeEach(() => {
+    checkIfUserExistsByIdRepositorySpy =
+      new CheckIfUserExistsByIdRepositorySpy();
     listAllUserRentalsUseCaseDefaultLimitMock =
       makeListAllUserRentalsUseCaseDefaultLimitMock();
     listAllUserRentalsUseCaseDefaultOffsetMock =
@@ -25,9 +30,54 @@ describe('ListAllUserRentalsUseCase', () => {
     findAllRentsFromUserRepositorySpy = new FindAllRentsFromUserRepositorySpy();
 
     listAllUserRentalsUseCase = new ListAllUserRentalsUseCase(
+      checkIfUserExistsByIdRepositorySpy,
       listAllUserRentalsUseCaseDefaultLimitMock,
       listAllUserRentalsUseCaseDefaultOffsetMock,
       findAllRentsFromUserRepositorySpy
+    );
+  });
+
+  it('should call CheckIfUserExistsByIdRepository once with correct values', async () => {
+    const checkIfExistsByIdSpy = jest.spyOn(
+      checkIfUserExistsByIdRepositorySpy,
+      'checkIfExistsById'
+    );
+
+    const input = makeListAllUserRentalsUseCaseInputMock();
+
+    await listAllUserRentalsUseCase.execute(input);
+
+    expect(checkIfExistsByIdSpy).toHaveBeenCalledTimes(1);
+    expect(checkIfExistsByIdSpy).toHaveBeenCalledWith({
+      id: input.user_id,
+    });
+  });
+
+  it('should throw if CheckIfUserExistsByIdRepository throws', async () => {
+    const errorMock = makeErrorMock();
+
+    jest
+      .spyOn(checkIfUserExistsByIdRepositorySpy, 'checkIfExistsById')
+      .mockRejectedValueOnce(errorMock);
+
+    const input = makeListAllUserRentalsUseCaseInputMock();
+
+    const promise = listAllUserRentalsUseCase.execute(input);
+
+    await expect(promise).rejects.toThrowError(errorMock);
+  });
+
+  it('should throw UserNotFoundWithProvidedIdError if CheckIfUserExistsByIdRepository returns false', async () => {
+    jest
+      .spyOn(checkIfUserExistsByIdRepositorySpy, 'checkIfExistsById')
+      .mockResolvedValueOnce(false);
+
+    const input = makeListAllUserRentalsUseCaseInputMock();
+
+    const promise = listAllUserRentalsUseCase.execute(input);
+
+    await expect(promise).rejects.toBeInstanceOf(
+      UserNotFoundWithProvidedIdError
     );
   });
 
