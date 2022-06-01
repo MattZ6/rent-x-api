@@ -1,8 +1,9 @@
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 import { IListAllCarsUseCase } from '@domain/usecases/car/ListAll';
 import { IListAllUserRentalsUseCase } from '@domain/usecases/rent/user/ListAll';
 
 import { ValidationError } from '@presentation/errors';
-import { badRequest, ok } from '@presentation/helpers/http';
+import { badRequest, notFound, ok } from '@presentation/helpers/http';
 import {
   IController,
   IHttpRequest,
@@ -39,6 +40,10 @@ class ListAllUserRentalsController implements IController {
     } catch (error) {
       if (error instanceof ValidationError) {
         return badRequest(error);
+      }
+
+      if (error instanceof UserNotFoundWithProvidedIdError) {
+        return notFound(error);
       }
 
       throw error;

@@ -1,5 +1,7 @@
+import { UserNotFoundWithProvidedIdError } from '@domain/errors';
+
 import { ListAllUserRentalsController } from '@presentation/controllers/rent/user/ListAll';
-import { badRequest, ok } from '@presentation/helpers/http';
+import { badRequest, notFound, ok } from '@presentation/helpers/http';
 
 import { makeErrorMock } from '../../../../domain';
 import {
@@ -92,6 +94,20 @@ describe('ListAllUserRentalsController', () => {
     const promise = listAllUserRentalsController.handle(request);
 
     await expect(promise).rejects.toThrowError(errorMock);
+  });
+
+  it('should return not found (404) if ListAllUserRentalsUseCase throws a UserNotFoundWithProvidedIdError', async () => {
+    const errorMock = new UserNotFoundWithProvidedIdError();
+
+    jest
+      .spyOn(listAllUserRentalsUseCaseSpy, 'execute')
+      .mockRejectedValueOnce(errorMock);
+
+    const request = makeListAllUserRentalsControllerRequestMock();
+
+    const response = await listAllUserRentalsController.handle(request);
+
+    expect(response).toEqual(notFound(errorMock));
   });
 
   it('should return ok (200) on success', async () => {
