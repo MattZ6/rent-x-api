@@ -1,4 +1,5 @@
 import { ListAllCarSpecificationsController } from '@presentation/controllers/car/specification/ListAll';
+import { CarSpecificationMapper } from '@presentation/dtos/car/specification';
 import { badRequest, ok } from '@presentation/helpers/http';
 
 import { makeErrorMock } from '../../../../domain';
@@ -110,6 +111,8 @@ describe('ListAllCarSpecificationsController', () => {
 
     const response = await listAllCarSpecificationsController.handle(request);
 
-    expect(response).toEqual(ok(outputMock));
+    expect(response).toEqual(
+      ok(CarSpecificationMapper.toSpecificationsDTO(outputMock))
+    );
   });
 });

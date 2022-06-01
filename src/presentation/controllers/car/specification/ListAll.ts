@@ -1,5 +1,6 @@
 import { IListAllCarSpecificationsUseCase } from '@domain/usecases/car/specification/ListAll';
 
+import { CarSpecificationMapper } from '@presentation/dtos/car/specification';
 import { ValidationError } from '@presentation/errors';
 import { badRequest, ok } from '@presentation/helpers/http';
 import {
@@ -36,7 +37,7 @@ class ListAllCarSpecificationsController implements IController {
         }
       );
 
-      return ok(specifications);
+      return ok(CarSpecificationMapper.toSpecificationsDTO(specifications));
     } catch (error) {
       if (error instanceof ValidationError) {
         return badRequest(error);
