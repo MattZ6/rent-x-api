@@ -1,6 +1,7 @@
 import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { GetCarScheduleController } from '@presentation/controllers/rent/car/GetSchedule';
+import { RentMapper } from '@presentation/dtos';
 import { badRequest, notFound, ok } from '@presentation/helpers/http';
 
 import { makeErrorMock } from '../../../../domain';
@@ -119,6 +120,6 @@ describe('GetCarScheduleController', () => {
 
     const response = await getCarScheduleController.handle(request);
 
-    expect(response).toEqual(ok(outputMock));
+    expect(response).toEqual(ok(RentMapper.toScheduleDTO(outputMock)));
   });
 });

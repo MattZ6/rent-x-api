@@ -2,6 +2,7 @@ import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 import { IListAllCarsUseCase } from '@domain/usecases/car/ListAll';
 import { IListAllUserRentalsUseCase } from '@domain/usecases/rent/user/ListAll';
 
+import { RentMapper } from '@presentation/dtos';
 import { ValidationError } from '@presentation/errors';
 import { badRequest, notFound, ok } from '@presentation/helpers/http';
 import {
@@ -36,7 +37,7 @@ class ListAllUserRentalsController implements IController {
         offset,
       });
 
-      return ok(output);
+      return ok(RentMapper.toRentListItemsDTO(output));
     } catch (error) {
       if (error instanceof ValidationError) {
         return badRequest(error);

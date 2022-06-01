@@ -1,4 +1,5 @@
 import { ListAllCarBrandsController } from '@presentation/controllers/car/brand/ListAll';
+import { CarBrandMapper } from '@presentation/dtos';
 import { badRequest, ok } from '@presentation/helpers/http';
 
 import { makeErrorMock } from '../../../../domain';
@@ -106,6 +107,6 @@ describe('ListAllCarBrandsController', () => {
 
     const response = await listAllCarBrandsController.handle(request);
 
-    expect(response).toEqual(ok(outputMock));
+    expect(response).toEqual(ok(CarBrandMapper.toBrandsDTO(outputMock)));
   });
 });

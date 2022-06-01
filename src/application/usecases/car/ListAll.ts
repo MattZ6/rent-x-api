@@ -28,7 +28,6 @@ export class ListAllCarsUseCase implements IListAllCarsUseCase {
       category_id: data.category_id,
       include: {
         brand: true,
-        category: true,
       },
     });
 

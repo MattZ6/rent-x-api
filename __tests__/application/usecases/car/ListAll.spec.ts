@@ -58,7 +58,6 @@ describe('ListAllCarsUseCase', () => {
       category_id: input.category_id,
       include: {
         brand: true,
-        category: true,
       },
     });
   });
@@ -76,7 +75,6 @@ describe('ListAllCarsUseCase', () => {
       skip: listAllCarsUseCaseDefaultOffsetMock,
       include: {
         brand: true,
-        category: true,
       },
     });
   });

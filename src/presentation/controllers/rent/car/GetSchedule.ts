@@ -1,6 +1,7 @@
 import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 import { IGetCarScheduleUseCase } from '@domain/usecases/rent/car/GetSchedule';
 
+import { RentMapper } from '@presentation/dtos';
 import { ValidationError } from '@presentation/errors';
 import { badRequest, notFound, ok } from '@presentation/helpers/http';
 import {
@@ -32,7 +33,7 @@ class GetCarScheduleController implements IController {
         car_id,
       });
 
-      return ok(output);
+      return ok(RentMapper.toScheduleDTO(output));
     } catch (error) {
       if (error instanceof ValidationError) {
         return badRequest(error);

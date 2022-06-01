@@ -68,7 +68,6 @@ describe('ListAllAvailableCarsUseCase', () => {
       search: input.search,
       include: {
         brand: true,
-        category: true,
       },
     });
   });
@@ -96,7 +95,6 @@ describe('ListAllAvailableCarsUseCase', () => {
       skip: listAllAvailableCarsUseCaseDefaultOffsetMock,
       include: {
         brand: true,
-        category: true,
       },
     });
   });

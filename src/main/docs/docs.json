@@ -712,7 +712,8 @@
                   "id": "...",
                   "name": "John Driver",
                   "driver_license": "26786579871",
-                  "email": "john.driver@rentx.com"
+                  "email": "john.driver@rentx.com",
+                  "avatar_url": "..."
                 }
               }
             }
@@ -1505,13 +1506,11 @@
                 "example": [
                   {
                     "id": "...",
-                    "name": "Ferrari",
-                    "created_at": "2022-01-01T13:00:00.000"
+                    "name": "Ferrari"
                   },
                   {
                     "id": "...",
-                    "name": "Hyundai",
-                    "created_at": "2022-01-02T13:00:00.000"
+                    "name": "Hyundai"
                   }
                 ]
               }
@@ -1992,14 +1991,12 @@
                   {
                     "id": "...",
                     "name": "SUV",
-                    "description": "Sport utility vehicle or sports utility vehicle: a large powerful car with an engine that supplies power to all four wheels.",
-                    "created_at": "2022-01-01T13:00:00.000"
+                    "description": "Sport utility vehicle or sports utility vehicle: a large powerful car with an engine that supplies power to all four wheels."
                   },
                   {
                     "id": "...",
                     "name": "Sedan",
-                    "description": "A type of car with two or four doors and seats for at least four people",
-                    "created_at": "2022-01-02T13:00:00.000"
+                    "description": "A type of car with two or four doors and seats for at least four people"
                   }
                 ]
               }
@@ -2506,14 +2503,12 @@
                   {
                     "id": "...",
                     "name": "Three doors",
-                    "description": "A vehicle with three doors",
-                    "created_at": "2022-01-01T13:00:00.000"
+                    "description": "A vehicle with three doors"
                   },
                   {
                     "id": "...",
                     "name": "Two doors",
-                    "description": "A vehicle with two doors",
-                    "created_at": "2022-01-02T13:00:00.000"
+                    "description": "A vehicle with two doors"
                   }
                 ]
               }
@@ -3480,43 +3475,23 @@
                     "id": "...",
                     "name": "A4",
                     "description": "...",
-                    "license_plate": "XXX6661",
                     "daily_rate": 120.8742,
-                    "brand": {
-                      "name": "Audi"
-                    },
-                    "category": {
-                      "name": "Sedan",
-                      "description": "..."
-                    },
                     "type_of_fuel": "GAS",
-                    "transmission_type": "AUTO",
-                    "number_of_seats": 5,
-                    "horse_power": 10000,
-                    "max_speed": 320,
-                    "zero_to_one_hundred_in_millisseconds": 7800,
-                    "created_at": "2022-01-01T13:00:00.000"
+                    "brand": {
+                      "id": "...",
+                      "name": "Audi"
+                    }
                   },
                   {
                     "id": "...",
                     "name": "Veloster",
                     "description": "...",
-                    "license_plate": "XXX6662",
                     "daily_rate": 113.871,
-                    "brand": {
-                      "name": "Hyundai"
-                    },
-                    "category": {
-                      "name": "Hatch",
-                      "description": "..."
-                    },
                     "type_of_fuel": "GAS",
-                    "transmission_type": "AUTO",
-                    "number_of_seats": 5,
-                    "horse_power": 11000,
-                    "max_speed": 315,
-                    "zero_to_one_hundred_in_millisseconds": 9100,
-                    "created_at": "2022-01-01T14:00:00.000"
+                    "brand": {
+                      "id": "...",
+                      "name": "Hyundai"
+                    }
                   }
                 ]
               }
@@ -3835,43 +3810,23 @@
                     "id": "...",
                     "name": "A4",
                     "description": "...",
-                    "license_plate": "XXX6661",
                     "daily_rate": 120.8742,
-                    "brand": {
-                      "name": "Audi"
-                    },
-                    "category": {
-                      "name": "Sedan",
-                      "description": "..."
-                    },
                     "type_of_fuel": "GAS",
-                    "transmission_type": "AUTO",
-                    "number_of_seats": 5,
-                    "horse_power": 10000,
-                    "max_speed": 320,
-                    "zero_to_one_hundred_in_millisseconds": 7800,
-                    "created_at": "2022-01-01T13:00:00.000"
+                    "brand": {
+                      "id": "...",
+                      "name": "Audi"
+                    }
                   },
                   {
                     "id": "...",
                     "name": "Veloster",
                     "description": "...",
-                    "license_plate": "XXX6662",
                     "daily_rate": 113.871,
-                    "brand": {
-                      "name": "Hyundai"
-                    },
-                    "category": {
-                      "name": "Hatch",
-                      "description": "..."
-                    },
                     "type_of_fuel": "GAS",
-                    "transmission_type": "AUTO",
-                    "number_of_seats": 5,
-                    "horse_power": 11000,
-                    "max_speed": 315,
-                    "zero_to_one_hundred_in_millisseconds": 9100,
-                    "created_at": "2022-01-01T14:00:00.000"
+                    "brand": {
+                      "id": "...",
+                      "name": "Hyundai"
+                    }
                   }
                 ]
               }
@@ -4115,22 +4070,23 @@
                   "id": "...",
                   "name": "A4",
                   "description": "...",
-                  "license_plate": "XXX6661",
                   "daily_rate": 120.8742,
-                  "brand": {
-                    "name": "Audi"
-                  },
-                  "category": {
-                    "name": "Sedan",
-                    "description": "..."
-                  },
                   "type_of_fuel": "GAS",
                   "transmission_type": "AUTO",
                   "number_of_seats": 5,
                   "horse_power": 10000,
                   "max_speed": 320,
                   "zero_to_one_hundred_in_millisseconds": 7800,
-                  "created_at": "2022-01-01T13:00:00.000"
+                  "brand": {
+                    "id": "...",
+                    "name": "Audi"
+                  },
+                  "category": {
+                    "id": "...",
+                    "name": "Sedan",
+                    "description": "..."
+                  },
+                  "images": ["..."]
                 }
               }
             }
@@ -5130,11 +5086,11 @@
                     "daily_date": 1200,
                     "car": {
                       "name": "Corvete Z06",
+                      "type_of_fuel": "GAS",
                       "brand": {
                         "id": "...",
                         "name": "Chevrolet"
-                      },
-                      "type_of_fuel": "GAS"
+                      }
                     }
                   },
                   {
@@ -5144,11 +5100,11 @@
                     "daily_date": 340,
                     "car": {
                       "name": "RS 5 Coupé",
+                      "type_of_fuel": "ELETRICITY",
                       "brand": {
                         "id": "...",
                         "name": "Audi"
-                      },
-                      "type_of_fuel": "ELETRICITY"
+                      }
                     }
                   }
                 ]

@@ -1,6 +1,7 @@
 import { UserNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { ListAllUserRentalsController } from '@presentation/controllers/rent/user/ListAll';
+import { RentMapper } from '@presentation/dtos';
 import { badRequest, notFound, ok } from '@presentation/helpers/http';
 
 import { makeErrorMock } from '../../../../domain';
@@ -121,6 +122,6 @@ describe('ListAllUserRentalsController', () => {
 
     const response = await listAllUserRentalsController.handle(request);
 
-    expect(response).toEqual(ok(outputMock));
+    expect(response).toEqual(ok(RentMapper.toRentListItemsDTO(outputMock)));
   });
 });

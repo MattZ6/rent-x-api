@@ -1,6 +1,7 @@
 import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 
 import { GetCarDetailsController } from '@presentation/controllers/car/GetDetails';
+import { CarMapper } from '@presentation/dtos';
 import { badRequest, notFound, ok } from '@presentation/helpers/http';
 
 import { makeErrorMock } from '../../../domain';
@@ -117,6 +118,6 @@ describe('GetCarDetailsController', () => {
 
     const result = await getCarDetailsController.handle(request);
 
-    expect(result).toEqual(ok(outputMock));
+    expect(result).toEqual(ok(CarMapper.toDetailsDTO(outputMock)));
   });
 });
