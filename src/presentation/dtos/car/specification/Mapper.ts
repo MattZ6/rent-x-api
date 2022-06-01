@@ -3,7 +3,7 @@ import { CarSpecification } from '@domain/entities/CarSpecification';
 export namespace CarSpecificationMapper {
   type Input = CarSpecification;
 
-  export type Brand = {
+  export type SpecificationDTO = {
     id: string;
     name: string;
     description: string;
@@ -11,7 +11,7 @@ export namespace CarSpecificationMapper {
 
   export function toSpecificationDTO(
     data: Input
-  ): CarSpecificationMapper.Brand {
+  ): CarSpecificationMapper.SpecificationDTO {
     if (!data) {
       return undefined;
     }
@@ -25,7 +25,7 @@ export namespace CarSpecificationMapper {
 
   export function toSpecificationsDTO(
     data: Input[]
-  ): CarSpecificationMapper.Brand[] {
+  ): CarSpecificationMapper.SpecificationDTO[] {
     return data.map(CarSpecificationMapper.toSpecificationDTO);
   }
 }

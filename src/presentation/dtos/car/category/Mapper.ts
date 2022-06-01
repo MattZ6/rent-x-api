@@ -3,13 +3,13 @@ import { CarCategory } from '@domain/entities/CarCategory';
 export namespace CarCategoryMapper {
   type Input = CarCategory;
 
-  export type Brand = {
+  export type CategoryDTO = {
     id: string;
     name: string;
     description: string;
   };
 
-  export function toCategoryDTO(data: Input): CarCategoryMapper.Brand {
+  export function toCategoryDTO(data: Input): CarCategoryMapper.CategoryDTO {
     if (!data) {
       return undefined;
     }
@@ -21,7 +21,9 @@ export namespace CarCategoryMapper {
     };
   }
 
-  export function toCategoriesDTO(data: Input[]): CarCategoryMapper.Brand[] {
+  export function toCategoriesDTO(
+    data: Input[]
+  ): CarCategoryMapper.CategoryDTO[] {
     return data.map(CarCategoryMapper.toCategoryDTO);
   }
 }

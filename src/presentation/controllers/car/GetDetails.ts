@@ -1,6 +1,7 @@
 import { CarNotFoundWithProvidedIdError } from '@domain/errors';
 import { IGetCarDetailsUseCase } from '@domain/usecases/car/GetDetails';
 
+import { CarMapper } from '@presentation/dtos';
 import { ValidationError } from '@presentation/errors';
 import { ok, notFound, badRequest } from '@presentation/helpers/http';
 import {
@@ -30,7 +31,7 @@ class GetCarDetailsController implements IController {
 
       const car = await this.getCarDetailsUseCase.execute({ id });
 
-      return ok(car);
+      return ok(CarMapper.toDetailsDTO(car));
     } catch (error) {
       if (error instanceof ValidationError) {
         return badRequest(error);
