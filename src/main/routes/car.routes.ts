@@ -10,6 +10,7 @@ import { makeListCarsController } from '@main/factories/controllers/car/ListAll'
 import { makeListAllAvailableCarsController } from '@main/factories/controllers/car/ListAllAvailable';
 import { makeAddSpecificationsToCarController } from '@main/factories/controllers/car/specification/AddToCar';
 import { makeRemoveSpecificationFromCarController } from '@main/factories/controllers/car/specification/RemoveFromCar';
+import { makeGetCarScheduleController } from '@main/factories/controllers/rent/car/GetSchedule';
 import { makeAdminMiddleware } from '@main/factories/middlewares/Admin';
 import { makeAuthenticationMiddleware } from '@main/factories/middlewares/Authentication';
 
@@ -36,6 +37,8 @@ carsRoutes.get(
   adaptMiddleware(makeAuthenticationMiddleware()),
   adaptRoute(makeGetCarDetailsController())
 );
+
+carsRoutes.get('/:id/schedule', adaptRoute(makeGetCarScheduleController()));
 
 carsRoutes.post(
   '/:id/specifications',
