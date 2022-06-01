@@ -11,9 +11,9 @@
   - [x] If a car's **daily rate** and **fine** have been changed during a rental, the amounts **prior to the change** must be charged;
   - [x] Add API documentation;
 
-- 📅 **Car schedule**
-  - [ ] It should be possible to list the car's schedule with all the periods the car will be rented starting from now.
-  - [ ] Add API documentation;
+- ✔ **Car schedule**
+  - [x] It should be possible to list the car's schedule with all the periods the car will be rented starting from now.
+  - [x] Add API documentation;
 
 - ✔ **User's rentals**
   - [x] It should be possible to list all car rentals from a user.

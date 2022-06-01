@@ -4656,6 +4656,87 @@
         }
       }
     },
+    "/v1/cars/{id}/schedule": {
+      "get": {
+        "tags": ["Car", "Rent"],
+        "summary": "Get the rent schedule of a car",
+        "description": "Get the rent schedule of a car",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "start_date": "2022-06-18T13:00:00.000",
+                    "expected_return_date": "2022-07-01T13:00:00.000"
+                  },
+                  {
+                    "start_date": "2022-01-01T13:00:00.000",
+                    "expected_return_date": "2022-01-01T13:00:00.000"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Car id required": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "required",
+                        "value": null,
+                        "message": "The id field is required."
+                      }
+                    }
+                  },
+                  "Car id invalid": {
+                    "value": {
+                      "code": "validation",
+                      "message": "Validation error",
+                      "validation": {
+                        "field": "id",
+                        "type": "invalid",
+                        "value": null,
+                        "message": "The id is not a valid UUID."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "car.not.exists",
+                  "message": "No cars found with the id provided."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "internal",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/rents": {
       "post": {
         "tags": ["Rent"],
