@@ -1,5 +1,6 @@
 import { IListAllCarBrandsUseCase } from '@domain/usecases/car/brand/ListAll';
 
+import { CarBrandMapper } from '@presentation/dtos';
 import { ValidationError } from '@presentation/errors';
 import { badRequest, ok } from '@presentation/helpers/http';
 import {
@@ -34,7 +35,7 @@ class ListAllCarBrandsController implements IController {
         offset,
       });
 
-      return ok(output);
+      return ok(CarBrandMapper.toBrandsDTO(output));
     } catch (error) {
       if (error instanceof ValidationError) {
         return badRequest(error);
