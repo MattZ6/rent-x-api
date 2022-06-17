@@ -39,7 +39,7 @@
     "schema": "src/infra/database/prisma/schema.prisma"
   },
   "devDependencies": {
-    "@faker-js/faker": "7.1.0",
+    "@faker-js/faker": "7.2.0",
     "@swc/core": "1.2.203",
     "@swc/jest": "0.2.21",
     "@types/bcryptjs": "2.4.2",
