@@ -82,7 +82,7 @@
     "jsonwebtoken": "8.5.1",
     "mime": "3.0.0",
     "multer": "1.4.4",
-    "nodemailer": "6.7.5",
+    "nodemailer": "6.7.7",
     "swagger-ui-express": "4.4.0"
   }
 }
