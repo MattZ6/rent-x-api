@@ -4,7 +4,7 @@ services:
 
   # Database
   rentx_database:
-    image: postgres
+    image: postgres:14.5-alpine
     container_name: rentx_database
     restart: always
     ports:
