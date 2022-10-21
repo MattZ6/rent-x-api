@@ -16,7 +16,7 @@
   "bugs": "https://github.com/mattz6/rent-x-api/issues",
   "scripts": {
     "dev": "cross-env DATABASE_PORT=5432 tsnd -r tsconfig-paths/register --exit-child --transpile-only --ignore-watch node_modules src/main/server.ts",
-    "type-check": "tsc",
+    "type-check": "tsc --noEmit",
     "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js)\"",
     "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js)\" --write",
     "docker:up": "docker-compose up -d",
@@ -33,36 +33,36 @@
     "db:seed:specifications": "cross-env DATABASE_HOST=localhost tsnd -r tsconfig-paths/register src/main/seeders/createCarSpecifications.ts"
   },
   "engines": {
-    "node": "14.19.3"
+    "node": "16.18.0"
   },
   "prisma": {
     "schema": "src/infra/database/prisma/schema.prisma"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",
-    "@swc/core": "1.3.8",
+    "@swc/core": "1.3.10",
     "@swc/jest": "0.2.23",
     "@types/bcryptjs": "2.4.2",
     "@types/express": "4.17.14",
-    "@types/jest": "29.1.2",
+    "@types/jest": "29.2.0",
     "@types/jsonwebtoken": "8.5.9",
     "@types/mime": "3.0.1",
     "@types/multer": "1.4.7",
     "@types/nodemailer": "6.4.6",
     "@types/supertest": "2.0.12",
     "@types/swagger-ui-express": "4.1.3",
-    "@typescript-eslint/eslint-plugin": "5.40.0",
-    "@typescript-eslint/parser": "5.40.0",
+    "@typescript-eslint/eslint-plugin": "5.40.1",
+    "@typescript-eslint/parser": "5.40.1",
     "cross-env": "7.0.3",
     "eslint": "8.25.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-import-resolver-typescript": "3.5.1",
     "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-import-helpers": "1.2.1",
+    "eslint-plugin-import-helpers": "1.3.0",
     "eslint-plugin-prettier": "4.2.1",
     "git-commit-msg-linter": "4.2.1",
-    "jest": "29.1.2",
+    "jest": "29.2.1",
     "prettier": "2.7.1",
     "prisma": "4.4.0",
     "supertest": "6.3.0",
