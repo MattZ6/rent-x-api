@@ -16,7 +16,7 @@ export function makeUpdateUserNameControllerRequestMock(): UpdateUserNameControl
       role: faker.helpers.arrayElement<UserRole>(['ADMIN', 'DRIVER']),
     },
     body: {
-      name: faker.name.findName(),
+      name: faker.name.fullName(),
     },
   };
 }

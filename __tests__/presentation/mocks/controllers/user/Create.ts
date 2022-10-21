@@ -10,7 +10,7 @@ export function makeCreateAccountControllerRequestMock(): CreateAccountControlle
     method: faker.internet.httpMethod(),
     original_url: faker.internet.url(),
     body: {
-      name: faker.name.findName(),
+      name: faker.name.fullName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
       driver_license: faker.datatype.string(),

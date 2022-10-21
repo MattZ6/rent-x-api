@@ -16,7 +16,7 @@ export function makeSendForgotUserPasswordMailUseCasePasswordResetLinkDataMock()
 export function makeSendForgotUserPasswordMailUseCaseEmailDataMock(): ISendForgotUserPasswordMailUseCase.EmailData {
   return {
     from_email: {
-      name: faker.name.findName(),
+      name: faker.name.fullName(),
       address: faker.internet.email(),
     },
     subject: faker.datatype.string(),
